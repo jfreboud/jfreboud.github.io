@@ -22,4 +22,4 @@ plugins:
   - jekyll-seo-tag
   - jekyll-remote-theme
 
-include: [_pages]
+include: [_pages, _assets]
