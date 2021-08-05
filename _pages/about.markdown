@@ -4,14 +4,18 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+The Deep Learning Machinery (in computer vision) has several objectives: 
+- de mystify what is at stake in the "learning process" of deep-learning models
+- build an incremental intuition of the machinery behind the scene
+- allow people to think out of the box of current frameworks
+- grasp the main concepts to design and build a computer vision framework
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+We will focus on one simple use case in computer vision, going deeper inside. 
+We will then enlarge the point of vue staying in the computer vision field.
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+What is presented here is an understanding path. 
+It is close to the path I actually followed some years ago, as I built my own computer vision 
+framework from scratch without any skills in the domain. This is also the reason why I will not 
+give any code example in any existing framework.
 
-[jekyll-organization]: https://github.com/jekyll
+Feel free to interact through the different blog articles and to give any example of your own !
