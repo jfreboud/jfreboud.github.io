@@ -13,6 +13,8 @@ The reality is far away from that vision. The global structure of the learning p
 deep-learning **model**. This **model** is not learnt by any means, it is set by the developer. 
 Finally, the only area where the learning takes place are the **model's weights**.
 
+![Frankenstein](/_assets/images/model/Frankenstein.png)
+
 ## Build a model
 
 The main objective of deep-learning is to be able to **learn** something and to apply this **learning** on something 
