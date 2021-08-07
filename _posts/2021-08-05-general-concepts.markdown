@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Model Part 1"
+title:  "General Concepts"
 date:   2021-08-05 20:00:00 +0200
 ---
 
@@ -13,16 +13,16 @@ The reality is far away from that vision. The global structure of the learning p
 deep-learning **model**. This **model** is not learnt by any means, it is set by the developer. 
 Finally, the only area where the learning takes place are the **model's weights**.
 
-![Frankenstein](/_assets/images/model/Frankenstein.png)
+![Frankenstein](/_assets/images/general/Frankenstein.png)
 
 ## Build a model
 
 The main objective of deep-learning is to be able to **learn** something and to apply this **learning** on something 
-interesting. This **learning** is located inside the deep-learning **model**. More precisely, it is located in the 
+new. This **learning** is located inside the deep-learning **model**. More precisely, it is located in the 
 **model's weights** but we will talk about them later.
 
 As we saw in the [introduction](#introduction), there is no magic: 
-it is the role of the developer to actually build the **model**. We will see some considerations about it later. 
+it is the role of the developer to actually build the **model**. We will see some considerations about it later too. 
 
 ## Run a model 
 
@@ -31,7 +31,7 @@ Once the **model** is built, we can run it.
 - Let **X** be the input variable of the **model**. As **model** depends on **X**, we generally note **model(X)** as the 
 mathematical **model** function depending on the **X** variable. 
 
-- Let **x** be a value for that **X** variable, we note **model(x)** the result of **model** 
+- Let **x** be a value for that **X** variable, we note **model(x)** the result of the **model** 
 on that particular **x** value. 
 
 We can refer to **model(X)** to speak about the theoretical **model** function depending on **X** and 
@@ -54,30 +54,30 @@ So if we try to use one **model** on that we could say that:
 - **model(X)** is a vector with 1 dimension (good shape or not)
 
 Let us look at some patients' **data**: 
-- (100 broccoli, 2000 Tagada strawberries, 100 workout hours), (<span style="color:red">bad shape</span>)
+- (100 broccoli, 2000 Tagada strawberries, 100 workout hours), (bad shape)
 - (200 broccoli,  0 Tagada strawberries, 0 workout hours), (good shape)
 - (0 broccoli, 2000 Tagada strawberries, 3 000 workout hours), (good shape)
 
-If we look at the first patient, and run our **model** on his **data**: 
-**model(x) = model((100, 2000, 100)) = (<span style="color:red">good shape</span>)**. 
-Here it appears that the result is (<span style="color:red">good shape</span>), which is not what was expected !
+We can run our **model** on the **data** in order to produce results **model(x)** and see what happens:
 
-In fact it might also have been (<span style="color:red">bad shape</span>) and then the produced result would have 
-been on paar with the expectation.
+| x | expected result | model(x) | correct ? |
+| :----------------: | :-----: | :----: | :---: |
+| (100, 2000, 100) | (<span style="color:red">bad shape</span>)    | (<span style="color:green">good shape</span>) | ![wrong](/_assets/images/general/wrong.png) |
+| (200,  0, 0)     | (<span style="color:green">good shape</span>) | (<span style="color:red">bad shape</span>)    | ![wrong](/_assets/images/general/wrong.png) |
+| (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | (<span style="color:green">good shape</span>) | ![right](/_assets/images/general/right.png) |
 
-In any case, this result depends on how **model** uses its **x data input**. 
+In the column: "correct ?", we can see that the model have produced wrong results in 2 cases !
+How is that possible ? 
 
-What is really interesting here is to observe there might be a difference between what is expected 
-according to the patient's **data outputs** and what 
-is really produced by the **model** on the patient's **data inputs**.
+That is exactly what we want to rectify as the **model** learns on the **data**...
 
 ## Learning, inferring
 
 Let us assume we have built a **model**, we want to run it.
 
 As we observed in this [example](#example), we may consider a **dataset** containing the associations: 
-(**data input**, **data output**) where **data inputs** are the inputs for one patient and 
-**data outputs** are the expectations for the same patient.
+(**data input**, **data output**) where **data input** are the inputs for one patient and 
+**data output** are the expectations for the same patient.
 
 - let **X** be a variable that represents the inputs we want to **learn** from
 - let **Y_truth** represent the associated expectation
@@ -85,31 +85,25 @@ As we observed in this [example](#example), we may consider a **dataset** contai
 Our goal is to run the **model** on **X** so that: **model(X) = Y_truth**.  
 
 But again, we saw in the [example](#example) that what the **model** produces may be right or wrong according to 
-the expectations. That is to say that if we choose an association **(x, y_truth)** in the **dataset**, we hope that 
-**model(x) = y_truth** avoiding the situation where **model(x) != y_truth**.
+the expectations. And indeed, we would like the **model** to give only correct answers. In a way, we would like 
+to teach the **model** how to predict good results out of the **data inputs**.
 
-So, how can we get to the right situation, avoiding the bad ones ? 
-
-We will modify **model**, and more precisely the **model**'s **weights** 
-so that for each **(x, y_truth)** in the **dataset**, we get: **model(x) = y_truth**.
+In order to teach the **model**, we will in fact tell for each of its results 
+whether it is right ![right](/_assets/images/general/right.png) or wrong ![wrong](/_assets/images/general/wrong.png). 
+The **model** will then **learn** via its **weights**. 
 
 => We call it the **learning** phase.
 
 Once we are satisfied that our **model** has learnt on the **dataset**, we can use the **model** on other **data** that 
-we did not explore yet, in order to create new values !
+we did not explore yet, in order to create new results. This is the final goal: the student has become the master.
 
 => This is the **inferring** phase.
-
-Note that in the **inferring** phase, we may also have the full association **(x_infer, y_truth_infer)**. 
-In this case we may check if the **model** produces the right result: **model(x_infer) ?= y_truth_infer**. 
-
-But we also may not have the full association, just a partial one: **(x_infer, _ )**.
-In that case, we can only compute **model(x_infer)** without knowing whether the result is right or wrong.
 
 ## Conclusion
 
 We saw in this article some general concepts that revolve around the deep-learning **model**.
-**Learning** is just about modifying the **model** so that the **model** produces expected results on given inputs. 
+**Learning** is just about modifying the **model** so that the **model** produces expected results 
+on given **data inputs**. 
 Then, it is possible to use this **model** to produce new results.
 
-In the [next article]({% post_url 2021-08-06-model-part-2 %}), we will dig deeper inside the **model**. 
+In the [next article]({% post_url 2021-08-06-inside-the-model %}), we will dig deeper inside the **model**. 

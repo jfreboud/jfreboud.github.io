@@ -5,7 +5,7 @@ permalink: /about/
 ---
 
 The Deep Learning Machinery (in computer vision) has several objectives: 
-- de mystify what is at stake in the "learning process" of deep-learning models
+- demystify what is at stake in the "learning process" of deep-learning models
 - build an incremental intuition of the machinery behind the scene
 - allow people to think out of the box of current frameworks
 - grasp the main concepts to design and build a computer vision framework

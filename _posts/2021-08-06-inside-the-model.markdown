@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Model Part 2"
+title:  "Inside the Model"
 date:   2021-08-06 15:00:00 +0200
 ---
 
