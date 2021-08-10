@@ -32,26 +32,38 @@ each depending of its previous function.
 
 ### Example
 
-In the [previous article]({% post_url 2021-08-05-general-concepts %}), we did not consider the inside 
-of the **model** function. We only saw its dependency on a certain variable we called **X** and that 
-we could produce **model(X)** thanks to some **data** of a **dataset**. If we summarize the situation, 
-we had:  
+#### <span style="text-decoration:underline"> Data </span>
 
-![L2-1](/_assets/images/model/L2-1.png)
+Same **data** as in [previous article]({% post_url 2021-08-05-general-concepts %}).
 
-Now we will assume **model** is only composed of 3 layers 
-(**L1**, **L2**, **L3**): 
+| data input | data output (expectation) |
+| ---------------- | ----- |
+| (100 broccoli, 2000 Tagada strawberries, 100 workout hours) | (bad shape) |
+|(200 broccoli,  0 Tagada strawberries, 0 workout hours) | (good shape) |
+| (0 broccoli, 2000 Tagada strawberries, 3 000 workout hours) | (good shape) |
 
-![L2-1](/_assets/images/model/L2-2.png)
+#### <span style="text-decoration:underline"> Model </span> 
 
-We can assemble the two previous schema in one: 
+Let us use: 
 
-![L2-3](/_assets/images/model/L2-3.png)
+\\[ L1(X^1) = X^1 \text{, with } X^1 = (X^1_1, X^1_2, X^1_3) \\]
+\\[ L2(X^2) = \frac{1}{200} X^2_1 - \frac{8 800}{11 600 000}  X^2_2 + \frac{1}{5 800} X^2_3 \text{, with } X^2 = (X^2_1, X^2_2, X^2_3) \\]
+\\[ L3(X^3) = X^3 \text{ if } X^3 > 0 \text{, else } 0 \\]
+\\[ model(X) = L3(L2(L1(X))) \text{, with } X = (X_1, X_2, X_3) \\]
 
-Now we need some **data**, let us use the same **dataset** as in the "Example" paragraph 
-in the [previous article]({% post_url 2021-08-05-general-concepts %}). 
-We consider `x = (100 broccoli, 2000 Tagada strawberries, 100 workout hours)` and 
-want to produce the result of **model(x)** following the [forward pass](#the-forward-pass):
+We can verify that:
+- **X** is 3 dimensional: **X1** is the variable for broccoli, **X2** is the variable for Tagada strawberries, 
+**X3** is the variable for workout hours
+- **model(X)** is 1 dimensional
+
+We have built a **model** that is composed of 3 layers (**L1**, **L2**, **L3**): 
+
+![L2-3](/_assets/images/model/Layer-1.png)
+
+#### <span style="text-decoration:underline"> Run our model on the data </span>
+
+Instead of using **model(X)** directly as in the [previous article]({% post_url 2021-08-05-general-concepts %}).
+We now have to apply [the forward pass](#the-forward-pass), storing every intermediate results.
 
 1. first we have to call **L1** on **x** as **L1** is our first layer => L1 produces a new **output**, 
 let **o1** be it
@@ -60,18 +72,40 @@ let **o2** be it
 3. finally we call **L2** on the result of **L2** which is **o2** => L3 produces a new **output**, 
 let **o3** be it
 
-Implicitly what happened was: 
-1. **L1** is a mathematical function depending on **X1** and we produced its result on **x** as **x** 
-is the global **input**
-2. **L2** is a mathematical function depending on **X2** and we produced its result on **o1** as **o1** 
-is the output of **L1** and thus the input of **L2** 
-3. **L3** is a mathematical function depending on **X3** and we produced its result on **o2** as **o2** 
-is the output of **L2** and thus the input of **L3** 
-
 Finally it appears that: 
-```
-model(x) = o3
-```
+\\[ model(x) = o3 \\]
+
+Here are the different results on the **data**:
+
+| x | L1(x) |
+| :----------------: | :----------------: |
+| (100, 2000, 100) | (100, 2000, 100) |
+| (200,  0, 0)     | (200,  0, 0) |
+| (0, 2000, 3 000) | (0, 2000, 3 000) |
+
+| o1 | L2(o1) |
+| :----------------: | :---: |
+| (100, 2000, 100) | (-1) |
+| (200,  0, 0)     | (1) |
+| (0, 2000, 3 000) | (-1) |
+
+| o2 | L3(o2) |
+| :----------------: | :---: |
+| (-1) | (0) |
+| (1)  | (1) |
+| (-1) | (0) |
+
+Finally we can summarize these results:
+
+| x | expected result | model(x) | correct ? |
+| :----------------: | :-----: | :----: | :---: |
+| (100, 2000, 100) | (<span style="color:red">bad shape</span>)    | (0) => (<span style="color:red">bad shape</span>) | ![wrong](/_assets/images/general/right.png) |
+| (200,  0, 0)     | (<span style="color:green">good shape</span>) | (1) => (<span style="color:green">good shape</span>)    | ![wrong](/_assets/images/general/right.png) |
+| (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | (0) => (<span style="color:red">bad shape</span>) | ![right](/_assets/images/general/wrong.png) |
+
+We can observe that although we have changed the form of **model** compared to the
+[previous article]({% post_url 2021-08-05-general-concepts %}), we still get exactly the same results. 
+Which is in fact normal: we did not introduce any **weights** yet :smiling_imp:
 
 ## The Input Layer
 
@@ -82,23 +116,24 @@ When the developer wants to run the **model** on some **x** value, the developer
 **x** value directly to the **input layer**. In that way it does not even need to produce a value, 
 as it already **owns** this value.
 
-![L2-4](/_assets/images/model/L2-4.png)
+Note as in [the example](#example), the **input layer** was just outputting its input without any modification.
+
+![L2-4](/_assets/images/model/Layer-2.png)
 
 ## The Output Layer 
 
 The **output layer** is the last layer of the **model**. It is special in that its value is not used 
 by any other layers. 
 
-Its value is in fact the final **output** of the **model** and this this value that we want to compare 
-to the **data output** expectation we saw in the paragraph "Learning, inferring" 
-of the [previous article]({% post_url 2021-08-05-general-concepts %}). 
+Its value is in fact the final **output** of the **model** and this is the value that we want to compare 
+to the **data output** expectation. 
 
-![L2-5](/_assets/images/model/L2-5.png)
+![L2-5](/_assets/images/model/Layer-3.png)
 
 ## The Layer in general
 
 As we saw in the [example](#example), each **layer** is in fact a mathematical function that depends on 
-some variable. We saw that **L2** depends on **X2** and produces **o2** and that **X2** is in fact the 
+some variable. We saw that **L2** depends on \\(X^2 \\) to produce **o2**, that \\(X^2 \\) is in fact the 
 **output** of **L1** and that **o2** is the **input** of **L3**.
 
 When we run a **model** on some **data** we want to produce the **output** of its **output layer** 
@@ -110,44 +145,16 @@ result of **L3** on the **output** of **L2**. The **output** of **L2** is itself
 developer (see [the input layer](#the-input-layer)).
 
 We can put it mathematically as: 
-```
-model(x) = L3 o L2 o L1 (x)
-```
+\\[ model(x) = L3 o L2 o L1 (x) \\]
 or 
-```
-model(x) = L3(L2(L1(x)))
-```
-
-## Store internal results
-
-Let us try to compute **model(x)** with the same **model** as in [this example](#example). 
-When reading naively the list of calls in the [last chapter](#the-layer-in-general), we need to: 
-1. compute the output of **L3** which depends on the **output** of **L2** but we have no clue about 
-the **output** of **L2** yet, so we need to...
-2. compute the output of **L2** which depends on the **output** of **L1** but we have no clue about 
-the **output** of **L1** ? ...
-3. in fact yes, we know about the output of **L1**, it has been given by the developer, so now we can`
-4. use the **output** of **L1** to compute the output of **L2**
-5. use the **output** of **L2** to compute the output of **L3** !
-
-This way of solving the problem about computing **L3** is recursive, but it is clearly not effective.
-The right way is in fact just to follow [the forward pass](#the-forward-pass): 
-
-1. developer gives **x** to **L1**, **L1** **stores** **o1** 
-(`o1` == `x` as we saw in [the input layer](#the-input-layer))
-2. **L2** computes **o2** thanks to **o1**, **L2** **stores** **o2**
-3. **L3** computes **o3** thanks to **o3**, **L3** **stores** **o3**
-
-We can now redraw the previous schema knowing that we **store** each **output** in memory:
-
-![L2-6](/_assets/images/model/L2-6.png)
+\\[ model(x) = L3(L2(L1(x))) \text{ as in the example} \\]
 
 ## Conclusion
 
 In this article, we saw that the global form of a deep-learning **model** is in fact an ordered graph 
 of **layers** as in the following schema: 
 
-![L2-7](/_assets/images/model/L2-7.png)
+![L2-7](/_assets/images/model/Layer-4.png)
 
 We must now discuss how to choose the different **layers**. But before that, we will talk about the 
 [learning process]({% post_url 2021-08-09-learning-process %}) 

@@ -84,9 +84,9 @@ We can now run this **model** function on the **data** to produce **model(x)** r
 
 | x | expected result | model(x) | correct ? |
 | :----------------: | :-----: | :----: | :---: |
-| (100, 2000, 100) | (<span style="color:red">bad shape</span>)    | 0 => (<span style="color:red">bad shape</span>) | ![wrong](/_assets/images/general/right.png) |
-| (200,  0, 0)     | (<span style="color:green">good shape</span>) | 1 => (<span style="color:green">good shape</span>)    | ![wrong](/_assets/images/general/right.png) |
-| (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | 0 => (<span style="color:red">bad shape</span>) | ![right](/_assets/images/general/wrong.png) |
+| (100, 2000, 100) | (<span style="color:red">bad shape</span>)    | (0) => (<span style="color:red">bad shape</span>) | ![wrong](/_assets/images/general/right.png) |
+| (200,  0, 0)     | (<span style="color:green">good shape</span>) | (1) => (<span style="color:green">good shape</span>)    | ![wrong](/_assets/images/general/right.png) |
+| (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | (0) => (<span style="color:red">bad shape</span>) | ![right](/_assets/images/general/wrong.png) |
 
 In the column: "correct ?", we can see that the model have produced a wrong result in the last case !
 How is it possible ? 
