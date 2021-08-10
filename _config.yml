@@ -21,5 +21,6 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-remote-theme
+  - jemoji
 
 include: [_pages, _assets]

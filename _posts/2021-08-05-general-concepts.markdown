@@ -41,6 +41,8 @@ But where does this **x** value come from ?
 
 ### Example 
 
+#### <span style="text-decoration:underline"> Data </span>
+
 We have a cohort of patients with **data**. More precisely we know how many broccoli they eat per year, how many 
 Tagada strawberries they eat per year and how many hours of cardio latin dance they workout per year. 
 And we as well happen to know for each of them if they are in good shape or not. 
@@ -54,22 +56,44 @@ So if we try to use one **model** on that we could say that:
 - **model(X)** is a vector with 1 dimension (good shape or not)
 
 Let us look at some patients' **data**: 
-- (100 broccoli, 2000 Tagada strawberries, 100 workout hours), (bad shape)
-- (200 broccoli,  0 Tagada strawberries, 0 workout hours), (good shape)
-- (0 broccoli, 2000 Tagada strawberries, 3 000 workout hours), (good shape)
 
-We can run our **model** on the **data** in order to produce results **model(x)** and see what happens:
+| data input | data output (expectation) |
+| ---------------- | ----- |
+| (100 broccoli, 2000 Tagada strawberries, 100 workout hours) | (bad shape) |
+|(200 broccoli,  0 Tagada strawberries, 0 workout hours) | (good shape) |
+| (0 broccoli, 2000 Tagada strawberries, 3 000 workout hours) | (good shape) |
+
+#### <span style="text-decoration:underline"> Model </span> 
+
+- As our **data input** has 3 dimensions, our **model** function **X** variable must also be 3 dimensional
+- As our **data output** has 1 dimension, our **model** function result must also be 1 dimensional 
+
+Let us use: 
+
+\\[ model(X) = \frac{1}{200} X1 - \frac{3 000}{11 600 000}  X2 + \frac{1}{5 800} X3 \text{, with } X = (X1, X2, X3) \\]
+
+We can verify that:
+- **X** is 3 dimensional: **X1** is the variable for broccoli, **X2** is the variable for Tagada strawberries, 
+**X3** is the variable for workout hours
+- the result is indeed a simple 1 dimensional number
+
+#### <span style="text-decoration:underline"> Run our model on the data </span>
+
+We have **data** and we have built a simple **model** function.
+We can now run this **model** function on the **data** to produce **model(x)** results with `x = (x1, x2, x3)`:
 
 | x | expected result | model(x) | correct ? |
 | :----------------: | :-----: | :----: | :---: |
-| (100, 2000, 100) | (<span style="color:red">bad shape</span>)    | (<span style="color:green">good shape</span>) | ![wrong](/_assets/images/general/wrong.png) |
-| (200,  0, 0)     | (<span style="color:green">good shape</span>) | (<span style="color:red">bad shape</span>)    | ![wrong](/_assets/images/general/wrong.png) |
-| (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | (<span style="color:green">good shape</span>) | ![right](/_assets/images/general/right.png) |
+| (100, 2000, 100) | (<span style="color:red">bad shape</span>)    | 0 => (<span style="color:red">bad shape</span>) | ![wrong](/_assets/images/general/right.png) |
+| (200,  0, 0)     | (<span style="color:green">good shape</span>) | 1 => (<span style="color:green">good shape</span>)    | ![wrong](/_assets/images/general/right.png) |
+| (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | 0 => (<span style="color:red">bad shape</span>) | ![right](/_assets/images/general/wrong.png) |
 
-In the column: "correct ?", we can see that the model have produced wrong results in 2 cases !
-How is that possible ? 
+In the column: "correct ?", we can see that the model have produced a wrong result in the last case !
+How is it possible ? 
 
-That is exactly what we want to rectify as the **model** learns on the **data**...
+That is exactly what we want to rectify as the **model** learns on the **data**. But as mentioned in 
+the [introduction](#introduction), the *learning* process takes place in the **model's weights** and in 
+[this example](#model), our **model** function has none of them :smiling_imp:
 
 ## Learning, inferring
 

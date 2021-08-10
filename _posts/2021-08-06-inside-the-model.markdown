@@ -7,7 +7,7 @@ date:   2021-08-06 15:00:00 +0200
 ## Introduction
 
 In the [previous article]({% post_url 2021-08-05-general-concepts %}), we mentioned the prominent part the 
-Deep-Learning **model** plays in the **learning**. 
+deep-learning **model** plays in the **learning**. 
 
 In this article we will explore this **model** further. 
 
