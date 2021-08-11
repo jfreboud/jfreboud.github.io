@@ -10,6 +10,10 @@ description: >-
   Design a computer vision framework from scratch with intuition.
 show_excerpts: true
 
+header_pages:
+  - _pages/table_of_contents.markdown
+  - _pages/about.markdown
+
 repository: jfreboud/jfreboud.github.io
 remote_theme: jekyll/minima
 minima:

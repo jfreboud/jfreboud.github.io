@@ -3,7 +3,7 @@ layout: post
 title:  "Inside the Model"
 date:   2021-08-06 15:00:00 +0200
 excerpt: >-
-  II/ In this article, we explore the structure of a deep-learning model.
+  2/ In this article, we explore the structure of a deep-learning model.
 ---
 
 ## Introduction
@@ -48,7 +48,7 @@ Same **data** as in the [previous article]({% post_url 2021-08-05-general-concep
 
 We assume here we have a $ model $ containing only 3 $ layers $: 
 
-![L2-3](/_assets/images/model/Layer-1.png)
+![Layer-1](/_assets/images/model/Layer-1.png)
 
 Let us use: 
 
@@ -67,7 +67,7 @@ We can verify that:
 $ X_3 $ is the variable for workout hours
 - $ model(X) $ is 1 dimensional
 
-We have built a $ model $ that is composed of 3 layers ($ L1 $, $ L2 $, $ L3 $): 
+We have built a $ model $ that is composed of 3 layers ($ L1 $, $ L2 $, $ L3 $).
 
 #### <span style="text-decoration:underline"> Run the model </span>
 
@@ -88,31 +88,31 @@ $$
 
 Here are the different results on the **data**:
 
-| $ x $              | $ L1(x) \text{ or } o1 $  |
-| :----------------: | :-----------------------: |
-| (100, 2000, 100)   | (100, 2000, 100)          |
-| (200,  0, 0)       | (200,  0, 0)              |
-| (0, 2000, 3 000)   | (0, 2000, 3 000)          |
+| $ x $              | $ o1 = L1(x) $   |
+| :----------------: | :--------------: |
+| (100, 2000, 100)   | (100, 2000, 100) |
+| (200,  0, 0)       | (200,  0, 0)     |
+| (0, 2000, 3 000)   | (0, 2000, 3 000) |
 
-| $ o1 $             | $ L2(o1) \text{ or } o2 $ |
-| :----------------: | :-----------------------: |
-| (100, 2000, 100)   | (-1)                      |
-| (200,  0, 0)       | (1)                       |
-| (0, 2000, 3 000)   | (-1)                      |
+| $ o1 $             | $ o2 = L2(o1) $ |
+| :----------------: | :-------------: |
+| (100, 2000, 100)   | (-1)            |
+| (200,  0, 0)       | (1)             |
+| (0, 2000, 3 000)   | (-1)            |
 
-| $ o2 $ | $ L3(o2) \text{ or } o3 $ |
-| :----: | :-----------------------: |
-| (-1)   | (0)                       |
-| (1)    | (1)                       |
-| (-1)   | (0)                       |
+| $ o2 $ | $ o3 = L3(o2) $ |
+| :----: | :-------------: |
+| (-1)   | (0)             |
+| (1)    | (1)             |
+| (-1)   | (0)             |
 
 Finally we can summarize these results:
 
-| $ x $ | expected result | $ model(x) \text{ or } o3 $ | correct ? |
+| $ x $ | expected result | $ o3 = model(x) $ | correct ? |
 | :----------------: | :-----: | :----: | :---: |
-| (100, 2000, 100) | (<span style="color:red">bad shape</span>)    | (0) => (<span style="color:red">bad shape</span>) | ![wrong](/_assets/images/general/right.png) |
-| (200,  0, 0)     | (<span style="color:green">good shape</span>) | (1) => (<span style="color:green">good shape</span>)    | ![wrong](/_assets/images/general/right.png) |
-| (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | (0) => (<span style="color:red">bad shape</span>) | ![right](/_assets/images/general/wrong.png) |
+| (100, 2000, 100) | (<span style="color:red">bad shape</span>)    | (0) => (<span style="color:red">bad shape</span>)    | ![wrong](/_assets/images/general/right.png) |
+| (200,  0, 0)     | (<span style="color:green">good shape</span>) | (1) => (<span style="color:green">good shape</span>) | ![wrong](/_assets/images/general/right.png) |
+| (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | (0) => (<span style="color:red">bad shape</span>)    | ![right](/_assets/images/general/wrong.png) |
 
 We can observe that although we have changed the structure of $ model $ compared to the
 [previous article]({% post_url 2021-08-05-general-concepts %}), we still get exactly the same results. 
@@ -129,7 +129,7 @@ as it already **owns** this value.
 
 Note as in [the example](#example), the **input layer** was just outputting its input without any modification.
 
-![L2-4](/_assets/images/model/Layer-2.png)
+![Layer-2](/_assets/images/model/Layer-2.png)
 
 ## The Output Layer 
 
@@ -139,7 +139,7 @@ by any other layers.
 Its value is in fact the final **output** of the $ model $ and this is the value that we want to compare 
 to the **data output** expectation. 
 
-![L2-5](/_assets/images/model/Layer-3.png)
+![Layer-3](/_assets/images/model/Layer-3.png)
 
 ## The Layer in general
 
@@ -170,7 +170,7 @@ $$
 In this article, we saw that the global structure of a deep-learning $ model $ is in fact an ordered graph 
 of $ layers $ as in the following schema: 
 
-![L2-7](/_assets/images/model/Layer-4.png)
+![Layer-4](/_assets/images/model/Layer-4.png)
 
 We must now discuss how to choose the different $ layers $. But before that, we will talk about the 
-[learning process]({% post_url 2021-08-09-learning-process %}) 
+[learning process]({% post_url 2021-08-09-learning-process-part-1 %}) 
