@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The Learning Process"
+title:  "The Learning Process Part 1"
 date:   2021-08-09 15:00:00 +0200
 excerpt: >-
   3-1/ Time to work on the model's weights which are the core of the learning process.
@@ -114,7 +114,7 @@ Let us use:
 $$
 \begin{align}
     L1(X^1)  &= X^1 \text{,} & \text{ with } X^1 = (X^1_1, X^1_2, X^1_3) \\
-    L2(X^2)  &= \frac{1}{200} X_1 - \frac{3 000}{11 600 000}  X_2 + \frac{1}{5 800} X_3 
+    L2(X^2)  &= \frac{1}{200} X^2_1 - \frac{3 000}{11 600 000}  X^2_2 + \frac{1}{5 800} X^2_3 
         \text{,} & \text{ with } X^2 = (X^2_1, X^2_2, X^2_3) \\
     L3(X^3)  &= X^3 \\ 
     Loss(X^3, Y^{truth})  &= \frac{1}{2} (L3(X^3) - Y^{truth})^2 \\ 
