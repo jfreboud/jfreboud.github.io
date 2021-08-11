@@ -2,6 +2,9 @@
 layout: post
 title:  "General Concepts"
 date:   2021-08-05 20:00:00 +0200
+excerpt: >-
+  I/ This is the first article of our walkthrough in deep-learning.
+  First things first, we explore some general concepts of deep-learning.
 ---
 
 ## Introduction 
@@ -68,10 +71,19 @@ Let us look at some patients' **data**:
 - As our **data input** has 3 dimensions, our $ model $ function $ X $ variable must also be 3 dimensional
 - As our **data output** has 1 dimension, our $ model $ function result must also be 1 dimensional 
 
-Let us use: 
+Let us take a $ model $ function example to see how it works: 
 
 $$
 model(X) = \frac{1}{200} X_1 - \frac{3 000}{11 600 000}  X_2 + \frac{1}{5 800} X_3 \text{, with } X = (X_1, X_2, X_3) 
+$$
+
+Example of use for $ X = (1.0, 0.0, 0.0) $: 
+
+$$
+\begin{align}
+    model(X) &= \frac{1}{200} * 1.0 - \frac{3 000}{11 600 000} * 0.0 + \frac{1}{5 800} * 0.0 \\
+             &= \frac{1}{200}
+\end{align}
 $$
 
 We can verify that:

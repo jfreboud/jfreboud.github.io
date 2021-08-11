@@ -2,6 +2,8 @@
 layout: post
 title:  "Inside the Model"
 date:   2021-08-06 15:00:00 +0200
+excerpt: >-
+  II/ In this article, we explore the structure of a deep-learning model.
 ---
 
 ## Introduction
@@ -9,7 +11,7 @@ date:   2021-08-06 15:00:00 +0200
 In the [previous article]({% post_url 2021-08-05-general-concepts %}), we mentioned the prominent part the 
 deep-learning $ model $ plays in the **learning**. 
 
-In this article we will explore the $ model $ form further. 
+In this article we will explore the $ model $ structure further. 
 
 ## The Layers
 
@@ -27,7 +29,7 @@ The arrows imply a **sequential order**. If we recall the paragraph "Run a model
 [previous article]({% post_url 2021-08-05-general-concepts %}), we saw that if we consider the $ model $ 
 mathematical function depending on $ X $ we can call $ model(X) $.
 
-Now, we have a more precise form for this $ model $ function, as a sequential order of $ inner functions $ (the clouds), 
+Now, we have a more precise structure for this $ model $ function, as a sequential order of $ inner functions $ (the clouds), 
 each depending of its previous function. 
 
 ### Example
@@ -43,6 +45,10 @@ Same **data** as in the [previous article]({% post_url 2021-08-05-general-concep
 | (0 broccoli, 2000 Tagada strawberries, 3 000 workout hours) | (good shape) |
 
 #### <span style="text-decoration:underline"> Model </span> 
+
+We assume here we have a $ model $ containing only 3 $ layers $: 
+
+![L2-3](/_assets/images/model/Layer-1.png)
 
 Let us use: 
 
@@ -62,8 +68,6 @@ $ X_3 $ is the variable for workout hours
 - $ model(X) $ is 1 dimensional
 
 We have built a $ model $ that is composed of 3 layers ($ L1 $, $ L2 $, $ L3 $): 
-
-![L2-3](/_assets/images/model/Layer-1.png)
 
 #### <span style="text-decoration:underline"> Run the model </span>
 
@@ -110,7 +114,7 @@ Finally we can summarize these results:
 | (200,  0, 0)     | (<span style="color:green">good shape</span>) | (1) => (<span style="color:green">good shape</span>)    | ![wrong](/_assets/images/general/right.png) |
 | (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | (0) => (<span style="color:red">bad shape</span>) | ![right](/_assets/images/general/wrong.png) |
 
-We can observe that although we have changed the form of $ model $ compared to the
+We can observe that although we have changed the structure of $ model $ compared to the
 [previous article]({% post_url 2021-08-05-general-concepts %}), we still get exactly the same results. 
 Which is in fact normal: we did not introduce any **weights** yet :smiling_imp:
 
@@ -163,7 +167,7 @@ $$
 
 ## Conclusion
 
-In this article, we saw that the global form of a deep-learning $ model $ is in fact an ordered graph 
+In this article, we saw that the global structure of a deep-learning $ model $ is in fact an ordered graph 
 of $ layers $ as in the following schema: 
 
 ![L2-7](/_assets/images/model/Layer-4.png)
