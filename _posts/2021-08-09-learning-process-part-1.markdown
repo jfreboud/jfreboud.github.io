@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The Learning Process Part 1"
+title:  "The Learning Process (part 1)"
 date:   2021-08-09 15:00:00 +0200
 excerpt: >-
   3-1/ Time to work on the model's weights which are the core of the learning process.
@@ -71,12 +71,12 @@ In the [first article]({% post_url 2021-08-05-general-concepts %}), we saw that 
 **learning phase**, we had to teach the $ model $ which one of its results was $ true $ and 
 which one of its results was $ false $. 
 
-The way to do it is via the **Loss** function which is defined by the developer. 
+The way to do it is via the $ Loss function $ which is defined by the developer. 
 This function takes place in the **output layer** as we saw that it is the layer where we 
 compare the $ model $ results to the expectations (see the paragraph "The Output Layer" in the 
 [previous article]({% post_url 2021-08-06-inside-the-model %})).
 
-We can see the **Loss function** as a function of two variables: $ X $ (as every $ layer $) and 
+We can see the $ Loss function $ as a function of two variables: $ X $ (as every $ layer $) and 
 $ Y^{truth} $ (see the [first article]({% post_url 2021-08-05-general-concepts %})).
 
 ![Layer-1](/_assets/images/backward/Layer-1.png)
@@ -117,8 +117,7 @@ $$
     L2(X^2)  &= \frac{1}{200} X^2_1 - \frac{3 000}{11 600 000}  X^2_2 + \frac{1}{5 800} X^2_3 
         \text{,} & \text{ with } X^2 = (X^2_1, X^2_2, X^2_3) \\
     L3(X^3)  &= X^3 \\ 
-    Loss(X^3, Y^{truth})  &= \frac{1}{2} (L3(X^3) - Y^{truth})^2 \\ 
-                          &= \frac{1}{2} (X^3 - Y^{truth})^2 \\ \\
+    Loss(X^4, Y^{truth})  &= \frac{1}{2} (X^4 - Y^{truth})^2 \\ \\
     model(X) &= L3(L2(L1(X))) \text{,} & \text{ with } X = (X_1, X_2, X_3) 
 \end{align}
 $$
@@ -127,7 +126,7 @@ We can verify that:
 - $ X $ is 3 dimensional: $ X_1 $ is the variable for broccoli, $ X_2 $ is the variable for Tagada strawberries, 
 $ X_3 $ is the variable for workout hours
 - $ model(X) $ is 1 dimensional
-- $ Loss $ is a loss function that depends on $ X^3 $ and $ Y^{truth} $.
+- $ Loss $ is a loss function that depends on $ X^4 $ and $ Y^{truth} $.
 
 We have built a $ model $ that is composed of 3 layers ($ L1 $, $ L2 $, $ L3 $).
 
@@ -153,11 +152,54 @@ First of all let us apply the **forward pass**:
 | (1)    | (1)             |
 | (0)    | (0)             |
 
-| $ o3 = model(x) $ | $ y^{truth} $ = expected result | $ loss = Loss(o2, y^{truth}) $ | correct ? |
+| $ o3 = model(x) $ | $ y^{truth} $ = expected result | $ loss = Loss(o3, y^{truth}) $ | correct ? |
 | :----: | :-----: | :-----: | :---: |
 | (0) | (0) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
 | (1) | (1) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
 | (0) | (1) | (<span style="color:red">0.5</span>) | ![right](/_assets/images/general/wrong.png) |
 
-We can observe that the value of $ loss(o2, y^{truth}) $ <span style="color:green"> is 0 </span> when there is <span style="color:green"> no error </span> comparing $ o3 $ 
+We can observe that the value of $ loss(o3, y^{truth}) $ <span style="color:green"> is 0 </span> when there is <span style="color:green"> no error </span> comparing $ o3 $ 
 with $ y^{truth} $ and <span style="color:red"> is greater than 0 </span> when there is <span style="color:red"> an error </span>.
+The $ loss $ is an indicator of the error of the results produced by the $ model $ function.
+
+#### <span style="text-decoration:underline"> Run the backward pass </span>
+
+We did not unveil the secret behind the **backward pass** yet.
+In a way we have to find to what extent each variable in the $ model $ is responsible for the errors that are 
+highlighted by the $ loss $ function.
+ 
+What will give this shaming indicator is: $ \boxed{\frac{\partial Loss(X, Y^{truth})}{\partial X}} $.
+
+![Layer-2](/_assets/images/backward/Layer-2.png)
+
+1. first we have to compute $ \delta 4 = \frac{\partial Loss(X^4, Y^{truth})}{\partial X^4}(o3) $
+2. then we compute $ \delta 3 = \frac{\partial Loss(X^3, Y^{truth})}{\partial X^3}(o2) $ 
+3. then we compute $ \delta 2 = \frac{\partial Loss(X^2, Y^{truth})}{\partial X^2}(o1) $ 
+4. finally we compute $ \delta 1 = \frac{\partial Loss(X^1, Y^{truth})}{\partial X^1}(x) $ 
+
+Let we go:
+
+$$
+\begin{align}
+    Loss(X^4, Y^{truth})  &= \frac{1}{2} (X^4 - Y^{truth})^2 \\ 
+    \delta 4 &= \frac{\partial Loss(X^4, Y^{truth})}{\partial X^4}(o3) \\
+             &= o3 - y^{truth} \\
+\end{align}
+$$
+
+Now, we have to use the structure in layers of our $ model $ and the formula for composite derivatives: 
+
+$$ 
+\boxed{\frac{\partial (Li \text{ o } Lk)}{\partial X}(x) = \frac{\partial Li}{\partial Lk}(Lk(x)) \frac{\partial Lk}{\partial X}(x)}
+$$
+
+This enables use to compute: 
+
+$$
+\begin{align}
+    L3(X^3)  &= X^3 \\ 
+    \delta 3 &= \frac{\partial Loss(X^3, Y^{truth})}{\partial X^3}(o2) \\
+             &= \frac{\partial Loss}{\partial L3}(L3(o2)) \frac{\partial L3}{\partial X^3}(o2) \\
+             &= \delta 4
+\end{align}
+$$
