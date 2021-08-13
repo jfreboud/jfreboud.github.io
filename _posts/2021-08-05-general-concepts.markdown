@@ -4,7 +4,7 @@ title:  "General Concepts"
 date:   2021-08-05 20:00:00 +0200
 excerpt: >-
   1/ This is the first article of our walkthrough in deep-learning.
-  First things first, we explore some general concepts of deep-learning.
+  First things first, we explore some general concepts of deep-learning, introducing the deep-learning model.
 ---
 
 ## Introduction 

@@ -3,7 +3,7 @@ layout: post
 title:  "Inside the Model"
 date:   2021-08-06 15:00:00 +0200
 excerpt: >-
-  2/ In this article, we explore the structure of a deep-learning model.
+  2/ In this article, we explore the generic structure of a deep-learning model.
 ---
 
 ## Introduction
@@ -31,6 +31,11 @@ mathematical function depending on $ X $ we can call $ model(X) $.
 
 Now, we have a more precise structure for this $ model $ function, as a sequential order of $ inner functions $ (the clouds), 
 each depending of its previous function. 
+
+Moreover, this structure in $ layers $ tells us about the secret goal of deep-learning: 
+build abstract **representations**. 
+Indeed, the different $ layers $ will produce results one after another until the very last can produce the best 
+**representation** out of the **data input**. 
 
 ### Example
 
@@ -172,5 +177,5 @@ of $ layers $ as in the following schema:
 
 ![Layer-4](/_assets/images/model/Layer-4.png)
 
-We must now discuss how to choose the different $ layers $. But before that, we will talk about the 
-[learning process]({% post_url 2021-08-09-learning-process-part-1 %}) 
+In a later article we will discuss how to choose the different $ layers $. But before that, we will talk about the 
+$ loss function $ in the [next article]({% post_url 2021-08-09-loss-function %}).
