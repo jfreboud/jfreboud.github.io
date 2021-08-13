@@ -11,7 +11,7 @@ excerpt: >-
 In the [previous article]({% post_url 2021-08-06-inside-the-model %}), we explored the 
  generic structure of the deep-learning $ model $: an ordered graph of $ layers $.
 
-In this article we will talk about the $ Loss function $ which is the starting point of the **learning process**. 
+In this article we will talk about the $ Loss $ function which is the starting point of the **learning process**. 
 
 ## The learning process 
 
@@ -33,7 +33,7 @@ We are now looking for a systematic way of telling the $ model $: this result is
 
 ## The Loss function
 
-The systematic way of telling the $ model $ what is right or wrong is the $ Loss function $.
+The systematic way of telling the $ model $ what is right or wrong is the $ Loss $ function.
 
 This $ Loss $ function is defined by the developer. 
 It is a function of two variables: $ X $ (as every $ layer $) and 
