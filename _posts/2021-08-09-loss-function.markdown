@@ -49,32 +49,52 @@ This also implies the $ Loss $ function will be called after the **output layer*
 
 ## The derivatives of the Loss function
 
-We have to find to what extent each variable in the $ model $ is responsible for the errors that are 
-highlighted by the $ Loss $ function.
+What we have for the moment is: 
+
+1. a $ model $ function which depends on $ X $
+2. running the **forward pass** on $ x $ value for $ X $ produces $ model(x) $ 
+3. calling $ Loss(model(x), y^{truth}) $ decides whether $ model(x) $ is right or wrong 
+
+What is crucial now for the **learning** process is to find to what extent the variable $ X $ in the $ model $ 
+is responsible for the errors that are highlighted by the $ Loss $ function. 
  
-What will give this shaming indicator is: 
+What will give this information is the $ derivative $ function of $ Loss $ according to $ X $: 
+
+$$
+\begin{align}
+    derivative \text{ }Loss \text{ for } X (X, Y^{truth}) &= \frac{\partial}{\partial X}(Loss(X, Y^{truth}) \\ 
+                                                          &= \frac{\partial Loss(X, Y^{truth})}{\partial X}
+\end{align}
+$$
+
+Let us keep in mind this formula for the $ derivative $ function of $ Loss $ according to $ X $: 
 
 $$
 \boxed{\frac{\partial Loss(X, Y^{truth})}{\partial X}} 
 $$
 
 Back to the paragraph "Run a model" in the [first article]({% post_url 2021-08-05-general-concepts %}), 
-we introduced the notation $ X $ for an "abstract" variable and $ x $ for a real value taken by the variable.
+we introduced the notation $ X $ for an "abstract" variable and $ x $ for a "real" value taken by the variable.
 This will prove to be useful now. 
 
-Indeed, $ \frac{\partial Loss(X, Y^{truth})}{\partial X} $ is itself a function and produces the same kind of results 
-as $ Loss(X, Y^{truth}) $. Let $ \hat{X} $ and $ \hat{Y} $ be the new dependency variables. 
-We will apply this new function on $ \hat{x} $ and $ \hat{y} $, 
-the values for the variables $ \hat{X} $ and $ \hat{Y} $.
-
-Considering that $ \hat{y} = y^{truth} $, our formula becomes:
+The $ derivative $ function, is a function... And it produces the same kind of results 
+as $ Loss(X, Y^{truth}) $. Let $ \hat{X} $ and $ \hat{Y} $ be the dependency variables of the $ derivative $ function. 
+To produce results, we will apply this function on $ \hat{x} $ and $ \hat{y} $: 
 
 $$
-\boxed{\frac{\partial Loss(X, Y^{truth})}{\partial X}(\hat{x}, y^{truth})}
+\frac{\partial Loss(X, Y^{truth})}{\partial X}(\hat{x}, \hat{y})
 $$
 
-This formula could be read as: we want to know to what extent the variable $ X $ has caused an error in the 
-$ Loss $ function when the $ Loss $ function was evaluated on $ \hat{x} $ and $ y^{truth} $.
+But indeed, we want to apply the function $ \frac{\partial Loss(X, Y^{truth})}{\partial X} $ 
+on the same values $ x $ and $ y^{truth} $ that produced the errors for the function $ Loss(X, Y^{truth}) $.
+Thus, we will consider $ \hat{x} = x $ and $ \hat{y} = y^{truth} $, the formula becomes: 
+
+$$
+\boxed{\frac{\partial Loss(X, Y^{truth})}{\partial X}(x, y^{truth})}
+$$
+
+We could paraphrase the formula as: we want to know to what extent the variable $ X $ has caused an error in the 
+$ Loss $ function when the $ Loss $ function was evaluated on $ x $ and $ y^{truth} $.
 
 ### Example
 
@@ -90,7 +110,7 @@ Same **data** as in the [first article]({% post_url 2021-08-05-general-concepts 
 
 #### <span style="text-decoration:underline"> Model </span> 
 
-We assume here we have a $ model $ containing only 3 $ layers $: 
+We assume here we have a $ model $ containing only 3 $ layers $. We also add a $ Loss $ function: 
 
 ![Layer-1](/_assets/images/backward/Layer-1.png)
 
@@ -99,11 +119,11 @@ Let us use:
 $$
 \begin{align}
     L1(X^1)  &= X^1 \text{,} & \text{ with } X^1 = (X^1_1, X^1_2, X^1_3) \\
-    L2(X^2)  &= \frac{1}{200} X^2_1 - \frac{3 000}{11 600 000}  X^2_2 + \frac{1}{5 800} X^2_3 
-        \text{,} & \text{ with } X^2 = (X^2_1, X^2_2, X^2_3) \\
-    L3(X^3)  &= X^3 \\ 
-    Loss(X^4, Y^{truth})  &= \frac{1}{2} (X^4 - Y^{truth})^2 \\ \\
-    model(X) &= L3(L2(L1(X))) \text{,} & \text{ with } X = (X_1, X_2, X_3) 
+    L2(X^2)  &= \frac{1}{200} X^2_1 - \frac{8 800}{11 600 000}  X^2_2 + 
+        \frac{1}{5 800} X^2_3 \text{,} & \text{ with } X^2 = (X^2_1, X^2_2, X^2_3) \\
+    L3(X^3)  &= X^3 \text{ if } X^3 > 0 \text{, else } 0  \\ \\
+    model(X) &= L3(L2(L1(X))) \text{,} & \text{ with } X = (X_1, X_2, X_3) \\ \\
+    Loss(X^4, Y^{truth})  &= \frac{1}{2} (X^4 - Y^{truth})^2 
 \end{align}
 $$
 
@@ -127,15 +147,15 @@ First of all let us apply the **forward pass**:
 
 | $ o1 $             | $ o2 = L2(o1) $ |
 | :----------------: | :-------------: |
-| (100, 2000, 100)   | (0)             |
+| (100, 2000, 100)   | (-1)            |
 | (200,  0, 0)       | (1)             |
-| (0, 2000, 3 000)   | (0)             |
+| (0, 2000, 3 000)   | (-1)            |
 
 | $ o2 $ | $ o3 = L3(o2) $ |
 | :----: | :-------------: |
-| (0)    | (0)             |
+| (-1)   | (0)             |
 | (1)    | (1)             |
-| (0)    | (0)             |
+| (-1)   | (0)             |
 
 | $ o3 = model(x) $ | $ y^{truth} $ = expected result | $ loss = Loss(o3, y^{truth}) $ | correct ? |
 | :----: | :-----: | :-----: | :---: |
@@ -145,14 +165,14 @@ First of all let us apply the **forward pass**:
 
 We can observe that the value of $ loss(o3, y^{truth}) $ <span style="color:green"> is 0 </span> when there is <span style="color:green"> no error </span> comparing $ o3 $ 
 with $ y^{truth} $ and <span style="color:red"> is greater than 0 </span> when there is <span style="color:red"> an error </span>.
-The $ loss $ is an indicator of the error of the results produced by the $ model $ function.
+The $ loss $ is indeed an indicator of the error of the results produced by the $ model $ function.
 
 #### <span style="text-decoration:underline"> Going further </span>
 
-Let us try to compute the derivatives of our $ Loss $ function according to $ X $ in our $ model $: 
+Let us try to compute the $ derivative $ function of our $ Loss $ function according to $ X $ in our $ model $: 
 
 $$
-\frac{\partial Loss(X, Y^{truth})}{\partial X}(\hat{x}, y^{truth})
+\frac{\partial Loss(X, Y^{truth})}{\partial X}
 $$
 
 Do not forget our $ model $ is composed of several $ layers $. 
@@ -161,42 +181,59 @@ This means we have to compute:
 
 $$
 \begin{align}
-    \delta 1 &= \frac{\partial Loss(X^1, Y^{truth})}{\partial X^1}(x, y^{truth}) \\ 
-    \delta 2 &= \frac{\partial Loss(X^2, Y^{truth})}{\partial X^2}(o1, y^{truth}) \\
-    \delta 3 &= \frac{\partial Loss(X^3, Y^{truth})}{\partial X^3}(o2, y^{truth}) \\
-    \delta 4 &= \frac{\partial Loss(X^4, Y^{truth})}{\partial X^4}(o3, y^{truth}) \\
+    \frac{\partial Loss(X^1, Y^{truth})}{\partial X^1} \\ 
+    \frac{\partial Loss(X^2, Y^{truth})}{\partial X^2} \\
+    \frac{\partial Loss(X^3, Y^{truth})}{\partial X^3} \\
+    \frac{\partial Loss(X^4, Y^{truth})}{\partial X^4} \\
 \end{align}
 $$
 
-These different quantities won't be as easy to compute. 
-The easiest is $ \delta 4 $ because we have: 
+These different $ derivative $ functions won't be as easy to compute. 
+The easiest is the last one because we have: 
 
 $$ 
 Loss(X^4, Y^{truth}) = \frac{1}{2} (X^4 - Y^{truth})^2
 $$
 
-Thus: 
+Thus, we can compute an explicit form for the $ derivative $ function of $ Loss $ according to $ X^4 $: 
+
+$$ 
+\begin{align}
+    \frac{\partial Loss(X^4, Y^{truth})}{\partial X^4} & = \frac{\partial \frac{1}{2} (X^4 - Y^{truth})^2}{\partial X^4}\\
+                                                       & = 2 * \frac{1}{2} * (X^4 - Y^{truth}) \\
+                                                       &= X^4 - Y^{truth} \\
+\end{align}
+$$
+
+And we can now apply this function on the values that have produced the error in the result of 
+$ loss = Loss(o3, y^{truth}) $, let $ \delta 4 $ be this result:
 
 $$ 
 \begin{align}
     \delta 4 &= \frac{\partial Loss(X^4, Y^{truth})}{\partial X^4}(o3, y^{truth}) \\
-             &= \frac{\partial (\frac{1}{2} (X^4 - Y^{truth})^2)}{\partial X^4}(o3, y^{truth}) \\
+             &= X^4 - Y^{truth} \text{ applied on } (o3, y^{truth}) \\
+             &= o3 - y^{truth}
 \end{align}
 $$
 
+Let us keep in mind that we have computed: 
+
 $$ 
-\boxed{\delta 4 = o3 - y^{truth}} \\
+\boxed{\delta 4 = o3 - y^{truth}} 
 $$
 
-What is the problem with the other quantities ?
-Let us look at $ \delta 3 = \frac{\partial Loss(X^3, Y^{truth})}{\partial X^3}(o2, y^{truth}) $.
+Back to the other $ derivative $ functions, What is the problem now ?
+Let us look at: 
 
-We need to find to what extent the variable $ X^3 $ has caused an error in the $ Loss $ function 
-when the $ Loss function $ was evaluated on $ o2 $ and $ y^{truth} $. And we know that: 
+$$
+\frac{\partial Loss(X^3, Y^{truth})}{\partial X^3}
+$$
+
+We need to find to what extent the variable $ X^3 $ causes an error in the $ Loss $ function. We know that: 
 
 $$
 \begin{align}
-    L3(X^3)  &= X^3 \\ 
+    L3(X^3)  &= X^3 \text{ if } X^3 > 0 \text{, else } 0 \\ 
     Loss(X^4, Y^{truth})  &= \frac{1}{2} (X^4 - Y^{truth})^2 \\  
 \end{align}
 $$
@@ -216,15 +253,15 @@ what extent they are responsible for the error through a **chain** of $ layers $
 In this article, we saw the importance of the $ Loss $ function is order to set what results of $ model $ are right 
 or wrong. 
 
-We also saw the formula that allows to distribute the penalties to the faulty variables: 
+We also saw the $ derivative $ of $ Loss $ according to $ X $ that allows to measure to what extent $ X $ is responsible 
+ for the final error: 
  
 $$
-\boxed{\frac{\partial Loss(X, Y^{truth})}{\partial X}(\hat{x}, y^{truth})}
+\boxed{\frac{\partial Loss(X, Y^{truth})}{\partial X}}
 $$
 
-We were able to compute this quantity for the final variable but not for inner variables yet. 
-We will have to discuss how to compute this quantity for the other variables and how to use it for real because 
-for the time being we did not use it anywhere :smiling_imp:
+We were able to compute this $ derivative $ function for the final variable but not for inner variables yet. 
+We will need to compute the others soon :smiling_imp:
 
 <br>
 

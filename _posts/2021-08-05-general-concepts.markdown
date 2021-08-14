@@ -71,18 +71,38 @@ Let us look at some patients' **data**:
 - As our **data input** has 3 dimensions, our $ model $ function $ X $ variable must also be 3 dimensional
 - As our **data output** has 1 dimension, our $ model $ function result must also be 1 dimensional 
 
-Let us take a $ model $ function example to see how it works: 
+Let us take a $ model $ a "random" function example to see how it works: 
 
 $$
-model(X) = \frac{1}{200} X_1 - \frac{3 000}{11 600 000}  X_2 + \frac{1}{5 800} X_3 \text{, with } X = (X_1, X_2, X_3) 
+\boxed{model(X) = \frac{1}{200} X_1 - \frac{3 000}{11 600 000}  X_2 + \frac{1}{5 800} X_3} \text{, with } X = (X_1, X_2, X_3) 
 $$
 
-Example of use for $ X = (1.0, 0.0, 0.0) $: 
+We will be able to produce results on this $ model $ function by taking a value $ x $ and compute $ model(x) $ :
+
+For $ x = (100, 2000, 100) $: 
 
 $$
 \begin{align}
-    model(X) &= \frac{1}{200} * 1.0 - \frac{3 000}{11 600 000} * 0.0 + \frac{1}{5 800} * 0.0 \\
-             &= \frac{1}{200}
+    model(x) &= \frac{1}{200} * 100 - \frac{3 000}{11 600 000} * 2000 + \frac{1}{5 800} * 100 \\
+             &= 0
+\end{align}
+$$
+
+For $ x = (200, 0.0, 0.0) $: 
+
+$$
+\begin{align}
+    model(x) &= \frac{1}{200} * 200 - \frac{3 000}{11 600 000} * 0.0 + \frac{1}{5 800} * 0.0 \\
+             &= 1
+\end{align}
+$$
+
+For $ x = (0, 2000, 3000) $: 
+
+$$
+\begin{align}
+    model(x) &= \frac{1}{200} * 0 - \frac{3 000}{11 600 000} * 2000 + \frac{1}{5 800} * 3000 \\
+             &= 0
 \end{align}
 $$
 
@@ -98,9 +118,9 @@ We can now run this $ model $ function on the **data** to produce $ model(x) $ r
 
 | x | expected result | model(x) | correct ? |
 | :----------------: | :-----: | :----: | :---: |
-| (100, 2000, 100) | (<span style="color:red">bad shape</span>)    | (0) => (<span style="color:red">bad shape</span>) | ![wrong](/_assets/images/general/right.png) |
-| (200,  0, 0)     | (<span style="color:green">good shape</span>) | (1) => (<span style="color:green">good shape</span>)    | ![wrong](/_assets/images/general/right.png) |
-| (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | (0) => (<span style="color:red">bad shape</span>) | ![right](/_assets/images/general/wrong.png) |
+| (100, 2000, 100) | (<span style="color:red">bad shape</span>)    | (0) => (<span style="color:red">bad shape</span>)   | ![wrong](/_assets/images/general/right.png) |
+| (200,  0, 0)     | (<span style="color:green">good shape</span>) | (1) => (<span style="color:green">good shape</span>)| ![wrong](/_assets/images/general/right.png) |
+| (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | (0) => (<span style="color:red">bad shape</span>)   | ![right](/_assets/images/general/wrong.png) |
 
 In the column: "correct ?", we can see that the model have produced a wrong result in the last case !
 How is it possible ? 

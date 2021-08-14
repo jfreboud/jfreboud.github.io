@@ -1,9 +1,4 @@
 title: The Deep Learning Machinery
-author:
-  name: Jean-François Reboud
-  email: "jeanfrancois.reboud.gre@gmail.com"
-disqus:
-    shortname: jeanfrancoisreboud
 description: >-
   Understand the machinery behind deep-learning models in computer vision.
   Grasp what is hidden by nature in frameworks such as PyTorch and TensorFlow.
@@ -14,6 +9,12 @@ header_pages:
   - _pages/table_of_contents.markdown
   - _pages/about.markdown
 
+author:
+  name: Jean-François Reboud
+  email: "jeanfrancois.reboud.gre@gmail.com"
+disqus:
+    shortname: jeanfrancoisreboud
+
 repository: jfreboud/jfreboud.github.io
 remote_theme: jekyll/minima
 minima:
@@ -21,7 +22,6 @@ minima:
   date_format: "%b %-d, %Y"
   social_links:
     twitter: JFReboud
-    github: jfreboud
     linkedin: jean-françois-reboud-832147161
 
 plugins:
