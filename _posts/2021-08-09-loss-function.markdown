@@ -261,7 +261,7 @@ $$
 $$
 
 We were able to compute this $ derivative $ function for the final variable but not for inner variables yet. 
-We will need to compute the others soon :smiling_imp:
+We will need to compute the others in the [next article]({% post_url 2021-08-13-backward-pass %}) :smiling_imp:
 
 <br>
 

@@ -22,3 +22,7 @@ In this article, we explore the generic structure of a deep-learning model.
 #### 1/ [The Loss function]({% post_url 2021-08-09-loss-function %})
 
 We complete the deep-learning model with the loss function: this is the first step toward the learning process.
+
+#### 2/ [The Backward Pass]({% post_url 2021-08-13-backward-pass %})
+
+The backward pass is the nemesis of the forward pass: this is the second step toward the learning process.
