@@ -37,9 +37,9 @@ build abstract **representations**.
 Indeed, the different $ layers $ will produce results one after another until the very last can produce the best 
 **representation** out of the **data input**. 
 
-### Example
+## Example
 
-#### <span style="text-decoration:underline"> Data </span>
+### <span style="text-decoration:underline"> Data </span>
 
 Same **data** as in the [previous article]({% post_url 2021-08-05-general-concepts %}).
 
@@ -49,7 +49,7 @@ Same **data** as in the [previous article]({% post_url 2021-08-05-general-concep
 |(200 broccoli,  0 Tagada strawberries, 0 workout hours) | (good shape) |
 | (0 broccoli, 2000 Tagada strawberries, 3 000 workout hours) | (good shape) |
 
-#### <span style="text-decoration:underline"> Model </span> 
+### <span style="text-decoration:underline"> Model </span> 
 
 We assume here we have a $ model $ containing only 3 $ layers $: 
 
@@ -74,7 +74,7 @@ $ X_3 $ is the variable for workout hours
 
 We have built a $ model $ that is composed of 3 layers ($ L1 $, $ L2 $, $ L3 $).
 
-#### <span style="text-decoration:underline"> Run the model </span>
+### <span style="text-decoration:underline"> Run the model </span>
 
 Instead of using $ model(X) $ directly as in the [previous article]({% post_url 2021-08-05-general-concepts %}).
 We now have to apply [the forward pass](#the-forward-pass), storing every intermediate results.

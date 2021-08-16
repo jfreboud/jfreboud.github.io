@@ -42,9 +42,9 @@ $ model(x) $ to speak about a real value of $ model $ on some given $ x $ value.
 
 But where does this $ x $ value come from ? 
 
-### Example 
+## Example 
 
-#### <span style="text-decoration:underline"> Data </span>
+### <span style="text-decoration:underline"> Data </span>
 
 We have a cohort of patients with **data**. More precisely we know how many broccoli they eat per year, how many 
 Tagada strawberries they eat per year and how many hours of cardio latin dance they workout per year. 
@@ -66,7 +66,7 @@ Let us look at some patients' **data**:
 |(200 broccoli,  0 Tagada strawberries, 0 workout hours) | (good shape) |
 | (0 broccoli, 2000 Tagada strawberries, 3 000 workout hours) | (good shape) |
 
-#### <span style="text-decoration:underline"> Model </span> 
+### <span style="text-decoration:underline"> Model </span> 
 
 - As our **data input** has 3 dimensions, our $ model $ function $ X $ variable must also be 3 dimensional
 - As our **data output** has 1 dimension, our $ model $ function result must also be 1 dimensional 
@@ -111,7 +111,7 @@ We can verify that:
 $ X_3 $ is the variable for workout hours
 - $ model(X) $ is indeed a simple 1 dimensional number
 
-#### <span style="text-decoration:underline"> Run the model </span>
+### <span style="text-decoration:underline"> Run the model </span>
 
 We have **data** and we have built a simple $ model $ function.
 We can now run this $ model $ function on the **data** to produce $ model(x) $ results with  $ x = (x1, x2, x3) $:

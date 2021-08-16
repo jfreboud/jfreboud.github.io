@@ -57,7 +57,9 @@ What we have for the moment is:
 
 What is crucial now for the **learning** process is to find to what extent the variable $ X $ in the $ model $ 
 is responsible for the errors that are highlighted by the $ Loss $ function. 
- 
+
+![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [example](#example)
+
 What will give this information is the $ derivative $ function of $ Loss $ according to $ X $: 
 
 $$
@@ -96,9 +98,11 @@ $$
 We could paraphrase the formula as: we want to know to what extent the variable $ X $ has caused an error in the 
 $ Loss $ function when the $ Loss $ function was evaluated on $ x $ and $ y^{truth} $.
 
-### Example
+![Safe](/_assets/images/maths/safe.png) 
 
-#### <span style="text-decoration:underline"> Data </span>
+## Example
+
+### <span style="text-decoration:underline"> Data </span>
 
 Same **data** as in the [first article]({% post_url 2021-08-05-general-concepts %}).
 
@@ -108,7 +112,7 @@ Same **data** as in the [first article]({% post_url 2021-08-05-general-concepts 
 |(200 broccoli,  0 Tagada strawberries, 0 workout hours) | (good shape) |
 | (0 broccoli, 2000 Tagada strawberries, 3 000 workout hours) | (good shape) |
 
-#### <span style="text-decoration:underline"> Model </span> 
+### <span style="text-decoration:underline"> Model </span> 
 
 We assume here we have a $ model $ containing only 3 $ layers $. We also add a $ Loss $ function: 
 
@@ -135,7 +139,7 @@ $ X_3 $ is the variable for workout hours
 
 We have built a $ model $ that is composed of 3 layers ($ L1 $, $ L2 $, $ L3 $).
 
-#### <span style="text-decoration:underline"> Run the forward pass </span>
+### <span style="text-decoration:underline"> Run the forward pass </span>
 
 First of all let us apply the **forward pass**:
 
@@ -167,7 +171,9 @@ We can observe that the value of $ loss(o3, y^{truth}) $ <span style="color:gree
 with $ y^{truth} $ and <span style="color:red"> is greater than 0 </span> when there is <span style="color:red"> an error </span>.
 The $ loss $ is indeed an indicator of the error of the results produced by the $ model $ function.
 
-#### <span style="text-decoration:underline"> Going further (mathematically shy people should pass) </span>
+### <span style="text-decoration:underline"> Going further </span>
+
+![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [conlusion](#conclusion)
 
 Let us try to compute the $ derivative $ function of our $ Loss $ function according to $ X $ in our $ model $: 
 
@@ -247,6 +253,8 @@ the $ layers $ that use $ X^3 $ directly ($ L3 $) or indirectly ($ L4 $, $ L5 $,
 
 This is the beauty of deep-learning: from a single $ loss $ result, being able to find the different culprits and to 
 what extent they are responsible for the error through a **chain** of $ layers $. 
+
+![Safe](/_assets/images/maths/safe.png) 
 
 ## Conclusion
 

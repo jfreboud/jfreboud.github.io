@@ -23,3 +23,8 @@ Feel free to interact through the different blog articles and to give any exampl
 Disclaimer: I will try to use the least mathematical material needed and justify their use by intuition. 
 The mathematical content mainly deals with: functions, derivative. 
 Knowing about vectors and multivariate functions is a plus.
+But it may sometime be overwhelming for mathematically shy people. 
+
+![Warning](/_assets/images/maths/warning.png) means the content may be hard to follow after this sign
+
+![Safe](/_assets/images/maths/safe.png) means reading should be safe after this sign
