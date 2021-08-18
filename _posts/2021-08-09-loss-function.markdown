@@ -37,7 +37,7 @@ The systematic way of telling the $ model $ what is right or wrong is the $ Loss
 
 This $ Loss $ function is defined by the developer. 
 It is a function of two variables: $ X $ (as every $ layer $) and 
-$ Y^{truth} $ (see the [first article]({% post_url 2021-08-05-general-concepts %})).
+$ Y^{truth} $ (the expectation, see the [first article]({% post_url 2021-08-05-general-concepts %})).
 
 Its $ X $ variable will receive the result of the **output layer** whereas $ Y^{truth} $ will receive 
 the expectation given by the **data output**. Hence, the $ Loss $ function will be able to systematically compare 
@@ -53,7 +53,7 @@ What we have for the moment is:
 
 1. a $ model $ function which depends on $ X $
 2. running the **forward pass** on $ x $ value for $ X $ produces $ model(x) $ 
-3. calling $ Loss(model(x), y^{truth}) $ decides whether $ model(x) $ is right or wrong 
+3. evaluating $ Loss(model(x), y^{truth}) $ decides whether $ model(x) $ is right or wrong 
 
 What is crucial now for the **learning** process is to find to what extent the variable $ X $ in the $ model $ 
 is responsible for the errors that are highlighted by the $ Loss $ function. 
@@ -64,15 +64,15 @@ What will give this information is the $ derivative $ function of $ Loss $ accor
 
 $$
 \begin{align}
-    derivative \text{ }Loss \text{ for } X (X, Y^{truth}) &= \frac{\partial}{\partial X}(Loss(X, Y^{truth}) \\ 
-                                                          &= \frac{\partial Loss(X, Y^{truth})}{\partial X}
+    derivative \text{ }Loss \text{ according to } X &= \frac{\partial}{\partial X}(Loss(X, Y^{truth})) \\ 
+                                                    &= \frac{\partial Loss}{\partial X}
 \end{align}
 $$
 
 Let us keep in mind this formula for the $ derivative $ function of $ Loss $ according to $ X $: 
 
 $$
-\boxed{\frac{\partial Loss(X, Y^{truth})}{\partial X}} 
+\boxed{\frac{\partial Loss}{\partial X}} 
 $$
 
 Back to the paragraph "Run a model" in the [first article]({% post_url 2021-08-05-general-concepts %}), 
@@ -81,22 +81,22 @@ This will prove to be useful now.
 
 The $ derivative $ function, is a function... And it produces the same kind of results 
 as $ Loss(X, Y^{truth}) $. Let $ \hat{X} $ and $ \hat{Y} $ be the dependency variables of the $ derivative $ function. 
-To produce results, we will apply this function on $ \hat{x} $ and $ \hat{y} $: 
+To produce results, we will evaluate this function on $ \hat{x} $ and $ \hat{y} $: 
 
 $$
-\frac{\partial Loss(X, Y^{truth})}{\partial X}(\hat{x}, \hat{y})
+\frac{\partial Loss}{\partial X}(\hat{x}, \hat{y})
 $$
 
-But indeed, we want to apply the function $ \frac{\partial Loss(X, Y^{truth})}{\partial X} $ 
+But indeed, we want to evaluate the function $ \frac{\partial Loss}{\partial X} $ 
 on the same values $ x $ and $ y^{truth} $ that produced the errors for the function $ Loss(X, Y^{truth}) $.
 Thus, we will consider $ \hat{x} = x $ and $ \hat{y} = y^{truth} $, the formula becomes: 
 
 $$
-\boxed{\frac{\partial Loss(X, Y^{truth})}{\partial X}(x, y^{truth})}
+\boxed{\frac{\partial Loss}{\partial X}(x, y^{truth})}
 $$
 
 We could paraphrase the formula as: we want to know to what extent the variable $ X $ has caused an error in the 
-$ Loss $ function when the $ Loss $ function was evaluated on $ x $ and $ y^{truth} $.
+$ model $ when the $ Loss $ function was evaluated on $ x $ and $ y^{truth} $.
 
 ![Safe](/_assets/images/maths/safe.png) 
 
@@ -141,7 +141,7 @@ We have built a $ model $ that is composed of 3 layers ($ L1 $, $ L2 $, $ L3 $).
 
 ### <span style="text-decoration:underline"> Run the forward pass </span>
 
-First of all let us apply the **forward pass**:
+First of all let us run the **forward pass**:
 
 | $ x $              | $ o1 = L1(x) $   |
 | :----------------: | :--------------: |
@@ -178,20 +178,18 @@ The $ loss $ is indeed an indicator of the error of the results produced by the 
 Let us try to compute the $ derivative $ function of our $ Loss $ function according to $ X $ in our $ model $: 
 
 $$
-\frac{\partial Loss(X, Y^{truth})}{\partial X}
+\frac{\partial Loss}{\partial X}
 $$
 
 Do not forget our $ model $ is composed of several $ layers $. 
 Each of these $ layers $ is responsible for the error highlighted by the $ Loss $ function.
-This means we have to compute: 
+So we must compute the derivative for each of their dependency variables:
 
 $$
-\begin{align}
-    \frac{\partial Loss(X^1, Y^{truth})}{\partial X^1} \\ 
-    \frac{\partial Loss(X^2, Y^{truth})}{\partial X^2} \\
-    \frac{\partial Loss(X^3, Y^{truth})}{\partial X^3} \\
-    \frac{\partial Loss(X^4, Y^{truth})}{\partial X^4} \\
-\end{align}
+\frac{\partial Loss}{\partial X^1} \text{, }
+\frac{\partial Loss}{\partial X^2} \text{, }
+\frac{\partial Loss}{\partial X^3} \text{, and }
+\frac{\partial Loss}{\partial X^4} 
 $$
 
 These different $ derivative $ functions won't be as easy to compute. 
@@ -205,19 +203,19 @@ Thus, we can compute an explicit form for the $ derivative $ function of $ Loss 
 
 $$ 
 \begin{align}
-    \frac{\partial Loss(X^4, Y^{truth})}{\partial X^4} & = \frac{\partial \frac{1}{2} (X^4 - Y^{truth})^2}{\partial X^4}\\
-                                                       & = 2 * \frac{1}{2} * (X^4 - Y^{truth}) \\
-                                                       &= X^4 - Y^{truth} \\
+    \frac{\partial Loss}{\partial X^4} & = \frac{\partial \frac{1}{2} (X^4 - Y^{truth})^2}{\partial X^4}\\
+                                       & = 2 * \frac{1}{2} * (X^4 - Y^{truth}) \\
+                                       &= X^4 - Y^{truth} \\
 \end{align}
 $$
 
-And we can now apply this function on the values that have produced the error in the result of 
+And we can now evaluate this function on the values that have produced 
 $ loss = Loss(o3, y^{truth}) $, let $ \delta 4 $ be this result:
 
 $$ 
 \begin{align}
-    \delta 4 &= \frac{\partial Loss(X^4, Y^{truth})}{\partial X^4}(o3, y^{truth}) \\
-             &= X^4 - Y^{truth} \text{ applied on } (o3, y^{truth}) \\
+    \delta 4 &= \frac{\partial Loss}{\partial X^4}(o3, y^{truth}) \\
+             &= X^4 - Y^{truth} \text{ evaluated on } (o3, y^{truth}) \\
              &= o3 - y^{truth}
 \end{align}
 $$
@@ -232,7 +230,7 @@ Back to the other $ derivative $ functions, What is the problem now ?
 Let us look at: 
 
 $$
-\frac{\partial Loss(X^3, Y^{truth})}{\partial X^3}
+\frac{\partial Loss}{\partial X^3}
 $$
 
 We need to find to what extent the variable $ X^3 $ causes an error in the $ Loss $ function. We know that: 
@@ -249,7 +247,7 @@ $ X^3 $ is defined in $ L3 $, not in the $ Loss $ function,
 so how could it be responsible for the error highlighted by the $ Loss $ function ?
 
 This is due to the structure in $ layers $ of our $ model $. Changing the value that $ X^3 $ takes impacts 
-the $ layers $ that use $ X^3 $ directly ($ L3 $) or indirectly ($ L4 $, $ L5 $, ..., $ Loss $) <sup>[1](#remark)</sup>
+the $ layers $ that use $ X^3 $ directly ($ L3 $) or indirectly ($ L4 $, $ L5 $, ..., $ Loss $). <sup>[1](#remark)</sup>
 
 This is the beauty of deep-learning: from a single $ loss $ result, being able to find the different culprits and to 
 what extent they are responsible for the error through a **chain** of $ layers $. 
@@ -265,7 +263,7 @@ We also saw the $ derivative $ of $ Loss $ according to $ X $ that allows to mea
  for the final error: 
  
 $$
-\boxed{\frac{\partial Loss(X, Y^{truth})}{\partial X}}
+\boxed{\frac{\partial Loss}{\partial X}}
 $$
 
 We were able to compute this $ derivative $ function for the final variable but not for inner variables yet. 
