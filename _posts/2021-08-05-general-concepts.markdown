@@ -29,7 +29,8 @@ it is the role of the developer to actually build the $ model $. We will see som
 
 ## Run a model 
 
-Once the $ model $ is built, we can run it. <sup>[1](#remark)</sup>
+Once the $ model $ is built, we can run it 
+<a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[1](#remark)</sup>
 
 - Let $ X $ be the input variable of the $ model $. As $ model $ depends on $ X $, we generally note $ model(X) $ as the 
 mathematical $ model $ function depending on the $ X $ variable. 
@@ -74,7 +75,7 @@ Let us look at some patients' **data**:
 Let us take a "random" function example to see how it works: 
 
 $$
-\boxed{model(X) = \frac{1}{200} X_1 - \frac{3 000}{11 600 000}  X_2 + \frac{1}{5 800} X_3} \text{, with } X = (X_1, X_2, X_3) 
+\boxed{model(X) = \frac{1}{200} X_1 - \frac{3 000}{11 600 000}  X_2 + \frac{1}{5 800} X_3} \text{ with } X = (X_1, X_2, X_3) 
 $$
 
 We are able to evaluate this $ model $ function by taking a value $ x $ and compute $ model(x) $ :
@@ -172,3 +173,4 @@ In the [next article]({% post_url 2021-08-06-inside-the-model %}), we will dig d
 
 Mathematically speaking we would rather say "evaluate the $ model $" but I prefer to "run the $ model $" because 
 it reminds of its final practical usage: seeing it as an algorithm, it is run on some data to produce some results.
+[back to paragraph](#remark-back)

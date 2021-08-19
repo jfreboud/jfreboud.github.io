@@ -26,3 +26,7 @@ We complete the deep-learning model with the loss function: this is the first st
 #### 2/ [The Backward Pass]({% post_url 2021-08-13-backward-pass %})
 
 The backward pass is the nemesis of the forward pass: this is the second step toward the learning process.
+
+#### 3 / [The Weights]({% post_url 2021-08-19-weights %})
+
+The weights are the learning elements of the deep-learning model: final step of the learning process.

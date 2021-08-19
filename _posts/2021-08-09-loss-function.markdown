@@ -122,11 +122,11 @@ Let us use:
 
 $$
 \begin{align}
-    L1(X^1)  &= X^1 \text{,} & \text{ with } X^1 = (X^1_1, X^1_2, X^1_3) \\
+    L1(X^1)  &= X^1 & \text{ with } X^1 = (X^1_1, X^1_2, X^1_3) \\
     L2(X^2)  &= \frac{1}{200} X^2_1 - \frac{8 800}{11 600 000}  X^2_2 + 
-        \frac{1}{5 800} X^2_3 \text{,} & \text{ with } X^2 = (X^2_1, X^2_2, X^2_3) \\
-    L3(X^3)  &= X^3 \text{ if } X^3 > 0 \text{, else } 0  \\ \\
-    model(X) &= L3(L2(L1(X))) \text{,} & \text{ with } X = (X_1, X_2, X_3) \\ \\
+        \frac{1}{5 800} X^2_3 & \text{ with } X^2 = (X^2_1, X^2_2, X^2_3) \\
+    L3(X^3)  &= X^3 \text{ if } X^3 > 0 \text{ else } 0  \\ \\
+    model(X) &= L3(L2(L1(X))) & \text{ with } X = (X_1, X_2, X_3) \\ 
     Loss(X^4, Y^{truth})  &= \frac{1}{2} (X^4 - Y^{truth})^2 
 \end{align}
 $$
@@ -247,7 +247,8 @@ $ X^3 $ is defined in $ L3 $, not in the $ Loss $ function,
 so how could it be responsible for the error highlighted by the $ Loss $ function ?
 
 This is due to the structure in $ layers $ of our $ model $. Changing the value that $ X^3 $ takes impacts 
-the $ layers $ that use $ X^3 $ directly ($ L3 $) or indirectly ($ L4 $, $ L5 $, ..., $ Loss $). <sup>[1](#remark)</sup>
+the $ layers $ that use $ X^3 $ directly ($ L3 $) or indirectly ($ L4 $, $ L5 $, ..., $ Loss $)
+<a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[1](#remark)</sup>
 
 This is the beauty of deep-learning: from a single $ loss $ result, being able to find the different culprits and to 
 what extent they are responsible for the error through a **chain** of $ layers $. 
@@ -273,10 +274,10 @@ We will need to compute the others in the [next article]({% post_url 2021-08-13-
 
 <a id="remark" class="anchor" href="#header-title">1:</a>
 
-In fact this means the $ Loss $ function depends on more variables than just $ X4 $ and $ Y^{truth} $. 
+In fact this means the $ Loss $ function depends on more variables than just $ X^4 $ and $ Y^{truth} $. 
 Talking about $ Loss(X^1, X^2, X^3, X^4, Y^{truth}) $ would be more precise. 
 This also applies for every $ layer $: 
 $ L3(X^1, X^2, X^3) $, $ L2(X^1, X^2) $ and $ L1(X^1) $. 
 
 For our comfort, we will keep the notation with direct variables: $ Loss(X^4, Y^{truth}) $, $ L3(X^3) $, $ L2(X^2) $ 
-and $ L1(X^1) $.
+and $ L1(X^1) $. [back to paragraph](#remark-back)

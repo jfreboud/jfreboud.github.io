@@ -33,10 +33,16 @@ we could evaluate it on some values to produce results.
 
 Now, we have a more precise structure for this $ model $ function, as a sequential order of 
 $ inner \text{ } functions $ (the clouds), 
-each depending on its previous function. 
+each depending on its previous function. So that if $ layer $ $ L^k $ depends on $ X^k $ and $ layer $ $ L^{k+1} $ 
+depends on $ X^{k+1} $:
 
-For each $ layer $, it is possible to produce results that we will call **representations**. 
-The output **representations** of any layer is the input of its immediate following $ layer $.
+$$ 
+\boxed{X^{k+1} = Lk(X^k)}
+$$
+
+For each $ layer $, it is possible to produce results called **representations**. 
+The output **representations** of any layer are the input of their immediate following $ layer $ 
+in the **sequential order**.
 
 While going deeper in the $ layers $, the **representations** will contain an understanding more complex and more abstract 
 of the **input data**. 
@@ -66,11 +72,11 @@ Let us use:
 
 $$
 \begin{align}
-    L1(X^1)  &= X^1 \text{,} & \text{ with } X^1 = (X^1_1, X^1_2, X^1_3) \\
+    L1(X^1)  &= X^1 & \text{ with } X^1 = (X^1_1, X^1_2, X^1_3) \\
     L2(X^2)  &= \frac{1}{200} X^2_1 - \frac{8 800}{11 600 000}  X^2_2 + 
-        \frac{1}{5 800} X^2_3 \text{,} & \text{ with } X^2 = (X^2_1, X^2_2, X^2_3) \\
-    L3(X^3)  &= X^3 \text{ if } X^3 > 0 \text{, else } 0 \\ \\
-    model(X) &= L3(L2(L1(X))) \text{,} & \text{ with } X = (X_1, X_2, X_3) 
+        \frac{1}{5 800} X^2_3 & \text{ with } X^2 = (X^2_1, X^2_2, X^2_3) \\
+    L3(X^3)  &= X^3 \text{ if } X^3 > 0 \text{ else } 0 \\ \\
+    model(X) &= L3(L2(L1(X))) & \text{ with } X = (X_1, X_2, X_3) 
 \end{align}
 $$
 

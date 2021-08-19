@@ -89,7 +89,7 @@ $$
 \boxed{\frac{\partial Loss}{\partial X^3} = \frac{\partial Loss}{\partial L3} . \frac{\partial L3}{\partial X^3}}
 $$
 
-Now we compute: 
+Thanks to the **forward pass** we know that $ X^4 = L3(X^3) $, so we have: 
 
 $$
 \frac{\partial Loss}{\partial L3} = \frac{\partial Loss}{\partial X^4} \text{ computed in the previous article !}
@@ -116,20 +116,20 @@ $$
 \end{align}
 $$
 
-Do not forget that $ \frac{\partial Loss}{\partial X^3} $ is a function depending on $ X^3 $ and $ Y^{truth} $. 
+Do not forget that $ \frac{\partial Loss}{\partial X^3} $ is a function depending on $ X^3 $. 
 Thus we can evaluate it on the values that produced the errors highlighted by $ Loss $: 
 
 $$
 \begin{align}
-    \frac{\partial Loss}{\partial X^3}(o2, y^{truth}) &= \frac{\partial Loss}{\partial X^4}(o3, y^{truth}) \text{ if } o2 > 0 \text{, else } 0 \\ 
-                                                      &= \delta 4 \text{ if } o2 > 0 \text{, else } 0 
+    \frac{\partial Loss}{\partial X^3}(o2) &= \frac{\partial Loss}{\partial X^4}(o3, y^{truth}) \text{ if } o2 > 0 \text{, else } 0 \\ 
+                                           &= \delta 4 \text{ if } o2 > 0 \text{, else } 0 
 \end{align}
 $$
 
 We have found: 
 
 $$ 
-\boxed{\delta 3 = \frac{\partial Loss}{\partial X^3}(o2, y^{truth}) = \delta 4 \text{ if } o2 > 0 \text{, else } 0}
+\boxed{\delta 3 = \frac{\partial Loss}{\partial X^3}(o2) = \delta 4 \text{ if } o2 > 0 \text{, else } 0}
 $$
 
 ### Computing $ \frac{\partial Loss}{\partial X^2} $ 
@@ -157,7 +157,7 @@ $$
 \boxed{\frac{\partial Loss}{\partial X^2_1} = \frac{\partial Loss}{\partial L2} . \frac{\partial L2}{\partial X^2_1}}
 $$
 
-Now we compute: 
+Thanks to the **forward pass** we know that $ X^3 = L2(X^2) $, so we have: 
 
 $$
 \frac{\partial Loss}{\partial L2} = \frac{\partial Loss}{\partial X^3} \text{ computed in the previous paragraph !}
@@ -182,33 +182,38 @@ $$
 \end{align}
 $$
 
-Do not forget that $ \frac{\partial Loss}{\partial X^2_1} $ is a function depending on $ X^2 $ and $ Y^{truth} $. 
+Do not forget that $ \frac{\partial Loss}{\partial X^2_1} $ is a function depending on $ X^2 $. 
 Thus we can apply it on the values that produced the errors highlighted by $ Loss $: 
 
 $$
 \begin{align}
-    \frac{\partial Loss}{\partial X^2_1}(o1, y^{truth}) &= \frac{\partial Loss}{\partial X^3}(o2, y^{truth}) * 
-                                          \frac{1}{200} \\ 
-                                                        &= \delta 3 * \frac{1}{200}
+    \frac{\partial Loss}{\partial X^2_1}(o1) &= \frac{\partial Loss}{\partial X^3}(o2) *  \frac{1}{200} \\ 
+                                             &= \delta 3 * \frac{1}{200}
 \end{align}
 $$
 
 We have found: 
 
 $$ 
-\boxed{\delta 2_1 = \frac{\partial Loss}{\partial X^2_1}(o1, y^{truth}) = \delta 3 * \frac{1}{200}}
+\delta 2_1 = \frac{\partial Loss}{\partial X^2_1}(o1) = \delta 3 * \frac{1}{200}
 $$
 
 We do the same to compute: 
 
 $$ 
-\boxed{\delta 2_2 = \frac{\partial Loss}{\partial X^2_2}(o1, y^{truth}) = \delta 3 * (-\frac{8 800}{11 600 000})}
+\delta 2_2 = \frac{\partial Loss}{\partial X^2_2}(o1) = \delta 3 * (-\frac{8 800}{11 600 000})
 $$
 
 and 
 
 $$ 
-\boxed{\delta 2_3 = \frac{\partial Loss}{\partial X^2_3}(o1, y^{truth}) = \delta 3 * \frac{1}{5 800}}
+\delta 2_3 = \frac{\partial Loss}{\partial X^2_3}(o1) = \delta 3 * \frac{1}{5 800}
+$$
+
+These 3 formulas can be summarized as: 
+
+$$ 
+\boxed{\delta 2 = \delta 3 * (\frac{1}{200}, -\frac{8 800}{11 600 000}, \frac{1}{5 800})}
 $$
 
 ### Computing $ \frac{\partial Loss}{\partial X^1} $ 
@@ -237,7 +242,8 @@ So what is the problem ?
 Let us concentrate on the impact of $ X^1_1 $ on the $ Loss $ function. Because $ L1 $ is producing 3 variables, 
 this $ X^1_1 $ could impact each of these 3 output variables ! 
 
-Thus we cannot use the **chain rule**. <sup>[1](#remark)</sup>
+Thus we cannot use the **chain rule**
+<a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[1](#remark)</sup>
 Are we going to use another formula ? 
 No because we can think in terms of impacts.
 If we go back to our problem, we have $ X^1_1 $ that could impact three output variables: 
@@ -288,7 +294,7 @@ $$
 \boxed{\frac{\partial Loss}{\partial X^1_1} = \frac{\partial Loss}{\partial L1(X^1_1)} . \frac{\partial L1(X^1_1)}{\partial X^1_1}} 
 $$
 
-Now we compute: 
+Thanks to the **forward pass** and the definition of $ L1 $, we know that $ X^2_1 = L1(X^1_1) $, so we have: 
 
 $$
 \frac{\partial Loss}{\partial L1(X^1_1)} = \frac{\partial Loss}{\partial X^2_1} \text{ computed in the previous paragraph !}
@@ -313,32 +319,44 @@ $$
 \end{align}
 $$
 
-Do not forget that $ \frac{\partial Loss}{\partial X^1_1} $ is a function depending on $ X^1_1 $ and $ Y^{truth} $. 
+Do not forget that $ \frac{\partial Loss}{\partial X^1_1} $ is a function depending on $ X^1_1 $. 
 Thus we can apply it on the values that produced the errors highlighted by $ Loss $: 
 
 $$
 \begin{align}
-    \frac{\partial Loss}{\partial X^1_1}(x, y^{truth}) &= \frac{\partial Loss}{\partial X^2_1}(x_1, y^{truth}) * (1, 0, 0) \\ 
-                                                       &= \delta 2_1 * (1, 0, 0)
+    \frac{\partial Loss}{\partial X^1_1}(x) &= \frac{\partial Loss}{\partial X^2_1}(o1) * (1, 0, 0) \\ 
+                                            &= \delta 2_1 * (1, 0, 0)
 \end{align}
 $$
 
 We have found: 
 
 $$ 
-\boxed{\delta 1_1 = \frac{\partial Loss}{\partial X^1_1}(x, y^{truth}) = \delta 2_1 * (1, 0, 0) }
+\delta 1_1 = \frac{\partial Loss}{\partial X^1_1}(x) = \delta 2_1 * (1, 0, 0)
 $$
 
 We do the same to compute: 
 
 $$ 
-\boxed{\delta 1_2 = \frac{\partial Loss}{\partial X^1_2}(x, y^{truth}) = \delta 2_2 * (0, 1, 0) }
+\delta 1_2 = \frac{\partial Loss}{\partial X^1_2}(x) = \delta 2_2 * (0, 1, 0)
 $$
 
 and 
 
 $$ 
-\boxed{\delta 1_3 = \frac{\partial Loss}{\partial X^1_3}(x, y^{truth}) = \delta 2_3 * (0, 0, 1) }
+\delta 1_3 = \frac{\partial Loss}{\partial X^1_3}(x) = \delta 2_3 * (0, 0, 1)
+$$
+
+These 3 formulas can be summarized as: 
+
+$$ 
+\delta 1 = (\delta 2_1, \delta 2_2, \delta 2_3)
+$$
+
+And finally 
+
+$$
+\boxed{\delta 1 = \delta 2}
 $$
 
 ![Safe](/_assets/images/maths/safe.png) 
@@ -354,7 +372,8 @@ I have also a good news for mathematically shy people: there is still hope ! Wha
  may seem messy and is quite useless presented as is but will prove much clearer with a new perspective which we will 
  present in a new article. This new perspective will help to really understand the **learning flux**. 
 
-But before that, we have to actually use the **learning flux** we have just painfully computed :smiling_imp:
+But before that, we have to actually use the **learning flux** we have just painfully computed :smiling_imp: 
+Let us go the [next article]({% post_url 2021-08-19-weights %}).
 
 <br>
 
@@ -365,3 +384,4 @@ $ \frac{dz}{dx} $ in the formula where we used a partial derivative $ \frac{\par
 previous paragraphs.
 It used to work until now because the $ layers $ considered produced only 1 variable. Hence, 
 the variable we were considering the impact on $ Loss $ was targeted on this unique output variable.
+[back to paragraph](#remark-back)
