@@ -169,7 +169,7 @@ In the [next article]({% post_url 2021-08-06-inside-the-model %}), we will dig d
 
 <br>
 
-<a id="remark" class="anchor" href="#header-title">1:</a>
+<a id="remark" class="anchor" href="#header-title">[1]:</a>
 
 Mathematically speaking we would rather say "evaluate the $ model $" but I prefer to "run the $ model $" because 
 it reminds of its final practical usage: seeing it as an algorithm, it is run on some data to produce some results.

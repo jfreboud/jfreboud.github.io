@@ -377,7 +377,7 @@ Let us go the [next article]({% post_url 2021-08-19-weights %}).
 
 <br>
 
-<a id="remark" class="anchor" href="#header-title">1:</a>
+<a id="remark" class="anchor" href="#header-title">[1]:</a>
 
 In fact the formula we used earlier is meant for functions of 1 variable. This is the reason why we see a 
 $ \frac{dz}{dx} $ in the formula where we used a partial derivative $ \frac{\partial z}{\partial x} $ in the 

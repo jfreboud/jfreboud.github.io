@@ -272,7 +272,7 @@ We will need to compute the others in the [next article]({% post_url 2021-08-13-
 
 <br>
 
-<a id="remark" class="anchor" href="#header-title">1:</a>
+<a id="remark" class="anchor" href="#header-title">[1]:</a>
 
 In fact this means the $ Loss $ function depends on more variables than just $ X^4 $ and $ Y^{truth} $. 
 Talking about $ Loss(X^1, X^2, X^3, X^4, Y^{truth}) $ would be more precise. 
