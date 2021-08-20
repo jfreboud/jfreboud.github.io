@@ -30,7 +30,7 @@ it is the role of the developer to actually build the $ model $. We will see som
 ## Run a model 
 
 Once the $ model $ is built, we can run it 
-<a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[1](#remark)</sup>
+<a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[[1]](#remark)</sup>
 
 - Let $ X $ be the input variable of the $ model $. As $ model $ depends on $ X $, we generally note $ model(X) $ as the 
 mathematical $ model $ function depending on the $ X $ variable. 
@@ -63,8 +63,8 @@ Let us look at some patients' **data**:
 
 | data input | data output (expectation) |
 | ---------------- | ----- |
-| (100 broccoli, 2000 Tagada strawberries, 100 workout hours) | (bad shape) |
-|(200 broccoli,  0 Tagada strawberries, 0 workout hours) | (good shape) |
+| (100 broccoli, 2000 Tagada strawberries, 100 workout hours) | (bad shape)  |
+| (200 broccoli,  0 Tagada strawberries, 0 workout hours)     | (good shape) |
 | (0 broccoli, 2000 Tagada strawberries, 3 000 workout hours) | (good shape) |
 
 ### <span style="text-decoration:underline"> Model </span> 

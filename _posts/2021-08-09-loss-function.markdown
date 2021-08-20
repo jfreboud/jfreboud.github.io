@@ -108,8 +108,8 @@ Same **data** as in the [first article]({% post_url 2021-08-05-general-concepts 
 
 | data input | data output (expectation) |
 | ---------------- | ----- |
-| (100 broccoli, 2000 Tagada strawberries, 100 workout hours) | (bad shape) |
-|(200 broccoli,  0 Tagada strawberries, 0 workout hours) | (good shape) |
+| (100 broccoli, 2000 Tagada strawberries, 100 workout hours) | (bad shape)  |
+| (200 broccoli,  0 Tagada strawberries, 0 workout hours)     | (good shape) |
 | (0 broccoli, 2000 Tagada strawberries, 3 000 workout hours) | (good shape) |
 
 ### <span style="text-decoration:underline"> Model </span> 
@@ -123,9 +123,9 @@ Let us use:
 $$
 \begin{align}
     L1(X^1)  &= X^1 & \text{ with } X^1 = (X^1_1, X^1_2, X^1_3) \\
-    L2(X^2)  &= \frac{1}{200} X^2_1 - \frac{8 800}{11 600 000}  X^2_2 + 
+    L2(X^2)  &= \frac{1}{200} X^2_1 - \frac{3 000}{11 600 000}  X^2_2 + 
         \frac{1}{5 800} X^2_3 & \text{ with } X^2 = (X^2_1, X^2_2, X^2_3) \\
-    L3(X^3)  &= X^3 \text{ if } X^3 > 0 \text{ else } 0  \\ \\
+    L3(X^3)  &= X^3 \text{ if } X^3 \geq 0 \text{ else } 0  \\ \\
     model(X) &= L3(L2(L1(X))) & \text{ with } X = (X_1, X_2, X_3) \\ 
     Loss(X^4, Y^{truth})  &= \frac{1}{2} (X^4 - Y^{truth})^2 
 \end{align}
@@ -151,15 +151,15 @@ First of all let us run the **forward pass**:
 
 | $ o1 $             | $ o2 = L2(o1) $ |
 | :----------------: | :-------------: |
-| (100, 2000, 100)   | (-1)            |
+| (100, 2000, 100)   | (0)             |
 | (200,  0, 0)       | (1)             |
-| (0, 2000, 3 000)   | (-1)            |
+| (0, 2000, 3 000)   | (0)             |
 
 | $ o2 $ | $ o3 = L3(o2) $ |
 | :----: | :-------------: |
-| (-1)   | (0)             |
+| (0)    | (0)             |
 | (1)    | (1)             |
-| (-1)   | (0)             |
+| (0)    | (0)             |
 
 | $ o3 = model(x) $ | $ y^{truth} $ = expected result | $ loss = Loss(o3, y^{truth}) $ | correct ? |
 | :----: | :-----: | :-----: | :---: |
@@ -237,7 +237,7 @@ We need to find to what extent the variable $ X^3 $ causes an error in the $ Los
 
 $$
 \begin{align}
-    L3(X^3)  &= X^3 \text{ if } X^3 > 0 \text{, else } 0 \\ 
+    L3(X^3)  &= X^3 \text{ if } X^3 \geq 0 \text{ else } 0 \\ 
     Loss(X^4, Y^{truth})  &= \frac{1}{2} (X^4 - Y^{truth})^2 \\  
 \end{align}
 $$
@@ -248,7 +248,7 @@ so how could it be responsible for the error highlighted by the $ Loss $ functio
 
 This is due to the structure in $ layers $ of our $ model $. Changing the value that $ X^3 $ takes impacts 
 the $ layers $ that use $ X^3 $ directly ($ L3 $) or indirectly ($ L4 $, $ L5 $, ..., $ Loss $)
-<a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[1](#remark)</sup>
+<a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[[1]](#remark)</sup>
 
 This is the beauty of deep-learning: from a single $ loss $ result, being able to find the different culprits and to 
 what extent they are responsible for the error through a **chain** of $ layers $. 

@@ -81,7 +81,7 @@ We are now able to end the computations we began in the last paragraph of the
 We are looking for a link between $ X^3 $ and $ Loss $. 
 As the [backward pass](#the-backward-pass) suggests, we have to use what we have already computed: 
 $ \delta 4 = \frac{\partial Loss}{\partial X^4}(o3, y^{truth}) $ and what directly uses $ X^3 $ which is $ L3 $: 
-$ L3(X^3) = X^3 \text{ if } X^3 > 0 \text{, else } 0 $. 
+$ L3(X^3) = X^3 \text{ if } X^3 \geq 0 \text{ else } 0 $. 
 
 Then we are able to use the **chain rule** with $ z = Loss $ and $ y = L3 $, the formula becomes: 
 
@@ -99,8 +99,8 @@ and:
 
 $$
 \begin{align}
-    \frac{\partial L3}{\partial X^3} &= \frac{\partial (X^3 \text{ if } X^3 > 0 \text{, else } 0)}{\partial X^3} \text{ with the definition of } L3(X^3) \\
-                                     &= 1 \text{ if } X^3 > 0 \text{, else } 0
+    \frac{\partial L3}{\partial X^3} &= \frac{\partial (X^3 \text{ if } X^3 \geq 0 \text{ else } 0)}{\partial X^3} \text{ with the definition of } L3(X^3) \\
+                                     &= 1 \text{ if } X^3 \geq 0 \text{ else } 0
 \end{align}
 $$
 
@@ -111,8 +111,8 @@ $$
     \frac{\partial Loss}{\partial X^3} &= \frac{\partial Loss}{\partial L3} . 
                                           \frac{\partial L3}{\partial X^3} \\
                                        &= (\frac{\partial Loss}{\partial X^4}) * 
-                                          (1 \text{ if } X^3 > 0 \text{, else } 0) \\
-                                       &= \frac{\partial Loss}{\partial X^4} \text{ if } X^3 > 0 \text{, else } 0
+                                          (1 \text{ if } X^3 \geq 0 \text{ else } 0) \\
+                                       &= \frac{\partial Loss}{\partial X^4} \text{ if } X^3 \geq 0 \text{ else } 0
 \end{align}
 $$
 
@@ -121,15 +121,15 @@ Thus we can evaluate it on the values that produced the errors highlighted by $ 
 
 $$
 \begin{align}
-    \frac{\partial Loss}{\partial X^3}(o2) &= \frac{\partial Loss}{\partial X^4}(o3, y^{truth}) \text{ if } o2 > 0 \text{, else } 0 \\ 
-                                           &= \delta 4 \text{ if } o2 > 0 \text{, else } 0 
+    \frac{\partial Loss}{\partial X^3}(o2) &= \frac{\partial Loss}{\partial X^4}(o3, y^{truth}) \text{ if } o2 \geq 0 \text{ else } 0 \\ 
+                                           &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 
 \end{align}
 $$
 
 We have found: 
 
 $$ 
-\boxed{\delta 3 = \frac{\partial Loss}{\partial X^3}(o2) = \delta 4 \text{ if } o2 > 0 \text{, else } 0}
+\boxed{\delta 3 = \frac{\partial Loss}{\partial X^3}(o2) = \delta 4 \text{ if } o2 \geq 0 \text{ else } 0}
 $$
 
 ### Computing $ \frac{\partial Loss}{\partial X^2} $ 
@@ -137,7 +137,7 @@ $$
 We are looking for a link between $ X^2 $ and $ Loss $. 
 As the [backward pass](#the-backward-pass) suggests, we have to use what we have already computed: 
 $ \delta 3 = \frac{\partial Loss}{\partial X^3}(o2, y^{truth}) $ and what directly uses $ X^2 $ which is $ L2 $: 
-$ L2(X^2) = \frac{1}{200} X^2_1 - \frac{8 800}{11 600 000}  X^2_2 + 
+$ L2(X^2) = \frac{1}{200} X^2_1 - \frac{3 000}{11 600 000}  X^2_2 + 
         \frac{1}{5 800} X^2_3 \text{, with } X^2 = (X^2_1, X^2_2, X^2_3) $. 
 
 We have one problem though, it is that: $ X^2 = (X^2_1, X^2_2, X^2_3) $. 
@@ -167,7 +167,7 @@ and:
 
 $$
 \begin{align}
-    \frac{\partial L2}{\partial X^2_1} &= \frac{\partial (\frac{1}{200} X^2_1 - \frac{8 800}{11 600 000}  X^2_2 + 
+    \frac{\partial L2}{\partial X^2_1} &= \frac{\partial (\frac{1}{200} X^2_1 - \frac{3 000}{11 600 000}  X^2_2 + 
         \frac{1}{5 800} X^2_3)}{\partial X^2_1} \text{ with the definition of } L2(X^2) \\
                                        &= \frac{1}{200}
 \end{align}
@@ -201,7 +201,7 @@ $$
 We do the same to compute: 
 
 $$ 
-\delta 2_2 = \frac{\partial Loss}{\partial X^2_2}(o1) = \delta 3 * (-\frac{8 800}{11 600 000})
+\delta 2_2 = \frac{\partial Loss}{\partial X^2_2}(o1) = \delta 3 * (-\frac{3 000}{11 600 000})
 $$
 
 and 
@@ -213,7 +213,7 @@ $$
 These 3 formulas can be summarized as: 
 
 $$ 
-\boxed{\delta 2 = \delta 3 * (\frac{1}{200}, -\frac{8 800}{11 600 000}, \frac{1}{5 800})}
+\boxed{\delta 2 = \delta 3 * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})}
 $$
 
 ### Computing $ \frac{\partial Loss}{\partial X^1} $ 
@@ -243,7 +243,7 @@ Let us concentrate on the impact of $ X^1_1 $ on the $ Loss $ function. Because 
 this $ X^1_1 $ could impact each of these 3 output variables ! 
 
 Thus we cannot use the **chain rule**
-<a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[1](#remark)</sup>
+<a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[[1]](#remark)</sup>
 Are we going to use another formula ? 
 No because we can think in terms of impacts.
 If we go back to our problem, we have $ X^1_1 $ that could impact three output variables: 

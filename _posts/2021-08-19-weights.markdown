@@ -133,12 +133,6 @@ We will use the same example as in the previous articles. But we will add some *
 
 Same **data** as in the [first article]({% post_url 2021-08-05-general-concepts %}).
 
-| data input | data output (expectation) |
-| ---------------- | ----- |
-| (100 broccoli, 2000 Tagada strawberries, 100 workout hours) | (bad shape) |
-|(200 broccoli,  0 Tagada strawberries, 0 workout hours) | (good shape) |
-| (0 broccoli, 2000 Tagada strawberries, 3 000 workout hours) | (good shape) |
-
 ### <span style="text-decoration:underline"> Model </span> 
 
 We assume we have "nearly" the same $ model $ containing only 3 $ layers $ and a $ Loss $ function. 
@@ -146,7 +140,7 @@ But we modify $ L2 $ to add some **weights**.
 Previously we had: 
 
 $$ 
-L2(X^2) = \frac{1}{200} X^2_1 - \frac{8 800}{11 600 000}  X^2_2 + 
+L2(X^2) = \frac{1}{200} X^2_1 - \frac{3 000}{11 600 000}  X^2_2 + 
         \frac{1}{5 800} X^2_3 \text{ with } X^2 = (X^2_1, X^2_2, X^2_3)
 $$
 
@@ -168,7 +162,7 @@ $$
     L2(X^2, W^2) &= W^2 . X^2          & \text{ with } X^2 = (X^2_1, X^2_2, X^2_3) \\
                  &                     & \text{ and } W^2 = (W^2_1, W^2_2, W^2_3) \\
                  &= W^2_1 . X^2_1 + W^2_2 . X^2_2 + W^2_3 . X^2_3 \\
-    L3(X^3)  &= X^3 \text{ if } X^3 > 0 \text{, else } 0 \\ \\
+    L3(X^3)  &= X^3 \text{ if } X^3 \geq 0 \text{ else } 0 \\ \\
     model(X) &= L3(L2(L1(X))) & \text{ with } X = (X_1, X_2, X_3) \\ 
     Loss(X^4, Y^{truth})  &= \frac{1}{2} (X^4 - Y^{truth})^2 
 \end{align}
@@ -179,13 +173,13 @@ compute something. So let us say that the current values for $ W^2 $ are the sam
 previous $ L2 $ function: 
 
 $$ 
-w^2 = (\frac{1}{200}, -\frac{8 800}{11 600 000}, \frac{1}{5 800})
+w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
 $$
 
 When we evaluate $ L2 $ on $ o1 $ output from $ L1 $ we have:
 
 $$ 
-L2(o1, w^2) = w^2 * o1 = \frac{1}{200} * o^1_1 - \frac{8 800}{11 600 000} * o^1_2 + \frac{1}{5 800} * o^1_3
+L2(o1, w^2) = w^2 * o1 = \frac{1}{200} * o^1_1 - \frac{3 000}{11 600 000} * o^1_2 + \frac{1}{5 800} * o^1_3
 $$
 
 which is exactly what we had when running the forward pass in the previous articles.
@@ -193,12 +187,6 @@ which is exactly what we had when running the forward pass in the previous artic
 ### <span style="text-decoration:underline"> Run the forward pass </span>
 
 Same as in [Loss function article]({% post_url 2021-08-09-loss-function %}):
-
-| $ o3 = model(x) $ | $ y^{truth} $ = expected result | $ loss = Loss(o3, y^{truth}) $ | correct ? |
-| :----: | :-----: | :-----: | :---: |
-| (0) | (0) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
-| (1) | (1) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
-| (0) | (1) | (<span style="color:red">0.5</span>) | ![right](/_assets/images/general/wrong.png) |
 
 ![Warning](/_assets/images/maths/warning.png) mathematically shy people should skip
 
@@ -214,11 +202,11 @@ $$
 $$
 
 $$ 
-\boxed{\delta 3 = \delta 4 \text{ if } o2 > 0 \text{, else } 0}
+\boxed{\delta 3 = \delta 4 \text{ if } o2 \geq 0 \text{ else } 0}
 $$
 
 $$ 
-\delta 2 = \delta 3 * (\frac{1}{200}, -\frac{8 800}{11 600 000}, \frac{1}{5 800})
+\delta 2 = \delta 3 * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
 $$
 
 $$ 
@@ -228,7 +216,7 @@ $$
 But we keep in mind that: 
 
 $$ 
-\boxed{\delta 2 = \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{8 800}{11 600 000}, \frac{1}{5 800})}
+\boxed{\delta 2 = \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})}
 $$
 
 ### <span style="text-decoration:underline"> Run the backward pass for weights </span>
@@ -344,3 +332,172 @@ $$
               &= w^2 - \alpha * \delta 3 * o1
 \end{align}
 $$
+
+And in the paragraph "Run the backward pass for the learning flux" we computed as well:
+
+$$ 
+\boxed{\delta 4 = o3 - y^{truth}} 
+$$
+
+$$ 
+\boxed{\delta 3 = \delta 4 \text{ if } o2 \geq 0 \text{ else } 0}
+$$
+
+So now we can use some numeric values. Let us take $ \alpha = 1.0 $.
+Here are the values we computed during the **forward pass**: 
+
+| $ x $              | $ o1 = L1(x) $   | $ o2 = L2(o1) $ | $ o3 = L3(o2) $ |
+| :----------------: | :--------------: | :-------------: | :-------------: |
+| (100, 2000, 100)   | (100, 2000, 100) | (0)             | (0)             |
+| (200,  0, 0)       | (200,  0, 0)     | (1)             | (1)             |
+| (0, 2000, 3 000)   | (0, 2000, 3 000) | (0)             | (0)             |
+
+| $ o3 = model(x) $ | $ y^{truth} $ = expected result | $ loss = Loss(o3, y^{truth}) $ | correct ? |
+| :----: | :-----: | :-----: | :---: |
+| (0) | (0) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
+| (1) | (1) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
+| (0) | (1) | (<span style="color:red">0.5</span>) | ![right](/_assets/images/general/wrong.png) |
+
+#### Run the model on 1st input data
+
+Let us say we are running our $ model $ on the first **input data**: $ x = (100, 2000, 100) $, we have 
+
+$$
+\begin{align}
+    o3 &= model(x) \\ 
+       &= model((100, 2000, 100)) \\
+       &= (0)
+\end{align}
+$$
+
+Thus we compute: 
+
+$$ 
+\begin{align}
+    \delta 4 &= o3 - y^{truth} \\
+             &= (0) - (0) \\
+             &= (0)
+\end{align}
+$$
+
+then: 
+
+$$ 
+\begin{align}
+    \delta 3 &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 \\
+             &= (0) \text{ if } (0) \geq 0 \text{ else } 0 \\
+             &= (0)
+\end{align}
+$$
+
+and finally: 
+
+$$
+\begin{align}
+    \hat{w^2} &= w^2 - \alpha * \frac{\partial Loss}{\partial W^2}(o1) \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 1 * (0) * (100, 2000, 100) \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
+\end{align}
+$$
+
+So it appears the new value for $ w^2 $ is still the same !
+This is logic because we computed that for this first **data input**, $ loss = 0 $: 
+the $ model $ has already produced the right result and has nothing to learn here.
+
+#### Run the model on 2nd input data
+
+Now let us run our $ model $ on the second **input data**: $ x = (200,  0, 0) $, we have 
+
+$$
+\begin{align}
+    o3 &= model(x) \\ 
+       &= model((200,  0, 0)) \\
+       &= (1)
+\end{align}
+$$
+
+Thus we compute: 
+
+$$ 
+\begin{align}
+    \delta 4 &= o3 - y^{truth} \\
+             &= (1) - (1) \\
+             &= (0)
+\end{align}
+$$
+
+then: 
+
+$$ 
+\begin{align}
+    \delta 3 &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 \\
+             &= (0) \text{ if } (1) \geq 0 \text{ else } 0 \\
+             &= (0)
+\end{align}
+$$
+
+and finally: 
+
+$$
+\begin{align}
+    \hat{w^2} &= w^2 - \alpha * \frac{\partial Loss}{\partial W^2}(o1) \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 1 * (0) * (200,  0, 0) \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
+\end{align}
+$$
+
+Once more, the new value for $ w^2 $ is still the same !
+But we already knew it, because for this second **data input**, $ loss = 0 $ meaning 
+there was nothing to learn here either. 
+
+#### Run the model on 3rd input data
+
+Now let us run our $ model $ on the third **input data**: $ x = (0, 2000, 3 000) $, we have 
+
+$$
+\begin{align}
+    o3 &= model(x) \\ 
+       &= model((0, 2000, 3 000)) \\
+       &= (0)
+\end{align}
+$$
+
+Thus we compute: 
+
+$$ 
+\begin{align}
+    \delta 4 &= o3 - y^{truth} \\
+             &= (0) - (1) \\
+             &= (-1)
+\end{align}
+$$
+
+then: 
+
+$$ 
+\begin{align}
+    \delta 3 &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 \\
+             &= (-1) \text{ if } (0) \geq 0 \text{ else } 0 \\
+             &= (-1)
+\end{align}
+$$
+
+and finally: 
+
+$$
+\begin{align}
+    \hat{w^2} &= w^2 - \alpha * \frac{\partial Loss}{\partial W^2}(o1) \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 1 * (-1) * (0, 2000, 3 000) \\
+              &= (\frac{1}{200}, 2000 - \frac{3 000}{11 600 000}, 3 000 + \frac{1}{5 800})
+\end{align}
+$$
+
+Now we observe a change in the new value for $ w^2 $ !
+Indeed, we were hoping for one as $ loss = 0.5 > 0 $, meaning there was something to learn on this **input data**.
+
+## Conclusion
+
+In this article we finally introduced **weights** in our $ model $. 
+We also use the **learning flux** in order to compute the $ derivative $ function of $ Loss $ according to theses 
+**weights**. And we finally used these $ derivative $ to compute new values for the **weights**. 
+Is the **learning process** over now ?
