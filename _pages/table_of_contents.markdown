@@ -34,3 +34,9 @@ The weights are the learning elements of the deep-learning model: final step of 
 #### 4/ [Recapitulation]({% post_url 2021-08-22-recapitulation %})
 
 We use the different pieces to run the learning phase from scratch.
+
+### The Deep-Learning Algorithm
+
+#### 1/ [The Gradient Descent Algorithm](% post_url 2021-08-32-gradient-descent %)
+
+Toward an iterative algorithm to build a more robust learning.

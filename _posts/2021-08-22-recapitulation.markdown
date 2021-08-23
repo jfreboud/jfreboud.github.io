@@ -40,8 +40,7 @@ the expectation given by the **data output**
     
 5. update the **weights** of $ model $
 
-Do this for all **data input** in the **dataset**, as we want our $ model $ to produce 
-learn on the whole **dataset**. 
+Do this for all **data input** in the **dataset**, as we want our $ model $ to learn on the whole **dataset**. 
 
 ## Example: recapitulation of the state so far
 
@@ -363,7 +362,7 @@ $$
 \end{align}
 $$
 
-Now we have a the new value for $ w^2 $ !
+Now we have a new value for $ w^2 $ !
 We observe that $ loss = 0.5 > 0 $: there was something to learn on this last **data input**.
 Hence the modification of the **weights** to compensate the failure.
 
@@ -379,5 +378,5 @@ The major steps are:
 Is it over now ?
 Yes because we saw the basics of the **learning process**.
 No because we have been heavy on the **learning rate** ($ \alpha $ in the formula to update **weights**). 
-We will see the impact in the next article.
+We will see the impact in the [next article]({% post_url 2021-08-23-gradient-descent %}).
  

@@ -111,7 +111,6 @@ $$
 $$
 
 We use $ \hat{W} $ to formalize the modification of $ W $. 
-We will talk about the intuition for the formula in a later article.
 
 ## The optimizer
 
