@@ -151,12 +151,12 @@ In order to teach the $ model $, we will in fact tell for each of its results
 whether it is right ![right](/_assets/images/general/right.png) or wrong ![wrong](/_assets/images/general/wrong.png). 
 The $ model $ will then **learn** via its **weights**. 
 
-=> We call it the **learning** phase.
+=> We call it the **learning phase**.
 
 Once we are satisfied that our $ model $ has learnt on the **dataset**, we can use the $ model$ on new **data** 
 in order to produce new results. This is the final goal: the student has become the master.
 
-=> This is the **inferring** phase.
+=> This is the **inferring phase**.
 
 ## Conclusion
 
