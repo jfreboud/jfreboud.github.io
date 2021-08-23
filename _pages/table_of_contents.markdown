@@ -31,6 +31,6 @@ The backward pass is the nemesis of the forward pass: this is the second step to
 
 The weights are the learning elements of the deep-learning model: final step of the learning process.
 
-#### 4/ [Recapitulation][{% post_url 2021-08-22-recapitulation %}]
+#### 4/ [Recapitulation]({% post_url 2021-08-22-recapitulation %})
 
 We use the different pieces to run the learning phase from scratch.
