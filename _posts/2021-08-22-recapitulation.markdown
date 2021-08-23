@@ -25,7 +25,7 @@ In this paragraph we are going to use numeric values to see the **learning proce
 
 ## What we do...
 
-In the [first article]({% post_url 2021-08-05-general-concepts %}), we saw that the learning process 
+In the [first article]({% post_url 2021-08-05-general-concepts %}), we saw that the **learning process** 
 of a deep-learning $ model $ happens during the **learning phase**. 
 
 The different steps of the **learning phase** are: 
@@ -129,8 +129,10 @@ $$
 ## Example: learning phase from scratch
 
 Let us run the **learning phase** with this **learning rate** $ \alpha = 1 $.
+The $ model $ has to learn on each **data input** of our **dataset**. 
+Thus we will run the **learning phase** on our 3 **data input**.
 
-### <span style="text-decoration:underline"> Run the model on the 1st data input </span>
+### <span style="text-decoration:underline"> Run the learning phase on the 1st data input </span>
 
 1: **data input**: $ x = (100, 2000, 100) $
 
@@ -208,7 +210,7 @@ So it appears the new value for $ w^2 $ is still the same !
 This is no wonder as for this first **data input**: $ loss = 0 $.
 This $ loss $ value is typical for a $ model $ that has already produced the right result and has nothing to learn.
 
-### <span style="text-decoration:underline"> Run the model on the 2nd data input </span>
+### <span style="text-decoration:underline"> Run the learning phase on the 2nd data input </span>
 
 1: **data input**: $ x = (200, 0, 0) $
 
@@ -286,7 +288,7 @@ Once more, the new value for $ w^2 $ has not changed.
 The same remark as before applies: $ loss = 0 $ means the $ model $ already produced the right result for this 
 second **data input** and has nothing to learn.
 
-### <span style="text-decoration:underline"> Run the model on the 3rd data input </span>
+### <span style="text-decoration:underline"> Run the learning phase on the 3rd data input </span>
 
 1: **data input**: $ x = (0, 2000, 3 000) $
 
@@ -377,5 +379,5 @@ The major steps are:
 Is it over now ?
 Yes because we saw the basics of the **learning process**.
 No because we have been heavy on the **learning rate** ($ \alpha $ in the formula to update **weights**). 
-We will see the impact on the next article.
+We will see the impact in the next article.
  
