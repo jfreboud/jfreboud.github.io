@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Recapitulation for the Learning Process"
+title:  "Learning Process: Recapitulation"
 date:   2021-08-22 10:00:00 +0200
 excerpt: >-
   6/ We use the different pieces to run the learning phase from scratch.
