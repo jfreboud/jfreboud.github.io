@@ -87,8 +87,8 @@ and:
 
 | $ o3 = model(x) $ | $ y^{truth} $ = expected result | $ loss = Loss(o3, y^{truth}) $ | correct ? |
 | :----: | :-----: | :-----: | :---: |
-| (1) | (0) | (<span style="color:red">0.5</span>) | ![wrong](/_assets/images/general/wrong.png) |
-| (1) | (1) | (<span style="color:green">0</span>) | ![right](/_assets/images/general/right.png) |
+| (1) | (0) | (<span style="color:red">0.5</span>)   | ![wrong](/_assets/images/general/wrong.png) |
+| (1) | (1) | (<span style="color:green">0</span>)   | ![right](/_assets/images/general/right.png) |
 | (1) | (1) | (<span style="color:green">0</span>)   | ![right](/_assets/images/general/right.png) |
 
 It appears that $ model $ produces a good value for the last **data input**: the $ model $ has fixed 
@@ -108,7 +108,7 @@ This suggests we should try a smaller **learning rate**.
 Following this idea, we should have many "small understading steps" in order to converge to a robust 
 understanding of the **dataset**.
 
-This is exactly what we will do in the gradient descent algorithm, just modifying the number of times we run 
+This is exactly what we will do in the **gradient descent** algorithm, just modifying the number of times we run 
 every steps of the **learning phase**, as follows: 
 
 1. pick one **data input** in the **dataset**
@@ -134,9 +134,9 @@ $$
 $$
 
 As we already saw, the whole **learning process** is linked to the $ derivative $ of the $ Loss $ function:
-$ \frac{\partial Loss}{\partial W} $ called gradient. It is a "gradient descent" because the $ derivative $ 
+$ \frac{\partial Loss}{\partial W} $ called gradient. It is a **gradient descent** because the $ derivative $ 
 of the $ Loss $ function is the direction of the tangent evaluated on the **data input** for the $ Loss $ function.
-Following this direction allows to minimize the $ Loss $ function step by step.
+Following its "descending" direction allows to minimize the $ Loss $ function step by step.
 
 ## Example: back to the learning phase from scratch
 
@@ -264,7 +264,7 @@ and:
 | :----: | :-----: | :-----: | :---: |
 | (0) | (0) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
 | (1) | (1) | (<span style="color:green">0</span>) | ![right](/_assets/images/general/right.png) |
-| (1) | (1) | (<span style="color:green">0</span>)   | ![right](/_assets/images/general/right.png) |
+| (1) | (1) | (<span style="color:green">0</span>) | ![right](/_assets/images/general/right.png) |
 
 With this small **learning rate**, our $ model $ produces the right results for each **data input** !
 On this simple example, there is no point in continuing the **learning process** by iterating over 
@@ -275,8 +275,10 @@ Yet, it will be necessary to iterate over far more **epochs** on real use cases.
 ## Conclusion
 
 In this article we showed the importance of an iterative process in order to build a robust learning step 
-by step. In deep-learning this algorithm is called "the gradient descent", due to the formula used to update 
+by step. This process is called the **gradient descent** algorithm, due to the formula used to update 
 the **weights**. 
 
 The iteration consists in updating the **weights** of $ model $ for every **data input** in the **dataset**. 
 We call it an **epoch**. Then we do it for several **epochs** until we are satisfied with the results.
+
+In the [next article]({% post_url 2021-08-24-batch-learning %}), we will see a new way to upgrade this algorithm.
