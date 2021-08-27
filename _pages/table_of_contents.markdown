@@ -43,4 +43,4 @@ Toward an iterative algorithm to build a more robust learning.
 
 #### 2/ [Batch Learning]({% post_url 2021-08-24-batch-learning %})
 
-Another idea to build a more robust learning: learn on multiple **data input** at once.
+Another idea to build a more robust learning: learn on multiple data input at once.
