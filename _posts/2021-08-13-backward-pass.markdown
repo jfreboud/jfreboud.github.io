@@ -20,9 +20,9 @@ Before diving into some more computation, let us talk about the **forward pass**
 (first referenced [here]({% post_url 2021-08-06-inside-the-model %})). It has a nemesis in the **backward pass** that 
 plays the kind of the exact opposite role.
 
-The **forward pass** lets the **information flux** go through the different layers from 
+The **forward pass** lets the **information flow** go through the different layers from 
 the **input layer** to the **output layer**. The **backward pass** is about a reversed signal that we could call 
-the **learning flux**. It goes from the **output layer** to the **input layer**.
+the **learning flow**. It goes from the **output layer** to the **input layer**.
 
 If the **input layer** is the place where the **data input** is initialised by the developer in the **forward pass**, 
 it is clear from the early computations we made ($ \delta 4 $) 
@@ -32,7 +32,7 @@ the **backward pass** is initialised.
 There is a final difference between the two: the **forward pass** is run in the **learning phase** and in the 
 **inferring phase** (see "Learning, inferring" in the [first article]({% post_url 2021-08-05-general-concepts %})) 
 while the **backward pass** is only run during the **learning phase**, 
-which comforts its signal naming of **learning flux**.
+which comforts its signal naming of **learning flow**.
 
 ![Layers](/_assets/images/backward/Layer-2.png)
 
@@ -363,16 +363,16 @@ $$
 
 ## Conclusion
 
-What we should keep in mind from all these scary computations is that the **learning flux** has 
+What we should keep in mind from all these scary computations is that the **learning flow** has 
 a rather simple form: it depends on the $ derivative $ of the current $ layer $ multiplied by the previous  
-**learning flux** in the order of the **backward pass**($ \delta 4 $ => $ \delta 3 $ => $ \delta 2 $ => $ \delta 1 $ 
+**learning flow** in the order of the **backward pass**($ \delta 4 $ => $ \delta 3 $ => $ \delta 2 $ => $ \delta 1 $ 
 in the [example](#example)).
 
 I have also a good news for mathematically shy people: there is still hope ! What we saw in the previous paragraph 
  may seem messy and is quite useless presented as is but will prove much clearer with a new perspective which we will 
- present in a new article. This new perspective will help to really understand the **learning flux**. 
+ present in a new article. This new perspective will help to really understand the **learning flow**. 
 
-But before that, we have to actually use the **learning flux** we have just painfully computed :smiling_imp: 
+But before that, we have to actually use the **learning flow** we have just painfully computed :smiling_imp: 
 Let us go the [next article]({% post_url 2021-08-19-weights %}).
 
 <br>

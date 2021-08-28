@@ -8,7 +8,7 @@ excerpt: >-
 
 ## Introduction
 
-In the [previous article]({% post_url 2021-08-13-backward-pass %}), we computed the **learning flux** for each 
+In the [previous article]({% post_url 2021-08-13-backward-pass %}), we computed the **learning flow** for each 
 $ layer $ in our $ model $.  
 
 In this article we will explore the **model's weights**, responsible for the **learning process**. 
@@ -46,7 +46,7 @@ It will stay at the last value it had during the **learning phase**.
 We hope that during the **learning phase** the $ model $'s understanding of the **data** is getting better and better, 
  so that this last value is the best that was learnt during the **training phase**. 
  
-There is one last subtlety about $ W $. It is not linked to the **information flux** so is $ X $. 
+There is one last subtlety about $ W $. It is not linked to the **information flow** so is $ X $. 
 For example if we consider $ L2 $ and $ L3 $: $ X^3 = L2(X^2) $ because of the **forward pass**. It means that 
 during the **forward pass**, the values of these variables are passing from $ L2 $ to $ L3 $. But if $ L2 $ has $ W^2 $, 
 $ W^2 $ value won't change at all during the **forward pass**. It will only be modified when the developer decides.
@@ -195,7 +195,7 @@ Same as in the [Loss function article]({% post_url 2021-08-09-loss-function %}):
 
 ![Warning](/_assets/images/maths/warning.png) mathematically shy people should skip
 
-### <span style="text-decoration:underline"> Run the backward pass for the learning flux </span>
+### <span style="text-decoration:underline"> Run the backward pass for the learning flow </span>
 
 Let us keep in mind the results we already 
 computed in the [Loss function article]({% post_url 2021-08-09-loss-function %}) and 
@@ -227,7 +227,7 @@ $$
 
 ### <span style="text-decoration:underline"> Run the backward pass for the weights </span>
 
-We are now going to use the **learning flux** to compute the $ derivative $ functions of $ Loss $ according to 
+We are now going to use the **learning flow** to compute the $ derivative $ functions of $ Loss $ according to 
 the **weights**. 
 
 As in the [Loss function article]({% post_url 2021-08-09-loss-function %}), we are looking for every $ layer $ 
@@ -341,8 +341,8 @@ $$
 ## Conclusion
 
 In this article we finally introduced **weights** in our $ model $. 
-We used the **learning flux** in order to compute the $ derivative $ functions of $ Loss $ according to these 
-**weights**. In a side note, we remarked that we could merge both the **learning flux** and 
+We used the **learning flow** in order to compute the $ derivative $ functions of $ Loss $ according to these 
+**weights**. In a side note, we remarked that we could merge both the **learning flow** and 
 the $ derivative $ functions of $ Loss $ according to the **weights** in a same step: 
 a generalized **backward pass**. From now on the **backward pass** will refer to this 
 generalized **backward pass**.
@@ -356,11 +356,11 @@ We will recap the whole **learning process** in the [next article]({% post_url 2
 
 <a id="remark" class="anchor" href="#header-title">[1]:</a>
 
-Please note here that as we are doing exactly the same as in the "Run the backward pass for the learning flux" 
-paragraph, we could merge the two steps "backward pass for the learning flux" and 
+Please note here that as we are doing exactly the same as in the "Run the backward pass for the learning flow" 
+paragraph, we could merge the two steps "backward pass for the learning flow" and 
 "backward pass for the weights" into one single **backward pass** that would systematically 
 compute the $ derivative $ of the $ Loss $ function according to the variables declared in the 
 current $ layer $: **input variable** $ X $ or **weights** variables $ W $. 
-These all computations needing the **learning flux** from the previous $ layers $ 
+These all computations needing the **learning flow** from the previous $ layers $ 
 (in the order of the **backward pass**), the logic stays the same.
 [back to paragraph](#remark-back)

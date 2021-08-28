@@ -25,7 +25,7 @@ But we can clearly see what the arrows imply.
 
 ## The forward pass 
 
-The arrows imply a **sequential order**, letting the **information flux** pass through the different $ layers $. 
+The arrows imply a **sequential order**, letting the **information flow** pass through the different $ layers $. 
 
 If we recall the paragraph "Run a model" in the 
 [previous article]({% post_url 2021-08-05-general-concepts %}), we saw that if we consider a $ model $ function, 

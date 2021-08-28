@@ -35,7 +35,7 @@ The different steps of the **learning phase** are:
 3. use the $ Loss $ function to compute the error between the result produced by the $ model $ and 
 the expectation given by the **data output**
 4. run the **backward pass** to compute:
-    - the **learning flux**
+    - the **learning flow**
     - the $ derivative $ of the $ Loss $ function according to $ W $
     
 5. update the **weights** of $ model $

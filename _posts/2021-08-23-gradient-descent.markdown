@@ -116,7 +116,7 @@ every steps of the **learning phase**, as follows:
 3. use the $ Loss $ function to compute the error between the result produced by the $ model $ and 
 the expectation given by the **data output**
 4. run the **backward pass** to compute:
-    - the **learning flux**
+    - the **learning flow**
     - the $ derivative $ of the $ Loss $ function according to $ W $
     
 5. update the **weights** of $ model $
@@ -153,6 +153,32 @@ Thus we will run the **learning phase** on our 3 **data input**: this will be on
 
 We already know that the $ model $ does not learn anything from the first two **data input**.
 We will only compute the **learning phase** on the last **data input**.
+
+Before that, let us recall what we already computed for the **backward pass**.
+
+### <span style="text-decoration:underline"> Run the backward pass </span>
+
+![Layers](/_assets/images/backward/Layer-3.png)
+
+$$ 
+\boxed{\delta 4 = o3 - y^{truth}} 
+$$
+
+$$ 
+\boxed{\delta 3 = \delta 4 \text{ if } o2 \geq 0 \text{ else } 0}
+$$
+
+$$ 
+\boxed{\delta 2 = \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})}
+$$
+
+$$ 
+\boxed{\frac{\partial Loss}{\partial W^2}(o1) = \delta 3 * o1}
+$$
+
+$$
+\boxed{\delta 1 = \delta 2}
+$$
 
 ### <span style="text-decoration:underline"> Run the learning phase on the 3rd data input </span>
 
