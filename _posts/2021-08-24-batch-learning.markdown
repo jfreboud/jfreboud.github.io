@@ -243,12 +243,6 @@ $$
 In this example we will start a new **learning phase** from scratch but this time with 
 a **batch** of size 3. We use the same very small **learning rate** $ \alpha = 10^{-7} $.
 
-Back from the beginning, the values for our **weights** were:
-
-$$ 
-w^2 = (\frac{1}{200}, \frac{3 000}{11 600 000}, \frac{1}{5 800})
-$$
-
 ### <span style="text-decoration:underline"> Data </span>
 
 Same **data** as in the [first article]({% post_url 2021-08-05-general-concepts %}).
@@ -321,8 +315,15 @@ $$
 
 ### <span style="text-decoration:underline"> Run the learning phase on the batch </span>
 
-1: **data input**: $ x^1 = (100, 2000, 100) $, $ x^2 = (200, 0, 0) $, 
-$ x^3 = (0, 2000, 3 000) $
+1: **data input**: 
+
+$$ 
+\begin{align}
+x^1 &= (100, 2000, 100) \\
+x^2 &= (200, 0, 0) \\ 
+x^3 &= (0, 2000, 3 000) 
+\end{align}
+$$
 
 2: run the **forward pass**: 
 
@@ -490,7 +491,7 @@ and:
 
 With this small **learning rate**, our $ model $ produces a wrong result for the last **data input**. 
 We can compare the results we obtained (0.14), (1), (0.43) to the results we obtained in the 
-[previous article]({% 2021-08-23-gradient-descent %}): (0.43), (1), (1.3). We see the results are 
+[previous article]({% post_url 2021-08-23-gradient-descent %}): (0.43), (1), (1.3). We see the results are 
 more "moderated" with the **batch learning** algorithm. This goes along with a more "robust" **learning** 
 on several **epochs**.
 
