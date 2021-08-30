@@ -37,15 +37,64 @@ The systematic way of telling the $ model $ what is right or wrong is the $ Loss
 
 This $ Loss $ function is defined by the developer. 
 It is a function of two variables: $ X $ (as every $ layer $) and 
-$ Y^{truth} $ (the expectation, see the [first article]({% post_url 2021-08-05-general-concepts %})).
+$ Y^{truth} $ (the expectation, see the [first article]({% post_url 2021-08-05-general-concepts %})). 
 
-Its $ X $ variable will receive the result of the **output layer** whereas $ Y^{truth} $ will receive 
+The $ X $ variable will receive the result of the **output layer** whereas $ Y^{truth} $ will receive 
 the expectation given by the **data output**. Hence, the $ Loss $ function will be able to systematically compare 
 them both.
 
 This also implies the $ Loss $ function will be called after the **output layer**: 
 
 ![Layer-1](/_assets/images/backward/Layer-1.png)
+
+We will note $ loss $ when we evaluate the $ Loss $ function on some values. A standard property we want for the 
+$ Loss $ function is that $ loss \geq 0 $. 
+The final goal of **learning** is that $ loss = 0 $ on every **data** of the **dataset**. Said differently 
+we want to minimize the $ Loss $ function.
+
+## The derivative operator
+
+The $ derivative $ operator is what makes the **learning** possible. 
+For an $ f $ function depending on $ X $, we can apply the $ derivative $ operator on $ f $. 
+That way, we build a new function, 
+noted $ \frac{df}{dX} $. This new function can be evaluated on some value, for example $ x $: 
+
+$$ 
+\frac{df}{dX}(x) = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}
+$$
+
+We use the $ \frac{d}{dX} $ notation to apply the operator on a function with only one variable. 
+We will prefer the notation $ \frac{\partial}{\partial X} $ because our functions have potentially several variables.
+
+There are two very interesting properties of this $ derivative $ operator. 
+
+1. It builds kind of a prediction at the point $ x $.
+2. From a explicit formula for $ f $, we are able to compute an explicit formula for $ \frac{\partial f}{\partial X} $. 
+
+The two points are incredibly powerful.
+
+1. When we run the **forward pass** we cannot apply our $ model $ to an infinite number of **data**: we have just a 
+finite number of them. If we consider a well known point ($ x $, $ f(x) $), 
+the $ derivative $ operator links a "theoretical" small move from $ x $ in the $ X $ direction, 
+let say $ \hat{x} = x + h $, to 
+the prediction of the new value $ f(\hat{x}) $. This new point ($ \hat{x} $, $ f(\hat{x}) $) did not exist in the 
+**dataset**. Said differently, we know the impact of $ X $ on $ f $.
+
+2. The $ layer $ structure of our $ model $ will help us compute explicit formulas for the different $ derivatives $ 
+we are looking for thanks to some formulas we learnt at school. 
+What you might have guessed is actually happening now: we are going to apply the 
+$ derivative $ operator to the $ Loss $ function. 
+That way, we will be able to compute the impact of any variable in the $ model $ on 
+the $ Loss $ function. Said differently, we will be able to predict how a slight modification of any variable in 
+the $ model $ will affect the $ loss $ final value. 
+
+You might wonder why it is interesting. Let us put some **learning** variables in our $ model $: the **weights**. 
+Theses **weights** are in fact a moving part: we can **update** their values to make our $ model $ stronger (see this 
+[article]({% post_url 2021-08-19-weights %})).
+
+This means that if we are able to evaluate the $ loss $ of our $ model $ on some **data**, 
+then we will be able to compute the impact of these **weights** on the final $ loss $ and finally **update** 
+these **weights** slightly in order to minimize the $ loss $ value, which is the final goal. 
 
 ## The derivatives of the Loss function
 
@@ -55,12 +104,14 @@ What we have for the moment is:
 2. running the **forward pass** on $ x $ value for $ X $ produces $ model(x) $ 
 3. evaluating $ Loss(model(x), y^{truth}) $ decides whether $ model(x) $ is right or wrong 
 
-What is crucial now for the **learning** process is to find to what extent the variable $ X $ in the $ model $ 
+For now, we have not yet introduced **weights** in our model, but we can already compute to 
+what extent the variable $ X $ in the $ model $ 
 is responsible for the errors that are highlighted by the $ Loss $ function. 
+This will prove useful in order to **update** the **weights** in this 
+[article]({% post_url 2021-08-19-weights %}).
 
-![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [example](#example)
-
-What will give this information is the $ derivative $ function of $ Loss $ according to $ X $: 
+From the [last paragraph](#the-derivative-operator), we also know how to compute the impact of 
+X on the $ Loss $ function, we must compute the $ derivative $ function of $ Loss $ according to $ X $:
 
 $$
 \begin{align}
@@ -89,16 +140,14 @@ $$
 
 But indeed, we want to evaluate the function $ \frac{\partial Loss}{\partial X} $ 
 on the same values $ x $ and $ y^{truth} $ that produced the errors for the function $ Loss(X, Y^{truth}) $.
-Thus, we will consider $ \hat{x} = x $ and $ \hat{y} = y^{truth} $, the formula becomes: 
+Thus, we will consider $ \hat{x} = x $ and $ \hat{y} = y^{truth} $, and we will note $ \delta $ the final result:  
 
 $$
-\boxed{\frac{\partial Loss}{\partial X}(x, y^{truth})}
+\boxed{\delta = \frac{\partial Loss}{\partial X}(x, y^{truth})}
 $$
 
-We could paraphrase the formula as: we want to know to what extent the variable $ X $ has caused an error in the 
-$ model $ when the $ Loss $ function was evaluated on $ x $ and $ y^{truth} $.
-
-![Safe](/_assets/images/maths/safe.png) 
+We could paraphrase the formula as: we want to know to what extent the variable $ X $ causes an error in the 
+$ model $ when the $ Loss $ function is evaluated on $ x $ and $ y^{truth} $ and we slightly disturb $ x $.
 
 ## Example
 
@@ -199,7 +248,7 @@ $$
 Loss(X^4, Y^{truth}) = \frac{1}{2} (X^4 - Y^{truth})^2
 $$
 
-Thus, we can compute an explicit form for the $ derivative $ function of $ Loss $ according to $ X^4 $: 
+Thus, we can compute an explicit formula for the $ derivative $ function of $ Loss $ according to $ X^4 $: 
 
 $$ 
 \begin{align}
@@ -226,7 +275,7 @@ $$
 \boxed{\delta 4 = o3 - y^{truth}} 
 $$
 
-Back to the other $ derivative $ functions, What is the problem now ?
+Back to the other $ derivative $ functions, what is the problem now ?
 Let us look at: 
 
 $$
@@ -250,8 +299,10 @@ This is due to the structure in $ layers $ of our $ model $. Changing the value 
 the $ layers $ that use $ X^3 $ directly ($ L3 $) or indirectly ($ L4 $, $ L5 $, ..., $ Loss $)
 <a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[[1]](#remark)</sup>
 
-This is the beauty of deep-learning: from a single $ loss $ result, being able to find the different culprits and to 
-what extent they are responsible for the error through a **chain** of $ layers $. 
+This is the beauty of the $ derivative $: from a single $ loss $ result, 
+being able to find the different culprits and to 
+what extent they are responsible for the error through a **chain** of $ layers $ (we will talk about this 
+**chaining** aspect in the [next article]({% post_url 2021-08-13-backward-pass %})). 
 
 ![Safe](/_assets/images/maths/safe.png) 
 

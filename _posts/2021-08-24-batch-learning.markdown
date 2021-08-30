@@ -352,7 +352,7 @@ loss^2 &= Loss(o3^2, y^{truth, 2}) \\
 loss^3 &= Loss(o3^3, y^{truth, 3}) \\
        &= (0.5) \\
 loss^{avg} &= \frac{1}{3} * (0 + 0 + 0.5) \\
-           &= \frac{5}{6} 
+           &= \frac{1}{6} 
 \end{align}
 $$
 
