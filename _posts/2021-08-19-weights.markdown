@@ -52,6 +52,19 @@ during the **forward pass**, the values of these variables are passing from $ L2
 $ W^2 $ value won't change at all during the **forward pass**. It will only be modified when the developer decides.
 In that way, $ W $ has a meta role.
 
+## The derivative of Loss according to W
+
+In [this article]({% post_url 2021-08-09-loss-function %}), we talked about "The derivative operator" and showed 
+how it enabled us to compute the impact of any variable in $ model $ on the $ Loss $ function. This will prove 
+useful now.
+
+Because if we accept that the **weights** are a moving part of the $ model $, then we can **update** them 
+to make our $ model $ stronger. 
+
+This means that if we are able to evaluate the $ loss $ of our $ model $ on some **data**, 
+then we will be able to compute the impact of these **weights** on the final $ loss $ and finally **update** 
+these **weights** slightly in order to minimize the $ loss $ value, which is the final goal. 
+
 ![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [next title](#update-the-weights)
 
 ## The backward pass for weights

@@ -9,10 +9,16 @@ excerpt: >-
 ## Introduction
 
 In the [previous article]({% post_url 2021-08-09-loss-function %}), we began to compute the different 
-$ derivative $ functions of $ Loss $ but we were stuck early in the process. 
+$ derivative $ functions of $ Loss $ but we were stuck early in the process: we could only compute 
+$ \delta 4 = \frac{\partial Loss}{\partial X^4}(o3, y^{truth}) $. Indeed, we had the explicit formula linking 
+$ X^4 $ to $ Loss $ and we were able to compute an explicit formula for $ \frac{\partial Loss}{\partial X^4} $.
 
-In this article we will talk about how to use the structure in $ layers $ of our $ model $ to compute the lasting 
-$ derivative $ functions. 
+But our $ model $ is composed of other variables and we must compute the impact of each and every of them on 
+$ Loss $. 
+The reason for that will be explained in the [next article]({% post_url 2021-08-19-weights %}).
+
+In this article we will see how the structure in $ layers $ of our $ model $ helps us to compute the impacts of the 
+**inner variables** of the $ model $ on the $ Loss $ function.
 
 ## The backward pass
 
@@ -36,19 +42,35 @@ which comforts its signal naming of **learning flow**.
 
 ![Layers](/_assets/images/backward/Layer-2.png)
 
+To be a little more specific, we can look at some $ L^k $ $ layer $ in particular.
+By definition we have an explicit formula for $ L^k $ function. Running its **forward pass** is easy: 
+we just consider that the previous result (in the **forward pass** order) $ o^{k-1} $ has already been 
+computed. This enables us to compute $ o^{k} $.
+
+![Forward](/_assets/images/backward/Forward.png)
+
+But for the backward pass we do the reverse logic. We must consider we already have computed $ \delta^{k} $ and 
+we are trying to **propagate** to the previous $ L^{k-1} $ $ layer $, computing $ \delta^{k-1} $. In order to compute 
+this $ \delta^{k-1} $ we will have to compute a new formula based on the definition of $ L^k $ and its link to 
+the $ Loss $ function. We will establish this link with the **chain rule**.
+
+![Backward](/_assets/images/backward/Backward.png)
+
 ![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [conlusion](#conclusion)
 
 ## The Chain rule
 
-Back to the [previous article]({% post_url 2021-08-09-loss-function %}), we now have to compute the $ derivative $ functions 
-of $ Loss $ according to $ X^k $ for $ X^k $ the dependency variable of $ Lk $. And do this for every $ layer $:
+Back to the [previous article]({% post_url 2021-08-09-loss-function %}), we now have to compute the impact of 
+each **inner variable** on the $ Loss $ function. As we saw, we have to use the $ derivative $ operator 
+on $ Loss $ according to the **inner variable** considered. So for every $ L^{k} $ $ layer $ which depends on 
+$ X^{k} $ we have to compute: 
 
 $$
 \frac{\partial Loss}{\partial X^k}
 $$
 
-We saw that the impact of the $ X^k $ dependency variable of $ Lk $ on the $ Loss $ 
-is indirect which explains why it is not obvious to compute the $ derivative $ function of $ Loss $ according to $ X^k $. 
+But we have a problem: the link between an **inner variable** $ X^k $ and $ Loss $ is by definition indirect. 
+So we will have to do some work to obtain an explicit formula for $ \frac{\partial Loss}{\partial X^k} $.
 
 In fact we have to use the **chain rule**, here on [Wikipedia](https://en.wikipedia.org/wiki/Chain_rule): 
 
@@ -99,8 +121,8 @@ and:
 
 $$
 \begin{align}
-    \frac{\partial L3}{\partial X^3} &= \frac{\partial (X^3 \text{ if } X^3 \geq 0 \text{ else } 0)}{\partial X^3} \text{ with the definition of } L3(X^3) \\
-                                     &= 1 \text{ if } X^3 \geq 0 \text{ else } 0
+\frac{\partial L3}{\partial X^3} &= \frac{\partial (X^3 \text{ if } X^3 \geq 0 \text{ else } 0)}{\partial X^3} \text{ with the definition of } L3(X^3) \\
+                                 &= 1 \text{ if } X^3 \geq 0 \text{ else } 0
 \end{align}
 $$
 
@@ -108,21 +130,22 @@ Assembling those results:
 
 $$
 \begin{align}
-    \frac{\partial Loss}{\partial X^3} &= \frac{\partial Loss}{\partial L3} . 
-                                          \frac{\partial L3}{\partial X^3} \\
-                                       &= (\frac{\partial Loss}{\partial X^4}) * 
-                                          (1 \text{ if } X^3 \geq 0 \text{ else } 0) \\
-                                       &= \frac{\partial Loss}{\partial X^4} \text{ if } X^3 \geq 0 \text{ else } 0
+\frac{\partial Loss}{\partial X^3} &= \frac{\partial Loss}{\partial L3} . 
+                                      \frac{\partial L3}{\partial X^3} \\
+                                   &= (\frac{\partial Loss}{\partial X^4}) * 
+                                      (1 \text{ if } X^3 \geq 0 \text{ else } 0) \\
+                                   &= \frac{\partial Loss}{\partial X^4} \text{ if } X^3 \geq 0 \text{ else } 0
 \end{align}
 $$
 
-Do not forget that $ \frac{\partial Loss}{\partial X^3} $ is a function depending on $ X^3 $. 
-Thus we can evaluate it on the values that produced the errors highlighted by $ Loss $: 
+We can now evaluate this function on the values that have produced the final
+$ loss $, let $ \delta 3 $ be this result:
 
 $$
 \begin{align}
-    \frac{\partial Loss}{\partial X^3}(o2) &= \frac{\partial Loss}{\partial X^4}(o3, y^{truth}) \text{ if } o2 \geq 0 \text{ else } 0 \\ 
-                                           &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 
+\delta 3 &= \frac{\partial Loss}{\partial X^3}(o2) \\
+         &= \frac{\partial Loss}{\partial X^4}(o3, y^{truth}) \text{ if } o2 \geq 0 \text{ else } 0 \\ 
+         &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 
 \end{align}
 $$
 
@@ -141,8 +164,8 @@ $ L2(X^2) = \frac{1}{200} X^2_1 - \frac{3 000}{11 600 000}  X^2_2 +
         \frac{1}{5 800} X^2_3 \text{, with } X^2 = (X^2_1, X^2_2, X^2_3) $. 
 
 We have one problem though, it is that: $ X^2 = (X^2_1, X^2_2, X^2_3) $. 
-Each of these variables $ X^2_1 $, $ X^2_2 $, $ X^2_3 $ is responsible 
-for the error highlighted by the $ Loss $ function.
+And we told in the [introduction](#introduction) that we want to compute the impact of 
+each and every variable of $ model $ on the $ Loss $ function. 
 This means we have to compute the $ derivative $ functions of $ Loss $ according to each of them: 
 
 $$
@@ -182,13 +205,14 @@ $$
 \end{align}
 $$
 
-Do not forget that $ \frac{\partial Loss}{\partial X^2_1} $ is a function depending on $ X^2 $. 
-Thus we can apply it on the values that produced the errors highlighted by $ Loss $: 
+We can now evaluate this function on the values that have produced the final
+$ loss $, let $ \delta 2_1 $ be this result:
 
 $$
 \begin{align}
-    \frac{\partial Loss}{\partial X^2_1}(o1) &= \frac{\partial Loss}{\partial X^3}(o2) *  \frac{1}{200} \\ 
-                                             &= \delta 3 * \frac{1}{200}
+\delta 2_1 &= \frac{\partial Loss}{\partial X^2_1}(o1) \\
+           &= \frac{\partial Loss}{\partial X^3}(o2) *  \frac{1}{200} \\ 
+           &= \delta 3 * \frac{1}{200}
 \end{align}
 $$
 
@@ -224,8 +248,8 @@ $ \delta 2 = \frac{\partial Loss}{\partial X^2}(o1, y^{truth}) $ and what direct
 $ L1(X^1) = X^1 \text{, with } X^1 = (X^1_1, X^1_2, X^1_3) $. 
 
 We have the same problem as in the previous paragraph: $ X^1 = (X^1_1, X^1_2, X^1_3) $. 
-Each of these variables $ X^1_1 $, $ X^1_2 $, $ X^1_3 $ is responsible 
-for the error highlighted by the $ Loss $ function.
+We told in the [introduction](#introduction) that we want to compute the impact of 
+each and every variable of $ model $ on the $ Loss $ function. 
 This means we have to compute the $ derivative $ functions of $ Loss $ according to each of them: 
 
 $$
@@ -319,13 +343,14 @@ $$
 \end{align}
 $$
 
-Do not forget that $ \frac{\partial Loss}{\partial X^1_1} $ is a function depending on $ X^1_1 $. 
-Thus we can apply it on the values that produced the errors highlighted by $ Loss $: 
+We can now evaluate this function on the values that have produced the final
+$ loss $, let $ \delta 1_1 $ be this result:
 
 $$
 \begin{align}
-    \frac{\partial Loss}{\partial X^1_1}(x) &= \frac{\partial Loss}{\partial X^2_1}(o1) * (1, 0, 0) \\ 
-                                            &= \delta 2_1 * (1, 0, 0)
+\delta 1_1 &= \frac{\partial Loss}{\partial X^1_1}(x) \\
+           &= \frac{\partial Loss}{\partial X^2_1}(o1) * (1, 0, 0) \\ 
+           &= \delta 2_1 * (1, 0, 0)
 \end{align}
 $$
 
@@ -363,24 +388,33 @@ $$
 
 ## Conclusion
 
-What we should keep in mind from all these scary computations is that the **learning flow** has 
-a rather simple form: it depends on the $ derivative $ of the current $ layer $ multiplied by the previous  
-**learning flow** in the order of the **backward pass**($ \delta 4 $ => $ \delta 3 $ => $ \delta 2 $ => $ \delta 1 $ 
-in the [example](#example)).
+In this article, we introduced the **learning flow** which propagates during the **backward pass**. 
+The order of propagation is the exact reverse as the **information flow** of the **forward pass**.
 
-I have also a good news for mathematically shy people: there is still hope ! What we saw in the previous paragraph 
- may seem messy and is quite useless presented as is but will prove much clearer with a new perspective which we will 
- present in a new article. This new perspective will help to really understand the **learning flow**. 
+We also had to compute the **learning flow** because it's formula is not given by the $ model $ definition as 
+the **information flow** is. 
 
-But before that, we have to actually use the **learning flow** we have just painfully computed :smiling_imp: 
-Let us go the [next article]({% post_url 2021-08-19-weights %}).
+We may have found those computations scary. And there are two main remedies about that.
+Either we use an existing framework that will automatically compute the **backward pass** for us or we choose 
+to fully understand this back propagation. 
+
+In the first situation we might lose what is really at the core of **learning**. Which is the reason why 
+we will spend some time to see a new perspective that should help understand this **backward pass** better. 
+
+For now we only keep in mind that the general form of the **learning flow** is simple: it depends on the 
+$ derivative $ of the "current" $ layer $ evaluated on the "previous" outputs 
+multiplied by the "future" $ layer $ own **learning flow** (if "current" is $ L^{k} $, "future" would be $ L^{k+1} $ 
+and "previous" would be $ L^{k-1} $). 
+
+Finally we did not explain why we computed this **learning flow** yet !
+This is what we will see in the [next article]({% post_url 2021-08-19-weights %}). 
 
 <br>
 
 <a id="remark" class="anchor" href="#header-title">[1]:</a>
 
-In fact the formula we used earlier is meant for functions of 1 variable. This is the reason why we see a 
-$ \frac{dz}{dx} $ in the formula where we used a partial derivative $ \frac{\partial z}{\partial x} $ in the 
+In fact the [chain rule](#the-chain-rule) formula is meant for functions of 1 variable. This is the reason why we see a 
+$ \frac{dz}{dx} $ where we used a partial derivative $ \frac{\partial z}{\partial x} $ in the 
 previous paragraphs.
 It used to work until now because the $ layers $ considered produced only 1 variable. Hence, 
 the variable we were considering the impact on $ Loss $ was targeted on this unique output variable.

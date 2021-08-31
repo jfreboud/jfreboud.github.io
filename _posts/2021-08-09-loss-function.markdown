@@ -75,7 +75,7 @@ The two points are incredibly powerful.
 
 1. When we run the **forward pass** we cannot apply our $ model $ to an infinite number of **data**: we have just a 
 finite number of them. If we consider a well known point ($ x $, $ f(x) $), 
-the $ derivative $ operator links a "theoretical" small move from $ x $ in the $ X $ direction, 
+the $ derivative $ operator links a "theoretical" small move from $ x $ in the $ X $ variable direction, 
 let say $ \hat{x} = x + h $, to 
 the prediction of the new value $ f(\hat{x}) $. This new point ($ \hat{x} $, $ f(\hat{x}) $) did not exist in the 
 **dataset**. Said differently, we know the impact of $ X $ on $ f $.
@@ -88,15 +88,9 @@ That way, we will be able to compute the impact of any variable in the $ model $
 the $ Loss $ function. Said differently, we will be able to predict how a slight modification of any variable in 
 the $ model $ will affect the $ loss $ final value. 
 
-You might wonder why it is interesting. Let us put some **learning** variables in our $ model $: the **weights**. 
-Theses **weights** are in fact a moving part: we can **update** their values to make our $ model $ stronger (see this 
-[article]({% post_url 2021-08-19-weights %})).
+We will see why this is interesting in a [later article]({% post_url 2021-08-19-weights %}).
 
-This means that if we are able to evaluate the $ loss $ of our $ model $ on some **data**, 
-then we will be able to compute the impact of these **weights** on the final $ loss $ and finally **update** 
-these **weights** slightly in order to minimize the $ loss $ value, which is the final goal. 
-
-## The derivatives of the Loss function
+## The derivative of the Loss function
 
 What we have for the moment is: 
 
@@ -104,14 +98,13 @@ What we have for the moment is:
 2. running the **forward pass** on $ x $ value for $ X $ produces $ model(x) $ 
 3. evaluating $ Loss(model(x), y^{truth}) $ decides whether $ model(x) $ is right or wrong 
 
-For now, we have not yet introduced **weights** in our model, but we can already compute to 
-what extent the variable $ X $ in the $ model $ 
+We can already compute to what extent the variable $ X $ in the $ model $ 
 is responsible for the errors that are highlighted by the $ Loss $ function. 
-This will prove useful in order to **update** the **weights** in this 
+Spoiler alert: this will prove useful in order to **update** the **weights** in this 
 [article]({% post_url 2021-08-19-weights %}).
 
 From the [last paragraph](#the-derivative-operator), we also know how to compute the impact of 
-X on the $ Loss $ function, we must compute the $ derivative $ function of $ Loss $ according to $ X $:
+$ X $ on the $ Loss $ function, we must compute the $ derivative $ function of $ Loss $ according to $ X $:
 
 $$
 \begin{align}
@@ -263,9 +256,9 @@ $ loss = Loss(o3, y^{truth}) $, let $ \delta 4 $ be this result:
 
 $$ 
 \begin{align}
-    \delta 4 &= \frac{\partial Loss}{\partial X^4}(o3, y^{truth}) \\
-             &= X^4 - Y^{truth} \text{ evaluated on } (o3, y^{truth}) \\
-             &= o3 - y^{truth}
+\delta 4 &= \frac{\partial Loss}{\partial X^4}(o3, y^{truth}) \\
+         &= X^4 - Y^{truth} \text{ evaluated on } (o3, y^{truth}) \\
+         &= o3 - y^{truth}
 \end{align}
 $$
 
@@ -286,8 +279,8 @@ We need to find to what extent the variable $ X^3 $ causes an error in the $ Los
 
 $$
 \begin{align}
-    L3(X^3)  &= X^3 \text{ if } X^3 \geq 0 \text{ else } 0 \\ 
-    Loss(X^4, Y^{truth})  &= \frac{1}{2} (X^4 - Y^{truth})^2 \\  
+L3(X^3)  &= X^3 \text{ if } X^3 \geq 0 \text{ else } 0 \\ 
+Loss(X^4, Y^{truth})  &= \frac{1}{2} (X^4 - Y^{truth})^2 \\  
 \end{align}
 $$
 
@@ -308,18 +301,20 @@ what extent they are responsible for the error through a **chain** of $ layers $
 
 ## Conclusion
 
-In this article, we saw the importance of the $ Loss $ function is order to set what results of $ model $ are right 
+In this article, we saw the importance of the $ Loss $ function in order to set what results of $ model $ are right 
 or wrong. 
 
 We also saw the $ derivative $ of $ Loss $ according to $ X $ that allows to measure to what extent $ X $ is responsible 
- for the final error: 
+ for the final error when we slightly disturb $ x $: 
  
 $$
-\boxed{\frac{\partial Loss}{\partial X}}
+\boxed{\delta = \frac{\partial Loss}{\partial X}(x)}
 $$
 
-We were able to compute this $ derivative $ function for the final variable but not for inner variables yet. 
-We will need to compute the others in the [next article]({% post_url 2021-08-13-backward-pass %}) :smiling_imp:
+We were able to compute this $ derivative $ function according to the **final variable** but not 
+according to the **inner variables**. 
+We will need to see how it works for the **inner variables** 
+in the [next article]({% post_url 2021-08-13-backward-pass %}) :smiling_imp:
 
 <br>
 
