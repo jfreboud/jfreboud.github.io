@@ -55,7 +55,7 @@ we want to minimize the $ Loss $ function.
 ## The derivative operator
 
 The $ derivative $ operator is what makes the **learning** possible. 
-For an $ f $ function depending on $ X $, we can apply the $ derivative $ operator on $ f $. 
+For an $ f $ function depending on $ X $, we can apply the $ derivative $ operator on $ f $ according to $ X $. 
 That way, we build a new function, 
 noted $ \frac{df}{dX} $. This new function can be evaluated on some value, for example $ x $: 
 
@@ -86,9 +86,24 @@ What you might have guessed is actually happening now: we are going to apply the
 $ derivative $ operator to the $ Loss $ function. 
 That way, we will be able to compute the impact of any variable in the $ model $ on 
 the $ Loss $ function. Said differently, we will be able to predict how a slight modification of any variable in 
-the $ model $ will affect the $ loss $ final value. 
+the $ model $ will affect the $ loss $ final value. We will see why this is interesting in a 
+[later article]({% post_url 2021-08-19-weights %}).
 
-We will see why this is interesting in a [later article]({% post_url 2021-08-19-weights %}).
+More practically we will keep in mind that applying the $ derivative $ operator on $ f $ according to $ X $, 
+gives us a new function for which we can compute an explicit formula: 
+
+$$
+\begin{align}
+    derivative \text{ }f \text{ according to } X &= \frac{\partial}{\partial X}(f(X)) \\ 
+                                                 &= \frac{\partial f}{\partial X}
+\end{align}
+$$
+
+Once we get the explicit formula, we can evaluate this function on $ x $:
+
+$$ 
+\boxed{\frac{\partial f}{\partial X}(x)}
+$$
 
 ## The derivative of the Loss function
 
@@ -99,12 +114,11 @@ What we have for the moment is:
 3. evaluating $ Loss(model(x), y^{truth}) $ decides whether $ model(x) $ is right or wrong 
 
 We can already compute to what extent the variable $ X $ in the $ model $ 
-is responsible for the errors that are highlighted by the $ Loss $ function. 
-Spoiler alert: this will prove useful in order to **update** the **weights** in this 
-[article]({% post_url 2021-08-19-weights %}).
+is responsible for the errors that are highlighted by the $ Loss $ function. For the moment we do not really 
+know why this is useful (we will talk about it in [this article]({% post_url 2021-08-19-weights %})).
 
-From the [last paragraph](#the-derivative-operator), we also know how to compute the impact of 
-$ X $ on the $ Loss $ function, we must compute the $ derivative $ function of $ Loss $ according to $ X $:
+Thanks to the [last paragraph](#the-derivative-operator), 
+we have to compute the $ derivative $ function of $ Loss $ according to $ X $:
 
 $$
 \begin{align}
@@ -113,27 +127,18 @@ $$
 \end{align}
 $$
 
-Let us keep in mind this formula for the $ derivative $ function of $ Loss $ according to $ X $: 
+Let us keep in mind this formula: 
 
 $$
 \boxed{\frac{\partial Loss}{\partial X}} 
 $$
 
-Back to the paragraph "Run a model" in the [first article]({% post_url 2021-08-05-general-concepts %}), 
-we introduced the notation $ X $ for an "abstract" variable and $ x $ for a "real" value taken by the variable.
-This will prove to be useful now. 
+Then we also know that we have to evaluate this function. What values should we choose for this evaluation ?
 
-The $ derivative $ function, is a function... And it produces the same kind of results 
-as $ Loss(X, Y^{truth}) $. Let $ \hat{X} $ and $ \hat{Y} $ be the dependency variables of the $ derivative $ function. 
-To produce results, we will evaluate this function on $ \hat{x} $ and $ \hat{y} $: 
-
-$$
-\frac{\partial Loss}{\partial X}(\hat{x}, \hat{y})
-$$
-
-But indeed, we want to evaluate the function $ \frac{\partial Loss}{\partial X} $ 
-on the same values $ x $ and $ y^{truth} $ that produced the errors for the function $ Loss(X, Y^{truth}) $.
-Thus, we will consider $ \hat{x} = x $ and $ \hat{y} = y^{truth} $, and we will note $ \delta $ the final result:  
+We want to evaluate $ \frac{\partial Loss}{\partial X} $ 
+on the same values $ x $ and $ y^{truth} $ that produced the errors for the function $ Loss(model(X), Y^{truth}) $, 
+with $ x $ the **data** that was taken from our **dataset** and $ y^{truth} $ the associated **expectation**. 
+We will call this final result $ \delta $: 
 
 $$
 \boxed{\delta = \frac{\partial Loss}{\partial X}(x, y^{truth})}
@@ -217,7 +222,8 @@ The $ loss $ is indeed an indicator of the error of the results produced by the 
 
 ![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [conlusion](#conclusion)
 
-Let us try to compute the $ derivative $ function of our $ Loss $ function according to $ X $ in our $ model $: 
+Let us try to compute the explicit formula for the $ derivative $ function of our $ Loss $ function 
+according to $ X $ in our $ model $: 
 
 $$
 \frac{\partial Loss}{\partial X}

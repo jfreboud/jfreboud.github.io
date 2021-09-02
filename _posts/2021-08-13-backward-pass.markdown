@@ -50,8 +50,8 @@ computed. This enables us to compute $ o^{k} $.
 ![Forward](/_assets/images/backward/Forward.png)
 
 But for the backward pass we do the reverse logic. We must consider we already have computed $ \delta^{k} $ and 
-we are trying to **propagate** to the previous $ L^{k-1} $ $ layer $, computing $ \delta^{k-1} $. In order to compute 
-this $ \delta^{k-1} $ we will have to compute a new formula based on the definition of $ L^k $ and its link to 
+we want to **propagate** to the previous $ L^{k-1} $ $ layer $, computing $ \delta^{k-1} $. In order to compute 
+this $ \delta^{k-1} $ we have to compute a new formula based on the definition of $ L^{k-1} $ and its link to 
 the $ Loss $ function. We will establish this link with the **chain rule**.
 
 ![Backward](/_assets/images/backward/Backward.png)
@@ -401,13 +401,13 @@ to fully understand this back propagation.
 In the first situation we might lose what is really at the core of **learning**. Which is the reason why 
 we will spend some time to see a new perspective that should help understand this **backward pass** better. 
 
-For now we only keep in mind that the general form of the **learning flow** is simple: it depends on the 
+For now we only keep in mind the general form of the **learning flow**: it depends on the 
 $ derivative $ of the "current" $ layer $ evaluated on the "previous" outputs 
-multiplied by the "future" $ layer $ own **learning flow** (if "current" is $ L^{k} $, "future" would be $ L^{k+1} $ 
+multiplied by the "future" $ layer $'s own **learning flow** (if "current" is $ L^{k} $, "future" would be $ L^{k+1} $ 
 and "previous" would be $ L^{k-1} $). 
 
 Finally we did not explain why we computed this **learning flow** yet !
-This is what we will see in the [next article]({% post_url 2021-08-19-weights %}). 
+This is what we will see in the [next article]({% post_url 2021-08-19-weights %}) :smiling_imp:
 
 <br>
 

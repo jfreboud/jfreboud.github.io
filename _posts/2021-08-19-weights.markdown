@@ -11,34 +11,61 @@ excerpt: >-
 In the [previous article]({% post_url 2021-08-13-backward-pass %}), we computed the **learning flow** for each 
 $ layer $ in our $ model $.  
 
-In this article we will explore the **model's weights**, responsible for the **learning process**. 
+In this article we will explore the reason for these computations: **update** the **model's weights**. 
+But before that, let us introduce the $ model $'s **weights**, responsible for the **learning process** :smiling_imp:
 
 ## The model's weights
 
 We have spoken about them for a long time now. But what are they ? 
+
 Well, just another variable. We already saw a few of them: $ X $ the generic input variable of a $ layer $. 
 $ Y^{truth} $ a variable used in the $ Loss $ function to receive the **expectations**. Here we introduce $ W $, 
 the **weights**. They are the essential part for the $ model $ to be trained.
 
-For now, none of the $ model $ functions we used in the different examples had weights. We have to add them in 
-the $ layers $ of our $ model $. But it is not necessary to use them in every $ layer $. 
+In fact, if the **weights** were really just another variable, 
+we could have incorporated them in the $ X $ generic variable 
+(which is itself potentially multi dimensional). But there are two main differences between $ X $ and $ W $: 
 
-So for each $ layer $ $ L^k $ that declares **weights**, we will have two dependencies: $ X^k $ and $ W^k $.
+1. $ W $ does not receive its value from the previous $ layer $ such as $ X $
+2. $ W $ values do not come from the **data** but are given by the developer
+
+Understanding the real effect of **weights** on a $ model $ is not that easy. We will speak about it longer 
+in later articles. The principal property that is interesting about them is that they are the only moving part of the 
+$ model $ the developer has access to. 
+
+What does this mean ?
+Let us consider the small scenario:
+
+1. If we pick one **data** in a **dataset** and compute a **forward pass** on it, we produce some results.
+2. If we pick the exact same **data** in the **dataset** and compute a **forward pass** on it, we produce the 
+exact same results. 
+
+But as our goal is to learn from our failures we will use the **weights** in order to change that state: 
+1. If we pick the previous **data** in the **dataset**, we compute a **forward pass** to produce some results
+2. We **update** the **weights** values in order to learn
+3. If we pick the exact same **data** in the **dataset** and compute a **forward pass** on it, the result we be 
+different now.
+
+For now, none of the $ model $ functions we used in the different examples had **weights**. In order to see 
+how to deal with them, we will modify some parts of our [example](#example) to add some of them.
+Note that it is not necessary to use them in every $ layer $ (we will talk about that longer in later 
+articles).
+
+So for each $ layer $ $ L^k $ that declares **weights**, we have two dependencies: $ X^k $ and $ W^k $.
 And for each $ layer $ $ L^i $ that does not declare **weights**, we stay with one dependency: $ X^i $.
 
 ## The learning process 
 
-What about the learning part ? 
-In the paragraph "Learning, inferring" of the [first article]({% post_url 2021-08-05-general-concepts %}), we 
-wanted to "teach" the $ model $ so that it learns to produce good results on the **data**. We even mentioned the 
-learning part to be linked with the **weights**.
+We have just introduced the **weights** and said that the developer can change their values.
+In this paragraph we elaborate on the special moment when the developer **updates** them: this is 
+at the core of the **learning** process.
 
-In fact $ W $ is a special variable: sometimes it will be a variable and sometimes not.
+There is one last property that makes $ W $ so special: sometimes it will be a variable and sometimes not.
 That is the main reason of the existence of the **learning phase** we introduced in the 
 [first article]({% post_url 2021-08-05-general-concepts %}). 
 
-During the **learning phase**, $ W $ will be a variable and we will modify it so that the modifications help the 
-$ model $ to produce better results. 
+During the **learning phase**, $ W $ will be a variable and the developer will modify it 
+so that the modifications help the $ model $ to produce better results. 
 
 During the **inferring phase**, $ W $ won't be a variable any more. 
 It will stay at the last value it had during the **learning phase**. 
@@ -46,100 +73,173 @@ It will stay at the last value it had during the **learning phase**.
 We hope that during the **learning phase** the $ model $'s understanding of the **data** is getting better and better, 
  so that this last value is the best that was learnt during the **training phase**. 
  
-There is one last subtlety about $ W $. It is not linked to the **information flow** so is $ X $. 
-For example if we consider $ L2 $ and $ L3 $: $ X^3 = L2(X^2) $ because of the **forward pass**. It means that 
-during the **forward pass**, the values of these variables are passing from $ L2 $ to $ L3 $. But if $ L2 $ has $ W^2 $, 
-$ W^2 $ value won't change at all during the **forward pass**. It will only be modified when the developer decides.
-In that way, $ W $ has a meta role.
+What is important to keep in mind here is that the **weights** have a meta role. They are a junction between the 
+developer and the $ model $. During the **learning phase** the developer actively **updates** the **weights** 
+for the $ model $ to perform better. During the **inferring phase** the developer passively waits for the 
+$ model $ to produce new results.
 
 ## The derivative of Loss according to W
 
-In [this article]({% post_url 2021-08-09-loss-function %}), we talked about "The derivative operator" and showed 
-how it enabled us to compute the impact of any variable in $ model $ on the $ Loss $ function. This will prove 
-useful now.
+We have just accepted that the **weights** are a moving part of the $ model $ and that 
+the developer has to **update** them to make our $ model $ stronger. But we do not know how to **update** them.
+The idea is to the the $ derivative $ operator.
 
-Because if we accept that the **weights** are a moving part of the $ model $, then we can **update** them 
-to make our $ model $ stronger. 
+In [this article]({% post_url 2021-08-09-loss-function %}), we saw how "The derivative operator" enables us to 
+compute the impact of any variable in $ model $ on the $ Loss $ function. 
 
-This means that if we are able to evaluate the $ loss $ of our $ model $ on some **data**, 
-then we will be able to compute the impact of these **weights** on the final $ loss $ and finally **update** 
-these **weights** slightly in order to minimize the $ loss $ value, which is the final goal. 
+More specifically we start  
+running the **forward pass** of our $ model $ on some $ x $ **data** in the **dataset**. Then we observe the results 
+produced by the $ model $ and the final $ loss $ value. Finally the magical move is that we can disturb slightly any 
+variable of our $ model $ and still be able to "predict" what the new final error $ loss $ will be consequently 
+to that change. 
 
-![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [next title](#update-the-weights)
+We choose to apply our magical move to the $ W $ variable: we can disturb our **weights** slightly and still be able 
+to "predict" the new final $ loss $ value. But in fact we do not really care about predicting this 
+new value, what we really want is to minimize the $ loss $...
+
+This comes down to analysing the direction of modification for $ W $. We can disturb it positively or negatively. 
+But as we know how to predict the new value of $ loss $ after the change, we know which direction, positive or
+negative, will bring a decrease in the $ loss $ value. 
+
+Let us have a look at a one dimensional example.
+Some years ago, we would hear our mathematical teacher say that: 
+"the slope of the tangent line at a point on the function is equal to the derivative of the function at the same point".
+
+![Tangent](/_assets/images/backward/tangent.png)
+
+On this example the slope is positive (the tangent is "climbing the hill"). This means that if we add a small 
+positive number to $ x $: let $ h $ be it, we can "predict" that $ f(x + h) > f(x) $ which is not what we want. 
+But if we add the same number negatively we "predict" that: $ f(x - h) < f(x) $ which is what we are looking for. 
+
+Note that if the slope had been negative (tangent is "running down the hill") then we should have modified $ x $ with 
+a positive small number in order for $ f $ to decrease: $ f(x + h) < f(x) $. 
+
+Anyway, this gives us the intuition that the right direction for the change is the opposit of 
+the sign of the slope of the tangent, which is itself the the $ derivative $ of $ f $ 
+according to $ X $ evaluated on $ x $ (according to our mathematical teacher). 
+
+Finally we will remember that if we want to disturb slightly a variable of a function to minimize it, the small change 
+has to be made in this direction: 
+
+$$ 
+-\frac{df}{dX}(x)
+$$
+
+Back to our **weights** we will follow the exact same direction to minimize our $ loss $ value evaluated on one 
+$ x $ **data** of our **dataset** with the associated expectation $ y^{truth} $:
+
+$$ 
+-\frac{\partial Loss}{\partial W}(x, y^{truth})
+$$
+
+As we mentioned in the "The derivative operator" paragraph of [this article]({% post_url 2021-08-09-loss-function %}), 
+we have to proceed in two steps: 
+
+1. compute an explicit formula for $ \frac{\partial Loss}{\partial W} $
+2. evaluate the formula on $ x $ and $ y^{truth} $
+
+We will call the final result $ \delta w $: 
+
+$$ 
+\boxed{\delta w = \frac{\partial Loss}{\partial W}(x, y^{truth})}
+$$
+
+We could paraphrase the formula as: we want to know to what extent the variable $ W $ causes an error in the 
+$ model $ when the $ Loss $ function is evaluated on $ x $ and $ y^{truth} $ and we slightly disturb $ w $.
 
 ## The backward pass for weights
  
-In the article on the [Loss function]({% post_url 2021-08-09-loss-function %}), we saw a way to link 
-a variable to the impacts it has on the $ model $. 
+We are coming closer to justify the computations we made in the 
+[previous article]({% post_url 2021-08-13-backward-pass %}). The whole thing is naturally linked with what we have just 
+seen:
 
-Now we will do the same with the **weights**. As a variable, they are also responsible for the errors that 
-are highlighted by the $ Loss $ function. The link is: 
-
-$$
-\begin{align}
-    derivative \text{ }Loss \text{ according to } W &= \frac{\partial}{\partial W}(Loss(W, Y^{truth})) \\ 
-                                                    &= \frac{\partial Loss}{\partial W}
-\end{align}
+$$ 
+\delta w = \frac{\partial Loss}{\partial W}(x, y^{truth})
 $$
 
-Let us keep in mind this formula for the $ derivative $ function of $ Loss $ according to $ W $: 
+As we mentioned, we first have to compute the explicit formula and then it will be easy to evaluate it.
+In order to compute the explicit formula we have to follow the exact same strategy we followed during the 
+**backward pass**.
 
-$$
-\boxed{\frac{\partial Loss}{\partial W}} 
-$$
+Let us take some $ L^{k} $ $ layer $ declaring **weights**. $ L^{k} $ has two dependencies: $ X^{k} $ and $ W^{k} $.
+As in the **backward pass** we admit that we have already computed 
+the **learning flow** for $ L^{k+1} $: $ \delta^{k+1} $. 
+- So we have a link between $ L^{k} $ and $ L^{k+1} $. 
+By definition of the **forward pass**: $ X^{k+1} = L^{k}(X^k) $. 
+- And we have a link between $ L^{k+1} $ and $ Loss $ by the definition of the **learning flow** of $ L^{k+1} $. 
 
-As we mentioned in the paragraph "The derivatives of the [Loss function]({% post_url 2021-08-09-loss-function %})", 
-this $ derivative $ is a function and it produces the same kind of results 
-as $ Loss(X, W, Y^{truth}) $. Note that we added a new $ W $ dependency in the $ Loss $ function.
+Thanks to the **chain rule** we are able to establish the link between $ W^{k} $ and $ Loss $. 
+This is the reason why we spent some time computing the **learning flow**. The **learning flow** is really what 
+propagates the knowledge of who did contribute to the final error and to what extent in the $ model $.
 
-But due to the subtlety we talked about in the [previous paragraph](#the-learning-process), we will only consider 
-the variable in order to obtain the explicit form of the $ derivative $ function. But once we get it, we do not 
-specially care about evaluating our $ derivative $ function on $ x $, $ w $ and $ y^{truth} $ but just on 
-$ x $ and $ y^{truth} $, because the current value for $ w $ never changes during the **forward pass**. 
-So we will evaluate:
+There is another remark: as soon as we have computed the **learning flow** for one particular $ L^{k+1} $ layer $, 
+we can compute the **learning flow** for $ L^{k} $ (we already know that). Now we see we may as well 
+compute the impact of its weights on the $ Loss $ : $ \delta w^{k} $. 
 
-$$
-\boxed{\frac{\partial Loss}{\partial W}(x, y^{truth})}
-$$
+This means we may include that operation in the **backward pass** too: 
 
-We could paraphrase the formula as: we want to know to what extent the variable $ W $ has caused an error in the 
-$ model $ when the $ Loss $ function was evaluated on $ x $ and $ y^{truth} $.
+for each $ L^{k} $ layer $ in the $ model $ in the reverse order of the **forward pass** do:
+- compute the **learning flow**: $ \delta^k $ 
+- compute the impact of its weights (if they exist) on the $ Loss $: $ \delta w^{k} $.
 
-![Safe](/_assets/images/maths/safe.png) 
+![Layers](/_assets/images/backward/Layer-4.png)
 
 ## Update the weights
 
-We said that the value for the **weights** never changed during the **forward pass** but we also said that we had 
-to modify it in order to learn something. 
+In this [paragraph](#the-derivative-of-loss-according-to-w), we have already spoken about the direction 
+we must follow for our **weights**: 
 
-These modifications will indeed happen during the **backward pass**. 
-If the **forward pass** is all about producing results, we could see the **backward pass** as a sort a freeze time in 
-which an extra player (the developer) happens to change the rules and boost the model for it to perform better 
-during the next **forward pass**. 
+$$ 
+-\frac{\partial Loss}{\partial W}(x, y^{truth})
+$$
 
-The formula to update the **weights** is: 
+The missing piece is "how long can we go into that direction".
+The answer is really not long because as we mentioned several times, the "prediction" we talked about in 
+the "The derivative operator" paragraph of [this article]({% post_url 2021-08-09-loss-function %}) is very localized 
+around the point where we evaluate the $ derivative $ function. 
+
+Unfortunately there won't be a more precise answer to that question. We will use a coefficient $ \alpha $, 
+called the **learning rate** which will denote the length at which we follow the previous direction.
+But finding a good value for this coefficient is up to the developer, a meta-algorithm of something else...
+
+Now we are able to complete the formula to **update** the **weights**: 
 
 $$
-\boxed{\hat{W} = W - \alpha * \frac{\partial Loss}{\partial W}}
+\hat{w} = w - \alpha * \frac{\partial Loss}{\partial W}(x, y^{truth})
 $$
 
 We use $ \hat{W} $ to formalize the modification of $ W $. 
 
+We recognize the direction of **update**: $ - \frac{\partial Loss}{\partial W}(x, y^{truth}) $, 
+and the length of **update**: $ \alpha $.
+
+We note $ \hat{w} $ to symbolize the new value that $ w $ will take at the end of the **update**.
+
+And with the previous notation we have:
+
+$$
+\boxed{\hat{w} = w - \alpha * \delta w}
+$$ 
+
 ## The optimizer
 
-The main part of the formula is the direction of the update, given by: $ \frac{\partial Loss}{\partial W} $.
-Then there is a coefficient that gives the speed at which we go in this direction: $ \alpha $.
-$ \alpha $ is called the **learning rate**.
+Note that there exist plenty other ways to **update** the **weights**. Each have their advantages. 
 
-There exist other formula to update the **weights**, but the most prominent parts are of course the current value 
-of the **weight**: $ W $ and $ \frac{\partial Loss}{\partial W} $.
+Anyway the most important part of them all is the direction of the **update** given by: 
+$ -\delta w $. This direction is the core of the **learning process** and is computed during the **backward pass**.
 
-The **optimizer** is the typical name for the component in charge of updating the **weights** in a deep-learning 
-framework. 
+In a framework where we would like to test the different ways to **update** the **weights**, the **optimizer** 
+is the typical name for the component in charge of them. 
+
+If we take a look at this component, we should keep in mind that we "just" have to apply the formula, the different 
+parts having been computed beforehand.
  
 ## Example
 
-We will use the same example as in the previous articles. But we will add some **weights** to our $ model $.
+We will use the same example as in the previous articles. But we will add some **weights** to our $ model $ in order 
+to see how to **update** them. For now we just keep in mind that these **weights** are the only moving part of the 
+$ model $ we can modify to make it better (see the [first paragraph](#the-models-weights)). We will explore 
+they influence in later articles.
 
 ### <span style="text-decoration:underline"> Data </span>
 
@@ -200,21 +300,17 @@ $$
 L2(o1, w^2) = w^2 * o1 = \frac{1}{200} * o^1_1 - \frac{3 000}{11 600 000} * o^1_2 + \frac{1}{5 800} * o^1_3
 $$
 
-which is exactly what we had when running the forward pass in the previous articles.
+which is exactly what we had when running the **forward pass** in the previous articles.
 
 ### <span style="text-decoration:underline"> Run the forward pass </span>
 
 Same as in the [Loss function article]({% post_url 2021-08-09-loss-function %}):
-
-![Warning](/_assets/images/maths/warning.png) mathematically shy people should skip
 
 ### <span style="text-decoration:underline"> Run the backward pass for the learning flow </span>
 
 Let us keep in mind the results we already 
 computed in the [Loss function article]({% post_url 2021-08-09-loss-function %}) and 
 in the [previous article]({% post_url 2021-08-13-backward-pass %}).
-
-![Layers](/_assets/images/backward/Layer-3.png)
 
 $$ 
 \boxed{\delta 4 = o3 - y^{truth}} 
@@ -238,15 +334,19 @@ $$
 \boxed{\delta 2 = \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})}
 $$
 
+![Warning](/_assets/images/maths/warning.png) mathematically shy people should skip
+
 ### <span style="text-decoration:underline"> Run the backward pass for the weights </span>
 
-We are now going to use the **learning flow** to compute the $ derivative $ functions of $ Loss $ according to 
-the **weights**. 
+As mentioned in this [paragraph](#the-backward-pass-for-weights) we need to use the **learning flow** 
+in order to compute the explicit formula for the $ derivative $ functions of $ Loss $ according to the **weights**. 
 
-As in the [Loss function article]({% post_url 2021-08-09-loss-function %}), we are looking for every $ layer $ 
-that needs to update some **weights**. There is only $ L2 $ in this case.
+Note that $ L2 $ is the only $ layer $ that declares **weights** is this $ model $. 
+This is the reason why there is just one $ \delta w^2 $ in the figure below. 
 
-So we have to compute:
+![Layers](/_assets/images/backward/Layer-5.png)
+
+We have to compute:
 
 $$ 
 \boxed{\frac{\partial Loss}{\partial W^2}} 
@@ -254,8 +354,7 @@ $$
 
 As in the [previous article]({% post_url 2021-08-13-backward-pass %}), we are looking for a link 
 between $ W^2 $ and $ Loss $. Once again the idea is to use the **backward pass** to link what we have already 
-computed and what is close to $ L2 $
-<a id="remark-back" class="anchor" href="#header-title">:</a> <sup>[[1]](#remark)</sup>
+computed and what uses $ W^2 $: $ L2 $.
 
 $$ 
 \begin{align}
@@ -304,38 +403,39 @@ $$
 \end{align}
 $$
 
-And because $ \frac{\partial Loss}{\partial W^2_1} $ is a function depending on $ X^2 $ 
-we can apply it on the values that produced the errors highlighted by $ Loss $: 
+We can now evaluate this function on the values that have produced the final
+$ loss $, let $ \delta w^2_1 $ be this result:
 
 $$
 \begin{align}
-    \frac{\partial Loss}{\partial W^2_1}(o1) &= \frac{\partial Loss}{\partial X^3}(o2) *  o1_1 \\ 
-                                             &= \delta 3 * o1_1
+\delta w^2_1 &= \frac{\partial Loss}{\partial W^2_1}(o1) \\
+             &= \frac{\partial Loss}{\partial X^3}(o2) *  o1_1 \\ 
+             &= \delta 3 * o1_1
 \end{align}
 $$
 
 We have found: 
 
 $$ 
-\frac{\partial Loss}{\partial W^2_1}(o1) = \delta 3 * o1_1
+\delta w^2_1 = \frac{\partial Loss}{\partial W^2_1}(o1) = \delta 3 * o1_1
 $$
 
 We do the same to compute: 
 
 $$ 
-\frac{\partial Loss}{\partial W^2_2}(o1) = \delta 3 * o1_2
+\delta w^2_2 = \frac{\partial Loss}{\partial W^2_2}(o1) = \delta 3 * o1_2
 $$
 
 and 
 
 $$ 
-\frac{\partial Loss}{\partial W^2_3}(o1) = \delta 3 * o1_3
+\delta w^2_3 = \frac{\partial Loss}{\partial W^2_3}(o1) = \delta 3 * o1_3
 $$
 
 These 3 formulas can be summarized as: 
 
 $$ 
-\boxed{\frac{\partial Loss}{\partial W^2}(o1) = \delta 3 * o1}
+\boxed{\delta w^2 = \frac{\partial Loss}{\partial W^2}(o1) = \delta 3 * o1}
 $$
 
 ![Safe](/_assets/images/maths/safe.png) 
@@ -348,32 +448,16 @@ In order to proceed, we will use the formula given in [this paragraph](#update-t
 The new value $ \hat{w^2} $ for our $ w^2 $ **weights** will be:
 
 $$
-\boxed{\hat{w^2} = w^2 - \alpha * \frac{\partial Loss}{\partial W^2}(o1)}
+\boxed{\hat{w^2} = w^2 - \alpha * \delta w^2}
 $$
 
 ## Conclusion
 
-In this article we finally introduced **weights** in our $ model $. 
-We used the **learning flow** in order to compute the $ derivative $ functions of $ Loss $ according to these 
-**weights**. In a side note, we remarked that we could merge both the **learning flow** and 
-the $ derivative $ functions of $ Loss $ according to the **weights** in a same step: 
-a generalized **backward pass**. From now on the **backward pass** will refer to this 
-generalized **backward pass**.
+In this article we finally introduced **weights** in our $ model $. We saw how the $ derivative $ function of $ Loss $ 
+according to these **weights** is in fact the direction to follow in order to **update** the **weights** so that 
+we minimize the final $ loss $ value. 
 
-The $ derivative $ functions of $ Loss $ according to these **weights** prove useful in order 
-to update the values of the **weights** themselves which is the final goal of the **learning process**. 
-We will recap the whole **learning process** in the [next article]({% post_url 2021-08-22-recapitulation %}).
+We understood that this direction $ \delta w $ is computed during the **backward pass** along the **learning flow** and 
+that it directly depends on the **learning flow** !
 
-
-<br>
-
-<a id="remark" class="anchor" href="#header-title">[1]:</a>
-
-Please note here that as we are doing exactly the same as in the "Run the backward pass for the learning flow" 
-paragraph, we could merge the two steps "backward pass for the learning flow" and 
-"backward pass for the weights" into one single **backward pass** that would systematically 
-compute the $ derivative $ of the $ Loss $ function according to the variables declared in the 
-current $ layer $: **input variable** $ X $ or **weights** variables $ W $. 
-These all computations needing the **learning flow** from the previous $ layers $ 
-(in the order of the **backward pass**), the logic stays the same.
-[back to paragraph](#remark-back)
+In the [next article]({% post_url 2021-08-22-recapitulation %}), we will recap the whole **learning process**.
