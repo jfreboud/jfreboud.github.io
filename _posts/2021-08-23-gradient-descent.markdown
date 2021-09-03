@@ -3,7 +3,7 @@ layout: post
 title:  "The Gradient Descent Algorithm"
 date:   2021-08-23 20:00:00 +0200
 excerpt: >-
-  7/ We use the different pieces to run the learning phase from scratch.
+  6/ We use the different pieces to run the learning phase from scratch.
 ---
 
 ## Introduction
