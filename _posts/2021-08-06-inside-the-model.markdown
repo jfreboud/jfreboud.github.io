@@ -48,7 +48,7 @@ While going deeper in the $ layers $, the **representations** will contain an un
 of the **input data**. 
 
 This is the goal of deep-learning: considering the **representations** of the last $ layer $, we want it to have 
-the most understanding of the **input data** possible.
+the best understanding of the **input data** possible.
 
 ## Example
 
@@ -87,7 +87,7 @@ $ X_3 $ is the variable for workout hours
 
 We have built a $ model $ that is composed of 3 layers ($ L1 $, $ L2 $, $ L3 $).
 
-### <span style="text-decoration:underline"> Run the model </span>
+### <span style="text-decoration:underline"> Run the forward pass </span>
 
 Instead of using $ model(X) $ directly as in the [previous article]({% post_url 2021-08-05-general-concepts %}).
 We now have to apply [the forward pass](#the-forward-pass), storing every intermediate results.

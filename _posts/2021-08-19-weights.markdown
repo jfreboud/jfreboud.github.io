@@ -115,7 +115,9 @@ Note that if the slope had been negative (tangent is "running down the hill") th
 a positive small number in order for $ f $ to decrease: $ f(x + h) < f(x) $. 
 
 Anyway, this gives us the intuition that the right direction for the change is the opposit of 
-the sign of the slope of the tangent, which is itself the the $ derivative $ of $ f $ 
+the sign of the slope of the tangent. 
+Said differently, the right direction is the $ x $ axis direction where the tangent is descending. 
+But the slope of the tangent is itself the $ derivative $ of $ f $ 
 according to $ X $ evaluated on $ x $ (according to our mathematical teacher). 
 
 Finally we will remember that if we want to disturb slightly a variable of a function to minimize it, the small change 
@@ -193,14 +195,14 @@ $$
 -\frac{\partial Loss}{\partial W}(x, y^{truth})
 $$
 
-The missing piece is "how long can we go into that direction".
-The answer is really not long because as we mentioned several times, the "prediction" we talked about in 
+The missing piece is "how long can we go into that direction" ?
+The answer is really really not long because as we mentioned several times, the "prediction" we talked about in 
 the "The derivative operator" paragraph of [this article]({% post_url 2021-08-09-loss-function %}) is very localized 
-around the point where we evaluate the $ derivative $ function. 
+around the point where we evaluate the $ derivative $ function: hence the repeated mantra of "slight" modification...
 
 Unfortunately there won't be a more precise answer to that question. We will use a coefficient $ \alpha $, 
 called the **learning rate** which will denote the length at which we follow the previous direction.
-But finding a good value for this coefficient is up to the developer, a meta-algorithm of something else...
+But finding a good value for this coefficient is up to the developer, a meta-algorithm, belief or something else...
 
 Now we are able to complete the formula to **update** the **weights**: 
 
@@ -208,14 +210,12 @@ $$
 \hat{w} = w - \alpha * \frac{\partial Loss}{\partial W}(x, y^{truth})
 $$
 
-We use $ \hat{W} $ to formalize the modification of $ W $. 
-
 We recognize the direction of **update**: $ - \frac{\partial Loss}{\partial W}(x, y^{truth}) $, 
 and the length of **update**: $ \alpha $.
 
 We note $ \hat{w} $ to symbolize the new value that $ w $ will take at the end of the **update**.
 
-And with the previous notation we have:
+And with the $ \delta w $ notation we have:
 
 $$
 \boxed{\hat{w} = w - \alpha * \delta w}
@@ -457,7 +457,8 @@ In this article we finally introduced **weights** in our $ model $. We saw how t
 according to these **weights** is in fact the direction to follow in order to **update** the **weights** so that 
 we minimize the final $ loss $ value. 
 
-We understood that this direction $ \delta w $ is computed during the **backward pass** along the **learning flow** and 
+We understood that this direction $ \delta w $ is computed during the **backward pass** and 
 that it directly depends on the **learning flow** !
 
-In the [next article]({% post_url 2021-08-22-recapitulation %}), we will recap the whole **learning process**.
+In the [next article]({% post_url 2021-08-23-gradient-descent %}), 
+we will see the whole **learning process** in action.
