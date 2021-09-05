@@ -18,12 +18,15 @@ In this article we will add one more concept to stabilize this algorithm.
 A **batch** corresponds to multiple elements of **data input** taken at once.
 The main goal is to modify the way our **weights** are updated so that each update is more robust.
 
-We typically want that our **weights** are updated according to the average direction of 
-$ \frac{\partial Loss}{\partial W} $ on the **batch** of **data input**. We can still use the same 
+In the [previous article]({% post_url 2021-08-23-gradient-descent %}), we talked about the direction 
+to follow in order to **update** the **weights**. 
+
+With **batch learning**, we typically want that our **weights** are **updated** according to 
+the average direction on the **batch** of **data input**, let $ \delta w^{avg} $ be it. We can still use the same 
 formula to update the **weights**:
 
 $$
-\hat{W} = W - \alpha * \frac{\partial Loss}{\partial W}
+\hat{w} = w - \alpha * \delta w^{avg}
 $$
 
 We are able to modify our **gradient descent** algorithm so that it is applied on a **batch** of 
@@ -38,7 +41,10 @@ different elements of the **batch**
     - the **learning flow** for each elements of the **batch**
     - the $ derivative $ of the $ Loss $ function according to $ W $ for each elements of the **batch**
     
-5. update the **weights** of $ model $
+5. update the **weights** of $ model $ with the average direction $ \delta w^{avg} $
+
+Do it for all **data input** in the **dataset**, we call it an **epoch**. 
+Repeat for several **epochs**.
 
 ## The new forward pass
 
@@ -87,7 +93,7 @@ $$
 Loss(model(X^n), Y^{truth, n}))}
 $$ 
 
-and we apply it on real values:
+and we evaluate this function on real values:
 
 $$
 loss^{avg} = \frac{1}{n} . (loss^1 + loss^2 + \text{...} + loss^n)
@@ -140,7 +146,7 @@ $$
 \boxed{\frac{\partial Loss^{learning}}{\partial W^i}}
 $$
 
-## The status so far
+## The state so far
 
 Let us summarize the status so far.
 We are trying to **learn** on a **batch** of (**data input**, **data output**).
@@ -168,37 +174,33 @@ $ \frac{\partial Loss^{learning}}{\partial W^{k, n}} $ are fully independent.
 The fact that they are fully independent is really interesting in terms of computing: 
 we can fully parallelize their computation inside the current step (forward or backward).
 
-Let us talk about our final goal which is to update the **weights** according to the average direction of 
-$ \frac{\partial Loss}{\partial W} $.
+Let us talk about our final goal which is to update the **weights** according to 
+the average direction $ \delta w^{avg} $.
 
 For now, this average is clearly out of reach. 
 Indeed, every **batch** element in the **forward pass** is isolated from the others.
 For the **backward pass**, it is also the case. 
 There is just one modification in the **backward pass**: the $ \frac{1}{n} $ coefficient in the 
-$ Loss^{learning} $. But clearly this is not sufficient to say we are about to compute the average direction of 
-$ \frac{\partial Loss}{\partial W} $.
+$ Loss^{learning} $. But clearly this is not sufficient to say we are about to compute an average direction.
 
 The last part where things can get right is the **weights** update...
 
 ## Update the weights: the new rule
 
-Let us recall the update formula for the **weights**: 
+Let us recall the **update** formula for the **weights**: 
 
 $$
-\boxed{\hat{W} = W - \alpha * \frac{\partial Loss}{\partial W}}
+\boxed{\hat{w} = w - \alpha * \delta w^{avg}}
 $$
 
-Our goal is to compute: 
-
-$$
-\frac{\partial Loss}{\partial W}
-$$
+In order to use the **update** formula we must compute the explicit formula for 
+$ \frac{\partial Loss^{avg}}{\partial W} $ beforehand.
 
 We need to think about the [backward pass](% post_url 2021-08-13-backward-pass %) once more, 
 to understand how $ W $ impacts the final $ Loss $: $ Loss^{avg} $.
 
-Let us consider the $ L^k $ $ layer $ example we introduced in the [precedent paragraph](#the-status-so-far).
-We try to compute: 
+Let us consider the $ L^k $ $ layer $ example we introduced in the [precedent paragraph](#the-state-so-far).
+We try to compute an explicit formula for: 
 
 $$ 
 \frac{\partial Loss^{avg}}{\partial W^k}
@@ -209,12 +211,16 @@ This means that every results obtained through the **forward pass** were not tha
 with $ w^k $ as a value for the $ W^k $. But $ o^{k, 2} $ was computed with the same $ w^k $ value for 
 $ W^k $ ... and $ o^{k, n} $ was computed with the same $ w^k $ value for $ W^k $ as well.
 
-Thus $ W^k $ impacts $ L^k(X^{k, 1}, W^k) $, $ L^k(X^{k, 2}, W^k) $ ... and $ L^k(X^{k, n}, W^k) $. 
+Thus $ w^k $ has impacted all **batch outputs** depending on $ W^k $: $ o^{k, 1}, o^{k, 2} ... o^{k, n} $. 
+Said differently, $ W^k $ impacts $ L^k(X^{k, 1}, W^k) $, $ L^k(X^{k, 2}, W^k) $ ... and $ L^k(X^{k, n}, W^k) $.
+ 
 And by definition: $ L^k(X^{k, 1}, W^k) $ impacts $ Loss^{avg} $, 
 $ L^k(X^{k, 2}, W^k) $ impacts $ Loss^{avg} $ ... and 
 $ L^k(X^{k, n}, W^k) $ impacts $ Loss^{avg} $. 
 
-So we must compute: 
+This comes down to the realization that the same $ w^k $ value is responsible for the final $ loss^{avg} $ 
+through the different **batch outputs** computed during the **forward pass**. So in order to have the 
+impact of $ W^k $ on $ Loss^{avg} $ we must simply add the impacts in the different **batch outputs**:
 
 $$ 
 \begin{align}
@@ -238,10 +244,18 @@ $$
 \frac{\partial Loss^{learning}}{\partial W^{k, 2}} + \text{...} + \frac{\partial Loss^{learning}}{\partial W^{k, n}}}
 $$
 
+And we evaluate this function: 
+
+$$ 
+\boxed{\delta w^k = \delta w^{k, 1}} + \delta w^{k, 2}} + \text{...} + \delta w^{k, n}}}
+$$
+
 ## Example
 
 In this example we will start a new **learning phase** from scratch but this time with 
-a **batch** of size 3. We use the same very small **learning rate** $ \alpha = 10^{-7} $.
+a **batch** of size 3. If the choice is simple in this case where we have only 3 **data input**, it may 
+be more touchy in a general way. Yet, there is no magical formula and it will up to the developer to 
+decide on this parameter. We use the same very small **learning rate** as before: $ \alpha = 10^{-7} $.
 
 ### <span style="text-decoration:underline"> Data </span>
 
@@ -291,7 +305,7 @@ $$
 
 ### <span style="text-decoration:underline"> Run the backward pass </span>
 
-![Layers](/_assets/images/backward/Layer-3.png)
+![Layers](/_assets/images/backward/Layer-5.png)
 
 $$ 
 \boxed{\delta 4 = o3 - y^{truth}} 
@@ -306,7 +320,7 @@ $$
 $$
 
 $$ 
-\boxed{\frac{\partial Loss}{\partial W^2}(o1) = \delta 3 * o1}
+\boxed{\delta w^2 = \delta 3 * o1}
 $$
 
 $$
@@ -341,7 +355,7 @@ $$
 \end{align}
 $$
 
-3: compute $ loss $ 
+3: compute $ loss^{avg} $ 
 
 $$ 
 \begin{align}
@@ -407,15 +421,15 @@ $$
 
 $$ 
 \begin{align}
-\frac{\partial Loss}{\partial W^{2, 1}}(o1^1) &= \delta 3^1 * o1^1 \\
-                                              &= (0) * (100, 2000, 100) \\
-                                              &= (0, 0, 0) \\
-\frac{\partial Loss}{\partial W^{2, 2}}(o1^2) &= \delta 3^2 * o1^2 \\
-                                              &= 0 * (200, 0, 0) \\
-                                              &= (0, 0, 0) \\
-\frac{\partial Loss}{\partial W^{2, 3}}(o1^3) &= \delta 3^1 * o1^1 \\
-                                              &= -(\frac{1}{3}) * (0, 2000, 3 000) \\
-                                              &= -(0, \frac{2000}{3}, 1 000)
+\delta w^{2, 1} &= \delta 3^1 * o1^1 \\
+                &= (0) * (100, 2000, 100) \\
+                &= (0, 0, 0) \\
+\delta w^{2, 2} &= \delta 3^2 * o1^2 \\
+                &= 0 * (200, 0, 0) \\
+                &= (0, 0, 0) \\
+\delta w^{2, 3} &= \delta 3^1 * o1^1 \\
+                &= -(\frac{1}{3}) * (0, 2000, 3 000) \\
+                &= -(0, \frac{2000}{3}, 1 000)
 \end{align}
 $$
 
@@ -434,17 +448,14 @@ $$
 
 We use the new rule we saw in [this paragraph](#update-the-weights-the-new-rule):
 
-$$ 
-\frac{\partial Loss}{\partial W^2} = \frac{\partial Loss}{\partial W^{2, 1}} + 
-\frac{\partial Loss}{\partial W^{2, 2}} + \frac{\partial Loss}{\partial W^{2, 3}}
+$$
+\delta w^2 = \delta w^{2, 1} + \delta w^{2, 2} + \delta w^{2, 3}
 $$
 
 $$
 \begin{align}
-\hat{w^2} &= w^2 - \alpha * \frac{\partial Loss}{\partial W^2}(o1) \\
-          &= w^2 - \alpha * (\frac{\partial Loss}{\partial W^{2, 1}}(o1^1) + 
-                             \frac{\partial Loss}{\partial W^{2, 2}}(o1^2) + 
-                             \frac{\partial Loss}{\partial W^{2, 3}}(o1^3)) \\
+\hat{w^2} &= w^2 - \alpha * \delta w^2 \\
+          &= w^2 - \alpha * (\delta w^{2, 1} + \delta w^{2, 2} + \delta w^{2, 3}) \\
           &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 
              10^{-7} * ((0, 0, 0) + (0, 0, 0) - (0, \frac{2000}{3}, 1 000)) \\
           &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) + (0, \frac{0.0002}{3}, 0.0001) \\
@@ -458,38 +469,45 @@ $$
 \boxed{w^2 = (\frac{1}{200}, \frac{0.0002}{3} - \frac{3 000}{11 600 000}, 0.0001 + \frac{1}{5 800})}
 $$
 
-### <span style="text-decoration:underline"> Run a new forward pass </span>
+We have just run one **epoch** of the **gradient descent** algorithm on our whole **dataset** with a **batch** of 3.
+Let us stop our algorithm now and check the new results when we run a new **forward pass** on every **data input** 
+of our **dataset**.
 
-As we modified the values for the $ L2 $ **weights**, the $ model $ is globally different.
-We have to run a new **forward pass** to see the new values our $ model $ produces on the **data input**.
+### <span style="text-decoration:underline"> Run a new forward pass </span>
 
 | $ x $              | $ o1 = L1(x) $   | $ o2 = L2(o1) $ | $ o3 = L3(o2) $ |
 | :----------------: | :--------------: | :-------------: | :-------------: |
 | (100, 2000, 100)   | (100, 2000, 100) | (0.14)          | (0.14)          |
 | (200,  0, 0)       | (200,  0, 0)     | (1)             | (1)             |
-| (0, 2000, 3 000)   | (0, 2000, 3 000) | (0.43)          | (0.43)           |
+| (0, 2000, 3 000)   | (0, 2000, 3 000) | (0.43)          | (0.43)          |
 
-Let us use these new **rules**: 
+As in the [previous article]({% post_url 2021-08-23-gradient-descent %}), 
+we add a new column in order to show the result that is aligned with (0) or (1) in order to compare with 
+the expectations. Let us use the same threshold:
+ 
 - values < 0.5 will be transformed to 0, 
 - values $ \geq $ 0.5 will be transformed to 1
 
 Now we have:
 
-| $ x $              | $ o3 = model(x) $ | 
-| :----------------: | :---------------: | 
-| (100, 2000, 100)   | (0)               | 
-| (200,  0, 0)       | (1)               | 
-| (0, 2000, 3 000)   | (0)               | 
+| $ x $              | $ o3 = model(x) $ | $ result |
+| :----------------: | :---------------: | :------: |
+| (100, 2000, 100)   | (0.14)            | (0)      |
+| (200,  0, 0)       | (1)               | (1)      |
+| (0, 2000, 3 000)   | (0.43)            | (0)      |
 
 and: 
 
-| $ o3 = model(x) $ | $ y^{truth} $ = expected result | $ loss = Loss(o3, y^{truth}) $ | correct ? |
-| :----: | :-----: | :-----: | :---: |
-| (0) | (0) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
-| (1) | (1) | (<span style="color:green">0</span>) | ![right](/_assets/images/general/right.png) |
-| (0) | (1) | (<span style="color:red">0.5</span>) | ![right](/_assets/images/general/wrong.png) |
+| $ o3 = model(x) $ | $ result $ | $ y^{truth} $ = expected result | $ loss = Loss(o3, y^{truth}) $ | correct ? |
+| :----: | :-----: | :-----: | :-----: | :---: |
+| (0.14) | (0) | (0) | (0.01) | ![wrong](/_assets/images/general/right.png) |
+| (1)    | (1) | (1) | (<span style="color:green">0</span>) | ![right](/_assets/images/general/right.png) |
+| (0.43) | (0) | (1) | (0.16) | ![wrong](/_assets/images/general/wrong.png) |
 
-With this small **learning rate**, our $ model $ produces a wrong result for the last **data input**. 
+With this small **learning rate**, our $ model $ produces a wrong result for the last **data input** whereas 
+in the [previous article]({% post_url 2021-08-23-gradient-descent %}), the **learning** had fixed the third 
+**data input**.
+ 
 We can compare the results we obtained (0.14), (1), (0.43) to the results we obtained in the 
 [previous article]({% post_url 2021-08-23-gradient-descent %}): (0.43), (1), (1.3). We see the results are 
 more "moderated" with the **batch learning** algorithm. This goes along with a more "robust" **learning** 
@@ -500,7 +518,7 @@ on several **epochs**.
 In this article we studied an upgraded version of the **gradient descent** algorithm with **batch**. 
 This new algorithm is more robust. 
 
-This article also concludes our Deep-Learning meta walkthrough.
+This article also concludes our deep-learning meta walkthrough.
 We will now open a new chapter to build a better understanding of the **learning flow** we introduced in 
 the [backward pass article]({% post_url 2021-08-13-backward-pass %}). We will also speak about the different 
 $ layers $ we need in computer vision in order to build a real deep-learning $ model $ !
