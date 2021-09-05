@@ -247,7 +247,7 @@ $$
 And we evaluate this function: 
 
 $$ 
-\boxed{\delta w^k = \delta w^{k, 1}} + \delta w^{k, 2}} + \text{...} + \delta w^{k, n}}}
+\boxed{\delta w^k = \delta w^{k, 1} + \delta w^{k, 2} + \text{...} + \delta w^{k, n}}
 $$
 
 ## Example
