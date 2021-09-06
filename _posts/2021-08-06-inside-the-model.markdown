@@ -44,8 +44,8 @@ The $ layer $ results are called **representations**.
 The output **representations** of any layer are the input of their immediate following $ layer $ 
 in the **sequential order**.
 
-While going deeper in the $ layers $, the **representations** will contain an understanding more complex and more abstract 
-of the **input data**. 
+While going deeper in the $ layers $, the **representations** will contain an understanding more complex and 
+more abstract of the **input data**. 
 
 This is the goal of deep-learning: considering the **representations** of the last $ layer $, we want it to have 
 the best understanding of the **input data** possible.
