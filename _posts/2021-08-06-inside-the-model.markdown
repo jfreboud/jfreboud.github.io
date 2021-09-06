@@ -40,7 +40,7 @@ $$
 \boxed{X^{k+1} = Lk(X^k)}
 $$
 
-For each $ layer $, it is possible to produce results called **representations**. 
+The $ layer $ results are called **representations**. 
 The output **representations** of any layer are the input of their immediate following $ layer $ 
 in the **sequential order**.
 
@@ -49,6 +49,9 @@ of the **input data**.
 
 This is the goal of deep-learning: considering the **representations** of the last $ layer $, we want it to have 
 the best understanding of the **input data** possible.
+
+While they seem abstract for the moment, these **representations** will be more precise when we will talk about the 
+different forms of $ layers $. But we have some articles to read before that...
 
 ## Example
 
@@ -99,7 +102,7 @@ let $ o2 $ be it
 3. finally we evaluate $ L3 $ on the result of $ L2 $ which is $ o2 $ => L3 produces a new **output**, 
 let $ o3 $ be it
 
-Finally it appears that: 
+It appears that: 
 $$ 
 model(x) = o3 
 $$
@@ -134,7 +137,8 @@ Finally we can summarize these results:
 
 We can observe that although we have changed the structure of $ model $ compared to the
 [previous article]({% post_url 2021-08-05-general-concepts %}), we still get exactly the same results. 
-Which is in fact normal: we did not introduce any **weights** yet :smiling_imp:
+Which is in fact normal: although we changed its structure, we have built the same "global" function as in the 
+previous article :smiling_imp:
 
 ## The Input Layer
 
@@ -188,5 +192,5 @@ of $ layers $ as in the following schema:
 
 ![Layer-4](/_assets/images/model/Layer-4.png)
 
-In a later article we will discuss how to choose the different $ layers $. But before that, we will talk about the 
+In a later chapter we will discuss the different forms of the $ layers $. But before that, we will talk about the 
 $ Loss function $ in the [next article]({% post_url 2021-08-09-loss-function %}).
