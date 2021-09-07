@@ -30,6 +30,22 @@ The **forward pass** lets the **information flow** go through the different laye
 the **input layer** to the **output layer**. The **backward pass** is about a reversed signal that we could call 
 the **learning flow**. It goes from the **output layer** to the **input layer**.
 
+From what we have seen in the [previous article]({% post_url 2021-08-09-loss-function %}), we will keep in mind 
+that the **learning flow** is in fact the $ derivative $ of $ Loss $ according to the $ X $ variable: 
+
+$$
+\boxed{\frac{\partial Loss}{\partial X}} 
+$$
+
+We note $ \delta $ when we evaluate this function on 
+$ x $ **data** from a **dataset** and $ y^{truth} $ the associated **expectation**: 
+
+$$
+\boxed{\delta = \frac{\partial Loss}{\partial X}(x, y^{truth})}
+$$
+
+![Layers](/_assets/images/backward/Layer-2.png)
+
 If the **input layer** is the place where the **data input** is initialised by the developer in the **forward pass**, 
 it is clear from the early computations we made ($ \delta 4 $) 
 in the [previous article]({% post_url 2021-08-09-loss-function %}) that the $ Loss $ function is the place where 
@@ -40,21 +56,33 @@ There is a final difference between the two: the **forward pass** is run in the 
 while the **backward pass** is only run during the **learning phase**, 
 which comforts its signal naming of **learning flow**.
 
-![Layers](/_assets/images/backward/Layer-2.png)
+## A closer look on one layer
 
 To be a little more specific, we can look at some $ L^k $ $ layer $ in particular.
-By definition we have an explicit formula for $ L^k $ function. Running its **forward pass** is easy: 
-we just consider that the previous result (in the **forward pass** order) $ o^{k-1} $ has already been 
-computed. This enables us to compute $ o^{k} $.
+By definition we have an explicit formula for $ L^k(X^k) $ function. Running its **forward pass** is easy: 
+we just consider that the previous result $ o^{k-1} $ has already been 
+computed. This enables us to compute $ o^{k} = L^k(o^{k-1}) $.
 
 ![Forward](/_assets/images/backward/Forward.png)
 
-But for the backward pass we do the reverse logic. We must consider we already have computed $ \delta^{k} $ and 
-we want to **propagate** to the previous $ L^{k-1} $ $ layer $, computing $ \delta^{k-1} $. In order to compute 
-this $ \delta^{k-1} $ we have to compute a new formula based on the definition of $ L^{k-1} $ and its link to 
-the $ Loss $ function. We will establish this link with the **chain rule**.
+But for the backward pass we do the reverse logic. We must consider we already have computed the **learning flow** for 
+$ L^{k} $ which is $ \delta^{k} $ and 
+we want to **propagate** to the previous $ L^{k-1} $ $ layer $, computing $ \delta^{k-1} $. 
 
 ![Backward](/_assets/images/backward/Backward.png)
+
+In order to compute 
+this $ \delta^{k-1} $ we proceed in two steps: 
+1. We compute an explicit formula for $ \frac{\partial Loss}{\partial X^{k-1}} $. 
+2. We evaluate this function on $ o^{k-2} $.
+
+The most difficult point is the 1 because we must compute the link between $ X^{k-1} $ and $ Loss $ which is 
+"chained". There are 2 essential parts in that "chain". 
+- The $ layer $ that directly uses $ X^{k-1} $ which is $ L^{k-1} $: 
+$ X^{k} = L^{k-1}(X^{k-1}) $.
+- The link between $ L^{k-1} $ and $ Loss $ which is the **learning flow** of $ L^{k} $: $ \delta^{k} $.
+
+When we have these two links, we may use the **chain rule**... 
 
 ![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [conlusion](#conclusion)
 
@@ -114,7 +142,7 @@ $$
 Thanks to the **forward pass** we know that $ X^4 = L3(X^3) $, so we have: 
 
 $$
-\frac{\partial Loss}{\partial L3} = \frac{\partial Loss}{\partial X^4} \text{ computed in the previous article !}
+\frac{\partial Loss}{\partial L3} = \frac{\partial Loss}{\partial X^4} \text{ we recognize a learning flow !}
 $$
 
 and: 
@@ -159,7 +187,7 @@ $$
 
 We are looking for a link between $ X^2 $ and $ Loss $. 
 As the [backward pass](#the-backward-pass) suggests, we have to use what we have already computed: 
-$ \delta 3 = \frac{\partial Loss}{\partial X^3}(o2, y^{truth}) $ and what directly uses $ X^2 $ which is $ L2 $: 
+$ \delta 3 = \frac{\partial Loss}{\partial X^3}(o2) $ and what directly uses $ X^2 $ which is $ L2 $: 
 $ L2(X^2) = \frac{1}{200} X^2_1 - \frac{3 000}{11 600 000}  X^2_2 + 
         \frac{1}{5 800} X^2_3 \text{, with } X^2 = (X^2_1, X^2_2, X^2_3) $. 
 
@@ -183,7 +211,7 @@ $$
 Thanks to the **forward pass** we know that $ X^3 = L2(X^2) $, so we have: 
 
 $$
-\frac{\partial Loss}{\partial L2} = \frac{\partial Loss}{\partial X^3} \text{ computed in the previous paragraph !}
+\frac{\partial Loss}{\partial L2} = \frac{\partial Loss}{\partial X^3} \text{ we recognize a learning flow !}
 $$
 
 and: 
@@ -234,17 +262,29 @@ $$
 \delta 2_3 = \frac{\partial Loss}{\partial X^2_3}(o1) = \delta 3 * \frac{1}{5 800}
 $$
 
-These 3 formulas can be summarized as: 
+These 3 formulas can be summarized because: 
 
 $$ 
-\boxed{\delta 2 = \delta 3 * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})}
+\begin{align}
+\delta 2 &= \frac{\partial Loss}{\partial X^2}(o1) \\
+         &= (\frac{\partial Loss}{\partial X^2_1}(o1), \frac{\partial Loss}{\partial X^2_2}(o1), \frac{\partial Loss}{\partial X^2_3}(o1)) \\
+         &= (\delta 2_1, \delta 2_2, \delta 2_3) \\ 
+         &= (\delta 3 * \frac{1}{200}, \delta 3 * (-\frac{3 000}{11 600 000}), \delta 3 * \frac{1}{5 800}) \\
+         &= \delta 3 * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
+\end{align}
+$$
+
+We finally have: 
+
+$$ 
+\boxed{\delta 2 = \frac{\partial Loss}{\partial X^2}(o1) = \delta 3 * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})}
 $$
 
 ### Computing $ \frac{\partial Loss}{\partial X^1} $ 
 
 We are looking for a link between $ X^1 $ and $ Loss $. 
 As the [backward pass](#the-backward-pass) suggests, we have to use what we have already computed: 
-$ \delta 2 = \frac{\partial Loss}{\partial X^2}(o1, y^{truth}) $ and what directly uses $ X^1 $ which is $ L1 $: 
+$ \delta 2 = \frac{\partial Loss}{\partial X^2}(o1) $ and what directly uses $ X^1 $ which is $ L1 $: 
 $ L1(X^1) = X^1 \text{, with } X^1 = (X^1_1, X^1_2, X^1_3) $. 
 
 We have the same problem as in the previous paragraph: $ X^1 = (X^1_1, X^1_2, X^1_3) $. 
@@ -292,13 +332,13 @@ $$
 By chance, it appears that this formula simplifies.
 Let us recall that $ L1(X^1) = X^1 \text{, with } X^1 = (X^1_1, X^1_2, X^1_3) $. 
 Said differently we have: $ L1((X^1_1, X^1_2, X^1_3)) = (X^1_1, X^1_2, X^1_3) $.
-In fact we can compute that: 
+Thus we can compute that: 
 
 $$ 
 \begin{align}
-    \frac{\partial L1(X^1_2)}{\partial X^1_1} &= \frac{\partial L1((0, X^1_2, 0))}{\partial X^1_1} \\
-                                              &= \frac{\partial ((0, X^1_2, 0))}{\partial X^1_1} \\ 
-                                              &= (0, 0, 0)
+\frac{\partial L1(X^1_2)}{\partial X^1_1} &= \frac{\partial L1((0, X^1_2, 0))}{\partial X^1_1} \\
+                                          &= \frac{\partial ((0, X^1_2, 0))}{\partial X^1_1} \\ 
+                                          &= (0, 0, 0)
 \end{align}
 $$
 
@@ -306,9 +346,9 @@ and:
 
 $$ 
 \begin{align}
-    \frac{\partial L1(X^1_3)}{\partial X^1_1} &= \frac{\partial L1((0, 0, X^1_3))}{\partial X^1_1} \\
-                                              &= \frac{\partial ((0, 0, X^1_3))}{\partial X^1_1} \\ 
-                                              &= (0, 0, 0)
+\frac{\partial L1(X^1_3)}{\partial X^1_1} &= \frac{\partial L1((0, 0, X^1_3))}{\partial X^1_1} \\
+                                          &= \frac{\partial ((0, 0, X^1_3))}{\partial X^1_1} \\ 
+                                          &= (0, 0, 0)
 \end{align}
 $$
 
@@ -321,15 +361,15 @@ $$
 Thanks to the **forward pass** and the definition of $ L1 $, we know that $ X^2_1 = L1(X^1_1) $, so we have: 
 
 $$
-\frac{\partial Loss}{\partial L1(X^1_1)} = \frac{\partial Loss}{\partial X^2_1} \text{ computed in the previous paragraph !}
+\frac{\partial Loss}{\partial L1(X^1_1)} = \frac{\partial Loss}{\partial X^2_1} \text{ we recognize a learning flow !}
 $$
 
 and: 
 
 $$
 \begin{align}
-    \frac{\partial L1(X^1_1)}{\partial X^1_1} &= \frac{\partial ((X^1_1, 0, 0))}{\partial X^1_1} \text{ with the definition of } L1(X^1) \\
-                                              &= (1, 0, 0)
+\frac{\partial L1(X^1_1)}{\partial X^1_1} &= \frac{\partial ((X^1_1, 0, 0))}{\partial X^1_1} \text{ with the definition of } L1(X^1) \\
+                                          &= (1, 0, 0)
 \end{align}
 $$
 
@@ -337,9 +377,9 @@ Assembling those results:
 
 $$
 \begin{align}
-    \frac{\partial Loss}{\partial X^1_1} &= \frac{\partial Loss}{\partial L1(X^1_1)} . 
-                                            \frac{\partial L1(X^1_1)}{\partial X^1_1} \\
-                                         &= (\frac{\partial Loss}{\partial X^2_1}) * (1, 0, 0)
+\frac{\partial Loss}{\partial X^1_1} &= \frac{\partial Loss}{\partial L1(X^1_1)} . 
+                                        \frac{\partial L1(X^1_1)}{\partial X^1_1} \\
+                                     &= (\frac{\partial Loss}{\partial X^2_1}) * (1, 0, 0)
 \end{align}
 $$
 

@@ -89,8 +89,8 @@ the $ Loss $ function. Said differently, we will be able to predict how a slight
 the $ model $ will affect the $ loss $ final value. We will see why this is interesting in a 
 [later article]({% post_url 2021-08-19-weights %}).
 
-More practically we will keep in mind that applying the $ derivative $ operator on $ f $ according to $ X $, 
-gives us a new function for which we can compute an explicit formula: 
+More practically we will keep in mind that applying the $ derivative $ operator on $ f $ according to $ X $
+gives a new function for which we can compute an explicit formula: 
 
 $$
 \begin{align}
@@ -118,12 +118,12 @@ is responsible for the errors that are highlighted by the $ Loss $ function. For
 know why this is useful (we will talk about it in [this article]({% post_url 2021-08-19-weights %})).
 
 Thanks to the [last paragraph](#the-derivative-operator), 
-we have to compute the $ derivative $ function of $ Loss $ according to $ X $:
+we know we have to compute the $ derivative $ function of $ Loss $ according to $ X $:
 
 $$
 \begin{align}
-    derivative \text{ }Loss \text{ according to } X &= \frac{\partial}{\partial X}(Loss(X, Y^{truth})) \\ 
-                                                    &= \frac{\partial Loss}{\partial X}
+derivative \text{ }Loss \text{ according to } X &= \frac{\partial}{\partial X}(Loss(model(X), Y^{truth})) \\ 
+                                                &= \frac{\partial Loss}{\partial X}
 \end{align}
 $$
 
@@ -144,8 +144,9 @@ $$
 \boxed{\delta = \frac{\partial Loss}{\partial X}(x, y^{truth})}
 $$
 
-We could paraphrase the formula as: we want to know to what extent the variable $ X $ causes an error in the 
-$ model $ when the $ Loss $ function is evaluated on $ x $ and $ y^{truth} $ and we slightly disturb $ x $.
+We could paraphrase the formula as: we want to know to what extent the variable $ X $ causes an error 
+when the $ Loss(model(X), Y^{truth}) $ function is evaluated on $ x $ and $ y^{truth} $ 
+and we slightly disturb $ x $.
 
 ## Example
 
@@ -222,8 +223,8 @@ The $ loss $ is indeed an indicator of the error of the results produced by the 
 
 ![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [conlusion](#conclusion)
 
-Let us try to compute the explicit formula for the $ derivative $ function of our $ Loss $ function 
-according to $ X $ in our $ model $: 
+Even if we do not really know why this is useful for the moment, let us try to compute the explicit formula 
+for the $ derivative $ function of our $ Loss $ function according to $ X $ in our $ model $: 
 
 $$
 \frac{\partial Loss}{\partial X}
@@ -251,13 +252,13 @@ Thus, we can compute an explicit formula for the $ derivative $ function of $ Lo
 
 $$ 
 \begin{align}
-    \frac{\partial Loss}{\partial X^4} & = \frac{\partial \frac{1}{2} (X^4 - Y^{truth})^2}{\partial X^4}\\
-                                       & = 2 * \frac{1}{2} * (X^4 - Y^{truth}) \\
-                                       &= X^4 - Y^{truth} \\
+\frac{\partial Loss}{\partial X^4} & = \frac{\partial \frac{1}{2} (X^4 - Y^{truth})^2}{\partial X^4}\\
+                                   & = 2 * \frac{1}{2} * (X^4 - Y^{truth}) \\
+                                   &= X^4 - Y^{truth} \\
 \end{align}
 $$
 
-And we can now evaluate this function on the values that have produced 
+We can now evaluate this function on the values that have produced 
 $ loss = Loss(o3, y^{truth}) $, let $ \delta 4 $ be this result:
 
 $$ 
@@ -294,13 +295,13 @@ The question that may arise is:
 $ X^3 $ is defined in $ L3 $, not in the $ Loss $ function, 
 so how could it be responsible for the error highlighted by the $ Loss $ function ?
 
-This is due to the structure in $ layers $ of our $ model $. Changing the value that $ X^3 $ takes impacts 
+This is due to the structure in $ layers $ of our $ model $. Changing the value for $ X^3 $ impacts 
 the $ layers $ that use $ X^3 $ directly ($ L3 $) or indirectly ($ L4 $, $ L5 $, ..., $ Loss $)
 <a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[[1]](#remark)</sup>
 
 This is the beauty of the $ derivative $: from a single $ loss $ result, 
 being able to find the different culprits and to 
-what extent they are responsible for the error through a **chain** of $ layers $ (we will talk about this 
+what extent they are responsible for the final error through a **chain** of $ layers $ (we will talk about this 
 **chaining** aspect in the [next article]({% post_url 2021-08-13-backward-pass %})). 
 
 ![Safe](/_assets/images/maths/safe.png) 
@@ -314,7 +315,7 @@ We also saw the $ derivative $ of $ Loss $ according to $ X $ that allows to mea
  for the final error when we slightly disturb $ x $: 
  
 $$
-\boxed{\delta = \frac{\partial Loss}{\partial X}(x)}
+\boxed{\delta = \frac{\partial Loss}{\partial X}(x, y^{truth})}
 $$
 
 We were able to compute this $ derivative $ function according to the **final variable** but not 
