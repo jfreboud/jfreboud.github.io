@@ -17,21 +17,21 @@ But our $ model $ is composed of other variables and we must compute the impact 
 $ Loss $. 
 The reason for that will be explained in the [next article]({% post_url 2021-08-19-weights %}).
 
-In this article we will see how the structure in $ layers $ of our $ model $ helps us to compute the impacts of the 
+In this article we will see how the structure in $ layers $ of our $ model $ helps us computing the impacts of the 
 **inner variables** of the $ model $ on the $ Loss $ function.
 
 ## The backward pass
 
-Before diving into some more computation, let us talk about the **forward pass** one more time 
+Before diving into some more computation, let us talk about the **forward pass** once more 
 (first referenced [here]({% post_url 2021-08-06-inside-the-model %})). It has a nemesis in the **backward pass** that 
-plays the kind of the exact opposite role.
+plays the exact opposite role.
 
 The **forward pass** lets the **information flow** go through the different layers from 
 the **input layer** to the **output layer**. The **backward pass** is about a reversed signal that we could call 
 the **learning flow**. It goes from the **output layer** to the **input layer**.
 
-From what we have seen in the [previous article]({% post_url 2021-08-09-loss-function %}), we will keep in mind 
-that the **learning flow** is in fact the $ derivative $ of $ Loss $ according to the $ X $ variable: 
+From now on, we will keep in mind that the **learning flow** is in fact 
+the $ derivative $ of $ Loss $ according to the $ X $ variable: 
 
 $$
 \boxed{\frac{\partial Loss}{\partial X}} 
@@ -56,49 +56,45 @@ There is a final difference between the two: the **forward pass** is run in the 
 while the **backward pass** is only run during the **learning phase**, 
 which comforts its signal naming of **learning flow**.
 
-## A closer look on one layer
+## A closer look at one layer
 
-To be a little more specific, we can look at some $ L^k $ $ layer $ in particular.
-By definition we have an explicit formula for $ L^k(X^k) $ function. Running its **forward pass** is easy: 
-we just consider that the previous result $ o^{k-1} $ has already been 
-computed. This enables us to compute $ o^{k} = L^k(o^{k-1}) $.
+To be a little more specific, we can look at some $ L^{k+1} $ $ layer $ in particular.
+By definition we have an explicit formula for $ L^{k+1}(X^{k+1}) $ function. Running its **forward pass** is easy: 
+we just consider that the previous result $ o^{k} $ has already been 
+computed. This enables us to compute $ o^{k+1} = L^{k+1}(o^{k}) $.
 
 ![Forward](/_assets/images/backward/Forward.png)
 
 But for the backward pass we do the reverse logic. We must consider we already have computed the **learning flow** for 
-$ L^{k} $ which is $ \delta^{k} $ and 
-we want to **propagate** to the previous $ L^{k-1} $ $ layer $, computing $ \delta^{k-1} $. 
+$ L^{k+1} $ which is $ \delta^{k+1} $ and 
+we want to **propagate** to the previous $ L^{k} $ $ layer $, computing $ \delta^{k} $. 
 
 ![Backward](/_assets/images/backward/Backward.png)
 
-In order to compute 
-this $ \delta^{k-1} $ we proceed in two steps: 
-1. We compute an explicit formula for $ \frac{\partial Loss}{\partial X^{k-1}} $. 
-2. We evaluate this function on $ o^{k-2} $.
+In order to compute $ \delta^{k} $ we proceed in two steps: 
+1. We compute an explicit formula for $ \frac{\partial Loss}{\partial X^{k}} $. 
+2. We evaluate this function on $ o^{k-1} $.
 
-The most difficult point is the 1 because we must compute the link between $ X^{k-1} $ and $ Loss $ which is 
+The most difficult point is the 1 because we must compute the link between $ X^{k} $ and $ Loss $ which is 
 "chained". There are 2 essential parts in that "chain". 
-- The $ layer $ that directly uses $ X^{k-1} $ which is $ L^{k-1} $: 
-$ X^{k} = L^{k-1}(X^{k-1}) $.
-- The link between $ L^{k-1} $ and $ Loss $ which is the **learning flow** of $ L^{k} $: $ \delta^{k} $.
+- The $ layer $ that directly uses $ X^{k} $ which is $ L^{k} $ by definition of the **forward pass**: 
+$ X^{k+1} = L^{k}(X^{k}) $.
+- The link between $ L^{k} $ and $ Loss $ which is the **learning flow** of $ L^{k+1} $: $ \delta^{k+1} $.
 
-When we have these two links, we may use the **chain rule**... 
-
-![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [conlusion](#conclusion)
+When we have these two parts, we may use the **chain rule**... 
 
 ## The Chain rule
 
-Back to the [previous article]({% post_url 2021-08-09-loss-function %}), we now have to compute the impact of 
-each **inner variable** on the $ Loss $ function. As we saw, we have to use the $ derivative $ operator 
-on $ Loss $ according to the **inner variable** considered. So for every $ L^{k} $ $ layer $ which depends on 
-$ X^{k} $ we have to compute: 
+In the [previous paragraph](#a-closer-look-at-one-layer), we have seen the two essential parts to obtain the explicit 
+formula for:
 
 $$
 \frac{\partial Loss}{\partial X^k}
 $$
 
-But we have a problem: the link between an **inner variable** $ X^k $ and $ Loss $ is by definition indirect. 
-So we will have to do some work to obtain an explicit formula for $ \frac{\partial Loss}{\partial X^k} $.
+In this paragraph we will see how to compose them in order to establish the link between $ X^k $ and $ Loss $ 
+when $ X^k $ is an **inner variable** (when $ X^k $ is a **final variable** we already saw how to proceed in the 
+[previous article]({% post_url 2021-08-09-loss-function %})).
 
 In fact we have to use the **chain rule**, here on [Wikipedia](https://en.wikipedia.org/wiki/Chain_rule): 
 
@@ -118,6 +114,23 @@ $$
 $$
 
 for indicating at which points the derivatives have to be evaluated."
+
+Using the **chain rule** with $ z = Loss $ and $ y = L^{k} $, the formula becomes: 
+
+$$ 
+\frac{\partial Loss}{\partial X^{k}} = \frac{\partial Loss}{\partial L^{k}} . \frac{\partial L^{k}}{\partial X^{k}}
+$$
+
+Thanks to the **forward pass** we know that: $ X^{k+1} = L^{k}(X^{k}) $: 
+
+$$ 
+\boxed{\frac{\partial Loss}{\partial X^{k}} = \frac{\partial Loss}{X^{k+1}} . \frac{\partial L^{k}}{\partial X^{k}}}
+$$
+
+where $ \frac{\partial Loss}{X^{k+1}} $ is a **learning flow** we have already computed and 
+$ \frac{\partial L^{k}}{\partial X^{k}} $ is a part we compute thanks to some formula we learnt at school.
+
+![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [conlusion](#conclusion)
 
 ## Example
 
@@ -457,5 +470,5 @@ In fact the [chain rule](#the-chain-rule) formula is meant for functions of 1 va
 $ \frac{dz}{dx} $ where we used a partial derivative $ \frac{\partial z}{\partial x} $ in the 
 previous paragraphs.
 It used to work until now because the $ layers $ considered produced only 1 variable. Hence, 
-the variable we were considering the impact on $ Loss $ was targeted on this unique output variable.
+the variable we were considering the impact on $ Loss $ was targeting this unique output variable.
 [back to paragraph](#remark-back)

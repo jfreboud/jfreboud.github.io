@@ -67,7 +67,7 @@ Same **data** as in the [previous article]({% post_url 2021-08-05-general-concep
 
 ### <span style="text-decoration:underline"> Model </span> 
 
-We assume here we have a $ model $ containing only 3 $ layers $: 
+We assume we have a $ model $ containing only 3 $ layers $: 
 
 ![Layer-1](/_assets/images/model/Layer-1.png)
 

@@ -18,16 +18,16 @@ In this article we will talk about the $ Loss $ function which is the starting p
 In the paragraph "Learning, inferring" of the [first article]({% post_url 2021-08-05-general-concepts %}), 
 we talked about the **learning** phase and the **inferring** phase. 
 It is no surprise that the **learning** process in deep-learning happens during the **learning** phase. 
-We will thus concentrate on it.
+We will concentrate on it.
 
 During this phase we run the **forward** pass (see the [previous article]({% post_url 2021-08-06-inside-the-model %})).
 Then we are able to get the final results of our $ model $ thanks to its **output layer**. 
 
-In the different "Example" paragraphs, we had: 
+In the different "Example" paragraphs, two special values were comparable: 
 - $ o3 $: the **output layer** result when we run the $ model $ on the **data input**. 
 - the expected result which is the **data output**.
 
-We compared $ o3 $ to the expected result and had two situations: $ o3 = expectation $ or $ o3 \neq expectation $.
+We compared $ o3 $ to the expected result and two situations occurred: $ o3 = expectation $ or $ o3 \neq expectation $.
 
 We are now looking for a systematic way of telling the $ model $: this result is right, that result is wrong.  
 
@@ -56,8 +56,8 @@ we want to minimize the $ Loss $ function.
 
 The $ derivative $ operator is what makes the **learning** possible. 
 For an $ f $ function depending on $ X $, we can apply the $ derivative $ operator on $ f $ according to $ X $. 
-That way, we build a new function, 
-noted $ \frac{df}{dX} $. This new function can be evaluated on some value, for example $ x $: 
+That way, we build a new function, noted $ \frac{df}{dX} $. 
+This new function can be evaluated on some value, for example $ x $: 
 
 $$ 
 \frac{df}{dX}(x) = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}
@@ -162,7 +162,7 @@ Same **data** as in the [first article]({% post_url 2021-08-05-general-concepts 
 
 ### <span style="text-decoration:underline"> Model </span> 
 
-We assume here we have a $ model $ containing only 3 $ layers $. We also add a $ Loss $ function: 
+We assume we have a $ model $ containing only 3 $ layers $. We also add a $ Loss $ function: 
 
 ![Layer-1](/_assets/images/backward/Layer-1.png)
 
@@ -183,9 +183,10 @@ We can verify that:
 - $ X $ is 3 dimensional: $ X_1 $ is the variable for broccoli, $ X_2 $ is the variable for Tagada strawberries, 
 $ X_3 $ is the variable for workout hours
 - $ model(X) $ is 1 dimensional
-- $ Loss $ is a loss function that depends on $ X^4 $ and $ Y^{truth} $.
+- $ Loss $ is a loss function that depends on $ X^4 $ and $ Y^{truth} $, 
+$ X^4 $ receiving the value of the **output layer** of $ model $.
 
-We have built a $ model $ that is composed of 3 layers ($ L1 $, $ L2 $, $ L3 $).
+We have built a $ model $ that is composed of 3 layers ($ L1 $, $ L2 $, $ L3 $). 
 
 ### <span style="text-decoration:underline"> Run the forward pass </span>
 
@@ -252,7 +253,7 @@ Thus, we can compute an explicit formula for the $ derivative $ function of $ Lo
 
 $$ 
 \begin{align}
-\frac{\partial Loss}{\partial X^4} & = \frac{\partial \frac{1}{2} (X^4 - Y^{truth})^2}{\partial X^4}\\
+\frac{\partial Loss}{\partial X^4} & = \frac{\partial (\frac{1}{2} (X^4 - Y^{truth})^2)}{\partial X^4}\\
                                    & = 2 * \frac{1}{2} * (X^4 - Y^{truth}) \\
                                    &= X^4 - Y^{truth} \\
 \end{align}

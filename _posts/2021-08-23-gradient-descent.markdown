@@ -38,12 +38,12 @@ We are now able to give the different steps of the **learning phase** in the rig
 1. pick one **data input** in the **dataset** 
 2. run the **forward pass** for the $ model $ on this **data input**
 3. use the $ Loss $ function to compute the error between the result produced by the $ model $ and 
-the expectation given by the **data output** (specific to the **learning phase**)
-4. run the **backward pass** to compute (specific to the **learning phase**):
+the expectation given by the **data output** 
+4. run the **backward pass** to compute:
     - the **learning flow**
     - the $ derivative $ of the $ Loss $ function according to $ W $
     
-5. **update** the **weights** of $ model $ (specific to the **learning phase**)
+5. **update** the **weights** of $ model $
 
 As we want our $ model $ to learn on every **data** of our **dataset** we will repeat the previous points until 
 we have "picked" every **data input** of our **dataset**.
@@ -51,17 +51,17 @@ we have "picked" every **data input** of our **dataset**.
 ## The Gradient Descent Algorithm
 
 In the [previous article]({% post_url 2021-08-19-weights %}), we saw that in order to **update** the **weights** 
-we use a formula with a direction of **update** and a length of **update**: $ \alpha $ which we called the 
-**learning rate**. 
+we use a formula with a direction of **update**: $ -\delta w $ 
+and a length of **update**: $ \alpha $ which we called the **learning rate**. 
 
 We mentioned how this **learning rate** had to be very small in order not to break our local "prediction" of the 
-the $ Loss(model(X), Y^{truth}) $ function evaluated on (**data input**, **data output**).
+$ Loss(model(X), Y^{truth}) $ function evaluated on (**data input**, **data output**).
 
 The remaining problem is that if we use a very small **learning rate**, it means that after each **weights** update, 
 the $ model $ will not learn a lot.
 
-This is the reason why we will in fact repeat the whole process several times in order that these many 
-"small understanding steps" converge to a robust understanding of the whole **dataset**.
+This is the reason why we repeat the whole process several times in order that many 
+"small understanding steps" converge to a global understanding of the whole **dataset**.
 
 This is the **gradient descent** algorithm which mainly consists in repeating what we already know: 
 
@@ -89,7 +89,7 @@ $$
 \hat{w} = w - \alpha * \frac{\partial Loss}{\partial W}(x, y^{truth})
 $$
 
-For multivariate functions (function with multiple variables: this is our case), 
+For multivariate functions (function with multiple variables), 
 the $ \frac{\partial Loss}{\partial W} $ is called the **gradient**. 
 
 It is a **gradient descent** because we follow the direction of $ -\frac{\partial Loss}{\partial W} $ to **update** 
@@ -144,7 +144,7 @@ $$
 | (200,  0, 0)       | (200,  0, 0)     | (1)             | (1)             |
 | (0, 2000, 3 000)   | (0, 2000, 3 000) | (0)             | (0)             |
 
-| $ o3 = model(x) $ | $ y^{truth} $ = expected result | $ loss = Loss(o3, y^{truth}) $ | correct ? |
+| $ o3 = model(x) $ | $ y^{truth} $ | $ loss = Loss(o3, y^{truth}) $ | correct ? |
 | :----: | :-----: | :-----: | :---: |
 | (0) | (0) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
 | (1) | (1) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
@@ -263,7 +263,7 @@ $$
 \end{align}
 $$
 
-So it appears the new value for $ w^2 $ is still the same !
+It appears the new value for $ w^2 $ is still the same !
 This is no wonder as for this first **data input**: $ loss = 0 $.
 This $ loss $ value is typical for a $ model $ that has already produced the right result and has nothing to learn.
 
@@ -456,20 +456,21 @@ Now we have:
 We are now able to compare $ result $ with $ y^{truth} $. In order to have a more objective indicator we still 
 compute $ loss $ with the real outputs of our $ model $: $ o3 $ 
 
-| $ o3 = model(x) $ | $ result $ | $ y^{truth} $ = expected result | $ loss = Loss(o3, y^{truth}) $ | correct ? |
+| $ o3 = model(x) $ | $ result $ | $ y^{truth} $ | $ loss = Loss(o3, y^{truth}) $ | correct ? |
 | :----: | :-----: | :-----: | :-----: | :---: |
 | (0.43) | (0) | (0) | (0.092) | ![wrong](/_assets/images/general/right.png) |
 | (1)    | (1) | (1) | (<span style="color:green">0</span>) | ![right](/_assets/images/general/right.png) |
 | (1.3)  | (1) | (1) | (0.045) | ![right](/_assets/images/general/right.png) |
 
-We observe that the $ result $ is now aligned with the expectation on the 3 **data input** !
+We observe that the $ result $ is now aligned with the expectation $ y^{truth} $ on the 3 **data input** !
 The $ model $ has well learnt. Still, the $ loss $ for the first **data input** has increased. In the past its $ loss $
-was 0 and now 0.092. This shows that any **learning** made on one **data input** may "corrupt" the state so far. 
+was 0 and now 0.092. This shows that any **learning** made on one **data input** may affect the understanding of 
+other **data input** :smiling_imp:
 
 ## Conclusion
 
 In this article we run the whole **gradient descent** algorithm and saw the **learning process** in action. 
-We saw that the **gradient descent** name comes from the direction followed to **update** the **weights**. 
+We saw the **gradient descent** name comes from the direction followed to **update** the **weights**. 
 
 We run only one **epoch** of the algorithm and saw the **weights**' **updates** have slightly degraded some results 
 that were perfect in the original state. We could have run a second **epoch** to see how the situation evolves. 
