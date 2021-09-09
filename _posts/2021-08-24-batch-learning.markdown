@@ -541,7 +541,7 @@ This goes along with a more "robust" **learning** on several **epochs**.
 In this article we studied an upgraded version of the **gradient descent** algorithm with **batch learning**. 
 This new algorithm is more robust. 
 
-This article also concludes our deep-learning meta walkthrough.
+This article also concludes our deep learning meta walkthrough.
 We will now open a new chapter to better understand the **learning flow** we introduced in 
 the [backward pass article]({% post_url 2021-08-13-backward-pass %}). We will also speak about the different 
-$ layers $ we need in order to build a real deep-learning $ model $ !
+$ layers $ we need in order to build a real deep learning $ model $ !

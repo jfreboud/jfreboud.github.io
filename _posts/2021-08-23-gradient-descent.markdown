@@ -27,7 +27,7 @@ In this article we are going to use the different parts we have explored so far 
 ## What we do...
 
 In the [first article]({% post_url 2021-08-05-general-concepts %}), we saw that the **learning process** 
-of a deep-learning $ model $ happens during the **learning phase**. 
+of a deep learning $ model $ happens during the **learning phase**. 
 
 Through the different articles: [Loss function]({% post_url 2021-08-09-loss-function %}), 
 [backward pass]({% post_url 2021-08-13-backward-pass %}) and [weights]({% post_url 2021-08-19-weights %}), 

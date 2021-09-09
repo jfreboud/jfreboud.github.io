@@ -3,19 +3,19 @@ layout: post
 title:  "Inside the Model"
 date:   2021-08-06 15:00:00 +0200
 excerpt: >-
-  2/ In this article, we explore the generic structure of a deep-learning model.
+  2/ In this article, we explore the generic structure of a deep learning model.
 ---
 
 ## Introduction
 
 In the [previous article]({% post_url 2021-08-05-general-concepts %}), we mentioned the prominent part the 
-deep-learning $ model $ plays in the **learning**. 
+deep learning $ model $ plays in the **learning**. 
 
 In this article we will explore the $ model $ structure further. 
 
 ## The Layers
 
-Without any further ado, here is what a typical deep-learning $ model $ looks like: 
+Without any further ado, here is what a typical deep learning $ model $ looks like: 
 
 ![Layers](/_assets/images/model/Layers.png)
 
@@ -47,7 +47,7 @@ in the **sequential order**.
 While going deeper in the $ layers $, the **representations** will contain an understanding more complex and 
 more abstract of the **input data**. 
 
-This is the goal of deep-learning: considering the **representations** of the last $ layer $, we want it to have 
+This is the goal of deep learning: considering the **representations** of the last $ layer $, we want it to have 
 the best understanding of the **input data** possible.
 
 While they seem abstract for the moment, these **representations** will be more precise when we will talk about the 
@@ -187,7 +187,7 @@ $$
 
 ## Conclusion
 
-In this article, we saw that the global structure of a deep-learning $ model $ is in fact an ordered graph 
+In this article, we saw that the global structure of a deep learning $ model $ is in fact an ordered graph 
 of $ layers $ as in the following schema: 
 
 ![Layer-4](/_assets/images/model/Layer-4.png)

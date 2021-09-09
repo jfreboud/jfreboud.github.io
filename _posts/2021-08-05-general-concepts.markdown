@@ -3,29 +3,30 @@ layout: post
 title:  "General Concepts"
 date:   2021-08-05 20:00:00 +0200
 excerpt: >-
-  1/ This is the first article of our walkthrough in deep-learning.
-  First things first, we explore some general concepts of deep-learning, introducing the deep-learning model.
+  1/ This is the first article of our walkthrough in deep learning neural networks.
+  First things first, we explore some general concepts of deep learning, introducing the deep learning model.
 ---
 
 ## Introduction 
 
-Deep-Learning is one of those words that is buzzing today. One might believe that the artificial intelligence 
-is about building a Frankenstein that takes over its creator in order to gain its liberty.
+Deep learning is one of those words that is buzzing today. One might believe that the artificial intelligence 
+is about building a Frankenstein that takes over its creator to free itself.
 
 The reality is far away from that vision. The global structure of the learning process happens in the 
-deep-learning $ model $. This $ model $ is not learnt by any means, it is set by the developer. 
-Finally, the only area where the learning takes place are the **model's weights**.
+deep learning $ model $. This $ model $ has been inspired by neural networks but its structure is not really changing 
+as our brain is. This $ model $ is purely and simply set once and for all by the developer. 
+The only area where the learning takes place is the **model's weights**.
 
 ![Frankenstein](/_assets/images/general/Frankenstein.png)
 
 ## Build a model
 
-The main objective of deep-learning is to be able to **learn** something and to apply this **learning** on something 
-new. This **learning** is located inside the deep-learning $ model $. More precisely, it is located in the 
+The main objective of deep learning is to be able to **learn** something and to apply this **learning** on something 
+new. This **learning** is located inside the deep learning $ model $. More precisely, it is located in the 
 **model's weights** but we will talk about them later.
 
 As we saw in the [introduction](#introduction), there is no magic: 
-it is the role of the developer to actually build the $ model $. We will see some considerations about it later too. 
+it is the role of the developer to actually build the $ model $. We will see some considerations about it later. 
 
 ## Run a model 
 
@@ -160,7 +161,7 @@ in order to produce new results. This is the final goal: the student has become 
 
 ## Conclusion
 
-We saw in this article some general concepts that revolve around the deep-learning $ model $.
+We saw in this article some general concepts that revolve around the deep learning $ model $.
 **Learning** is just about modifying the $ model $ so that the $ model $ produces expected results 
 on given **data inputs**. 
 Then, it is possible to use this $ model $ to produce new results.

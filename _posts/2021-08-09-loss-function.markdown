@@ -3,13 +3,13 @@ layout: post
 title:  "The Loss function"
 date:   2021-08-09 15:00:00 +0200
 excerpt: >-
-  3/ We complete the deep-learning model with the loss function: this is the first step toward the learning process.
+  3/ We complete the deep learning model with the loss function: this is the first step toward the learning process.
 ---
 
 ## Introduction
 
 In the [previous article]({% post_url 2021-08-06-inside-the-model %}), we explored the 
- generic structure of the deep-learning $ model $: an ordered graph of $ layers $.
+ generic structure of the deep learning $ model $: an ordered graph of $ layers $.
 
 In this article we will talk about the $ Loss $ function which is the starting point of the **learning process**. 
 
@@ -17,7 +17,7 @@ In this article we will talk about the $ Loss $ function which is the starting p
 
 In the paragraph "Learning, inferring" of the [first article]({% post_url 2021-08-05-general-concepts %}), 
 we talked about the **learning** phase and the **inferring** phase. 
-It is no surprise that the **learning** process in deep-learning happens during the **learning** phase. 
+It is no surprise that the **learning** process in deep learning happens during the **learning** phase. 
 We will concentrate on it.
 
 During this phase we run the **forward** pass (see the [previous article]({% post_url 2021-08-06-inside-the-model %})).

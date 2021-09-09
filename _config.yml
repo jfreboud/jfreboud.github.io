@@ -1,6 +1,6 @@
 title: The Deep Learning Machinery
 description: >-
-  Understand the machinery behind deep-learning models in computer vision.
+  Understand the machinery behind deep learning neural networks in computer vision.
   Grasp what is hidden by nature in frameworks such as PyTorch and TensorFlow.
   Design a computer vision framework from scratch with intuition.
 show_excerpts: true
