@@ -334,4 +334,4 @@ This also applies for every $ layer $:
 $ L3(X^1, X^2, X^3) $, $ L2(X^1, X^2) $ and $ L1(X^1) $. 
 
 For our comfort, we will keep the notation with direct variables: $ Loss(X^4, Y^{truth}) $, $ L3(X^3) $, $ L2(X^2) $ 
-and $ L1(X^1) $. [back to paragraph](#remark-back)
+and $ L1(X^1) $. [↑](#remark-back)

@@ -471,4 +471,4 @@ $ \frac{dz}{dx} $ where we used a partial derivative $ \frac{\partial z}{\partia
 previous paragraphs.
 It used to work until now because the $ layers $ considered produced only 1 variable. Hence, 
 the variable we were considering the impact on $ Loss $ was targeting this unique output variable.
-[back to paragraph](#remark-back)
+[↑](#remark-back)

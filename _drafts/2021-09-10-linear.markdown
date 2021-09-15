@@ -66,7 +66,9 @@ every output **neurons** to every input **neurons**.
 Concretely, we must declare $ W^{k+1, 1} $ **weights** that will connect the different input **neurons**: 
 $ o^{k}_1 $, $ o^{k}_2 $ and $ o^{k}_3 $ to the first output **neuron** $ o^{k+1}_1 $.
 
+<a id="linear-structure" class="anchor">
 ![Linear](/_assets/images/layers/Linear3.png)
+</a>
 
 And we must also declare $ W^{k+1, 2} $ **weights** that will connect the different input **neurons**: 
 $ o^{k}_1 $, $ o^{k}_2 $ and $ o^{k}_3 $ to the second output **neuron** $ o^{k+1}_2 $.
@@ -162,9 +164,10 @@ $$
 \delta^{k+1, 1} = \frac{\partial Loss}{\partial X^{k+1, 1}}(o^k_1)
 $$
 
-The interesting variable is: $ X^{k+1, 1} $. Let us find its impacts on the $ Loss $ function.
+The interesting variable is: $ X^{k+1, 1} $. In the different figures it corresponds to $ o^{k}_1 $, 
+its value during the current **backward pass**. Let us find its impacts on the $ Loss $ function.
 In fact, every output of $ L^{k+1} $ uses $ X^{k+1, 1} $.
-Indeed we can look at the last two figures of [this paragraph](#the-linear-neural-structure) to see that 
+Indeed we can look at the two figures [here](#linear-structure) to see that 
 $ o^{k+1}_1 $ is linked to $ o^{k}_1 $ and that $ o^{k+1}_2 $ is also linked to $ o^{k}_1 $.
 
 We have already seen examples ([backward pass]({% post_url 2021-08-13-backward-pass %}) and 
@@ -178,7 +181,7 @@ We are now able to build the **paths** of impacts from $ X^{k+1, 1} $ to the $ L
 - $ X^{k+1, 1} $ impacts $ L^{k+1, 1} $ (definition of $ L^{k+1} $) which impacts the $ Loss $ function ("future" **learning flow**)
 - $ X^{k+1, 1} $ impacts $ L^{k+1, 2} $ (definition of $ L^{k+1} $) which impacts the $ Loss $ function ("future" **learning flow**)
 
-We may add these 2 impacts, using the **chain rule**, to obtain: 
+We add these 2 impacts, using the **chain rule**, to obtain: 
 
 $$ 
 \delta^{k+1, 1} = \delta^{k+2, 1} * \frac{\partial L^{k+1, 1}}{X^{k+1, 1}}(o^k_1)  + 
@@ -219,9 +222,10 @@ $$
 \delta^{k+1, 2} = \frac{\partial Loss}{\partial X^{k+1, 2}}(o^k_2)
 $$
 
-The interesting variable is: $ X^{k+1, 2} $. As in the previous paragraph, 
+The interesting variable is: $ X^{k+1, 2} $. In the different figures it corresponds to $ o^{k}_2 $, 
+its value during the current **backward pass**. As in the previous paragraph, 
 every output of $ L^{k+1} $ uses $ X^{k+1, 2} $.
-Indeed we can look at the last two figures of [this paragraph](#the-linear-neural-structure) to see that 
+Indeed we can look at the last two figures [here](#linear-structure) to see that 
 $ o^{k+1}_1 $ is linked to $ o^{k}_2 $ and that $ o^{k+1}_2 $ is also linked to $ o^{k}_2 $.
 
 We are now able to build the **paths** of impacts from $ X^{k+1, 1} $ to the $ Loss $ function. 
@@ -231,7 +235,7 @@ We are now able to build the **paths** of impacts from $ X^{k+1, 1} $ to the $ L
 - $ X^{k+1, 2} $ impacts $ L^{k+1, 1} $ which impacts the $ Loss $ function 
 - $ X^{k+1, 2} $ impacts $ L^{k+1, 2} $ which impacts the $ Loss $ function 
 
-We may add these 2 impacts, using the **chain rule**, to obtain: 
+We add these 2 impacts, using the **chain rule**, to obtain: 
 
 $$ 
 \delta^{k+1, 2} = \delta^{k+2, 1} * \frac{\partial L^{k+1, 1}}{X^{k+1, 2}}(o^k_2)  + 
@@ -272,9 +276,10 @@ $$
 \delta^{k+1, 3} = \frac{\partial Loss}{\partial X^{k+1, 3}}(o^k_3)
 $$
 
-The interesting variable is: $ X^{k+1, 3} $. As in the previous paragraph, 
+The interesting variable is: $ X^{k+1, 3} $. In the different figures it corresponds to $ o^{k}_3 $, 
+its value during the current **backward pass**. As in the previous paragraph, 
 every output of $ L^{k+1} $ uses $ X^{k+1, 3} $.
-Indeed we can look at the last two figures of [this paragraph](#the-linear-neural-structure) to see that 
+Indeed we can look at the last two figures [here](#linear-structure) to see that 
 $ o^{k+1}_1 $ is linked to $ o^{k}_3 $ and that $ o^{k+1}_2 $ is also linked to $ o^{k}_3 $.
 
 We are now able to build the **paths** of impacts from $ X^{k+1, 3} $ to the $ Loss $ function. 
@@ -284,7 +289,7 @@ We are now able to build the **paths** of impacts from $ X^{k+1, 3} $ to the $ L
 - $ X^{k+1, 3} $ impacts $ L^{k+1, 1} $ which impacts the $ Loss $ function 
 - $ X^{k+1, 3} $ impacts $ L^{k+1, 2} $ which impacts the $ Loss $ function 
 
-We may add these 2 impacts, using the **chain rule**, to obtain: 
+We add these 2 impacts, using the **chain rule**, to obtain: 
 
 $$ 
 \delta^{k+1, 3} = \delta^{k+2, 1} * \frac{\partial L^{k+1, 1}}{X^{k+1, 3}}(o^k_3)  + 
