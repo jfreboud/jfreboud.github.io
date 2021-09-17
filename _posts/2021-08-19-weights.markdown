@@ -367,7 +367,7 @@ As mentioned in this [paragraph](#the-backward-pass-for-weights) we need to use 
 in order to compute the explicit formula for the $ derivative $ functions of $ Loss $ according to the **weights**. 
 
 Note that $ L2 $ is the only $ layer $ that declares **weights** in this $ model $. 
-This is the reason why there is just one $ \delta w^2 $ in the figure below. 
+This is the reason why there is just one $ \delta w^2 $ in the diagram below. 
 
 ![Layers](/_assets/images/backward/Layer-5.png)
 
