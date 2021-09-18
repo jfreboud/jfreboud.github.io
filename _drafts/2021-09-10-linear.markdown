@@ -1,9 +1,9 @@
 ---
 layout: post
 title:  "The Linear Layer"
-date:   2021-09-10 10:00:00 +0200
+date:   2021-09-18 7:00:00 +0200
 excerpt: >-
-  8/ We explore the linear layer deeper.
+  8/ We explore the linear layer.
 ---
 
 ## Introduction
@@ -561,8 +561,97 @@ $$
 \end{align}
 $$ 
 
-The **neural structure** we have seen in the [previous paragraph](#example) is just another way to formalize the 
+The **neural structure** we have seen in the [previous paragraph](#example) is another way to formalize the 
 transformation of the $ L2 $ input values: $ o^1_1 $, $ o^1_2 $ and $ o^1_3 $ into the $ L2 $ output values: 
-$ o^2 $.  
+$ o^2 $ but it is more useful to find the impacts of the input **neurons** to compute the elements of the 
+**backward pass**.
 
 ### <span style="text-decoration:underline"> Backward pass for L2 </span>
+
+We have already computed the different elements. 
+
+In the [backward pass for the learning flow](#backward-pass-for-the-learning-flow), we found:
+
+$$
+\delta^{k+1, 1} = \delta^{k+2, 1} * w^{k+1, 1}_1 + \delta^{k+2, 2} * w^{k+1, 2}_1
+$$
+
+$$ 
+\delta^{k+1, 2} = \delta^{k+2, 1} * w^{k+1, 1}_2 + \delta^{k+2, 2} * w^{k+1, 2}_2
+$$
+
+$$ 
+\delta^{k+1, 3} = \delta^{k+2, 1} * w^{k+1, 1}_3 + \delta^{k+2, 2} * w^{k+1, 2}_3
+$$
+
+We may adjust these formula to the current **neural structure**: 
+
+$$
+\boxed{\delta^{2, 1} = \delta^{3} * w^{2}_1}
+$$ 
+
+$$ 
+\boxed{\delta^{2, 2} = \delta^{3} * w^{2}_2}
+$$
+
+and
+
+$$ 
+\boxed{\delta^{2, 3} = \delta^{3} * w^{2}_3}
+$$
+
+We may summarize them as: 
+
+$$ 
+\delta^{2} = \delta^{3} * w^2 
+$$
+
+which is what we already computed in the 
+[backward pass article]({% post_url 2021-08-13-backward-pass %}).
+
+In the [backward pass for the weights](#backward-pass-for-the-weights), we found:
+
+$$ 
+\delta w^{k+1, 1}_1 = \delta^{k+2, 1} * o^k_1
+$$
+
+$$ 
+\delta w^{k+1, 1}_2 = \delta^{k+2, 1} * o^k_2
+$$
+
+$$ 
+\delta w^{k+1, 1}_3 = \delta^{k+2, 1} * o^k_3
+$$
+
+We found other formula be we do not need them here as we have only 3 **weights** and no **bias**. 
+Finally we obtain:
+
+$$ 
+\boxed{\delta w^{2}_1 = \delta^{3} * o^1_1}
+$$
+
+$$ 
+\boxed{\delta w^{2}_2 = \delta^{3} * o^1_2}
+$$
+
+$$ 
+\boxed{\delta w^{2}_3 = \delta^{3} * o^1_3}
+$$
+
+which we may summarize as:
+
+$$ 
+\delta w^{2} = \delta^{3} * o^1
+$$
+
+Once more, we recognize the formula we found in the [weights article]({% post_url 2021-08-19-weights %}).
+
+## Conclusion
+
+We have explored the $ Linear $ $ layer $ and found out we already used this $ layer $ in the 
+"Example" of the previous chapter.
+
+We saw how the **neural structure** helps finding the impacts of the different **neurons** on the $ Loss $ function.
+This is the core of the **backward pass**.
+
+In the next article we will continue exploring the other $ layers $ of our "Example".
