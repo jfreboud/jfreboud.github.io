@@ -9,15 +9,15 @@ excerpt: >-
 ## Introduction
 
 It is time to explore the real form of the different possible layers of our deep learning $ model $.
-As we already know the $ model $ is a graph of ordered $ layers $ 
-(see this [article]({% post_url 2021-08-06-inside-the-model %})). Each of the different $ layers $ will 
+As we already know, the $ model $ is a graph of ordered $ layers $ 
+(see [this article]({% post_url 2021-08-06-inside-the-model %})). Each of the different $ layers $ will 
 progressively build a richer and more complex understanding of the **data input** of our **dataset**. 
 
 Each $ layer $ will in fact add its own characteristics to the previous understanding built by its previous 
 $ layers $ in the **forward pass** order. Said differently we can see this graph of $ layers $ as a building site. 
 The first $ layers $ will build the foundations. The last $ layers $ will add the finishes. 
 
-In the different articles, we are going to speak about the different characteristics of different $ layers $. 
+In the coming articles, we will speak about the characteristics of the different types of $ layer $. 
 We will concentrate on the $ layers $ that actually **learn** something: $ layers $ declaring **weights** 
 (recall the **weights** in [this article]({% post_url 2021-08-19-weights %})). 
 
@@ -29,17 +29,20 @@ In order to better understand the function realized by one $ Linear $ $ layer $,
 **neural structure**. 
 
 Let us take a $ L^{k+1} $ $ Linear $ $ layer $. As every $ Linear $ $ layer $ it is a **learning** $ layer $, 
-which means it declares **weights** ([here]({% post_url 2021-08-19-weights %})). 
+which means it declares **weights** (see the [weights article]({% post_url 2021-08-19-weights %})). 
 Let us note $ W^{k+1} $ these **weights**.
 
-By definition of the **forward pass** ([here]({% post_url 2021-08-06-inside-the-model %})) 
-we need one $ L^{k} $ $ layer $ in order to use the $ L^{k+1} $ function on the outputs of $ L^{k} $.
+By definition of the **forward pass** (see [this article]({% post_url 2021-08-06-inside-the-model %})) 
+we need $ L^{k+1} $'s previous layer $ L^{k} $ in order to evaluate $ L^{k+1} $ on the outputs of $ L^{k} $. 
+For now this is how we represent this relation:
 
 ![Linear](/_assets/images/layers/Linear1.png)
 
-In the diagram, we are now ready to remove the clouds and turn them into **neurons** !
+In the diagram, we are now ready to remove the clouds and turn them into **neurons**! 
+Each **neuron** represents the $ X $ variable (input of one $ layer $), the $ L(X) $ variable (output of one $ layer $) 
+or their value evaluation during the **learning phase** or the **inferring phase**.
 
-Let us suppose $ L^{k} $ is also a $ Linear $ $ layer $ with 3 **neurons**. This literally means 
+Let us suppose $ L^{k} $ is a $ Linear $ $ layer $ with 3 **neurons**. This literally means 
 $ L^{k} $ produces 3 outputs: $ o^{k}_1 $, $ o^{k}_2 $ and $ o^{k}_3 $. 
 
 Let us suppose $ L^{k+1} $ produces 2 output **neurons**: $ o^{k+1}_1 $ and $ o^{k+1}_2 $. 
@@ -48,19 +51,20 @@ The diagram becomes:
 
 ![Linear](/_assets/images/layers/Linear2.png)
 
-Note that the number of **neurons** for each $ layer $ is up to the developer once more. The fact that we chose 2 
+Note that the number of **neurons** for each $ layer $ is up to the developer. The fact that we chose 2 
 output **neurons** for $ L^{k+1} $ and 3 output **neurons** for $ L^{k} $ is just an example. We could also have 
 decided that $ L^{k+1} $ produces 20 945 output **neurons** but it would have been less practical to draw a diagram. 
 
-The final question is: what is the function $ L^{k+1} $ that transforms the outputs of $ L^{k} $ into the very own 
-outputs of $ L^{k+1} $ ?
+The final question is: what is the form of the $ L^{k+1} $ function ? 
+We just know it transforms the outputs of $ L^{k} $ into the very own outputs of $ L^{k+1} $.
 
-The answer is in fact: we do not know... 
-This is the reason why we going to do some crazy move: connecting each $ L^{k} $ **neurons** 
-to each $ L^{k+1} $ **neurons**. The connexions we use are actually the **weights** of $ L^{k+1} $: $ W^{k+1} $.
+The answer is: we do not know :smiling_imp: 
 
-But there is one subtlety here: $ L^{k+1} $ has two **neurons**. In fact each of $ L^{k+1} $ will need to be connected 
-to every **neurons** of $ L^{k} $. This is the main characteristic of the $ Linear $ $ layer $: connect 
+This is the reason why we do some crazy move: connecting each $ L^{k} $ **neuron** 
+to each $ L^{k+1} $ **neuron**. The connexions being assured by the **weights** of $ L^{k+1} $: $ W^{k+1} $.
+
+But there is one subtlety here: $ L^{k+1} $ has two **neurons**. So each $ L^{k+1} $ **neuron** will be connected 
+to every **neurons** of $ L^{k} $. This is the main characteristic of the $ Linear $ $ layer $: connecting 
 every output **neurons** to every input **neurons**.
 
 Concretely, we must declare $ W^{k+1, 1} $ **weights** that will connect the different input **neurons**: 
@@ -88,23 +92,21 @@ L^{k+1, 2}(X^{k+1}) &= W^{k+1, 2}_1 . X^{k+1, 1} + W^{k+1, 2}_2 . X^{k+1, 2} + W
 \end{align}
 $$ 
 
-- $ X^{k+1} $ is the natural dependency of $ L^{k+1} $ receiving the outputs from the previous $ L^{k} $ $ layer $ in 
-the order of the **forward pass**. 
+- $ X^{k+1} $ is the natural dependency of $ L^{k+1} $. It receives the outputs of the previous $ L^{k} $ $ layer $. 
 
 - $ W^{k+1} $ are the **weights** declared by the $ L^{k+1} $ $ layer $. These **weights** will receive their values 
 from the developer, beginning with a start value. Then they are **updated** during the **learning phase** 
-(see [here]({% post_url 2021-08-19-weights %})).
+(see the [weights article]({% post_url 2021-08-19-weights %})).
 
-- $ B^{k+1} $ is another **weight** variable, called the **bias**. We did not include this variable in $ W^{k+1} $ 
-because it is not linked to $ X^{k+1} $. Their initial value is typically 0. They **updated** during the 
-**learning phase**.
+- $ B^{k+1} $ is another **weight** variable, called the **bias**. 
+Their initial value is typically 0. They are **updated** during the **learning phase** too.
 
 Let us check the structure of the $ L^{k+1} $ $ layer $. We have used the same structure as in the 
 [previous paragraph](#the-linear-neural-structure): we should be able to identify 2 outputs. Each of these 2 outputs 
 depending of the 3 outputs of the previous $ L^{k} $ $ layer $.
 
 Indeed, we have $ L^{k+1, 1} $ and $ L^{k+1, 2} $ which are the two output **neurons**.
-Each of these variable are connected to $ X^{k+1, 1} $, $ X^{k+1, 2} $ and $ X^{k+1, 3} $ which are the 3 input 
+Each of these variables is connected to $ X^{k+1, 1} $, $ X^{k+1, 2} $ and $ X^{k+1, 3} $ which are the 3 input 
 **neurons**, or said differently the 3 output **neurons** of the previous $ layer $. 
 
 What is interesting to note is that we have declared 2 (output **neurons**) * 3 (input **neurons**) = 6 weights 
@@ -112,10 +114,11 @@ in total:
 $ W^{k+1, 1}_1 $, $ W^{k+1, 1}_2 $, $ W^{k+1, 1}_3 $, $ W^{k+1, 2}_1 $, $ W^{k+1, 2}_2 $ and $ W^{k+1, 2}_3 $.
 
 Note that we have one more **weight**: $ B^{k+1} $ that is used the same in $ L^{k+1, 1} $ and in $ L^{k+1, 2} $. 
+This will be important in the [backward pass paragraph](#backward-pass-for-the-learning-flow).
 
 ## Backward pass
 
-As we saw in this [article]({% post_url 2021-08-19-weights %}), the goal of the **backward pass** is to compute 
+As we saw in the [weights article]({% post_url 2021-08-19-weights %}), the goal of the **backward pass** is to compute 
 
 $$ 
 \boxed{\delta w = \frac{\partial Loss}{\partial W}(x, y^{truth})}
@@ -124,13 +127,13 @@ $$
 for each **weight** of every $ layer $. This is the direction to follow in the **weights**' **update** in order 
 to minimize the $ Loss $ function.
 
-We also have to use the **backward pass** in order to back propagate: 
+We also have to use the **backward pass** in order to back propagate
 
 $$
 \boxed{\delta = \frac{\partial Loss}{\partial X}(x, y^{truth})}
 $$
 
-which is the **learning flow** that is essential to compute the direction in the first formula. Let us begin with 
+which is the **learning flow**: the essential part to compute the direction in the first formula. Let us begin with 
 this **learning flow**. 
 
 ## Backward pass for the learning flow 
@@ -144,7 +147,7 @@ $$
 In the [backward pass article]({% post_url 2021-08-13-backward-pass %}), we would use the **chain rule** in order 
 to compute the explicit formula for $ \frac{\partial Loss}{\partial X^{k+1}} $.
 
-Now, we are going to see how to obtain this $ \delta^{k+1} $ with a more straight forward approach. 
+We will see how to obtain this $ \delta^{k+1} $ with a more straight forward approach. 
 
 The principal idea is to go back to the very structure of $ L^{k+1} $ in order to find the impacts of $ X^{k+1} $ 
 on the $ Loss $ function, knowing that the "future" 
@@ -230,7 +233,7 @@ every output of $ L^{k+1} $ uses $ X^{k+1, 2} $.
 Indeed we can look at the last two diagrams [here](#linear-structure1) to see that 
 $ o^{k+1}_1 $ is linked to $ o^{k}_2 $ and that $ o^{k+1}_2 $ is also linked to $ o^{k}_2 $.
 
-We are now able to build the **paths** of impacts from $ X^{k+1, 1} $ to the $ Loss $ function. 
+We are now able to build the **paths** of impacts from $ X^{k+1, 2} $ to the $ Loss $ function. 
 
 ![Linear](/_assets/images/layers/Linear7.png)
 
@@ -295,7 +298,7 @@ We add these 2 impacts, using the **chain rule**, to obtain:
 
 $$ 
 \delta^{k+1, 3} = \delta^{k+2, 1} * \frac{\partial L^{k+1, 1}}{X^{k+1, 3}}(o^k_3)  + 
-\delta^{k+2, 2} * \frac{\partial L^{k+1, 3}}{X^{k+1, 2}}(o^k_3)
+\delta^{k+2, 2} * \frac{\partial L^{k+1, 2}}{X^{k+1, 3}}(o^k_3)
 $$
 
 We just have to compute: 
@@ -317,7 +320,7 @@ $$
 We do the same to obtain: 
 
 $$ 
-\frac{\partial L^{k+1, 3}}{X^{k+1, 3}}(o^k_3) = w^{k+1, 2}_3
+\frac{\partial L^{k+1, 2}}{X^{k+1, 3}}(o^k_3) = w^{k+1, 2}_3
 $$
 
 We finally assemble these two results:
