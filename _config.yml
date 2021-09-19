@@ -6,6 +6,8 @@ description: >-
   Grasp what is hidden in frameworks such as PyTorch and TensorFlow.
 show_excerpts: true
 
+url: "https://jfreboud.github.io"
+
 header_pages:
   - _pages/table_of_contents.markdown
   - _pages/about.markdown
