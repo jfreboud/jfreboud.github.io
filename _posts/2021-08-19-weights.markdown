@@ -3,7 +3,7 @@ layout: post
 title:  "The Weights"
 date:   2021-08-19 20:00:00 +0200
 excerpt: >-
-  5/ The weights are the learning elements of the deep learning model: final step of the learning process.
+  5/ The weights are the learning elements of the deep learning model: the core of the learning process.
 ---
 
 ## Introduction

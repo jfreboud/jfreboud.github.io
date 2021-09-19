@@ -29,13 +29,13 @@ The backward pass is the nemesis of the forward pass: this is the second step to
 
 #### 3 / [The Weights]({% post_url 2021-08-19-weights %})
 
-The weights are the learning elements of the deep learning model: final step of the learning process.
+The weights are the learning elements of the deep learning model: the core of the learning process.
 
 ### The Deep-Learning Algorithm
 
 #### 1/ [The Gradient Descent Algorithm]({% post_url 2021-08-23-gradient-descent %})
 
-We use the different pieces to run the learning phase from scratch.
+We use the different parts we have seen so far to run the learning phase from scratch.
 
 #### 2/ [Batch Learning]({% post_url 2021-08-24-batch-learning %})
 
@@ -47,4 +47,5 @@ A new idea to build a more robust learning: learn on multiple data input at once
 
 #### 1/ [The Linear Layer]({% post_url 2021-09-19-linear %})
 
-We explore the linear layer.
+We explore the linear layer. It is the first step to be able to design deep learning models. 
+We also speak about the neural structure and a better way to compute the backward pass.
