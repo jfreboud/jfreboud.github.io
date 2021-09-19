@@ -1,5 +1,4 @@
 title: Deep Learning Machinery
-redirect_from: http://www.jfreboud.github.io
 tagline: Dig deeper into neural networks
 logo: /_assets/images/logo/logo.png
 description: >-
@@ -29,7 +28,6 @@ minima:
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-redirect-from
   - jekyll-remote-theme
   - jemoji
 
