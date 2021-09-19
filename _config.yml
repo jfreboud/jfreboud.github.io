@@ -1,10 +1,10 @@
-title: The Deep Learning Machinery
-tagline: Dig deeper into neural networks for computer vision
+title: Deep Learning Machinery
+redirect_from: http://www.jfreboud.github.io
+tagline: Dig deeper into neural networks
 logo: /_assets/images/logo/logo.png
 description: >-
   Understand the machinery behind deep learning neural networks in computer vision.
-  Grasp what is hidden by nature in frameworks such as PyTorch and TensorFlow.
-  Design a computer vision framework from scratch with intuition.
+  Grasp what is hidden in frameworks such as PyTorch and TensorFlow.
 show_excerpts: true
 
 header_pages:
@@ -29,6 +29,7 @@ minima:
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-redirect-from
   - jekyll-remote-theme
   - jemoji
 
