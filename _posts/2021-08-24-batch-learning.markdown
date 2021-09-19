@@ -191,7 +191,7 @@ For the **backward pass**, it is also the case.
 There is just one modification in the **backward pass**: the $ \frac{1}{n} $ coefficient in the 
 $ Loss^{learning} $. But clearly this is not sufficient to say we are about to compute an average direction.
 
-The last part where things can get right is the **weights** **update**...
+The last part where things can get right is the **weights** **update** :smiling_imp:
 
 ## Update the weights: the new rule
 
@@ -543,5 +543,8 @@ This new algorithm is more robust.
 
 This article also concludes our deep learning meta walkthrough.
 We will now open a new chapter to better understand the **learning flow** we introduced in 
-the [backward pass article]({% post_url 2021-08-13-backward-pass %}). We will also speak about the different 
-$ layers $ we need in order to build a real deep learning $ model $ !
+the [backward pass article]({% post_url 2021-08-13-backward-pass %}). 
+
+We will also speak about the different 
+$ layers $ we need in order to build a real deep learning $ model $: let us explore the first of them in the 
+[next article]({% post_url 2021-09-19-linear %}).

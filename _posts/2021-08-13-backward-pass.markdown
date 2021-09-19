@@ -452,7 +452,8 @@ Either we use an existing framework that will automatically compute the **backwa
 to fully understand this back propagation. 
 
 In the first situation we might lose what is really at the core of **learning**. Which is the reason why 
-we will spend some time to see a new perspective that should help understand this **backward pass** better. 
+we will spend some time to see a new perspective that should help better understand this **backward pass** 
+(see the [linear layer article]({% post_url 2021-09-19-linear %})). 
 
 For now we only keep in mind the general form of the **learning flow**: it depends on the 
 $ derivative $ of the "current" $ layer $ evaluated on the "previous" outputs 

@@ -40,3 +40,11 @@ We use the different pieces to run the learning phase from scratch.
 #### 2/ [Batch Learning]({% post_url 2021-08-24-batch-learning %})
 
 A new idea to build a more robust learning: learn on multiple data input at once.
+
+## From a Layer perspective
+
+### The Linear Layer
+
+#### 1/ [The Linear Layer]({% post_url 2021-09-19-linear %})
+
+We explore the linear layer.
