@@ -30,6 +30,7 @@ end
 gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
 
 gem "webrick", "~> 1.7"
+gem "jekyll-sitemap"
 gem "jekyll-include-cache"
 gem "jekyll-seo-tag"
 gem 'jemoji'

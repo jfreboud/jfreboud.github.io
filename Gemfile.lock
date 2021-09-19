@@ -279,6 +279,7 @@ DEPENDENCIES
   jekyll-include-cache
   jekyll-remote-theme
   jekyll-seo-tag
+  jekyll-sitemap
   jemoji
   tzinfo (~> 1.2)
   tzinfo-data
