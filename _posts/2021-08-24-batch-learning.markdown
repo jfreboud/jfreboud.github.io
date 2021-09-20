@@ -146,7 +146,7 @@ $$
 \boxed{\frac{\partial Loss^{learning}}{\partial W^i} = \frac{1}{n} . \frac{\partial Loss}{\partial W^i}}
 $$
 
-When we evaluate those two functions we have: 
+When we evaluate these two functions we have: 
 
 $$ 
 \delta^{learning} = \frac{1}{n} . \delta 
@@ -351,145 +351,145 @@ $$
 
 ### <span style="text-decoration:underline"> Run the learning phase on the batch </span>
 
-1: **data input**: 
+1. pick **data input**: 
 
-$$ 
-\begin{align}
-x^1 &= (100, 2000, 100) \\
-x^2 &= (200, 0, 0) \\ 
-x^3 &= (0, 2000, 3 000) 
-\end{align}
-$$
+    $$ 
+    \begin{align}
+    x^1 &= (100, 2000, 100) \\
+    x^2 &= (200, 0, 0) \\ 
+    x^3 &= (0, 2000, 3 000) 
+    \end{align}
+    $$
 
-2: run the **forward pass**: 
+2. run the **forward pass**: 
 
-$$
-\begin{align}
-    o3^1 &= model(x^1) \\ 
-         &= model((100, 2000, 100)) \\
-         &= (0) \\
-    o3^2 &= model(x^2) \\ 
-         &= model((200, 0, 0)) \\
-         &= (1) \\
-    o3^3 &= model(x^3) \\ 
-         &= model((0, 2000, 3 000)) \\
-         &= (0) \\
-\end{align}
-$$
+    $$
+    \begin{align}
+        o3^1 &= model(x^1) \\ 
+             &= model((100, 2000, 100)) \\
+             &= (0) \\
+        o3^2 &= model(x^2) \\ 
+             &= model((200, 0, 0)) \\
+             &= (1) \\
+        o3^3 &= model(x^3) \\ 
+             &= model((0, 2000, 3 000)) \\
+             &= (0) \\
+    \end{align}
+    $$
 
-3: compute $ loss^{avg} $ 
+3. compute $ loss^{avg} $ 
 
-$$ 
-\begin{align}
-loss^1 &= Loss(o3^1, y^{truth, 1}) \\
-       &= (0) \\
-loss^2 &= Loss(o3^2, y^{truth, 2}) \\
-       &= (0) \\
-loss^3 &= Loss(o3^3, y^{truth, 3}) \\
-       &= (0.5) \\
-loss^{avg} &= \frac{1}{3} * (0 + 0 + 0.5) \\
-           &= \frac{1}{6} 
-\end{align}
-$$
-
-4: run the **backward pass**:
-
-$$ 
-\begin{align}
-\delta 4^1 &= \frac{\partial Loss^{avg}}{\partial X^{4, 1}}(o3^1, y^{truth, 1}) \\ 
-           &= \frac{\partial Loss^{learning}}{\partial X^{4, 1}}(o3^1, y^{truth, 1}) \\ 
-           &= \frac{1}{3} * (o3^1 - y^{truth, 1}) \\
-           &= \frac{1}{3} * ((0) - (0)) \\
+    $$ 
+    \begin{align}
+    loss^1 &= Loss(o3^1, y^{truth, 1}) \\
            &= (0) \\
-\delta 4^2 &= \frac{\partial Loss^{avg}}{\partial X^{4, 2}}(o3^2, y^{truth, 2}) \\ 
-           &= \frac{\partial Loss^{learning}}{\partial X^{4, 2}}(o3^2, y^{truth, 2}) \\ 
-           &= \frac{1}{3} * (o3^2 - y^{truth, 2}) \\
-           &= \frac{1}{3} * ((1) - (1)) \\
+    loss^2 &= Loss(o3^2, y^{truth, 2}) \\
            &= (0) \\
-\delta 4^3 &= \frac{\partial Loss^{avg}}{\partial X^{4, 3}}(o3^3, y^{truth, 3}) \\ 
-           &= \frac{\partial Loss^{learning}}{\partial X^{4, 3}}(o3^3, y^{truth, 3}) \\ 
-           &= \frac{1}{3} * (o3^3 - y^{truth, 3}) \\
-           &= \frac{1}{3} * ((0) - (1)) \\
-           &= -(\frac{1}{3})
-\end{align}
-$$
+    loss^3 &= Loss(o3^3, y^{truth, 3}) \\
+           &= (0.5) \\
+    loss^{avg} &= \frac{1}{3} * (0 + 0 + 0.5) \\
+               &= \frac{1}{6} 
+    \end{align}
+    $$
 
-$$ 
-\begin{align}
-\delta 3^1 &= \delta 4^1 \text{ if } o2^1 \geq 0 \text{ else } 0 \\ 
-           &= (0) \text{ if } (0) \geq 0 \text{ else } 0 \\
-           &= (0) \\
-\delta 3^2 &= \delta 4^2 \text{ if } o2^2 \geq 0 \text{ else } 0 \\ 
-           &= (0) \text{ if } (1) \geq 0 \text{ else } 0 \\
-           &= (0) \\
-\delta 3^3 &= \delta 4^3 \text{ if } o2^3 \geq 0 \text{ else } 0 \\ 
-           &= -(\frac{1}{3}) \text{ if } (0) \geq 0 \text{ else } 0 \\
-           &= -(\frac{1}{3}) 
-\end{align}
-$$
+4. run the **backward pass**:
 
-$$ 
-\begin{align}
-\delta 2^1 &= \delta 3^1 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
-           &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
-           &= (0, 0, 0) \\
-\delta 2^2 &= \delta 3^2 . w2 \\
-           &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
-           &= (0, 0, 0) \\
-\delta 2^3 &= \delta 3^3 . w2 \\
-           &= -(\frac{1}{3}) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) 
-\end{align}
-$$
-
-$$ 
-\begin{align}
-\delta w^{2, 1} &= \delta 3^1 * o1^1 \\
-                &= (0) * (100, 2000, 100) \\
-                &= (0, 0, 0) \\
-\delta w^{2, 2} &= \delta 3^2 * o1^2 \\
-                &= 0 * (200, 0, 0) \\
-                &= (0, 0, 0) \\
-\delta w^{2, 3} &= \delta 3^3 * o1^3 \\
-                &= -(\frac{1}{3}) * (0, 2000, 3 000) \\
-                &= -(0, \frac{2000}{3}, 1 000)
-\end{align}
-$$
-
-$$
-\begin{align}
-\delta 1^1 &= \delta 2^1 \\
-           &= (0, 0, 0) \\
-\delta 1^2 &= \delta 2^2 \\
-           &= (0, 0, 0) \\
-\delta 1^3 &= \delta 2^3 \\
-           &= -(\frac{1}{3}) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})  \\
-\end{align}
-$$
+    $$ 
+    \begin{align}
+    \delta 4^1 &= \frac{\partial Loss^{avg}}{\partial X^{4, 1}}(o3^1, y^{truth, 1}) \\ 
+               &= \frac{\partial Loss^{learning}}{\partial X^{4, 1}}(o3^1, y^{truth, 1}) \\ 
+               &= \frac{1}{3} * (o3^1 - y^{truth, 1}) \\
+               &= \frac{1}{3} * ((0) - (0)) \\
+               &= (0) \\
+    \delta 4^2 &= \frac{\partial Loss^{avg}}{\partial X^{4, 2}}(o3^2, y^{truth, 2}) \\ 
+               &= \frac{\partial Loss^{learning}}{\partial X^{4, 2}}(o3^2, y^{truth, 2}) \\ 
+               &= \frac{1}{3} * (o3^2 - y^{truth, 2}) \\
+               &= \frac{1}{3} * ((1) - (1)) \\
+               &= (0) \\
+    \delta 4^3 &= \frac{\partial Loss^{avg}}{\partial X^{4, 3}}(o3^3, y^{truth, 3}) \\ 
+               &= \frac{\partial Loss^{learning}}{\partial X^{4, 3}}(o3^3, y^{truth, 3}) \\ 
+               &= \frac{1}{3} * (o3^3 - y^{truth, 3}) \\
+               &= \frac{1}{3} * ((0) - (1)) \\
+               &= -(\frac{1}{3})
+    \end{align}
+    $$
     
-5: update the **weights** of $ model $
+    $$ 
+    \begin{align}
+    \delta 3^1 &= \delta 4^1 \text{ if } o2^1 \geq 0 \text{ else } 0 \\ 
+               &= (0) \text{ if } (0) \geq 0 \text{ else } 0 \\
+               &= (0) \\
+    \delta 3^2 &= \delta 4^2 \text{ if } o2^2 \geq 0 \text{ else } 0 \\ 
+               &= (0) \text{ if } (1) \geq 0 \text{ else } 0 \\
+               &= (0) \\
+    \delta 3^3 &= \delta 4^3 \text{ if } o2^3 \geq 0 \text{ else } 0 \\ 
+               &= -(\frac{1}{3}) \text{ if } (0) \geq 0 \text{ else } 0 \\
+               &= -(\frac{1}{3}) 
+    \end{align}
+    $$
+    
+    $$ 
+    \begin{align}
+    \delta 2^1 &= \delta 3^1 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+               &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+               &= (0, 0, 0) \\
+    \delta 2^2 &= \delta 3^2 . w2 \\
+               &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+               &= (0, 0, 0) \\
+    \delta 2^3 &= \delta 3^3 . w2 \\
+               &= -(\frac{1}{3}) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) 
+    \end{align}
+    $$
+    
+    $$ 
+    \begin{align}
+    \delta w^{2, 1} &= \delta 3^1 * o1^1 \\
+                    &= (0) * (100, 2000, 100) \\
+                    &= (0, 0, 0) \\
+    \delta w^{2, 2} &= \delta 3^2 * o1^2 \\
+                    &= 0 * (200, 0, 0) \\
+                    &= (0, 0, 0) \\
+    \delta w^{2, 3} &= \delta 3^3 * o1^3 \\
+                    &= -(\frac{1}{3}) * (0, 2000, 3 000) \\
+                    &= -(0, \frac{2000}{3}, 1 000)
+    \end{align}
+    $$
+    
+    $$
+    \begin{align}
+    \delta 1^1 &= \delta 2^1 \\
+               &= (0, 0, 0) \\
+    \delta 1^2 &= \delta 2^2 \\
+               &= (0, 0, 0) \\
+    \delta 1^3 &= \delta 2^3 \\
+               &= -(\frac{1}{3}) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})  \\
+    \end{align}
+    $$
+    
+5. update the **weights** of $ model $
 
-We use the new rule we saw in [this paragraph](#update-the-weights-the-new-rule):
-
-$$
-\delta w^{2, avg} = \delta w^{2, learning, 1} + \delta w^{2, learning, 2} + \delta w^{2, learning, 3}
-$$
-
-$$
-\begin{align}
-\hat{w^2} &= w^2 - \alpha * \delta w^{2, avg} \\
-          &= w^2 - \alpha * (\delta w^{2, learning, 1} + \delta w^{2, learning, 2} + \delta w^{2, learning, 3}) \\
-          &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 
-             10^{-7} * ((0, 0, 0) + (0, 0, 0) - (0, \frac{2000}{3}, 1 000)) \\
-          &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) + (0, \frac{0.0002}{3}, 0.0001) \\
-          &= (\frac{1}{200}, \frac{0.0002}{3} - \frac{3 000}{11 600 000}, 0.0001 + \frac{1}{5 800})
-\end{align}
-$$
-
-Let us keep in mind the new values we computed for $ w^2 $: 
-
-$$
-\boxed{w^2 = (\frac{1}{200}, \frac{0.0002}{3} - \frac{3 000}{11 600 000}, 0.0001 + \frac{1}{5 800})}
-$$
+    We use the new rule we saw in [this paragraph](#update-the-weights-the-new-rule):
+    
+    $$
+    \delta w^{2, avg} = \delta w^{2, learning, 1} + \delta w^{2, learning, 2} + \delta w^{2, learning, 3}
+    $$
+    
+    $$
+    \begin{align}
+    \hat{w^2} &= w^2 - \alpha * \delta w^{2, avg} \\
+              &= w^2 - \alpha * (\delta w^{2, learning, 1} + \delta w^{2, learning, 2} + \delta w^{2, learning, 3}) \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 
+                 10^{-7} * ((0, 0, 0) + (0, 0, 0) - (0, \frac{2000}{3}, 1 000)) \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) + (0, \frac{0.0002}{3}, 0.0001) \\
+              &= (\frac{1}{200}, \frac{0.0002}{3} - \frac{3 000}{11 600 000}, 0.0001 + \frac{1}{5 800})
+    \end{align}
+    $$
+    
+    Let us keep in mind the new values we computed for $ w^2 $: 
+    
+    $$
+    \boxed{w^2 = (\frac{1}{200}, \frac{0.0002}{3} - \frac{3 000}{11 600 000}, 0.0001 + \frac{1}{5 800})}
+    $$
 
 We have just run one **epoch** of the **gradient descent** algorithm on our whole **dataset** with a **batch** of 3.
 Let us stop our algorithm now and check the new results when we run a new **forward pass** on every **data input** 

@@ -191,77 +191,77 @@ Thus we will run the **learning phase** on our 3 **data input**: this will be on
 
 ### <span style="text-decoration:underline"> Run the learning phase on the 1st data input </span>
 
-1: **data input**: $ x = (100, 2000, 100) $
+1. pick **data input**: $ x = (100, 2000, 100) $
 
-2: run the **forward pass**: 
+2. run the **forward pass**: 
 
-$$
-\begin{align}
-    o3 &= model(x) \\ 
-       &= model((100, 2000, 100)) \\
-       &= (0)
-\end{align}
-$$
+    $$
+    \begin{align}
+        o3 &= model(x) \\ 
+           &= model((100, 2000, 100)) \\
+           &= (0)
+    \end{align}
+    $$
 
-3: compute $ loss $ 
+3. compute $ loss $ 
 
-$$ 
-\begin{align}
-loss &= Loss(o3, y^{truth}) \\
-     &= (0) 
-\end{align}
-$$
+    $$ 
+    \begin{align}
+    loss &= Loss(o3, y^{truth}) \\
+         &= (0) 
+    \end{align}
+    $$
 
-4: run the **backward pass**:
+4. run the **backward pass**:
 
-$$ 
-\begin{align}
-\delta 4 &= o3 - y^{truth} \\
-         &= (0) - (0) \\
-         &= (0)
-\end{align}
-$$
-
-$$ 
-\begin{align}
-\delta 3 &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 \\ 
-         &= (0) \text{ if } (0) \geq 0 \text{ else } 0 \\
-         &= (0)
-\end{align}
-$$
-
-$$ 
-\begin{align}
-\delta 2 &= \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
-         &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
-         &= (0, 0, 0)
-\end{align}
-$$
-
-$$ 
-\begin{align}
-\delta w^2 &= \delta 3 * o1 \\
-           &= (0) * (100, 2000, 100) \\
-           &= (0, 0, 0)
-\end{align}
-$$
-
-$$
-\begin{align}
-\delta 1 &= \delta 2 \\
-         &= (0, 0, 0)
-\end{align}
-$$
+    $$ 
+    \begin{align}
+    \delta 4 &= o3 - y^{truth} \\
+             &= (0) - (0) \\
+             &= (0)
+    \end{align}
+    $$
     
-5: update the **weights** of $ model $
+    $$ 
+    \begin{align}
+    \delta 3 &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 \\ 
+             &= (0) \text{ if } (0) \geq 0 \text{ else } 0 \\
+             &= (0)
+    \end{align}
+    $$
+    
+    $$ 
+    \begin{align}
+    \delta 2 &= \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+             &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+             &= (0, 0, 0)
+    \end{align}
+    $$
+    
+    $$ 
+    \begin{align}
+    \delta w^2 &= \delta 3 * o1 \\
+               &= (0) * (100, 2000, 100) \\
+               &= (0, 0, 0)
+    \end{align}
+    $$
+    
+    $$
+    \begin{align}
+    \delta 1 &= \delta 2 \\
+             &= (0, 0, 0)
+    \end{align}
+    $$
+    
+5. update the **weights** of $ model $
 
-$$
-\begin{align}
-\hat{w^2} &= w^2 - \alpha * \delta w^2 \\
-          &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 10^{-7} * (0, 0, 0) \\
-          &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
-\end{align}
-$$
+    $$
+    \begin{align}
+    \hat{w^2} &= w^2 - \alpha * \delta w^2 \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 10^{-7} * (0, 0, 0) \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
+    \end{align}
+    $$
 
 It appears the new value for $ w^2 $ is still the same !
 This is no wonder as for this first **data input**: $ loss = 0 $.
@@ -269,77 +269,77 @@ This $ loss $ value is typical for a $ model $ that has already produced the rig
 
 ### <span style="text-decoration:underline"> Run the learning phase on the 2nd data input </span>
 
-1: **data input**: $ x = (200, 0, 0) $
+1. pick **data input**: $ x = (200, 0, 0) $
 
-2: run the **forward pass**: <sup>[[1]](#remark)</sup> 
+2. run the **forward pass**: <sup>[[1]](#remark)</sup> 
 
-$$
-\begin{align}
-    o3 &= model(x) \\ 
-       &= model((200, 0, 0)) \\
-       &= (1)
-\end{align}
-$$
+    $$
+    \begin{align}
+        o3 &= model(x) \\ 
+           &= model((200, 0, 0)) \\
+           &= (1)
+    \end{align}
+    $$
 
-3: compute $ loss $ 
+3. compute $ loss $ 
 
-$$ 
-\begin{align}
-loss &= Loss(o3, y^{truth}) \\
-     &= (0) 
-\end{align}
-$$
+    $$ 
+    \begin{align}
+    loss &= Loss(o3, y^{truth}) \\
+         &= (0) 
+    \end{align}
+    $$
 
-4: run the **backward pass**:
+4. run the **backward pass**:
 
-$$ 
-\begin{align}
-\delta 4 &= o3 - y^{truth} \\
-         &= (1) - (1) \\
-         &= (0)
-\end{align}
-$$
-
-$$ 
-\begin{align}
-\delta 3 &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 \\ 
-         &= (0) \text{ if } (1) \geq 0 \text{ else } 0 \\
-         &= (0)
-\end{align}
-$$
-
-$$ 
-\begin{align}
-\delta 2 &= \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
-         &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
-         &= (0, 0, 0)
-\end{align}
-$$
-
-$$ 
-\begin{align}
-\delta w^2 &= \delta 3 * o1 \\
-           &= (0) * (200, 0, 0) \\
-           &= (0, 0, 0)
-\end{align}
-$$
-
-$$
-\begin{align}
-\delta 1 &= \delta 2 \\
-         &= (0, 0, 0)
-\end{align}
-$$
+    $$ 
+    \begin{align}
+    \delta 4 &= o3 - y^{truth} \\
+             &= (1) - (1) \\
+             &= (0)
+    \end{align}
+    $$
     
-5: update the **weights** of $ model $
+    $$ 
+    \begin{align}
+    \delta 3 &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 \\ 
+             &= (0) \text{ if } (1) \geq 0 \text{ else } 0 \\
+             &= (0)
+    \end{align}
+    $$
+    
+    $$ 
+    \begin{align}
+    \delta 2 &= \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+             &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+             &= (0, 0, 0)
+    \end{align}
+    $$
+    
+    $$ 
+    \begin{align}
+    \delta w^2 &= \delta 3 * o1 \\
+               &= (0) * (200, 0, 0) \\
+               &= (0, 0, 0)
+    \end{align}
+    $$
+    
+    $$
+    \begin{align}
+    \delta 1 &= \delta 2 \\
+             &= (0, 0, 0)
+    \end{align}
+    $$
+    
+5. update the **weights** of $ model $
 
-$$
-\begin{align}
-\hat{w^2} &= w^2 - \alpha * \delta w^2 \\
-          &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 10^{-7} * (0, 0, 0) \\
-          &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
-\end{align}
-$$
+    $$
+    \begin{align}
+    \hat{w^2} &= w^2 - \alpha * \delta w^2 \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 10^{-7} * (0, 0, 0) \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
+    \end{align}
+    $$
 
 Once more, the new value for $ w^2 $ has not changed.
 The same remark as before applies: $ loss = 0 $ means the $ model $ already produced the right result for this 
@@ -347,84 +347,84 @@ second **data input** and has nothing to learn.
 
 ### <span style="text-decoration:underline"> Run the learning phase on the 3rd data input </span>
 
-1: **data input**: $ x = (0, 2000, 3 000) $
+1. pick **data input**: $ x = (0, 2000, 3 000) $
 
-2: run the **forward pass**: <sup>[[1]](#remark)</sup>
+2. run the **forward pass**: <sup>[[1]](#remark)</sup>
 
-$$
-\begin{align}
-    o3 &= model(x) \\ 
-       &= model((0, 2000, 3 000)) \\
-       &= (0)
-\end{align}
-$$
+    $$
+    \begin{align}
+        o3 &= model(x) \\ 
+           &= model((0, 2000, 3 000)) \\
+           &= (0)
+    \end{align}
+    $$
 
-3: compute $ loss $ 
+3. compute $ loss $ 
 
-$$ 
-\begin{align}
-loss &= Loss(o3, y^{truth}) \\
-     &= (0.5) 
-\end{align}
-$$
+    $$ 
+    \begin{align}
+    loss &= Loss(o3, y^{truth}) \\
+         &= (0.5) 
+    \end{align}
+    $$
 
-4: run the **backward pass**:
+4. run the **backward pass**:
 
-$$ 
-\begin{align}
-\delta 4 &= o3 - y^{truth} \\
-         &= (0) - (1) \\
-         &= (-1)
-\end{align}
-$$
+    $$ 
+    \begin{align}
+    \delta 4 &= o3 - y^{truth} \\
+             &= (0) - (1) \\
+             &= (-1)
+    \end{align}
+    $$
 
-$$ 
-\begin{align}
-\delta 3 &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 \\ 
-         &= (-1) \text{ if } (0) \geq 0 \text{ else } 0 \\
-         &= (-1)
-\end{align}
-$$
-
-$$ 
-\begin{align}
-\delta 2 &= \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
-         &= (-1) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
-         &= -(\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
-\end{align}
-$$
-
-$$ 
-\begin{align}
-\delta w^2 &= \delta 3 * o1 \\
-           &= (-1) * (0, 2000, 3 000) \\
-           &= -(0, 2000, 3 000)
-\end{align}
-$$
-
-$$
-\begin{align}
-\delta 1 &= \delta 2 \\
-         &= -(\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
-\end{align}
-$$
+    $$ 
+    \begin{align}
+    \delta 3 &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 \\ 
+             &= (-1) \text{ if } (0) \geq 0 \text{ else } 0 \\
+             &= (-1)
+    \end{align}
+    $$
     
-5: update the **weights** of $ model $
+    $$ 
+    \begin{align}
+    \delta 2 &= \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+             &= (-1) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+             &= -(\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
+    \end{align}
+    $$
+    
+    $$ 
+    \begin{align}
+    \delta w^2 &= \delta 3 * o1 \\
+               &= (-1) * (0, 2000, 3 000) \\
+               &= -(0, 2000, 3 000)
+    \end{align}
+    $$
+    
+    $$
+    \begin{align}
+    \delta 1 &= \delta 2 \\
+             &= -(\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
+    \end{align}
+    $$
+    
+5. update the **weights** of $ model $
 
-$$
-\begin{align}
-\hat{w^2} &= w^2 - \alpha * \delta w^2 \\
-          &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 10^{-7} * (-(0, 2000, 3 000)) \\
-          &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) + (0, 0.0002, 0.0003) \\
-          &= (\frac{1}{200}, 0.0002 - \frac{3 000}{11 600 000}, 0.0003 + \frac{1}{5 800})
-\end{align}
-$$
-
-Let us keep in mind the new values we computed for $ w^2 $: 
-
-$$
-\boxed{w^2 = (\frac{1}{200}, 0.0002 - \frac{3 000}{11 600 000}, 0.0003 + \frac{1}{5 800})}
-$$
+    $$
+    \begin{align}
+    \hat{w^2} &= w^2 - \alpha * \delta w^2 \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 10^{-7} * (-(0, 2000, 3 000)) \\
+              &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) + (0, 0.0002, 0.0003) \\
+              &= (\frac{1}{200}, 0.0002 - \frac{3 000}{11 600 000}, 0.0003 + \frac{1}{5 800})
+    \end{align}
+    $$
+    
+    Let us keep in mind the new values we computed for $ w^2 $: 
+    
+    $$
+    \boxed{w^2 = (\frac{1}{200}, 0.0002 - \frac{3 000}{11 600 000}, 0.0003 + \frac{1}{5 800})}
+    $$
 
 We have just run one **epoch** of the **gradient descent** algorithm on our whole **dataset**. 
 Let us stop our algorithm now and check the new results when we run a new **forward pass** on every **data input** 
