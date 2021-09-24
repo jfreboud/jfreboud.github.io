@@ -3,7 +3,7 @@ layout: post
 title:  "The Loss function"
 date:   2021-08-09 15:00:00 +0200
 excerpt: >-
-  3/ We complete the deep learning model with the loss function: this is the first step toward the learning process.
+  We complete the deep learning model with the loss function: this is the first step toward the learning process.
 ---
 
 ## Introduction

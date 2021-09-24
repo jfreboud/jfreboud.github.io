@@ -3,7 +3,7 @@ layout: post
 title:  "The Linear Layer"
 date:   2021-09-19 11:00:00 +0200
 excerpt: >-
-  8/ We explore the linear layer. It is the first step to be able to design deep learning models. 
+  We explore the linear layer. It is the first step to be able to design deep learning models. 
   We also speak about the neural structure and a better way to compute the backward pass.
 ---
 

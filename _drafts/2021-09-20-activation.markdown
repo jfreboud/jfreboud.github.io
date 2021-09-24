@@ -3,7 +3,7 @@ layout: post
 title:  "The Activation Layer"
 date:   2021-09-20 14:00:00 +0200
 excerpt: >-
-  9/ The activation layer is not a learning layer per. It will help us better understand how the linear layer is 
+  The activation layer is not a learning layer per. It will help us better understand how the linear layer is 
   building representations on the data input. 
 ---
 

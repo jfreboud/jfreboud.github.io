@@ -9,8 +9,8 @@ show_excerpts: true
 url: "https://jfreboud.github.io"
 
 header_pages:
+  - _pages/blog.markdown
   - _pages/table_of_contents.markdown
-  - _pages/about.markdown
 
 author:
   name: Jean-François Reboud
@@ -28,7 +28,6 @@ minima:
     linkedin: jean-françois-reboud-832147161
 
 plugins:
-  - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-remote-theme
