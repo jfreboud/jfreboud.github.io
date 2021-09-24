@@ -7,7 +7,7 @@ permalink: /
 # Welcome to the DLM blog!
 
 The **Deep Learning Machinery** (in computer vision) has several objectives: 
-- demystify what is at stake in the "learning process" of deep learning models
+- demystify what is at stake in the **learning process** of deep learning models
 - build an incremental intuition of the machinery behind the scene
 - think out of the box of current frameworks such as **PyTorch** and **TensorFlow**
 - grasp the main concepts to design and build a computer vision framework from scratch
