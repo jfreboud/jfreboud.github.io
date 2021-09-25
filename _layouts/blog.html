@@ -9,56 +9,77 @@ layout: default
 
   {{ content }}
 
+  {% assign posts = site.posts %}
+  {% assign posts_count = posts.size %}
+  {% assign mod_page = posts_count | modulo:site.mpaginate %}
+  {% assign paginate_float = site.mpaginate | times: 1.0 %}
+  {% assign pages_count = posts_count | divided_by:paginate_float | ceil %}
+  {% assign articles_count = site.mpaginate %}
+  {% assign pages_offset = page.index | minus:1 | times:site.mpaginate %}
+  {% assign articles_offset = 0 %}
+  {% assign prev_page = page.index | minus:1 %}
+  {% assign next_page = page.index | plus:1 %}
 
-  {% if site.paginate %}
-    {% assign posts = paginator.posts %}
-  {% else %}
-    {% assign posts = site.posts %}
+  {% if next_page <= pages_count %}
+    {% assign sum = 0 %}
+    {% for i in (next_page..pages_count) %}
+      {% assign articles_count_tmp = site.mpaginate %}
+      {% if i == pages_count %}
+        {% assign articles_count_tmp = mod_page %}
+      {% endif %}
+      {% assign sum = sum | plus:articles_count_tmp %}
+    {% endfor %}
+    {% assign articles_offset = articles_offset | plus:sum %}
   {% endif %}
 
+  {% if page.index == 1 %}
+    {% assign prev_page = 'none' %}
+  {% endif %}
+  {% if page.index == pages_count %}
+    {% assign articles_count = mod_page %}
+    {% assign next_page = 'none' %}
+  {% endif %}
 
-  {%- if posts.size > 0 -%}
-    {%- if page.list_title -%}
-      <h2 class="post-list-heading">{{ page.list_title }}</h2>
-    {%- endif -%}
-    <ul class="post-list">
-      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-      {%- for post in posts -%}
-      <li>
-        <span class="post-meta">{{ post.date | date: date_format }}</span>
-        <h3>
-          <span class="post-link">
-            {{ forloop.length | minus: forloop.index | plus: 1 }}.
-            <a href="{{ post.url | relative_url }}">
+  {%- if page.list_title -%}
+    <h2 class="post-list-heading">{{ page.list_title }}</h2>
+  {%- endif -%}
+
+  <ul class="post-list">
+    {%- assign date_format = site.minima.date_format | default:"%b %-d, %Y" -%}
+    {%- for post in posts limit:articles_count offset:pages_offset -%}
+    <li>
+      <span class="post-meta">{{ post.date | date:date_format }}</span>
+      <h3>
+        <span class="post-link">
+          {{ forloop.length | minus:forloop.index | plus:1 | plus:articles_offset }}.
+          <a href="{{ post.url | relative_url }}">
             {{ post.title | escape }}
           </a>
-          </span>
-        </h3>
-        {%- if site.show_excerpts -%}
-          {{ post.excerpt }}
-        {%- endif -%}
-      </li>
-      {%- endfor -%}
+        </span>
+      </h3>
+      {%- if site.show_excerpts -%}
+        {{ post.excerpt }}
+      {%- endif -%}
+    </li>
+    {%- endfor -%}
+  </ul>
+
+  <div class="pager">
+    <ul class="pagination">
+      {%- if prev_page != 'none' %}
+        <li><a href="/blog/{{ prev_page }}" class="previous-page">{{ prev_page }}</a></li>
+      {%- else %}
+        <li><div class="pager-edge">•</div></li>
+      {%- endif %}
+
+        <li><div class="current-page">{{ page.index }}</div></li>
+
+      {%- if next_page != 'none' %}
+        <li><a href="/blog/{{ next_page }}" class="next-page">{{ next_page }}</a></li>
+      {%- else %}
+        <li><div class="pager-edge">•</div></li>
+      {%- endif %}
     </ul>
-
-    {% if site.paginate %}
-      <div class="pager">
-        <ul class="pagination">
-        {%- if paginator.previous_page %}
-          <li><a href="{{ paginator.previous_page_path | relative_url }}" class="previous-page">{{ paginator.previous_page }}</a></li>
-        {%- else %}
-          <li><div class="pager-edge">•</div></li>
-        {%- endif %}
-          <li><div class="current-page">{{ paginator.page }}</div></li>
-        {%- if paginator.next_page %}
-          <li><a href="{{ paginator.next_page_path | relative_url }}" class="next-page">{{ paginator.next_page }}</a></li>
-        {%- else %}
-          <li><div class="pager-edge">•</div></li>
-        {%- endif %}
-        </ul>
-      </div>
-    {%- endif %}
-
-  {%- endif -%}
+  </div>
 
 </div>

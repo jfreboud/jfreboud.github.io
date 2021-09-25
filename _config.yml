@@ -8,8 +8,9 @@ show_excerpts: true
 
 url: "https://jfreboud.github.io"
 
+mpaginate: 5
 header_pages:
-  - _pages/blog.markdown
+  - _pages/blog1.markdown
   - _pages/table_of_contents.markdown
 
 author:

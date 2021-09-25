@@ -14,7 +14,7 @@ The **Deep Learning Machinery** (in computer vision) has several objectives:
 
 # How to read?
 
-## The [Blog](/blog/)
+## The [Blog](/blog/1)
 
 The articles are presented from the newest to the latest. 
 Reading the articles in the chronological order should be the way to go. 
