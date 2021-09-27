@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Batch Learning"
-date:   2021-08-24 10:00:00 +0200
+date:   2021-08-24
 excerpt: >-
   A new idea to build a more robust learning: learn on multiple data input at once.
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "The Backward Pass"
-date:   2021-08-14 9:00:00 +0200
+date:   2021-08-14
 excerpt: >-
   The backward pass is the nemesis of the forward pass: this is the second step toward the learning process.
 ---
