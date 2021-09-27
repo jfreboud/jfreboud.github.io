@@ -204,7 +204,7 @@ $$
 \end{align}
 $$
 
-Then we can evaluate this function on the values that have produced the final $ loss $:
+Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
 \frac{\partial L^{k+1, 1}}{X^{k+1, 1}}(o^k_1) = w^{k+1, 1}_1 
@@ -258,7 +258,7 @@ $$
 \end{align}
 $$
 
-Then we can evaluate this function on the values that have produced the final $ loss $:
+Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
 \frac{\partial L^{k+1, 1}}{X^{k+1, 2}}(o^k_2) = w^{k+1, 1}_2 
@@ -312,7 +312,7 @@ $$
 \end{align}
 $$
 
-Then we can evaluate this function on the values that have produced the final $ loss $:
+Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
 \frac{\partial L^{k+1, 1}}{X^{k+1, 3}}(o^k_3) = w^{k+1, 1}_3 
@@ -388,7 +388,7 @@ $$
 \end{align}
 $$
 
-Then we can evaluate this function on the values that have produced the final $ loss $:
+Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
 \frac{\partial L^{k+1, 1}}{W^{k+1, 1}_1}(o^k_1) = o^k_1
@@ -446,7 +446,7 @@ $$
 \end{align}
 $$
 
-Then we can evaluate this function on the values that have produced the final $ loss $:
+Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
 \frac{\partial L^{k+1, 2}}{W^{k+1, 2}_1}(o^k_1) = o^k_1
@@ -502,7 +502,7 @@ $$
 \end{align}
 $$
 
-Then we can evaluate this function on the values that have produced the final $ loss $:
+Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
 \frac{\partial L^{k+1, 1}}{B^{k+1}}(o^k) = 1
@@ -523,7 +523,7 @@ $$
 ## Example
 
 We have already used a $ Linear $ $ layer $ in the "Example" of the previous articles. Let us have a look 
-at the $ model $ we used in the [weights]({% post_url 2021-08-19-weights %}) article: 
+at the $ model $ we used in the [weights article]({% post_url 2021-08-19-weights %}): 
 
 $$
 \begin{align}
@@ -588,7 +588,7 @@ $$
 \delta^{k+1, 3} = \delta^{k+2, 1} * w^{k+1, 1}_3 + \delta^{k+2, 2} * w^{k+1, 2}_3
 $$
 
-We may adjust these formula to the current **neural structure**: 
+We adjust these formula to the current **neural structure**: 
 
 $$
 \boxed{\delta^{2, 1} = \delta^{3} * w^{2}_1}
@@ -604,7 +604,7 @@ $$
 \boxed{\delta^{2, 3} = \delta^{3} * w^{2}_3}
 $$
 
-We may summarize them as: 
+We summarize them as: 
 
 $$ 
 \delta^{2} = \delta^{3} * w^2 
@@ -645,7 +645,7 @@ $$
 \boxed{\delta w^{2}_3 = \delta^{3} * o^1_3}
 $$
 
-which we may summarize as:
+which we summarize as:
 
 $$ 
 \delta w^{2} = \delta^{3} * o^1
