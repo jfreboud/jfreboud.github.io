@@ -16,8 +16,6 @@ header_pages:
 author:
   name: Jean-François Reboud
   email: "jeanfrancois.reboud.gre@gmail.com"
-disqus:
-    shortname: jeanfrancoisreboud
 
 repository: jfreboud/jfreboud.github.io
 remote_theme: jekyll/minima

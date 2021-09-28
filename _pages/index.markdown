@@ -39,9 +39,8 @@ We will elaborate on 4 main chapters:
 
 # Disclaimer
 
-I will not try and give any code example in the current existing frameworks. 
-Yet, people who wish to share some examples in **PyTorch**, **TensorFlow**... should feel free to do so in the 
-different articles' comment areas. 
+I will not try and give any code example in the current existing frameworks: there are already many 
+resources on the Internet.
 
 I will try to use the least mathematical material needed and justify their use by intuition. 
 The mathematical content mainly deals with: **functions**, **derivatives**. 
