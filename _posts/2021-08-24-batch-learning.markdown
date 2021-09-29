@@ -75,7 +75,7 @@ Now we consider a **batch** so we have several elements (let us say $ n $ elemen
 - $ x^1 $, $ x^2 $, ... $ x^n $
 - $ y^{truth, 1} $, $ y^{truth, 2} $, ... $ y^{truth, n} $
 
-We can compute: 
+We compute: 
 
 $$
 \begin{align}
@@ -530,7 +530,7 @@ With this small **learning rate**, our $ model $ produces a wrong result for the
 in the [previous article]({% post_url 2021-08-23-gradient-descent %}), the **learning** had fixed the third 
 **data input**.
  
-We can compare the results we obtained (0.14), (1), (0.43) to the results we obtained in the 
+We compare the results we obtained here: (0.14), (1), (0.43) to the results we obtained in the 
 [previous article]({% post_url 2021-08-23-gradient-descent %}): (0.43), (1), (1.3). We see the results are 
 more "moderated" with the **batch learning** algorithm. The will to fix the result on the last **data input** has been 
 compensated by the fact there is nothing to learn on both other **data input**. 

@@ -21,7 +21,7 @@ Without any further ado, here is what a typical deep learning $ model $ looks li
 
 The two main components are the clouds and the arrows. For now we do not know what is in the clouds, just that we 
 will call them $ layers $ ($ L1 $, $ L2 $, ...).
-But we can clearly see what the arrows imply. 
+But we can clearly see what the arrows imply... 
 
 ## The forward pass 
 
@@ -37,7 +37,7 @@ each depending on its previous function. So that if $ layer $ $ L^k $ depends on
 depends on $ X^{k+1} $:
 
 $$ 
-\boxed{X^{k+1} = Lk(X^k)}
+\boxed{X^{k+1} = L^k(X^k)}
 $$
 
 The $ layer $ results are called **representations**. 
@@ -83,7 +83,7 @@ $$
 \end{align}
 $$
 
-We can verify that:
+We verify that:
 - $ X $ is 3 dimensional: $ X_1 $ is the variable for broccoli, $ X_2 $ is the variable for Tagada strawberries, 
 $ X_3 $ is the variable for workout hours
 - $ model(X) $ is 1 dimensional
@@ -127,7 +127,7 @@ Here are the different results on the **data**:
 | (1)    | (1)             |
 | (0)    | (0)             |
 
-Finally we can summarize these results:
+Finally we summarize these results:
 
 | $ x $ | expected result | $ o3 = model(x) $ | correct ? |
 | :----------------: | :-----: | :----: | :---: |
@@ -135,7 +135,7 @@ Finally we can summarize these results:
 | (200,  0, 0)     | (<span style="color:green">good shape</span>) | (1) => (<span style="color:green">good shape</span>) | ![wrong](/_assets/images/general/right.png) |
 | (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | (0) => (<span style="color:red">bad shape</span>)    | ![right](/_assets/images/general/wrong.png) |
 
-We can observe that although we have changed the structure of $ model $ compared to the
+We observe that although we have changed the structure of $ model $ compared to the
 [previous article]({% post_url 2021-08-05-general-concepts %}), we still get exactly the same results. 
 Which is in fact normal: although we changed its structure, we have built the same "global" function as in the 
 previous article :smiling_imp:
@@ -168,8 +168,8 @@ to the **data output** expectation.
 
 As we saw in the [example](#example), each $ layer $ is a mathematical function that depends on 
 some variable which will receive the output of its previous $ layer $. 
-For example $ L2 $ depends on $ X^2 $. During the **forward pass**, we will need to wait for $ L1 $ to 
- produce $ o1 $ so that $ L2 $ can use it to produce $ o3 $: $ o3 = L2(o2) $.
+For example $ L2 $ depends on $ X^2 $. During the **forward pass**, we need to wait for $ L1 $ to 
+ produce $ o1 $ so that $ L2 $ can use it to produce $ o2 $: $ o2 = L2(o1) $.
 
 When we run a $ model $ on some **data** we want to produce the **output** of its **output layer** 
 (see [the output layer](#the-output-layer)). 

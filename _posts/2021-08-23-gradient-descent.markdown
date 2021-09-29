@@ -438,7 +438,7 @@ of our **dataset**.
 | (200,  0, 0)       | (200,  0, 0)     | (1)             | (1)             |
 | (0, 2000, 3 000)   | (0, 2000, 3 000) | (1.3)           | (1.3)           |
 
-We can see that our new results do not come along with (0) => (bad shape) and (1) => (good shape). 
+We see that our new results do not come along with (0) => (bad shape) and (1) => (good shape). 
 We will add a new column in order to show the result that is aligned with (0) or (1) in order to compare with 
 the expectations. Let us use a threshold to make the decision:
  

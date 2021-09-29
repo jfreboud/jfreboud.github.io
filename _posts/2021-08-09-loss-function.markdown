@@ -122,12 +122,12 @@ we know we have to compute the $ derivative $ function of $ Loss $ according to 
 
 $$
 \begin{align}
-derivative \text{ }Loss \text{ according to } X &= \frac{\partial}{\partial X}(Loss(model(X), Y^{truth})) \\ 
-                                                &= \frac{\partial Loss}{\partial X}
+derivative \text{ of }Loss \text{ according to } X &= \frac{\partial}{\partial X}(Loss(model(X), Y^{truth})) \\ 
+                                                   &= \frac{\partial Loss}{\partial X}
 \end{align}
 $$
 
-Let us keep in mind this formula: 
+Let us keep in mind this notation: 
 
 $$
 \boxed{\frac{\partial Loss}{\partial X}} 
@@ -179,7 +179,7 @@ $$
 \end{align}
 $$
 
-We can verify that:
+We verify that:
 - $ X $ is 3 dimensional: $ X_1 $ is the variable for broccoli, $ X_2 $ is the variable for Tagada strawberries, 
 $ X_3 $ is the variable for workout hours
 - $ model(X) $ is 1 dimensional
@@ -216,7 +216,7 @@ First of all let us run the **forward pass**:
 | (1) | (1) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
 | (0) | (1) | (<span style="color:red">0.5</span>) | ![right](/_assets/images/general/wrong.png) |
 
-We can observe that the value of $ loss(o3, y^{truth}) $ <span style="color:green"> is 0 </span> when there is <span style="color:green"> no error </span> comparing $ o3 $ 
+We observe that the value of $ loss(o3, y^{truth}) $ <span style="color:green"> is 0 </span> when there is <span style="color:green"> no error </span> comparing $ o3 $ 
 with $ y^{truth} $ and <span style="color:red"> is greater than 0 </span> when there is <span style="color:red"> an error </span>.
 The $ loss $ is indeed an indicator of the error of the results produced by the $ model $ function.
 

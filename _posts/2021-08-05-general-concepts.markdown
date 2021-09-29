@@ -30,7 +30,7 @@ it is the role of the developer to actually build the $ model $. We will see som
 
 ## Run a model 
 
-Once the $ model $ is built, we can run it 
+Once the $ model $ is built, we run it 
 <a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[[1]](#remark)</sup>
 
 - Let $ X $ be the input variable of the $ model $. As $ model $ depends on $ X $, we generally note $ model(X) $ as the 
@@ -124,7 +124,7 @@ We can now run this $ model $ on the **data** to produce $ model(x) $ results wi
 | (200,  0, 0)     | (<span style="color:green">good shape</span>) | (1) => (<span style="color:green">good shape</span>)| ![wrong](/_assets/images/general/right.png) |
 | (0, 2000, 3 000) | (<span style="color:green">good shape</span>) | (0) => (<span style="color:red">bad shape</span>)   | ![right](/_assets/images/general/wrong.png) |
 
-In the column: "correct ?", we can see that the $ model $ has produced a wrong result in the last case !
+In the column: "correct ?", we see the $ model $ has produced a wrong result in the last case !
 How is it possible ? 
 
 That is exactly what we want to rectify as the $ model $ learns on the **data**. But as mentioned in 

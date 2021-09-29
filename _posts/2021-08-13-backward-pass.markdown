@@ -58,16 +58,16 @@ which comforts its signal naming of **learning flow**.
 
 ## A closer look at one layer
 
-To be a little more specific, we can look at some $ L^{k+1} $ $ layer $ in particular.
-By definition we have an explicit formula for $ L^{k+1}(X^{k+1}) $ function. Running its **forward pass** is easy: 
-we just consider that the previous result $ o^{k} $ has already been 
-computed. This enables us to compute $ o^{k+1} = L^{k+1}(o^{k}) $.
+To be a little more specific, we can take a look at some $ L^{k} $ $ layer $ in particular.
+By definition we have an explicit formula for $ L^{k}(X^{k}) $ function. Running its **forward pass** is easy: 
+we just consider that the previous result $ o^{k-1} $ has already been 
+computed. This enables us to compute $ o^{k} = L^{k}(o^{k-1}) $.
 
 ![Forward](/_assets/images/backward/Forward.png)
 
-But for the backward pass we do the reverse logic. We must consider we already have computed the **learning flow** for 
-$ L^{k+1} $ which is $ \delta^{k+1} $ and 
-we want to **propagate** to the previous $ L^{k} $ $ layer $, computing $ \delta^{k} $. 
+But for the backward pass we do the reverse logic. We must consider we already have computed the "future" 
+**learning flow** $ \delta^{k+1} $ and 
+we want to **propagate** to the **learning flow** of $ L^{k} $, computing $ \delta^{k} $. 
 
 ![Backward](/_assets/images/backward/Backward.png)
 
@@ -76,10 +76,10 @@ In order to compute $ \delta^{k} $ we proceed in two steps:
 2. We evaluate this function on $ o^{k-1} $.
 
 The most difficult point is the 1 because we must compute the link between $ X^{k} $ and $ Loss $ which is 
-"chained". There are 2 essential parts in that "chain". 
-- The $ layer $ that directly uses $ X^{k} $ which is $ L^{k} $ by definition of the **forward pass**: 
+"chained". There are 2 essential parts in that "chain": 
+- The link between $ X^k $ and $ X^{k+1} $, given by the definition of $ L^{k} $: 
 $ X^{k+1} = L^{k}(X^{k}) $.
-- The link between $ L^{k} $ and $ Loss $ which is the **learning flow** of $ L^{k+1} $: $ \delta^{k+1} $.
+- The link between $ X^{k+1} $ and $ Loss $ which is the "future" **learning flow**: $ \delta^{k+1} $.
 
 When we have these two parts, we may use the **chain rule**... 
 
@@ -115,19 +115,21 @@ $$
 
 for indicating at which points the derivatives have to be evaluated."
 
+<br>
+
 Using the **chain rule** with $ z = Loss $ and $ y = L^{k} $, the formula becomes: 
 
 $$ 
 \frac{\partial Loss}{\partial X^{k}} = \frac{\partial Loss}{\partial L^{k}} . \frac{\partial L^{k}}{\partial X^{k}}
 $$
 
-Thanks to the **forward pass** we know that: $ X^{k+1} = L^{k}(X^{k}) $: 
+Thanks to the **forward pass** we know that $ X^{k+1} = L^{k}(X^{k}) $, so we get: 
 
 $$ 
 \boxed{\frac{\partial Loss}{\partial X^{k}} = \frac{\partial Loss}{X^{k+1}} . \frac{\partial L^{k}}{\partial X^{k}}}
 $$
 
-where $ \frac{\partial Loss}{X^{k+1}} $ is a **learning flow** we have already computed and 
+where $ \frac{\partial Loss}{X^{k+1}} $ is the "future" **learning flow** we have already computed and 
 $ \frac{\partial L^{k}}{\partial X^{k}} $ is a part we compute thanks to some formula we learnt at school.
 
 ![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [conlusion](#conclusion)
