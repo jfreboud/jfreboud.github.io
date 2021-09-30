@@ -29,54 +29,62 @@ Let us begin with the $ Linear $ $ layer $.
 In order to better understand the function realized by one $ Linear $ $ layer $, we will explore its 
 **neural structure**. 
 
-Let us take a $ L^{k+1} $ $ Linear $ $ layer $. As every $ Linear $ $ layer $ it is a **learning** $ layer $, 
+Let us take a $ L^{k} $ $ Linear $ $ layer $. As every $ Linear $ $ layer $ it is a **learning** $ layer $, 
 which means it declares **weights** (see the [weights article]({% post_url 2021-08-19-weights %})). 
-Let us note $ W^{k+1} $ these **weights**.
+Let us note $ W^{k} $ these **weights**.
 
 By definition of the **forward pass** (see [this article]({% post_url 2021-08-06-inside-the-model %})) 
-we need $ L^{k+1} $'s previous layer $ L^{k} $ in order to evaluate $ L^{k+1} $ on the outputs of $ L^{k} $. 
+we need $ L^{k} $'s previous layer $ L^{k-1} $ in order to evaluate $ L^{k} $ on the outputs of $ L^{k-1} $. 
 For now this is how we represent this relation:
 
 ![Linear](/_assets/images/layers/Linear1.png)
 
 In the diagram, we are now ready to remove the clouds and turn them into **neurons**! 
-Each **neuron** represents the $ X $ variable (input of one $ layer $), the $ L(X) $ variable (output of one $ layer $) 
-or their value evaluation during the **learning phase** or the **inferring phase**.
+Each **neuron** represents an $ X $ variable. 
 
-Let us suppose $ L^{k} $ is a $ Linear $ $ layer $ with 3 **neurons**. This literally means 
-$ L^{k} $ produces 3 outputs: $ o^{k}_1 $, $ o^{k}_2 $ and $ o^{k}_3 $. 
+But there is more...
+In the [weights article]({% post_url 2021-08-19-weights %}), we saw how the 
+**learning flow** is necessary to compute the directions of the **weights**' **update**. 
+And in the [backward pass article]({% post_url 2021-08-13-backward-pass %}), 
+we saw that the **learning flow** depends on the "future" **learning flow** and the "previous" outputs. 
+This is the reason why we actually put some values in the clouds in our different diagrams: 
+these values must be stored during the current couple of **forward pass** and **backward pass**. 
+Thus, we will now put these values inside the **neurons**. 
 
-Let us suppose $ L^{k+1} $ produces 2 output **neurons**: $ o^{k+1}_1 $ and $ o^{k+1}_2 $. 
+Let us go back to our $ L^k $ $ Linear $ $ layer $ and suppose it has 2 **neurons**. This literally means 
+$ L^{k} $ produces 2 outputs: $ o^{k}_1 $ and $ o^{k}_2 $.  
+
+Let us suppose $ L^{k-1} $ produces 3 output **neurons**: $ o^{k-1}_1 $, $ o^{k-1}_2 $ and $ o^{k-1}_3 $. 
 
 The diagram becomes: 
 
 ![Linear](/_assets/images/layers/Linear2.png)
 
 Note that the number of **neurons** for each $ layer $ is up to the developer. The fact that we chose 2 
-output **neurons** for $ L^{k+1} $ and 3 output **neurons** for $ L^{k} $ is just an example. We could also have 
-decided that $ L^{k+1} $ produces 20 945 output **neurons** but it would have been less practical to draw a diagram. 
+output **neurons** for $ L^{k} $ and 3 output **neurons** for $ L^{k-1} $ is just an example. We could have also
+decided that $ L^{k} $ produces 20 945 output **neurons** but it would have been less practical to draw the diagram. 
 
-The final question is: what is the form of the $ L^{k+1} $ function ? 
-We just know it transforms the outputs of $ L^{k} $ into the very own outputs of $ L^{k+1} $.
+The final question is: what is the form of the $ L^{k} $ function ? 
+We just know it transforms the outputs of $ L^{k-1} $ into the very own outputs of $ L^{k} $.
 
 The answer is: we do not know :smiling_imp: 
 
-This is the reason why we do some crazy move: connecting each $ L^{k} $ **neuron** 
-to each $ L^{k+1} $ **neuron**. The connexions being assured by the **weights** of $ L^{k+1} $: $ W^{k+1} $.
+This is the reason why we do some crazy move: connecting each $ L^{k-1} $ **neuron** 
+to each $ L^{k} $ **neuron**. The connexions being assured by the **weights** of $ L^{k} $: $ W^{k} $.
 
-But there is one subtlety here: $ L^{k+1} $ has two **neurons**. So each $ L^{k+1} $ **neuron** will be connected 
-to every **neurons** of $ L^{k} $. This is the main characteristic of the $ Linear $ $ layer $: connecting 
+But there is one subtlety here: $ L^{k} $ has two **neurons**. So each $ L^{k} $ **neuron** will be connected 
+to every **neurons** of $ L^{k-1} $. This is the main characteristic of the $ Linear $ $ layer $: connecting 
 every output **neurons** to every input **neurons**.
 
-Concretely, we must declare $ W^{k+1, 1} $ **weights** that will connect the different input **neurons**: 
-$ o^{k}_1 $, $ o^{k}_2 $ and $ o^{k}_3 $ to the first output **neuron** $ o^{k+1}_1 $.
+Concretely, we must declare $ W^{k, 1} $ **weights** that will connect the different input **neurons**: 
+$ o^{k-1}_1 $, $ o^{k-1}_2 $ and $ o^{k-1}_3 $ to the first output **neuron** $ o^{k}_1 $.
 
 <a id="linear-structure1" class="anchor">
 ![Linear](/_assets/images/layers/Linear3.png)
 </a>
 
-And we must also declare $ W^{k+1, 2} $ **weights** that will connect the different input **neurons**: 
-$ o^{k}_1 $, $ o^{k}_2 $ and $ o^{k}_3 $ to the second output **neuron** $ o^{k+1}_2 $.
+And we must also declare $ W^{k, 2} $ **weights** that will connect the different input **neurons**: 
+$ o^{k-1}_1 $, $ o^{k-1}_2 $ and $ o^{k-1}_3 $ to the second output **neuron** $ o^{k}_2 $.
 
 <a id="linear-structure2" class="anchor">
 ![Linear](/_assets/images/layers/Linear4.png)
@@ -84,37 +92,37 @@ $ o^{k}_1 $, $ o^{k}_2 $ and $ o^{k}_3 $ to the second output **neuron** $ o^{k+
 
 ## Forward pass
 
-Using the same $ L^{k+1} $ $ layer $ as in the [previous paragraph](#the-linear-neural-structure), we have:
+Using the same $ L^{k} $ $ layer $ as in the [previous paragraph](#the-linear-neural-structure), we have:
 
 $$ 
 \begin{align}
-L^{k+1, 1}(X^{k+1}) &= W^{k+1, 1}_1 . X^{k+1, 1} + W^{k+1, 1}_2 . X^{k+1, 2} + W^{k+1, 1}_3 . X^{k+1, 3} + B^{k+1} \\
-L^{k+1, 2}(X^{k+1}) &= W^{k+1, 2}_1 . X^{k+1, 1} + W^{k+1, 2}_2 . X^{k+1, 2} + W^{k+1, 2}_3 . X^{k+1, 3} + B^{k+1}
+L^{k, 1}(X^{k}) &= W^{k, 1}_1 . X^{k, 1} + W^{k, 1}_2 . X^{k, 2} + W^{k, 1}_3 . X^{k, 3} + B^{k} \\
+L^{k, 2}(X^{k}) &= W^{k, 2}_1 . X^{k, 1} + W^{k, 2}_2 . X^{k, 2} + W^{k, 2}_3 . X^{k, 3} + B^{k}
 \end{align}
 $$ 
 
-- $ X^{k+1} $ is the natural dependency of $ L^{k+1} $. It receives the outputs of the previous $ L^{k} $ $ layer $. 
+- $ X^{k} $ is the natural dependency of $ L^{k} $. It receives the outputs of the previous $ L^{k-1} $ $ layer $. 
 
-- $ W^{k+1} $ are the **weights** declared by the $ L^{k+1} $ $ layer $. These **weights** will receive their values 
-from the developer, beginning with a start value. Then they are **updated** during the **learning phase** 
+- $ W^{k} $ are the **weights** declared by the $ L^{k} $ $ layer $. These **weights** will receive their values 
+from the developer, beginning with a start value. They are **updated** during the **learning phase** 
 (see the [weights article]({% post_url 2021-08-19-weights %})).
 
-- $ B^{k+1} $ is another **weight** variable, called the **bias**. 
+- $ B^{k} $ is another **weight** variable, called the **bias**. 
 Their initial value is typically 0. They are **updated** during the **learning phase** too.
 
-Let us check the structure of the $ L^{k+1} $ $ layer $. We have used the same structure as in the 
+Let us check the structure of the $ L^{k} $ $ layer $. We have used the same structure as in the 
 [previous paragraph](#the-linear-neural-structure): we should be able to identify 2 outputs. Each of these 2 outputs 
-depending of the 3 outputs of the previous $ L^{k} $ $ layer $.
+depending of the 3 outputs of the previous $ L^{k-1} $ $ layer $.
 
-Indeed, we have $ L^{k+1, 1} $ and $ L^{k+1, 2} $ which are the two output **neurons**.
-Each of these variables is connected to $ X^{k+1, 1} $, $ X^{k+1, 2} $ and $ X^{k+1, 3} $ which are the 3 input 
+Indeed, we have $ L^{k, 1} $ and $ L^{k, 2} $ which are the two output **neurons**.
+Each of these variables is connected to $ X^{k, 1} $, $ X^{k, 2} $ and $ X^{k, 3} $ which are the 3 input 
 **neurons**, or said differently the 3 output **neurons** of the previous $ layer $. 
 
 What is interesting to note is that we have declared 2 (output **neurons**) * 3 (input **neurons**) = 6 weights 
 in total: 
-$ W^{k+1, 1}_1 $, $ W^{k+1, 1}_2 $, $ W^{k+1, 1}_3 $, $ W^{k+1, 2}_1 $, $ W^{k+1, 2}_2 $ and $ W^{k+1, 2}_3 $.
+$ W^{k, 1}_1 $, $ W^{k, 1}_2 $, $ W^{k, 1}_3 $, $ W^{k, 2}_1 $, $ W^{k, 2}_2 $ and $ W^{k, 2}_3 $.
 
-Note that we have one more **weight**: $ B^{k+1} $ that is used the same in $ L^{k+1, 1} $ and in $ L^{k+1, 2} $. 
+Note that we have one more **weight**: $ B^{k} $ that is used the same in $ L^{k, 1} $ and in $ L^{k, 2} $. 
 This will be important in the [backward pass paragraph](#backward-pass-for-the-weights).
 
 ## Backward pass
@@ -139,208 +147,208 @@ this **learning flow**.
 
 ## Backward pass for the learning flow 
 
-We are currently focusing on the $ L^{k+1} $ $ layer $, trying to compute:
+We are currently focusing on the $ L^{k} $ $ layer $, trying to compute:
 
 $$ 
-\delta^{k+1} = \frac{\partial Loss}{\partial X^{k+1}}(o^k)
+\delta^{k} = \frac{\partial Loss}{\partial X^{k}}(o^{k-1})
 $$
 
 In the [backward pass article]({% post_url 2021-08-13-backward-pass %}), we would use the **chain rule** in order 
-to compute the explicit formula for $ \frac{\partial Loss}{\partial X^{k+1}} $.
+to compute the explicit formula for $ \frac{\partial Loss}{\partial X^{k}} $.
 
-We will see how to obtain this $ \delta^{k+1} $ with a more straight forward approach. 
+We will see how to obtain this $ \delta^{k} $ with a more straight forward approach. 
 
-The principal idea is to go back to the very structure of $ L^{k+1} $ in order to find the impacts of $ X^{k+1} $ 
+The principal idea is to go back to the very structure of $ L^{k} $ in order to find the impacts of $ X^{k} $ 
 on the $ Loss $ function, knowing that the "future" 
 **learning flow** has already been computed (by definition of the **backward pass**). 
 
-The structure for the $ L^{k+1} $ $ layer $ is: 
+The structure for the $ L^{k} $ $ layer $ is: 
 - 2 output **neurons** 
 - 3 input **neurons**. 
 
-$ \delta^{k+2, 1} $ and $ \delta^{k+2, 2} $ are the "future" **learning flow**: we admit they have already been 
+$ \delta^{k+1}_1 $ and $ \delta^{k+1}_2 $ are the "future" **learning flow**: we admit they have already been 
 computed.
-We must back propagate the **learning flow** to $ \delta^{k+1, 1} $, $ \delta^{k+1, 2} $ and $ \delta^{k+1, 3} $.
+We must back propagate the **learning flow** to $ \delta^{k}_1 $, $ \delta^{k}_2 $ and $ \delta^{k}_3 $.
 
 ![Linear](/_assets/images/layers/Linear5.png)
 
-### Computing $ \delta^{k+1, 1} $ 
+### Computing $ \delta^{k}_1 $ 
 
 $$ 
-\delta^{k+1, 1} = \frac{\partial Loss}{\partial X^{k+1, 1}}(o^k_1)
+\delta^{k}_1 = \frac{\partial Loss}{\partial X^{k}_1}(o^{k-1}_1)
 $$
 
-The interesting variable is $ X^{k+1, 1} $. In the different diagrams it corresponds to $ o^{k}_1 $, 
+The interesting variable is $ X^{k}_1 $. In the different diagrams it corresponds to $ o^{k-1}_1 $, 
 its value during the current **backward pass**. Let us find its impacts on the $ Loss $ function.
-In fact, every output of $ L^{k+1} $ uses $ X^{k+1, 1} $.
+In fact, every output of $ L^{k} $ uses $ X^{k}_1 $.
 Indeed we can look at the two diagrams [here](#linear-structure1) to see that 
-$ o^{k+1}_1 $ is linked to $ o^{k}_1 $ and that $ o^{k+1}_2 $ is also linked to $ o^{k}_1 $.
+$ o^{k}_1 $ is linked to $ o^{k-1}_1 $ and that $ o^{k}_2 $ is also linked to $ o^{k-1}_1 $.
 
 We have already seen examples ([backward pass]({% post_url 2021-08-13-backward-pass %}) and 
 [batch learning](% post_url 2021-08-24-batch-learning %)) with multiple impacts: in the end we just added them 
 all together.
 
-We are now able to build the **paths** of impacts from $ X^{k+1, 1} $ to the $ Loss $ function. 
+We are now able to build the **paths** of impacts from $ X^{k}_1 $ to the $ Loss $ function. 
 
 ![Linear](/_assets/images/layers/Linear6.png)
 
-- $ X^{k+1, 1} $ impacts $ L^{k+1, 1} $ (definition of $ L^{k+1} $) which impacts the $ Loss $ function ("future" **learning flow**)
-- $ X^{k+1, 1} $ impacts $ L^{k+1, 2} $ (definition of $ L^{k+1} $) which impacts the $ Loss $ function ("future" **learning flow**)
+- $ X^{k}_1 $ impacts $ L^{k}_1 $ (definition of $ L^{k} $) which impacts the $ Loss $ function ("future" **learning flow**)
+- $ X^{k}_1 $ impacts $ L^{k}_2 $ (definition of $ L^{k} $) which impacts the $ Loss $ function ("future" **learning flow**)
 
 We add these 2 impacts, using the **chain rule**, to obtain: 
 
 $$ 
-\delta^{k+1, 1} = \delta^{k+2, 1} * \frac{\partial L^{k+1, 1}}{X^{k+1, 1}}(o^k_1)  + 
-\delta^{k+2, 2} * \frac{\partial L^{k+1, 2}}{X^{k+1, 1}}(o^k_1)
+\delta^{k}_1 = \delta^{k+1}_1 * \frac{\partial L^{k}_1}{X^{k}_1}(o^k_1)  + 
+\delta^{k+1}_2 * \frac{\partial L^{k}_2}{X^{k}_1}(o^k_1)
 $$
 
 We just have to compute: 
 
 $$ 
 \begin{align}
-\frac{\partial L^{k+1, 1}}{\partial X^{k+1, 1}} &= 
-\frac{\partial (W^{k+1, 1}_1 . X^{k+1, 1} + W^{k+1, 1}_2 . X^{k+1, 2} + W^{k+1, 1}_3 . X^{k+1, 3} + B^{k+1})}{\partial X^{k+1, 1}} \\
-                                                &= W^{k+1, 1}_1 
+\frac{\partial L^{k}_1}{\partial X^{k}_1} &= 
+\frac{\partial (W^{k, 1}_1 . X^{k}_1 + W^{k, 1}_2 . X^{k}_2 + W^{k, 1}_3 . X^{k}_3 + B^{k})}{\partial X^{k}_1} \\
+                                          &= W^{k, 1}_1 
 \end{align}
 $$
 
 Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
-\frac{\partial L^{k+1, 1}}{X^{k+1, 1}}(o^k_1) = w^{k+1, 1}_1 
+\frac{\partial L^{k}_1}{X^{k}_1}(o^{k-1}_1) = w^{k, 1}_1 
 $$
 
 We do the same to obtain: 
 
 $$ 
-\frac{\partial L^{k+1, 2}}{X^{k+1, 1}}(o^k_1) = w^{k+1, 2}_1
+\frac{\partial L^{k}_2}{X^{k}_1}(o^{k-1}_1) = w^{k, 2}_1
 $$
 
 We finally assemble these two results:
 
 $$ 
-\boxed{\delta^{k+1, 1} = \delta^{k+2, 1} * w^{k+1, 1}_1 + \delta^{k+2, 2} * w^{k+1, 2}_1}
+\boxed{\delta^{k}_1 = \delta^{k+1}_1 * w^{k, 1}_1 + \delta^{k+1}_2 * w^{k, 2}_1}
 $$
 
-### Computing $ \delta^{k+1, 2} $ 
+### Computing $ \delta^{k, 2} $ 
 
 $$ 
-\delta^{k+1, 2} = \frac{\partial Loss}{\partial X^{k+1, 2}}(o^k_2)
+\delta^{k, 2} = \frac{\partial Loss}{\partial X^{k, 2}}(o^{k-1}_2)
 $$
 
-The interesting variable is $ X^{k+1, 2} $. In the different diagrams it corresponds to $ o^{k}_2 $, 
+The interesting variable is $ X^{k, 2} $. In the different diagrams it corresponds to $ o^{k-1}_2 $, 
 its value during the current **backward pass**. As in the previous paragraph, 
-every output of $ L^{k+1} $ uses $ X^{k+1, 2} $.
+every output of $ L^{k} $ uses $ X^{k, 2} $.
 Indeed we can look at the last two diagrams [here](#linear-structure1) to see that 
-$ o^{k+1}_1 $ is linked to $ o^{k}_2 $ and that $ o^{k+1}_2 $ is also linked to $ o^{k}_2 $.
+$ o^{k}_1 $ is linked to $ o^{k-1}_2 $ and that $ o^{k}_2 $ is also linked to $ o^{k-1}_2 $.
 
 We are now able to build the **paths** of impacts from $ X^{k+1, 2} $ to the $ Loss $ function. 
 
 ![Linear](/_assets/images/layers/Linear7.png)
 
-- $ X^{k+1, 2} $ impacts $ L^{k+1, 1} $ which impacts the $ Loss $ function 
-- $ X^{k+1, 2} $ impacts $ L^{k+1, 2} $ which impacts the $ Loss $ function 
+- $ X^{k, 2} $ impacts $ L^{k, 1} $ which impacts the $ Loss $ function 
+- $ X^{k, 2} $ impacts $ L^{k, 2} $ which impacts the $ Loss $ function 
 
 We add these 2 impacts, using the **chain rule**, to obtain: 
 
 $$ 
-\delta^{k+1, 2} = \delta^{k+2, 1} * \frac{\partial L^{k+1, 1}}{X^{k+1, 2}}(o^k_2)  + 
-\delta^{k+2, 2} * \frac{\partial L^{k+1, 2}}{X^{k+1, 2}}(o^k_2)
+\delta^{k, 2} = \delta^{k+1, 1} * \frac{\partial L^{k, 1}}{X^{k, 2}}(o^{k-1}_2)  + 
+\delta^{k+1, 2} * \frac{\partial L^{k, 2}}{X^{k, 2}}(o^{k-1}_2)
 $$
 
 We just have to compute: 
 
 $$ 
 \begin{align}
-\frac{\partial L^{k+1, 1}}{\partial X^{k+1, 2}} &= 
-\frac{\partial (W^{k+1, 1}_1 . X^{k+1, 1} + W^{k+1, 1}_2 . X^{k+1, 2} + W^{k+1, 1}_3 . X^{k+1, 3} + B^{k+1})}{\partial X^{k+1, 2}} \\
-                                                &= W^{k+1, 1}_2 
+\frac{\partial L^{k, 1}}{\partial X^{k, 2}} &= 
+\frac{\partial (W^{k, 1}_1 . X^{k, 1} + W^{k, 1}_2 . X^{k, 2} + W^{k, 1}_3 . X^{k, 3} + B^{k})}{\partial X^{k, 2}} \\
+                                            &= W^{k, 1}_2 
 \end{align}
 $$
 
 Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
-\frac{\partial L^{k+1, 1}}{X^{k+1, 2}}(o^k_2) = w^{k+1, 1}_2 
+\frac{\partial L^{k, 1}}{X^{k, 2}}(o^{k-1}_2) = w^{k, 1}_2 
 $$
 
 We do the same to obtain: 
 
 $$ 
-\frac{\partial L^{k+1, 2}}{X^{k+1, 2}}(o^k_2) = w^{k+1, 2}_2
+\frac{\partial L^{k, 2}}{X^{k, 2}}(o^{k-1}_2) = w^{k, 2}_2
 $$
 
 We finally assemble these two results:
 
 $$ 
-\boxed{\delta^{k+1, 2} = \delta^{k+2, 1} * w^{k+1, 1}_2 + \delta^{k+2, 2} * w^{k+1, 2}_2}
+\boxed{\delta^{k, 2} = \delta^{k+1, 1} * w^{k, 1}_2 + \delta^{k+1, 2} * w^{k, 2}_2}
 $$
 
-### Computing $ \delta^{k+1, 3} $ 
+### Computing $ \delta^{k, 3} $ 
 
 $$ 
-\delta^{k+1, 3} = \frac{\partial Loss}{\partial X^{k+1, 3}}(o^k_3)
+\delta^{k, 3} = \frac{\partial Loss}{\partial X^{k, 3}}(o^{k-1}_3)
 $$
 
-The interesting variable is $ X^{k+1, 3} $. In the different diagrams it corresponds to $ o^{k}_3 $, 
+The interesting variable is $ X^{k, 3} $. In the different diagrams it corresponds to $ o^{k-1}_3 $, 
 its value during the current **backward pass**. As in the previous paragraph, 
-every output of $ L^{k+1} $ uses $ X^{k+1, 3} $.
+every output of $ L^{k+1} $ uses $ X^{k, 3} $.
 Indeed we can look at the last two diagrams [here](#linear-structure1) to see that 
-$ o^{k+1}_1 $ is linked to $ o^{k}_3 $ and that $ o^{k+1}_2 $ is also linked to $ o^{k}_3 $.
+$ o^{k}_1 $ is linked to $ o^{k-1}_3 $ and that $ o^{k}_2 $ is also linked to $ o^{k-1}_3 $.
 
-We are now able to build the **paths** of impacts from $ X^{k+1, 3} $ to the $ Loss $ function. 
+We are now able to build the **paths** of impacts from $ X^{k, 3} $ to the $ Loss $ function. 
 
 ![Linear](/_assets/images/layers/Linear8.png)
 
-- $ X^{k+1, 3} $ impacts $ L^{k+1, 1} $ which impacts the $ Loss $ function 
-- $ X^{k+1, 3} $ impacts $ L^{k+1, 2} $ which impacts the $ Loss $ function 
+- $ X^{k, 3} $ impacts $ L^{k, 1} $ which impacts the $ Loss $ function 
+- $ X^{k, 3} $ impacts $ L^{k, 2} $ which impacts the $ Loss $ function 
 
 We add these 2 impacts, using the **chain rule**, to obtain: 
 
 $$ 
-\delta^{k+1, 3} = \delta^{k+2, 1} * \frac{\partial L^{k+1, 1}}{X^{k+1, 3}}(o^k_3)  + 
-\delta^{k+2, 2} * \frac{\partial L^{k+1, 2}}{X^{k+1, 3}}(o^k_3)
+\delta^{k, 3} = \delta^{k+1, 1} * \frac{\partial L^{k, 1}}{X^{k, 3}}(o^{k-1}_3)  + 
+\delta^{k+1, 2} * \frac{\partial L^{k, 2}}{X^{k, 3}}(o^{k-1}_3)
 $$
 
 We just have to compute: 
 
 $$ 
 \begin{align}
-\frac{\partial L^{k+1, 1}}{\partial X^{k+1, 3}} &= 
-\frac{\partial (W^{k+1, 1}_1 . X^{k+1, 1} + W^{k+1, 1}_2 . X^{k+1, 2} + W^{k+1, 1}_3 . X^{k+1, 3} + B^{k+1})}{\partial X^{k+1, 3}} \\
-                                                &= W^{k+1, 1}_3 
+\frac{\partial L^{k, 1}}{\partial X^{k, 3}} &= 
+\frac{\partial (W^{k, 1}_1 . X^{k, 1} + W^{k, 1}_2 . X^{k, 2} + W^{k, 1}_3 . X^{k, 3} + B^{k})}{\partial X^{k, 3}} \\
+                                            &= W^{k, 1}_3 
 \end{align}
 $$
 
 Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
-\frac{\partial L^{k+1, 1}}{X^{k+1, 3}}(o^k_3) = w^{k+1, 1}_3 
+\frac{\partial L^{k, 1}}{X^{k, 3}}(o^{k-1}_3) = w^{k, 1}_3 
 $$
 
 We do the same to obtain: 
 
 $$ 
-\frac{\partial L^{k+1, 2}}{X^{k+1, 3}}(o^k_3) = w^{k+1, 2}_3
+\frac{\partial L^{k, 2}}{X^{k, 3}}(o^{k-1}_3) = w^{k, 2}_3
 $$
 
 We finally assemble these two results:
 
 $$ 
-\boxed{\delta^{k+1, 3} = \delta^{k+2, 1} * w^{k+1, 1}_3 + \delta^{k+2, 2} * w^{k+1, 2}_3}
+\boxed{\delta^{k, 3} = \delta^{k+1, 1} * w^{k, 1}_3 + \delta^{k+1, 2} * w^{k, 2}_3}
 $$
 
 ## Backward pass for the weights
 
-In this paragraph we continue focusing on the $ L^{k+1} $ $ layer $. This time we want to compute 
+In this paragraph we continue focusing on the $ L^{k} $ $ layer $. This time we want to compute 
 the direction of its **weights**' **update**: 
 
 $$ 
-\delta w^{k+1} = \frac{\partial Loss}{\partial W}(o^k)
+\delta w^{k} = \frac{\partial Loss}{\partial W}(o^{k-1})
 $$
 
 We will use the exact same strategy as in the [last paragraph](#backward-pass-for-the-learning-flow). 
-The principal idea is to go back to the very structure of $ L^{k+1} $ in order to find the impacts of $ W^{k+1} $ 
+The principal idea is to go back to the very structure of $ L^{k} $ in order to find the impacts of $ W^{k} $ 
 on the $ Loss $ function, knowing that the "future" 
 **learning flow** has already been computed (by definition of the **backward pass**). 
 
@@ -352,172 +360,172 @@ on the $ Loss $ function, knowing that the "future"
 ![Linear](/_assets/images/layers/Linear10.png)
 </a>
 
-There is one last **weight** we have to **update** during the **learning phase**: $ B^{k+1} $, the **bias**. 
-Thus, we will have to compute $ \delta b^{k+1} $ too.
+There is one last **weight** we have to **update** during the **learning phase**: $ B^{k} $, the **bias**. 
+Thus, we will have to compute $ \delta b^{k} $ too.
 
-### Computing $ \delta w^{k+1, 1}_1 $ 
+### Computing $ \delta w^{k, 1}_1 $ 
 
 $$ 
-\delta w^{k+1, 1}_1 = \frac{\partial Loss}{\partial W^{k+1, 1}_1}(o^k_1)
+\delta w^{k, 1}_1 = \frac{\partial Loss}{\partial W^{k, 1}_1}(o^{k-1}_1)
 $$
 
-The interesting variable is $ W^{k+1, 1}_1 $. In the different diagrams it corresponds to $ w^{k+1, 1}_1 $, 
-its value during the current **backward pass**. There is just one output of $ L^{k+1} $ that uses $ W^{k+1, 1}_1 $: 
-$ L^{k+1, 1} $.
+The interesting variable is $ W^{k, 1}_1 $. In the different diagrams it corresponds to $ w^{k, 1}_1 $, 
+its value during the current **backward pass**. There is just one output of $ L^{k} $ that uses $ W^{k, 1}_1 $: 
+$ L^{k, 1} $.
 Indeed we can look at the diagram [here](#linear-structure1) to see that 
-$ o^{k+1}_1 $ is linked to $ w^{k+1, 1}_1 $.
+$ o^{k}_1 $ is linked to $ w^{k, 1}_1 $.
 
-We are now able to build the **paths** of impacts from $ W^{k+1, 1}_1 $ to the $ Loss $ function. 
+We are now able to build the **paths** of impacts from $ W^{k, 1}_1 $ to the $ Loss $ function. 
 This is in fact what we already saw in [this diagram](#linear-structure3).
 
-- $ W^{k+1, 1}_1 $ impacts $ L^{k+1, 1} $ which impacts the $ Loss $ function  
+- $ W^{k, 1}_1 $ impacts $ L^{k, 1} $ which impacts the $ Loss $ function  
 
 We have only 1 impact, using the **chain rule**, we obtain: 
 
 $$ 
-\delta w^{k+1, 1}_1 = \delta^{k+2, 1} * \frac{\partial L^{k+1, 1}}{W^{k+1, 1}_1}(o^k_1)
+\delta w^{k, 1}_1 = \delta^{k+1, 1} * \frac{\partial L^{k, 1}}{W^{k, 1}_1}(o^{k-1}_1)
 $$
 
 We just have to compute: 
 
 $$ 
 \begin{align}
-\frac{\partial L^{k+1, 1}}{\partial W^{k+1, 1}_1} &= 
-\frac{\partial (W^{k+1, 1}_1 . X^{k+1, 1} + W^{k+1, 1}_2 . X^{k+1, 2} + W^{k+1, 1}_3 . X^{k+1, 3} + B^{k+1})}{\partial W^{k+1, 1}_1} \\
-                                                 &= X^{k+1, 1}
+\frac{\partial L^{k, 1}}{\partial W^{k, 1}_1} &= 
+\frac{\partial (W^{k, 1}_1 . X^{k, 1} + W^{k, 1}_2 . X^{k, 2} + W^{k, 1}_3 . X^{k, 3} + B^{k})}{\partial W^{k, 1}_1} \\
+                                              &= X^{k, 1}
 \end{align}
 $$
 
 Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
-\frac{\partial L^{k+1, 1}}{W^{k+1, 1}_1}(o^k_1) = o^k_1
+\frac{\partial L^{k, 1}}{W^{k, 1}_1}(o^{k-1}_1) = o^{k-1}_1
 $$
 
 We finally use this result in the first formula:
 
 $$ 
-\boxed{\delta w^{k+1, 1}_1 = \delta^{k+2, 1} * o^k_1}
+\boxed{\delta w^{k, 1}_1 = \delta^{k+1, 1} * o^{k-1}_1}
 $$
 
-### Computing $ \delta w^{k+1, 1}_2 $ and $ \delta w^{k+1, 1}_3 $
+### Computing $ \delta w^{k, 1}_2 $ and $ \delta w^{k, 1}_3 $
 
 Same as in the previous paragraph. 
 The results are: 
 
 $$ 
-\boxed{\delta w^{k+1, 1}_2 = \delta^{k+2, 1} * o^k_2}
+\boxed{\delta w^{k, 1}_2 = \delta^{k+1, 1} * o^{k-1}_2}
 $$
 
 $$ 
-\boxed{\delta w^{k+1, 1}_3 = \delta^{k+2, 1} * o^k_3}
+\boxed{\delta w^{k, 1}_3 = \delta^{k+1, 1} * o^{k-1}_3}
 $$
 
-### Computing $ \delta w^{k+1, 2}_1 $ 
+### Computing $ \delta w^{k, 2}_1 $ 
 
 $$ 
-\delta w^{k+1, 2}_1 = \frac{\partial Loss}{\partial W^{k+1, 2}_1}(o^k_1)
+\delta w^{k, 2}_1 = \frac{\partial Loss}{\partial W^{k, 2}_1}(o^{k-1}_1)
 $$
 
-The interesting variable is $ W^{k+1, 2}_1 $. In the different diagrams it corresponds to $ w^{k+1, 2}_1 $, 
-its value during the current **backward pass**. There is just one output of $ L^{k+1} $ that uses $ W^{k+1, 2}_1 $: 
-$ L^{k+1, 2} $.
+The interesting variable is $ W^{k, 2}_1 $. In the different diagrams it corresponds to $ w^{k, 2}_1 $, 
+its value during the current **backward pass**. There is just one output of $ L^{k} $ that uses $ W^{k, 2}_1 $: 
+$ L^{k, 2} $.
 Indeed we can look at the diagram [here](#linear-structure2) to see that 
-$ o^{k+1}_2 $ is linked to $ w^{k+1, 2}_1 $.
+$ o^{k}_2 $ is linked to $ w^{k, 2}_1 $.
 
-We are now able to build the **paths** of impacts from $ W^{k+1, 2}_1 $ to the $ Loss $ function. 
+We are now able to build the **paths** of impacts from $ W^{k, 2}_1 $ to the $ Loss $ function. 
 This is in fact what we already saw in [this diagram](#linear-structure4).
 
-- $ W^{k+1, 2}_1 $ impacts $ L^{k+1, 2} $ which impacts the $ Loss $ function  
+- $ W^{k, 2}_1 $ impacts $ L^{k, 2} $ which impacts the $ Loss $ function  
 
 We have only 1 impact, using the **chain rule**, we obtain: 
 
 $$ 
-\delta w^{k+1, 2}_1 = \delta^{k+2, 2} * \frac{\partial L^{k+1, 2}}{W^{k+1, 2}_1}(o^k_1)
+\delta w^{k, 2}_1 = \delta^{k+1, 2} * \frac{\partial L^{k, 2}}{W^{k, 2}_1}(o^{k-1}_1)
 $$
 
 We just have to compute: 
 
 $$ 
 \begin{align}
-\frac{\partial L^{k+1, 2}}{\partial W^{k+1, 2}_1} &= 
-\frac{\partial (W^{k+1, 2}_1 . X^{k+1, 1} + W^{k+1, 2}_2 . X^{k+1, 2} + W^{k+1, 2}_3 . X^{k+1, 3} + B^{k+1})}{\partial W^{k+1, 2}_1} \\
-                                                  &= X^{k+1, 1}
+\frac{\partial L^{k, 2}}{\partial W^{k, 2}_1} &= 
+\frac{\partial (W^{k, 2}_1 . X^{k, 1} + W^{k, 2}_2 . X^{k, 2} + W^{k, 2}_3 . X^{k, 3} + B^{k})}{\partial W^{k, 2}_1} \\
+                                              &= X^{k, 1}
 \end{align}
 $$
 
 Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
-\frac{\partial L^{k+1, 2}}{W^{k+1, 2}_1}(o^k_1) = o^k_1
+\frac{\partial L^{k, 2}}{W^{k, 2}_1}(o^{k-1}_1) = o^{k-1}_1
 $$
 
 We finally use this result in the first formula:
 
 $$ 
-\boxed{\delta w^{k+1, 2}_1 = \delta^{k+2, 2} * o^k_1}
+\boxed{\delta w^{k, 2}_1 = \delta^{k+1, 2} * o^{k-1}_1}
 $$
 
-### Computing $ \delta w^{k+1, 2}_2 $ and $ \delta w^{k+1, 2}_3 $
+### Computing $ \delta w^{k, 2}_2 $ and $ \delta w^{k, 2}_3 $
 
 Same as in the previous paragraph. 
 The results are: 
 
 $$ 
-\boxed{\delta w^{k+1, 2}_2 = \delta^{k+2, 2} * o^k_2}
+\boxed{\delta w^{k, 2}_2 = \delta^{k+1, 2} * o^{k-1}_2}
 $$
 
 $$ 
-\boxed{\delta w^{k+1, 2}_3 = \delta^{k+2, 2} * o^k_3}
+\boxed{\delta w^{k, 2}_3 = \delta^{k+1, 2} * o^{k-1}_3}
 $$
 
-### Computing $ \delta b^{k+1} $ 
+### Computing $ \delta b^{k} $ 
 
 $$ 
-\delta b^{k+1} = \frac{\partial Loss}{\partial B^{k+1, 1}}(o^k)
+\delta b^{k} = \frac{\partial Loss}{\partial B^{k, 1}}(o^{k-1})
 $$
 
-The interesting variable is $ B^{k+1} $. Every output of $ L^{k+1} $ uses $ B^{k+1} $. 
+The interesting variable is $ B^{k} $. Every output of $ L^{k} $ uses $ B^{k} $. 
 This is clear when we take a look at the first two equations of the [forward pass](#forward-pass) paragraph. 
 
-We are now able to build the **paths** of impacts from $ B^{k+1} $ to the $ Loss $ function. 
+We are now able to build the **paths** of impacts from $ B^{k} $ to the $ Loss $ function. 
 
-- $ B^{k+1} $ impacts $ L^{k+1, 1} $ which impacts the $ Loss $ function  
-- $ B^{k+1} $ impacts $ L^{k+1, 2} $ which impacts the $ Loss $ function  
+- $ B^{k} $ impacts $ L^{k, 1} $ which impacts the $ Loss $ function  
+- $ B^{k} $ impacts $ L^{k, 2} $ which impacts the $ Loss $ function  
 
 We add these 2 impacts, using the **chain rule**, to obtain: 
 
 $$ 
-\delta b^{k+1} = \delta^{k+2, 1} * \frac{\partial L^{k+1, 1}}{B^{k+1}}(o^k) + 
-\delta^{k+2, 2} * \frac{\partial L^{k+1, 2}}{B^{k+1}}(o^k)
+\delta b^{k} = \delta^{k+1, 1} * \frac{\partial L^{k, 1}}{B^{k}}(o^{k-1}) + 
+\delta^{k+1, 2} * \frac{\partial L^{k, 2}}{B^{k}}(o^{k-1})
 $$
 
 We just have to compute: 
 
 $$ 
 \begin{align}
-\frac{\partial L^{k+1, 1}}{\partial B^{k+1}} &= 
-\frac{\partial (W^{k+1, 1}_1 . X^{k+1, 1} + W^{k+1, 1}_2 . X^{k+1, 2} + W^{k+1, 1}_3 . X^{k+1, 3} + B^{k+1})}{\partial B^{k+1}} \\
-                                             &= 1
+\frac{\partial L^{k, 1}}{\partial B^{k}} &= 
+\frac{\partial (W^{k, 1}_1 . X^{k, 1} + W^{k, 1}_2 . X^{k, 2} + W^{k, 1}_3 . X^{k, 3} + B^{k})}{\partial B^{k}} \\
+                                         &= 1
 \end{align}
 $$
 
 Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
-\frac{\partial L^{k+1, 1}}{B^{k+1}}(o^k) = 1
+\frac{\partial L^{k, 1}}{B^{k}}(o^{k-1}) = 1
 $$
 
 We do the same to obtain: 
 
 $$ 
-\frac{\partial L^{k+1, 2}}{B^{k+1}}(o^k) = 1
+\frac{\partial L^{k, 2}}{B^{k}}(o^{k-1}) = 1
 $$
 
 We finally assemble these two results:
 
 $$ 
-\boxed{\delta b^{k+1} = \delta^{k+2, 1} + \delta^{k+2, 2}}
+\boxed{\delta b^{k} = \delta^{k+1, 1} + \delta^{k+1, 2}}
 $$
 
 ## Example
@@ -577,15 +585,15 @@ We have already computed the different elements.
 In the [backward pass for the learning flow](#backward-pass-for-the-learning-flow), we found:
 
 $$
-\delta^{k+1, 1} = \delta^{k+2, 1} * w^{k+1, 1}_1 + \delta^{k+2, 2} * w^{k+1, 2}_1
+\delta^{k, 1} = \delta^{k+1, 1} * w^{k, 1}_1 + \delta^{k+1, 2} * w^{k, 2}_1
 $$
 
 $$ 
-\delta^{k+1, 2} = \delta^{k+2, 1} * w^{k+1, 1}_2 + \delta^{k+2, 2} * w^{k+1, 2}_2
+\delta^{k, 2} = \delta^{k+1, 1} * w^{k, 1}_2 + \delta^{k+1, 2} * w^{k, 2}_2
 $$
 
 $$ 
-\delta^{k+1, 3} = \delta^{k+2, 1} * w^{k+1, 1}_3 + \delta^{k+2, 2} * w^{k+1, 2}_3
+\delta^{k, 3} = \delta^{k+1, 1} * w^{k, 1}_3 + \delta^{k+1, 2} * w^{k, 2}_3
 $$
 
 We adjust these formula to the current **neural structure**: 
@@ -618,15 +626,15 @@ which is what we already computed in the
 In the [backward pass for the weights](#backward-pass-for-the-weights), we found:
 
 $$ 
-\delta w^{k+1, 1}_1 = \delta^{k+2, 1} * o^k_1
+\delta w^{k, 1}_1 = \delta^{k+1, 1} * o^{k-1}_1
 $$
 
 $$ 
-\delta w^{k+1, 1}_2 = \delta^{k+2, 1} * o^k_2
+\delta w^{k, 1}_2 = \delta^{k+1, 1} * o^{k-1}_2
 $$
 
 $$ 
-\delta w^{k+1, 1}_3 = \delta^{k+2, 1} * o^k_3
+\delta w^{k, 1}_3 = \delta^{k+1, 1} * o^{k-1}_3
 $$
 
 In fact, we computed 6 formula for the **weights** and 1 formula for the **bias**. 
