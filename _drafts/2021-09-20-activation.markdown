@@ -148,7 +148,7 @@ We are now able to build the **paths** of impacts from $ X^{k+1, 1} $ to the $ L
 We have only 1 impact, using the **chain rule**, we obtain: 
 
 $$ 
-\delta^{k+1, 1} = \delta^{k+2, 1} * \frac{\partial L^{k+1, 1}}{X^{k+1, 1}}(o^k_1)
+\delta^{k+1, 1} = \delta^{k+2, 1} . \frac{\partial L^{k+1, 1}}{X^{k+1, 1}}(o^k_1)
 $$
 
 We just have to compute: 

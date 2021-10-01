@@ -67,7 +67,7 @@ computed. This enables us to compute $ o^{k} = L^{k}(o^{k-1}) $.
 
 But for the backward pass we do the reverse logic. We must consider we already have computed the "future" 
 **learning flow** $ \delta^{k+1} $ and 
-we want to **propagate** to the **learning flow** of $ L^{k} $, computing $ \delta^{k} $. 
+we want to **propagate** the **learning flow** through $ L^{k} $, computing $ \delta^{k} $. 
 
 ![Backward](/_assets/images/backward/Backward.png)
 
@@ -77,7 +77,7 @@ In order to compute $ \delta^{k} $ we proceed in two steps:
 
 The most difficult point is the 1 because we must compute the link between $ X^{k} $ and $ Loss $ which is 
 "chained". There are 2 essential parts in that "chain": 
-- The link between $ X^k $ and $ X^{k+1} $, given by the definition of $ L^{k} $: 
+- The link between $ X^k $ and $ X^{k+1} $, given by the definition o:f $ L^{k} $: 
 $ X^{k+1} = L^{k}(X^{k}) $.
 - The link between $ X^{k+1} $ and $ Loss $ which is the "future" **learning flow**: $ \delta^{k+1} $.
 
@@ -347,7 +347,7 @@ $$
 By chance, it appears that this formula simplifies.
 Let us recall that $ L1(X^1) = X^1 \text{, with } X^1 = (X^1_1, X^1_2, X^1_3) $. 
 Said differently we have: $ L1((X^1_1, X^1_2, X^1_3)) = (X^1_1, X^1_2, X^1_3) $.
-Thus we can compute that: 
+Thus we can compute: 
 
 $$ 
 \begin{align}

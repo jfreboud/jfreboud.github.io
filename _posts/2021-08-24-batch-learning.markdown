@@ -268,7 +268,7 @@ $$
 And we evaluate this function: 
 
 $$ 
-\boxed{\delta w^{k, learning} = \delta w^{k, learning, 1} + \delta w^{k, learning, 2} + \text{...} + 
+\boxed{\delta w^{k, avg} = \delta w^{k, learning, 1} + \delta w^{k, learning, 2} + \text{...} + 
 \delta w^{k, learning, n}}
 $$
 

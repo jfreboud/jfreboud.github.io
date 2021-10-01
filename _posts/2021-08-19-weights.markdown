@@ -231,7 +231,7 @@ But finding a good value for this coefficient is up to the developer, a meta-alg
 Now we are able to complete the formula to **update** the **weights**: 
 
 $$
-\hat{w} = w - \alpha * \frac{\partial Loss}{\partial W}(x, y^{truth})
+\hat{w} = w - \alpha . \frac{\partial Loss}{\partial W}(x, y^{truth})
 $$
 
 We recognize the direction of **update**: $ - \frac{\partial Loss}{\partial W}(x, y^{truth}) $, 
@@ -242,7 +242,7 @@ We note $ \hat{w} $ to symbolize the new value that $ w $ will take at the end o
 And with the $ \delta w $ notation we have:
 
 $$
-\boxed{\hat{w} = w - \alpha * \delta w}
+\boxed{\hat{w} = w - \alpha . \delta w}
 $$ 
 
 ## The optimizer
@@ -485,7 +485,7 @@ In order to proceed, we will use the formula given in [this paragraph](#update-t
 The new value $ \hat{w^2} $ for our $ w^2 $ **weights** will be:
 
 $$
-\boxed{\hat{w^2} = w^2 - \alpha * \delta w^2}
+\boxed{\hat{w^2} = w^2 - \alpha . \delta w^2}
 $$
 
 ## Conclusion

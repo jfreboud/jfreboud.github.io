@@ -86,7 +86,7 @@ Where does **gradient descent** name comes from ?
 From the **weights** update formula of the [last article]({% post_url 2021-08-19-weights %}): 
 
 $$
-\hat{w} = w - \alpha * \frac{\partial Loss}{\partial W}(x, y^{truth})
+\hat{w} = w - \alpha . \frac{\partial Loss}{\partial W}(x, y^{truth})
 $$
 
 For multivariate functions (function with multiple variables), 
@@ -163,7 +163,7 @@ $$
 $$
 
 $$ 
-\boxed{\delta 2 = \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})}
+\boxed{\delta 2 = \delta 3 * w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})}
 $$
 
 $$ 
@@ -179,7 +179,7 @@ $$
 We have to use the update formula for $ w^2 $ : 
 
 $$
-\boxed{\hat{w^2} = w^2 - \alpha * \delta w^2}
+\boxed{\hat{w^2} = w^2 - \alpha . \delta w^2}
 $$
 
 ## Example: what we do...
@@ -232,7 +232,7 @@ Thus we will run the **learning phase** on our 3 **data input**: this will be on
     
     $$ 
     \begin{align}
-    \delta 2 &= \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+    \delta 2 &= \delta 3 * w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
              &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
              &= (0, 0, 0)
     \end{align}
@@ -257,7 +257,7 @@ Thus we will run the **learning phase** on our 3 **data input**: this will be on
 
     $$
     \begin{align}
-    \hat{w^2} &= w^2 - \alpha * \delta w^2 \\
+    \hat{w^2} &= w^2 - \alpha . \delta w^2 \\
               &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 10^{-7} * (0, 0, 0) \\
               &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
     \end{align}
@@ -310,7 +310,7 @@ This $ loss $ value is typical for a $ model $ that has already produced the rig
     
     $$ 
     \begin{align}
-    \delta 2 &= \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+    \delta 2 &= \delta 3 * w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
              &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
              &= (0, 0, 0)
     \end{align}
@@ -335,7 +335,7 @@ This $ loss $ value is typical for a $ model $ that has already produced the rig
 
     $$
     \begin{align}
-    \hat{w^2} &= w^2 - \alpha * \delta w^2 \\
+    \hat{w^2} &= w^2 - \alpha . \delta w^2 \\
               &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 10^{-7} * (0, 0, 0) \\
               &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
     \end{align}
@@ -388,7 +388,7 @@ second **data input** and has nothing to learn.
     
     $$ 
     \begin{align}
-    \delta 2 &= \delta 3 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+    \delta 2 &= \delta 3 * w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
              &= (-1) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
              &= -(\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
     \end{align}
@@ -413,7 +413,7 @@ second **data input** and has nothing to learn.
 
     $$
     \begin{align}
-    \hat{w^2} &= w^2 - \alpha * \delta w^2 \\
+    \hat{w^2} &= w^2 - \alpha . \delta w^2 \\
               &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) - 10^{-7} * (-(0, 2000, 3 000)) \\
               &= (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) + (0, 0.0002, 0.0003) \\
               &= (\frac{1}{200}, 0.0002 - \frac{3 000}{11 600 000}, 0.0003 + \frac{1}{5 800})
