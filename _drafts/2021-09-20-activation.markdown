@@ -23,11 +23,11 @@ introduced these **representations** in the **forward pass** paragraph of
 
 Let us talk about the following setup: 
 
-- $ L^k $ is a $ Linear $ $ layer $ of 2 **neurons**
-- $ L^{k+1} $ is an $ Activation $ $ layer $
+- $ L^{k-1} $ is a $ Linear $ $ layer $ of 2 **neurons**
+- $ L^{k} $ is an $ Activation $ $ layer $
 
 By definition, the $ Activation $ $ layer $ preserves the structure of the previous $ layer $. 
-$ L^k $ has 2 output **neurons**, $ L^{k+1} $ will have 2 output **neurons** too.
+$ L^{k-1} $ has 2 output **neurons**, $ L^{k} $ will have 2 output **neurons** too.
 
 As the $ Activation $ $ layer $ is not a **learning** layer, it does not declare any **weights**. 
 We could wonder what the $ Activation $ $ layer $ actually does...
@@ -38,7 +38,7 @@ Generally speaking, the $ Activation $ $ layer $ consists in evaluating an $ act
 on every input **neurons**. The choice of the $ activation $ function is up to the developer. Several reasons may 
 justify the use of an $ activation $ function. 
 
-1. It allows to transform value ranges. With the $ logistic $ $ activation $ function, we are able to transform 
+1. It allows to transform value ranges. Example: the $ logistic $ $ activation $ function transforms 
 input values in the range of $ [-\infty; \infty] $ to output values in the range of $ [0; 1] $.
 
     $$ 
@@ -49,8 +49,8 @@ input values in the range of $ [-\infty; \infty] $ to output values in the range
 
     $$ 
     Heaviside(x) = \left\{\begin{align}
-                            0, & \text{ if $x<0$}\\
-                            1, & \text{ otherwise}
+                            1, & \text{ if $x \geq 0$}\\
+                            0, & \text{ otherwise}
                           \end{align}
                    \right.
     $$
@@ -64,8 +64,8 @@ input values in the range of $ [-\infty; \infty] $ to output values in the range
 
     $$ 
     ReLU(x) = \left\{\begin{align}
-                       0, & \text{ if $x<0$}\\
-                       x, & \text{ otherwise}
+                       x, & \text{ if $x \geq 0$}\\
+                       0, & \text{ otherwise}
                      \end{align}
               \right.
     $$
@@ -84,7 +84,7 @@ $$
 \boxed{\delta w = \frac{\partial Loss}{\partial W}(x, y^{truth})}
 $$
 
-for each **weight** of every $ layer $. This is the direction to follow in the **weights**' **update** in order 
+for each **weight** of every $ layer $. This is the opposite direction to follow in the **weights**' **update** in order 
 to minimize the $ Loss $ function.
 
 We also have to use the **backward pass** in order to back propagate
@@ -102,84 +102,83 @@ back propagate the **learning flow**.
 
 We assume we have the same setup as in the [first paragraph](#the-activation-neural-structure): 
 
-- $ L^k $ is a $ Linear $ $ layer $ of 2 **neurons**
-- $ L^{k+1} $ is an $ Activation $ $ layer $
+- $ L^{k-1} $ is a $ Linear $ $ layer $ of 2 **neurons**
+- $ L^{k} $ is an $ Activation $ $ layer $
 
 Let us also assume our $ activation $ function is the $ ReLU $ one.
 
-We are currently focusing on the $ L^{k+1} $ $ layer $, trying to compute:
+We are currently focusing on the $ L^{k} $ $ layer $, trying to compute:
 
 $$ 
-\delta^{k+1} = \frac{\partial Loss}{\partial X^{k+1}}(o^k)
+\delta^{k} = \frac{\partial Loss}{\partial X^{k}}(o^{k-1})
 $$
 
 We use the same approach as in the [previous article]({% post_url 2021-09-19-linear %}). 
 
-The principal idea is to go back to the very structure of $ L^{k+1} $ in order to find the impacts of $ X^{k+1} $ 
+The principal idea is to go back to the very structure of $ L^{k} $ in order to find the impacts of $ X^{k} $ 
 on the $ Loss $ function, knowing that the "future" 
 **learning flow** has already been computed (by definition of the **backward pass**). 
 
-The structure for the $ L^{k+1} $ $ layer $ is: 
+The structure for the $ L^{k} $ $ layer $ is: 
 - 2 output **neurons** 
 - 2 input **neurons**. 
 
-$ \delta^{k+2, 1} $ and $ \delta^{k+2, 2} $ are the "future" **learning flow**: we admit they have already been 
+$ \delta^{k+1}_1 $ and $ \delta^{k+1}_2 $ are the "future" **learning flow**: we admit they have already been 
 computed.
-We must back propagate the **learning flow** to $ \delta^{k+1, 1} $ and $ \delta^{k+1, 2} $.
+We must back propagate the **learning flow** to $ \delta^{k}_1 $ and $ \delta^{k}_2 $.
 
 ![Linear](/_assets/images/layers/Activation2.png)
 
-### Computing $ \delta^{k+1, 1} $ 
+### Computing $ \delta^{k}_1 $ 
 
 $$ 
-\delta^{k+1, 1} = \frac{\partial Loss}{\partial X^{k+1, 1}}(o^k_1)
+\delta^{k}_1 = \frac{\partial Loss}{\partial X^{k}_1}(o^{k-1}_1)
 $$
 
-The interesting variable is $ X^{k+1, 1} $. In the different diagrams it corresponds to $ o^{k}_1 $, 
-its value during the current **backward pass**. There is just one output of $ L^{k+1} $ that uses $ X^{k+1, 1} $: 
-$ L^{k+1, 1} $.
+The interesting variable is $ X^{k}_1 $. There is just one output of $ L^{k} $ that uses $ X^{k}_1 $: 
+$ L^{k}_1 $.
 
-We are now able to build the **paths** of impacts from $ X^{k+1, 1} $ to the $ Loss $ function. 
+We are now able to build the **paths** of impacts from $ X^{k}_1 $ to the $ Loss $ function. 
 
 ![Linear](/_assets/images/layers/Activation3.png)
 
-- $ X^{k+1, 1} $ impacts $ L^{k+1, 1} $ which impacts the $ Loss $ function 
+- $ X^{k}_1 $ impacts $ L^{k}_1 $ which impacts the $ Loss $ function 
 
-We have only 1 impact, using the **chain rule**, we obtain: 
+We have only 1 impact, using the **chain rule**, we obtain the "impact" formula: 
 
 $$ 
-\delta^{k+1, 1} = \delta^{k+2, 1} . \frac{\partial L^{k+1, 1}}{X^{k+1, 1}}(o^k_1)
+\delta^{k}_1 = \delta^{k+1}_1 . \frac{\partial L^{k}_1}{X^{k}_1}(o^{k-1}_1)
 $$
 
 We just have to compute: 
 
 $$ 
 \begin{align}
-\frac{\partial L^{k+1, 1}}{\partial X^{k+1, 1}} &= \frac{\partial (ReLU(X^{k+1, 1}))}{\partial X^{k+1, 1}} \\
-                                                &= \frac{\partial (0 \text{ if } X^{k+1, 1} < 0 \text{ else } X^{k+1, 1})}{\partial X^{k+1, 1}} \\
-                                                &= 0 \text{ if } X^{k+1, 1} < 0 \text{ else 1 }
+\frac{\partial L^{k}_1}{\partial X^{k}_1} &= \frac{\partial (ReLU(X^{k}_1))}{\partial X^{k}_1} \\
+                                          &= \frac{\partial (X^{k}_1 \text{ if } X^{k}_1 \geq 0 \text{ else } 0)}{\partial X^{k}_1} \\
+                                          &= 1 \text{ if } X^{k}_1 \geq 0 \text{ else 0 }
 \end{align}
 $$
 
 Then we evaluate this function on the values that have produced the final $ loss $:
 
 $$ 
-\frac{\partial L^{k+1, 1}}{X^{k+1, 1}}(o^k_1) = 0 \text{ if } o^k_1 < 0 \text{ else 1 }
+\frac{\partial L^{k}_1}{X^{k}_1}(o^{k-1}_1) = 1 \text{ if } o^{k-1}_1 \geq 0 \text{ else 0 }
 $$
 
-We finally use this result in the first formula:
+We finally use this result in the "impact" formula:
 
 $$ 
-\boxed{\delta^{k+1, 1} = \delta^{k+2, 1} \text{ if } o^k_1 \geq 0}
+\boxed{\delta^{k}_1 = \delta^{k+1}_1 \text{ if } o^{k-1}_1 \geq 0 \text{ else 0 }}
 $$
 
-### Computing $ \delta^{k+1, 1} $ 
+### Computing $ \delta^{k}_2 $ 
 
 Same as in the previous paragraph. 
 The result is: 
 
 $$ 
-\boxed{\delta^{k+1, 2} = \delta^{k+2, 2} \text{ if } o^k_2 \geq 0}
+\boxed{\delta^{k}_2 = \delta^{k+1}_2 \text{ if } o^{k-1}_2 \geq 0 \text{ else 0 }}
 $$
 
 ## Example
@@ -215,19 +214,21 @@ $$
 
 In the [backward pass for the learning flow](#backward-pass-for-the-learning-flow), we found:
 
-$$
-\delta^{k+1, 1} = \delta^{k+2, 1} \text{ if } o^k_1 \geq 0
+$$ 
+\boxed{\delta^{k}_1 = \delta^{k+1}_1 \text{ if } o^{k-1}_1 \geq 0 \text{ else 0 }}
 $$
 
 $$ 
-\delta^{k+1, 2} = \delta^{k+2, 2} \text{ if } o^k_2 \geq 0
+\boxed{\delta^{k}_2 = \delta^{k+1}_2 \text{ if } o^{k-1}_2 \geq 0 \text{ else 0 }}
 $$
 
 We adjust these formula to the current **neural structure**: 
 
 $$
-\boxed{\delta^{3} = \delta^{4} \text{ if } o^2 \geq 0}
+\delta^{3} = \delta^{4} \text{ if } o^2 \geq 0 \text{ else 0 }
 $$ 
 
 which is what we already computed in the 
 [backward pass article]({% post_url 2021-08-13-backward-pass %}).
+
+## Activation Layer: Interpretation
