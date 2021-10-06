@@ -66,7 +66,7 @@ input values in the range of $ [-\infty; \infty] $ to output values in the range
               \right.
     $$
     
-    We will talk about it in a later paragraph.
+    We will talk about it in a later article :smiling_imp:
     
 ## Forward Pass
 
