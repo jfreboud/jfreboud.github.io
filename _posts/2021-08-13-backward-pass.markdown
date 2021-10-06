@@ -20,7 +20,7 @@ The reason for that will be explained in the [next article]({% post_url 2021-08-
 In this article we will see how the structure in $ layers $ of our $ model $ helps us computing the impacts of the 
 **inner variables** of the $ model $ on the $ Loss $ function.
 
-## The backward pass
+## The Backward Pass
 
 Before diving into some more computation, let us talk about the **forward pass** once more 
 (first referenced [here]({% post_url 2021-08-06-inside-the-model %})). It has a nemesis in the **backward pass** that 
@@ -56,7 +56,7 @@ There is a final difference between the two: the **forward pass** is run in the 
 while the **backward pass** is only run during the **learning phase**, 
 which comforts its signal naming of **learning flow**.
 
-## A closer look at one layer
+## A Closer Look at one Layer
 
 To be a little more specific, we can take a look at some $ L^{k} $ $ layer $ in particular.
 By definition we have an explicit formula for $ L^{k}(X^{k}) $ function. Running its **forward pass** is easy: 
@@ -83,7 +83,7 @@ $ X^{k+1} = L^{k}(X^{k}) $.
 
 When we have these two parts, we may use the **chain rule**... 
 
-## The Chain rule
+## The Chain Rule
 
 In the [previous paragraph](#a-closer-look-at-one-layer), we have seen the two essential parts to obtain the explicit 
 formula for:

@@ -23,7 +23,7 @@ The two main components are the clouds and the arrows. For now we do not know wh
 will call them $ layers $ ($ L1 $, $ L2 $, ...).
 But we can clearly see what the arrows imply... 
 
-## The forward pass 
+## The Forward Pass 
 
 The arrows imply a **sequential order**, letting the **information flow** pass through the different $ layers $. 
 
@@ -90,7 +90,7 @@ $ X_3 $ is the variable for workout hours
 
 We have built a $ model $ that is composed of 3 layers ($ L1 $, $ L2 $, $ L3 $).
 
-### <span style="text-decoration:underline"> Run the forward pass </span>
+### <span style="text-decoration:underline"> Run the Forward Pass </span>
 
 Instead of using $ model(X) $ directly as in the [previous article]({% post_url 2021-08-05-general-concepts %}).
 We now have to apply [the forward pass](#the-forward-pass), storing every intermediate results.
@@ -164,7 +164,7 @@ to the **data output** expectation.
 
 ![Layer-3](/_assets/images/model/Layer-3.png)
 
-## The Layer in general
+## The Layer in General
 
 As we saw in the [example](#example), each $ layer $ is a mathematical function that depends on 
 some variable which will receive the output of its previous $ layer $. 

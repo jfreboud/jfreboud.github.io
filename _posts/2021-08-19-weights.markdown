@@ -14,7 +14,7 @@ $ layer $ in our $ model $.
 In this article we will explore the reason for these computations: **update** the **model's weights**. 
 But before that, let us introduce the $ model $'s **weights**, responsible for the **learning process** :smiling_imp:
 
-## The model's weights
+## The Model's Weights
 
 We have spoken about them for a long time now. But what are they ? 
 
@@ -54,7 +54,7 @@ articles).
 So for each $ layer $ $ L^k $ that declares **weights**, we have two dependencies: $ X^k $ and $ W^k $.
 And for each $ layer $ $ L^i $ that does not declare **weights**, one dependency: $ X^i $.
 
-## The learning process 
+## The Learning Process 
 
 We have just introduced the **weights** and said the developer can change their values.
 In this paragraph we elaborate on the special moment when the developer **updates** them, 
@@ -78,7 +78,7 @@ developer and the $ model $. During the **learning phase** the developer activel
 for the $ model $ to perform better. During the **inferring phase** the developer passively waits for the 
 $ model $ to produce new results.
 
-## The derivative of Loss according to W
+## The Derivative of Loss according to W
 
 We have just accepted that the **weights** are a moving part of the $ model $ and that 
 the developer has to **update** them to make the $ model $ stronger. But we do not know how to **update** them.
@@ -151,7 +151,7 @@ $$
 We could paraphrase the formula as: we want to know to what extent the variable $ W $ causes an error in the 
 $ model $ when the $ Loss $ function is evaluated on $ x $ and $ y^{truth} $ and we slightly disturb $ w $.
 
-## The backward pass for weights
+## The Backward Pass for Weights
  
 We are coming closer to justify the computations we made in the 
 [previous article]({% post_url 2021-08-13-backward-pass %}). The whole thing is naturally linked with what we have just 
@@ -210,7 +210,7 @@ For each $ L^{k} $ $ layer $ in the $ model $ in the reverse order of the **forw
 
 ![Layers](/_assets/images/backward/Layer-4.png)
 
-## Update the weights
+## Update the Weights
 
 In this [paragraph](#the-derivative-of-loss-according-to-w), we have already spoken about the direction 
 we must follow for our **weights**' **update**: 
@@ -245,7 +245,7 @@ $$
 \boxed{\hat{w} = w - \alpha . \delta w}
 $$ 
 
-## The optimizer
+## The Optimizer
 
 Note that there exist plenty other ways to **update** the **weights**. Each have their advantages. 
 
@@ -326,11 +326,11 @@ $$
 
 which is exactly what we had when running the **forward pass** in the previous articles.
 
-### <span style="text-decoration:underline"> Run the forward pass </span>
+### <span style="text-decoration:underline"> Run the Forward Pass </span>
 
 Same as in the [Loss function article]({% post_url 2021-08-09-loss-function %}):
 
-### <span style="text-decoration:underline"> Run the backward pass for the learning flow </span>
+### <span style="text-decoration:underline"> Run the Backward Pass for the Learning Flow </span>
 
 Let us keep in mind the results we already 
 computed in the [Loss function article]({% post_url 2021-08-09-loss-function %}) and 
@@ -360,7 +360,7 @@ $$
 
 ![Warning](/_assets/images/maths/warning.png) mathematically shy people should skip
 
-### <span style="text-decoration:underline"> Run the backward pass for the weights </span>
+### <span style="text-decoration:underline"> Run the Backward Pass for the Weights </span>
 
 As mentioned in this [paragraph](#the-backward-pass-for-weights) we need to use the **learning flow** 
 in order to compute the explicit formula for the $ derivative $ functions of $ Loss $ according to the **weights**. 
@@ -477,7 +477,7 @@ $$
 
 ![Safe](/_assets/images/maths/safe.png) 
 
-### <span style="text-decoration:underline"> Update the weights </span>
+### <span style="text-decoration:underline"> Update the Weights </span>
 
 We are finally able to update the weights in our $ model $ and it is by far the easiest part !
 

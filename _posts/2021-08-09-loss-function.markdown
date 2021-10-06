@@ -13,7 +13,7 @@ In the [previous article]({% post_url 2021-08-06-inside-the-model %}), we explor
 
 In this article we will talk about the $ Loss $ function which is the starting point of the **learning process**. 
 
-## The learning process 
+## The Learning Process 
 
 In the paragraph "Learning, inferring" of the [first article]({% post_url 2021-08-05-general-concepts %}), 
 we talked about the **learning** phase and the **inferring** phase. 
@@ -31,7 +31,7 @@ We compared $ o3 $ to the expected result and two situations occurred: $ o3 = ex
 
 We are now looking for a systematic way of telling the $ model $: this result is right, that result is wrong.  
 
-## The Loss function
+## The Loss Function
 
 The systematic way of telling the $ model $ what is right or wrong is the $ Loss $ function.
 
@@ -52,7 +52,7 @@ $ Loss $ function is that $ loss \geq 0 $.
 The final goal of **learning** is that $ loss = 0 $ on every **data** of the **dataset**. Said differently 
 we want to minimize the $ Loss $ function.
 
-## The derivative operator
+## The Derivative Operator
 
 The $ derivative $ operator is what makes the **learning** possible. 
 For an $ f $ function depending on $ X $, we can apply the $ derivative $ operator on $ f $ according to $ X $. 
@@ -105,7 +105,7 @@ $$
 \boxed{\frac{\partial f}{\partial X}(x)}
 $$
 
-## The derivative of the Loss function
+## The Derivative of the Loss Function
 
 What we have for the moment is: 
 
@@ -188,7 +188,7 @@ $ X^4 $ receiving the value of the **output layer** of $ model $.
 
 We have built a $ model $ that is composed of 3 layers ($ L1 $, $ L2 $, $ L3 $). 
 
-### <span style="text-decoration:underline"> Run the forward pass </span>
+### <span style="text-decoration:underline"> Run the Forward Pass </span>
 
 First of all let us run the **forward pass**:
 
@@ -220,7 +220,7 @@ We observe that the value of $ loss(o3, y^{truth}) $ <span style="color:green"> 
 with $ y^{truth} $ and <span style="color:red"> is greater than 0 </span> when there is <span style="color:red"> an error </span>.
 The $ loss $ is indeed an indicator of the error of the results produced by the $ model $ function.
 
-### <span style="text-decoration:underline"> Going further </span>
+### <span style="text-decoration:underline"> Going Further </span>
 
 ![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [conlusion](#conclusion)
 

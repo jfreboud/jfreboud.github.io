@@ -13,7 +13,7 @@ In the [previous article]({% post_url 2021-08-23-gradient-descent %}), we run on
 
 In this article we will explore one new idea to stabilize this algorithm: **batch learning**. 
 
-## What is a batch ?
+## What is a Batch ?
 
 A **batch** corresponds to multiple elements of **data input** taken at once.
 The main goal is to modify the way our **weights** are **updated** so that each **update** is more robust.
@@ -46,14 +46,14 @@ different elements of the **batch**
 Do it for all **data input** in the **dataset**, we call it an **epoch**. 
 Repeat for several **epochs**.
 
-## The new forward pass
+## The New Forward Pass
 
 There is no new **forward pass**, we just have to continue running the **forward pass** as before, 
 just keeping in mind that the different elements in the **batch** will be grouped together for **learning**.
 
 For $ i $ in $ 1, 2 ... n $, indices of the **batch** elements, we compute $ \boxed{model(x^i)} $.
 
-## The new Loss function
+## The New Loss Function
 
 From its introduction in the article [Loss function](% post_url 2021-08-09-loss-function %), the $ Loss $ function 
 has been used to systematically compare the results produced by the $ model $ with expectations.
@@ -117,7 +117,7 @@ $$
 In fact $ Loss^{avg} $ is just a global indicator that shows the average error at the end of the **forward pass**. 
 But what is really propagated during the **learning phase** will be $ Loss^{learning} $.
 
-## The new backward pass
+## The New Backward Pass
 
 There is no new **backward pass**, we just have to continue running the **backward pass** as before, 
 just keeping in mind that the different elements in the **batch** will be grouped together for **learning**.
@@ -158,7 +158,7 @@ $$
 \delta w^{learning} = \frac{1}{n} . \delta w
 $$
 
-## The state so far
+## The State so far
 
 Let us summarize the status so far.
 We are trying to **learn** on a **batch** of (**data input**, **data output**).
@@ -193,7 +193,7 @@ $ Loss^{learning} $. But clearly this is not sufficient to say we are about to c
 
 The last part where things can get right is the **weights** **update** :smiling_imp:
 
-## Update the weights: the new rule
+## Update the Weights: the New Rule
 
 Let us recall the **update** formula for the **weights**: 
 
@@ -274,7 +274,8 @@ $$
 
 ## Example
 
-In this example we will start a new **learning phase** from scratch but this time with 
+In this example we will start a new **learning phase** from scratch (compared to the "Example: what we do..." in the 
+[previous article]({% post_url 2021-08-23-gradient-descent %})) but this time with 
 a **batch** of size 3. If the choice in this example is simple because we have only 3 **data input**, it may 
 be more touchy in the general case. Yet, there is no magical formula and it will be up to the developer to 
 decide on this parameter. We use the same very small **learning rate** as before: $ \alpha = 10^{-7} $.
@@ -311,7 +312,7 @@ $$
 w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
 $$
 
-### <span style="text-decoration:underline"> Run the forward pass </span>
+### <span style="text-decoration:underline"> Run the Forward Pass </span>
 
 | $ x $              | $ o1 = L1(x) $   | $ o2 = L2(o1) $ | $ o3 = L3(o2) $ |
 | :----------------: | :--------------: | :-------------: | :-------------: |
@@ -325,7 +326,7 @@ $$
 | (1) | (1) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
 | (0) | (1) | (<span style="color:red">0.5</span>) | ![right](/_assets/images/general/wrong.png) |
 
-### <span style="text-decoration:underline"> Run the backward pass </span>
+### <span style="text-decoration:underline"> Run the Backward Pass </span>
 
 ![Layers](/_assets/images/backward/Layer-5.png)
 
@@ -349,7 +350,7 @@ $$
 \boxed{\delta 1 = \delta 2}
 $$
 
-### <span style="text-decoration:underline"> Run the learning phase on the batch </span>
+### <span style="text-decoration:underline"> Run the Learning Phase on the Batch </span>
 
 1. pick **data input**: 
 
@@ -495,7 +496,7 @@ We have just run one **epoch** of the **gradient descent** algorithm on our whol
 Let us stop our algorithm now and check the new results when we run a new **forward pass** on every **data input** 
 of our **dataset**.
 
-### <span style="text-decoration:underline"> Run a new forward pass </span>
+### <span style="text-decoration:underline"> Run a New Forward Pass </span>
 
 | $ x $              | $ o1 = L1(x) $   | $ o2 = L2(o1) $ | $ o3 = L3(o2) $ |
 | :----------------: | :--------------: | :-------------: | :-------------: |

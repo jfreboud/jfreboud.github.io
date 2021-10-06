@@ -1,25 +1,21 @@
 ---
 layout: post
 title:  "The Activation Layer"
-date:   2021-09-20
+date:   2021-10-06
 excerpt: >-
-  The activation layer is not a learning layer per. It will help us better understand how the linear layer is 
-  building representations on the data input. 
+  Let us reveal the neural structure for the other layers of our "Example": the Activation and the Input 1D layers. 
 ---
 
 ## Introduction
 
-In the [previous article]({% post_url 2021-09-19-linear %}), we mainly worked on a new approach, centered on the 
-layer, that helps us computing the different elements of the $ Linear $ $ layer $ **backward pass**.
+In the [previous article]({% post_url 2021-09-19-linear %}), we worked on a new approach, centered on the 
+**neural structure**, 
+that helps us computing the different elements of the $ Linear $ $ layer $ **backward pass**.
 
-In this article we will first of all talk about the $ Activation $ $ layer $. 
+In this article we will talk about the $ Activation $ and the $ Input \text{ } 1D $ $ layers $: the last 2 $ layers $ 
+we used in the "Example" of the previous articles. 
 
-Then we will use this new $ layer $ 
-in order to better understand the **representations** built by the $ Linear $ $ layer $. For now, we just 
-introduced these **representations** in the **forward pass** paragraph of 
-[this article]({% post_url 2021-08-06-inside-the-model %}).
-
-## The Activation neural structure
+## The Activation Neural Structure
 
 Let us talk about the following setup: 
 
@@ -72,11 +68,13 @@ input values in the range of $ [-\infty; \infty] $ to output values in the range
     
     We will talk about it in a later paragraph.
     
-## Forward pass
+## Forward Pass
 
-Just use the $ activation $ function on each input **neurons** in order to produce the output **neurons**.
+Just use the $ activation $ function on each input **neurons** in order to produce the output **neurons**:
 
-## Backward pass
+![Activation](/_assets/images/layers/Activation2.png)
+
+## Backward Pass
 
 As we saw in the [weights article]({% post_url 2021-08-19-weights %}), the goal of the **backward pass** is to compute 
 
@@ -98,7 +96,7 @@ which is the **learning flow**: the essential part to compute the direction in t
 Yet, in our case, the $ Activation $ $ layer $ has no **weights** at all. This means we will only have to 
 back propagate the **learning flow**.
 
-## Backward pass for the learning flow 
+## Backward Pass for the Learning Flow 
 
 We assume we have the same setup as in the [first paragraph](#the-activation-neural-structure): 
 
@@ -127,7 +125,7 @@ $ \delta^{k+1}_1 $ and $ \delta^{k+1}_2 $ are the "future" **learning flow**: we
 computed.
 We must back propagate the **learning flow** to $ \delta^{k}_1 $ and $ \delta^{k}_2 $.
 
-![Linear](/_assets/images/layers/Activation2.png)
+![Linear](/_assets/images/layers/Activation3.png)
 
 ### Computing $ \delta^{k}_1 $ 
 
@@ -140,7 +138,7 @@ $ L^{k}_1 $.
 
 We are now able to build the **paths** of impacts from $ X^{k}_1 $ to the $ Loss $ function. 
 
-![Linear](/_assets/images/layers/Activation3.png)
+![Linear](/_assets/images/layers/Activation4.png)
 
 - $ X^{k}_1 $ impacts $ L^{k}_1 $ which impacts the $ Loss $ function 
 
@@ -200,9 +198,9 @@ $$
 
 $ L3 $ is indeed an $ Activation $ $ layer $. Its **neural structure** is simple: it has just 1 output **neuron**.
 
-![Linear](/_assets/images/layers/Activation4.png)
+![Linear](/_assets/images/layers/Activation5.png)
 
-### <span style="text-decoration:underline"> Forward pass for L3 </span>
+### <span style="text-decoration:underline"> Forward Pass for L3 </span>
 
 By definition, we just have to use the $ L3 $ explicit formula: 
 
@@ -210,7 +208,7 @@ $$
 L3(X^3) = X^3 \text{ if } X^3 \geq 0 \text{ else } 0 
 $$ 
 
-### <span style="text-decoration:underline"> Backward pass for L3 </span>
+### <span style="text-decoration:underline"> Backward Pass for L3 </span>
 
 In the [backward pass for the learning flow](#backward-pass-for-the-learning-flow), we found:
 
@@ -231,4 +229,160 @@ $$
 which is what we already computed in the 
 [backward pass article]({% post_url 2021-08-13-backward-pass %}).
 
-## Activation Layer: Interpretation
+## The Input 1D Neural Structure
+
+As we have seen in the [second article]({% post_url 2021-08-06-inside-the-model %}), the **input layer** is the 
+first $ layer $ of the $ model $. It directly receives the data given by the developer. 
+
+Still, it has a **neural structure**. 
+For example let us suppose $ L^{1} $ is an $ Input \text{ } 1D $ $ layer $ with 2 output **neurons**:
+
+![Input1D](/_assets/images/layers/Input1D1.png)
+
+## Forward Pass
+
+In fact, it just consists in storing the data given by the developer inside the output **neurons**: 
+
+![Input1D](/_assets/images/layers/Input1D2.png)
+
+## Backward Pass
+
+So as the $ Activation $ $ layer $, the $ Input \text{ } 1D $ $ layer $ has no **weights**. 
+This means the **backward pass** will only have to back propagate \delta:
+
+$$
+\boxed{\delta = \frac{\partial Loss}{\partial X}(x, y^{truth})}
+$$
+
+## Backward Pass for the Learning Flow 
+
+We assume $ L1 $ is an $ Input \text{ } 1D $ $ layer $ that produces 2 output **neurons**. 
+We are trying to compute:
+
+$$ 
+\delta^{1} = \frac{\partial Loss}{\partial X^{1}}(data)
+$$
+
+Let us find the impacts of $ X^{1} $ 
+on the $ Loss $ function, knowing that the "future" 
+**learning flow** has already been computed (by definition of the **backward pass**). 
+
+The structure for the $ L^{1} $ $ layer $ is: 
+- 2 output **neurons** 
+- 2 input **neurons**. 
+
+$ \delta^{2}_1 $ and $ \delta^{2}_2 $ are the "future" **learning flow**: we admit they have already been 
+computed.
+We must back propagate the **learning flow** to $ \delta^{1}_1 $ and $ \delta^{2}_2 $.
+
+![Input1D](/_assets/images/layers/Input1D3.png)
+
+### Computing $ \delta^{1}_1 $ 
+
+$$ 
+\delta^{1}_1 = \frac{\partial Loss}{\partial X^{1}_1}(data_1)
+$$
+
+The interesting variable is $ X^{1}_1 $. There is just one output of $ L^{1} $ that uses $ X^{1}_1 $: 
+$ L^{1}_1 $.
+
+We are now able to build the **paths** of impacts from $ X^{1}_1 $ to the $ Loss $ function. 
+
+![Input1D](/_assets/images/layers/Input1D4.png)
+
+- $ X^{1}_1 $ impacts $ L^{1}_1 $ which impacts the $ Loss $ function 
+
+We have only 1 impact, using the **chain rule**, we obtain the "impact" formula: 
+
+$$ 
+\delta^{1}_1 = \delta^{2}_1 . \frac{\partial L^{1}_1}{X^{1}_1}(data_1)
+$$
+
+We just have to compute: 
+
+$$ 
+\begin{align}
+\frac{\partial L^{1}_1}{\partial X^{1}_1} &= \frac{\partial (L^{1}(X^{1}_1))}{\partial X^{1}_1} \\
+                                          &= \frac{\partial (X^{1}_1)}{\partial X^{1}_1} \\
+                                          &= 1 
+\end{align}
+$$
+
+Then we evaluate this function on the values that have produced the final $ loss $:
+
+$$ 
+\frac{\partial L^{1}_1}{X^{1}_1}(data_1) = 1
+$$
+
+We finally use this result in the "impact" formula:
+
+$$ 
+\boxed{\delta^{1}_1 = \delta^{2}_1}
+$$
+
+### Computing $ \delta^{k}_2 $ 
+
+Same as in the previous paragraph. 
+The result is: 
+
+$$ 
+\boxed{\delta^{1}_2 = \delta^{2}_2}
+$$
+
+## Example
+
+We have already used an $ Input \text{ } 1D $ $ layer $ in the "Example" of the previous articles. Let us have a look 
+at the $ model $ we used in the [weights article]({% post_url 2021-08-19-weights %}): 
+
+$$
+\begin{align}
+    L1(X^1)  &= X^1 & \text{ with } X^1 = (X^1_1, X^1_2, X^1_3) \\
+    L2(X^2, W^2) &= W^2 . X^2          & \text{ with } X^2 = (X^2_1, X^2_2, X^2_3) \\
+                 &                     & \text{ and } W^2 = (W^2_1, W^2_2, W^2_3) \\
+                 &= W^2_1 . X^2_1 + W^2_2 . X^2_2 + W^2_3 . X^2_3 \\
+    L3(X^3)  &= X^3 \text{ if } X^3 \geq 0 \text{ else } 0 \\ \\
+    model(X) &= L3(L2(L1(X))) & \text{ with } X = (X_1, X_2, X_3) \\ 
+    Loss(X^4, Y^{truth})  &= \frac{1}{2} (X^4 - Y^{truth})^2 
+\end{align}
+$$
+
+$ L1 $ is indeed an $ Input \text{ } 1D $ $ layer $. Its **neural structure** is simple: it has 3 output **neurons**.
+
+![Input1D](/_assets/images/layers/Input1D5.png)
+
+### <span style="text-decoration:underline"> Forward Pass for L1 </span>
+
+By definition, we just have to use the $ L1 $ explicit formula: 
+
+$$ 
+L1(X^1) = X^1
+$$ 
+
+### <span style="text-decoration:underline"> Backward Pass for L1 </span>
+
+In the previous paragraph, we found:
+
+$$ 
+\boxed{\delta^{1}_1 = \delta^{2}_1}
+$$
+
+$$ 
+\boxed{\delta^{1}_2 = \delta^{2}_2}
+$$
+
+We can summarize these formula for the current **neural structure**: 
+
+$$
+\delta^{1} = \delta^{2}
+$$ 
+
+which is what we already computed in the 
+[backward pass article]({% post_url 2021-08-13-backward-pass %}).
+
+## Conclusion
+
+We have seen the **neural structure** for each and every $ layer $ that appeared in the "Example" we 
+introduced in the [second article]({% post_url 2021-08-06-inside-the-model %}).
+
+We are now ready to go back to the very simple $ model $ of our "Example" and talk about the **representations** 
+we introduced in the **forward pass** paragraph of the [second article]({% post_url 2021-08-06-inside-the-model %}).

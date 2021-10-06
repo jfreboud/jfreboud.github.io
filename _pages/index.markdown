@@ -28,13 +28,13 @@ framework from scratch.
 The articles are re organised into chapters.
 We will elaborate on 4 main chapters: 
 
-- In the "Deep Learning meta walkthrough" we explore the core of the **learning process**: 
+- In the `Deep Learning Meta Walkthrough` we explore the core of the **learning process**: 
 **forward pass**, **backward pass** level 1, **weights update**...
-- In "From a Layer Perspective", we dig deeper into the **layers**: **neural structure**, 
+- In `From a Layer Perspective`, we dig deeper into the **layers**: **neural structure**, 
 **backward pass** level 2...
-- In "From a Network Perspective", we talk about deep learning models: **supervised**, **unsupervised**, 
+- In `From a Network Perspective`, we talk about deep learning models: **supervised**, **unsupervised**, 
 **maximal activation**...
-- In "From a Developer Perspective", we elaborate on the steps needed to build a framework from scratch: 
+- In `From a Developer Perspective`, we elaborate on the steps needed to build a framework from scratch: 
 **impact graphs**, **gradient checking**, **GPUs**...
 
 # Disclaimer

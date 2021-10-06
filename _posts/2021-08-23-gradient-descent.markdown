@@ -136,7 +136,7 @@ $$
 w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
 $$
 
-### <span style="text-decoration:underline"> Run the forward pass </span>
+### <span style="text-decoration:underline"> Run the Forward Pass </span>
 
 | $ x $              | $ o1 = L1(x) $   | $ o2 = L2(o1) $ | $ o3 = L3(o2) $ |
 | :----------------: | :--------------: | :-------------: | :-------------: |
@@ -150,7 +150,7 @@ $$
 | (1) | (1) | (<span style="color:green">0</span>) | ![wrong](/_assets/images/general/right.png) |
 | (0) | (1) | (<span style="color:red">0.5</span>) | ![right](/_assets/images/general/wrong.png) |
 
-### <span style="text-decoration:underline"> Run the backward pass </span>
+### <span style="text-decoration:underline"> Run the Backward Pass </span>
 
 ![Layers](/_assets/images/backward/Layer-5.png)
 
@@ -174,7 +174,7 @@ $$
 \boxed{\delta 1 = \delta 2}
 $$
 
-### <span style="text-decoration:underline"> Update the weights </span>
+### <span style="text-decoration:underline"> Update the Weights </span>
 
 We have to use the update formula for $ w^2 $ : 
 
@@ -184,12 +184,13 @@ $$
 
 ## Example: what we do...
 
-Let us run the **learning phase** with a very small **learning rate** $ \alpha = 10^{-7} $.
+Let us run the **learning phase** (see the [first article]({% post_url 2021-08-05-general-concepts %})) 
+with a very small **learning rate** $ \alpha = 10^{-7} $.
 The $ model $ has to learn on each **data input** of our **dataset**. 
 Thus we will run the **learning phase** on our 3 **data input**: this will be one **epoch** of the 
 **gradient descent** algorithm. 
 
-### <span style="text-decoration:underline"> Run the learning phase on the 1st data input </span>
+### <span style="text-decoration:underline"> Run the Learning Phase on the 1st Data Input </span>
 
 1. pick **data input**: $ x = (100, 2000, 100) $
 
@@ -267,7 +268,7 @@ It appears the new value for $ w^2 $ is still the same !
 This is no wonder as for this first **data input**: $ loss = 0 $.
 This $ loss $ value is typical for a $ model $ that has already produced the right result and has nothing to learn.
 
-### <span style="text-decoration:underline"> Run the learning phase on the 2nd data input </span>
+### <span style="text-decoration:underline"> Run the Learning Phase on the 2nd Data Input </span>
 
 1. pick **data input**: $ x = (200, 0, 0) $
 
@@ -345,7 +346,7 @@ Once more, the new value for $ w^2 $ has not changed.
 The same remark as before applies: $ loss = 0 $ means the $ model $ already produced the right result for this 
 second **data input** and has nothing to learn.
 
-### <span style="text-decoration:underline"> Run the learning phase on the 3rd data input </span>
+### <span style="text-decoration:underline"> Run the Learning Phase on the 3rd Data Input </span>
 
 1. pick **data input**: $ x = (0, 2000, 3 000) $
 
@@ -430,7 +431,7 @@ We have just run one **epoch** of the **gradient descent** algorithm on our whol
 Let us stop our algorithm now and check the new results when we run a new **forward pass** on every **data input** 
 of our **dataset**.
 
-### <span style="text-decoration:underline"> Run a new forward pass </span>
+### <span style="text-decoration:underline"> Run a New Forward Pass </span>
 
 | $ x $              | $ o1 = L1(x) $   | $ o2 = L2(o1) $ | $ o3 = L3(o2) $ |
 | :----------------: | :--------------: | :-------------: | :-------------: |

@@ -19,12 +19,14 @@ $ layers $ in the **forward pass** order. Said differently we can see this graph
 The first $ layers $ will build the foundations. The last $ layers $ will add the finishes. 
 
 In the coming articles, we will speak about the characteristics of the different types of $ layer $. 
-We will concentrate on the $ layers $ that actually **learn** something: $ layers $ declaring **weights** 
+We will explore $ layers $ that actually **learn** something: $ layers $ declaring **weights** 
 (recall the **weights** in [this article]({% post_url 2021-08-19-weights %})). 
+But we will also explore some more basic $ layers $: $ layers $ with no **weights**. 
 
-Let us begin with the $ Linear $ $ layer $.
+Let us begin with the $ Linear $ $ layer $. In order to dig deeper into this $ layer $, we will talk about 
+its **neural structure**.
 
-## The Linear neural structure
+## The Linear Neural Structure
 
 In order to better understand the function realized by one $ Linear $ $ layer $, we will explore its 
 **neural structure**. 
@@ -90,7 +92,7 @@ $ o^{k-1}_1 $, $ o^{k-1}_2 $ and $ o^{k-1}_3 $ to the second output **neuron** $
 ![Linear](/_assets/images/layers/Linear4.png)
 </a>
 
-## Forward pass
+## Forward Pass
 
 Using the same $ L^{k} $ $ layer $ as in the [previous paragraph](#the-linear-neural-structure), we have:
 
@@ -124,7 +126,7 @@ $ W^{k, 1}_1 $, $ W^{k, 1}_2 $, $ W^{k, 1}_3 $, $ W^{k, 2}_1 $, $ W^{k, 2}_2 $ a
 
 Note that we have two more **weights**: $ B^{k}_1 $ and $ B^{k}_2 $. 
 
-## Backward pass
+## Backward Pass
 
 As we saw in the [weights article]({% post_url 2021-08-19-weights %}), the goal of the **backward pass** is to compute 
 
@@ -144,7 +146,7 @@ $$
 which is the **learning flow**: the essential part to compute the direction in the first formula. Let us begin with 
 this **learning flow**. 
 
-## Backward pass for the learning flow 
+## Backward Pass for the Learning Flow 
 
 We are currently focusing on the $ L^{k} $ $ layer $, trying to compute:
 
@@ -334,7 +336,7 @@ $$
 \boxed{\delta^{k}_3 = \delta^{k+1}_1 . w^{k, 1}_3 + \delta^{k+1}_2 . w^{k, 2}_3}
 $$
 
-## Backward pass for the weights
+## Backward Pass for the Weights
 
 In this paragraph we continue focusing on the $ L^{k} $ $ layer $. This time we want to compute 
 the opposite direction of its **weights**' **update**: 
@@ -593,7 +595,7 @@ Let us recap the $ L2 $ **neural structure**:
 
 ![Linear](/_assets/images/layers/Linear11.png)
 
-### <span style="text-decoration:underline"> Forward pass for L2 </span>
+### <span style="text-decoration:underline"> Forward Pass for L2 </span>
 
 By definition, we just have to use the $ L2 $ explicit formula: 
 
@@ -610,7 +612,7 @@ transformation of the $ L2 $ input values: $ o^1_1 $, $ o^1_2 $ and $ o^1_3 $ in
 $ o^2 $. Still, it is more useful as a tool to find the impacts of the input **neurons** in order to compute 
 the different elements of the  **backward pass**.
 
-### <span style="text-decoration:underline"> Backward pass for L2 </span>
+### <span style="text-decoration:underline"> Backward Pass for L2 </span>
 
 We have already computed the different elements. 
 
@@ -701,4 +703,4 @@ We have explored the $ Linear $ $ layer $ and found out we already used this $ l
 We saw how the **neural structure** helps finding the impacts of the different **neurons** on the $ Loss $ function.
 This is the core of the **backward pass** and more generally the core of the **learning process**.
 
-In the next article we will continue exploring the other $ layers $ of our "Example".
+In the [next article]({% post_url 2021-10-06-activation %}) we will continue exploring the other $ layers $ of our "Example".

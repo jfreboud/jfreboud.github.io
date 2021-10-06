@@ -19,7 +19,7 @@ The only area where the learning takes place is the **model's weights**.
 
 ![Frankenstein](/_assets/images/general/Frankenstein.png)
 
-## Build a model
+## Build a Model
 
 The main objective of deep learning is to be able to **learn** something and to apply this **learning** on something 
 new. This **learning** is located inside the deep learning $ model $. More precisely, it is located in the 
@@ -28,7 +28,7 @@ new. This **learning** is located inside the deep learning $ model $. More preci
 As we saw in the [introduction](#introduction), there is no magic: 
 it is the role of the developer to actually build the $ model $. We will see some considerations about it later. 
 
-## Run a model 
+## Run a Model 
 
 Once the $ model $ is built, we run it 
 <a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[[1]](#remark)</sup>
@@ -113,7 +113,7 @@ We can verify that:
 $ X_3 $ is the variable for workout hours
 - $ model(X) $ is indeed a simple 1 dimensional number
 
-### <span style="text-decoration:underline"> Run the model </span>
+### <span style="text-decoration:underline"> Run the Model </span>
 
 We have **data** and we have built a simple $ model $.
 We can now run this $ model $ on the **data** to produce $ model(x) $ results with  $ x = (x1, x2, x3) $:
@@ -131,7 +131,7 @@ That is exactly what we want to rectify as the $ model $ learns on the **data**.
 the [introduction](#introduction), the **learning** process takes place in the **model's weights** 
 and for now our $ model $ has none of them :smiling_imp:
 
-## Learning, inferring
+## Learning, Inferring
 
 Let us assume we have built a $ model $, we want to run it. 
 
