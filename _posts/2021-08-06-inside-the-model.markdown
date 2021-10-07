@@ -1,7 +1,8 @@
 ---
 layout: post
-title:  "Inside the Model"
-date:   2021-08-06
+title: "Inside the Model"
+category: walkthrough
+date: 2021-08-06
 excerpt: >-
   In this article, we explore the generic structure of a deep learning model.
 ---

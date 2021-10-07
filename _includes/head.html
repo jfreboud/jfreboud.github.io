@@ -4,23 +4,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   {%- seo title=false -%}
-  <title>
-  {% if page.title or page.is_index %}
-    {% if page.is_index %}
-      {{ site.title | escape }}
-    {% else %}
-      {{ page.title | escape }}
-    {% endif %}
-    -
-  {% endif %}
-  {% if page.title or page.is_index %}
-    {% if page.is_index %}
-      {{ site.tagline | escape }}
-    {% else %}
-      {{ site.title | escape }}
-    {% endif %}
-  {% endif %}
-  </title>
+  <title>{% if page.title %}{{ page.title | escape }} - {% endif %}{% if page.subtitle or site.title %}{% if page.subtitle %}{{ page.subtitle | escape }}{% else %}{{ site.title | escape }}{% endif %}{% endif %}</title>
 
   <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
   {%- feed_meta -%}

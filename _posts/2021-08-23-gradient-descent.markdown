@@ -1,7 +1,8 @@
 ---
 layout: post
-title:  "The Gradient Descent Algorithm"
-date:   2021-08-23
+title: "The Gradient Descent Algorithm"
+category: walkthrough
+date: 2021-08-23
 excerpt: >-
   We use the different parts we have seen so far to run the learning phase from scratch.
 ---

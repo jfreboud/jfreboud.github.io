@@ -1,14 +1,18 @@
 title: Deep Learning Machinery
 tagline: Dig deeper into neural networks
-logo: /_assets/images/logo/logo.png
 description: >-
   Understand the machinery behind deep learning neural networks in computer vision.
   Grasp what is hidden in frameworks such as PyTorch and TensorFlow.
 show_excerpts: true
 
-url: "https://jfreboud.github.io"
+logo: /_assets/images/logo/logo.png
+image:
+  path: /_assets/images/logo/logo.png
 
-mpaginate: 5
+url: "https://jfreboud.github.io"
+permalink: /:categories/:title/
+
+mpaginate: 7
 header_pages:
   - _pages/blog1.markdown
   - _pages/table_of_contents.markdown

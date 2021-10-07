@@ -1,7 +1,8 @@
 ---
 layout: post
-title:  "The Loss function"
-date:   2021-08-09
+title: "The Loss function"
+category: walkthrough
+date: 2021-08-09
 excerpt: >-
   We complete the deep learning model with the loss function: this is the first step toward the learning process.
 ---

@@ -1,7 +1,8 @@
 ---
 layout: post
-title:  "The Activation Layer"
-date:   2021-10-06
+title: "The Activation Layer"
+category: layer
+date: 2021-10-06
 excerpt: >-
   Let us reveal the neural structure for the other layers of our "Example": the Activation and the Input 1D layers. 
 ---

@@ -1,7 +1,8 @@
 ---
 layout: post
-title:  "General Concepts"
-date:   2021-08-05
+title: "General Concepts"
+category: walkthrough
+date: 2021-08-05
 excerpt: >-
   This is the first article of our walkthrough in deep learning neural networks.
   First things first, we explore some general concepts of deep learning, introducing the deep learning model.

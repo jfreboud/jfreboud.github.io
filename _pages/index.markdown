@@ -1,12 +1,13 @@
 ---
 layout: default
-is_index: true
+title: Deep Learning Machinery
+subtitle: In Computer Vision
 permalink: /
 ---
 
-# Welcome to the DLM blog!
+# Deep Learning Machinery in Computer Vision
 
-The **Deep Learning Machinery** (in computer vision) has several objectives: 
+The **Deep Learning Machinery** in Computer Vision has several objectives: 
 - demystify what is at stake in the **learning process** of deep learning models
 - build an incremental intuition of the machinery behind the scene
 - think out of the box of current frameworks such as **PyTorch** and **TensorFlow**

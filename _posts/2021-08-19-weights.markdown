@@ -1,7 +1,8 @@
 ---
 layout: post
-title:  "The Weights"
-date:   2021-08-19
+title: "The Weights"
+category: walkthrough
+date: 2021-08-19
 excerpt: >-
   The weights are the learning elements of the deep learning model: the core of the learning process.
 ---
