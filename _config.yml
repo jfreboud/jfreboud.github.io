@@ -8,6 +8,8 @@ show_excerpts: true
 logo: /_assets/images/logo/logo.png
 image:
   path: /_assets/images/logo/logo.png
+  height: 100
+  width: 100
 
 url: "https://jfreboud.github.io"
 permalink: /:categories/:title/
