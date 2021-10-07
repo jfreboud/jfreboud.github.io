@@ -5,8 +5,8 @@ subtitle: In Computer Vision
 permalink: /
 image:
   path: /_assets/images/logo/logo.png
-  height: 100
-  width: 100
+  height: 50
+  width: 50
 ---
 
 # Deep Learning Machinery in Computer Vision
