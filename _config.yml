@@ -10,6 +10,11 @@ image:
   path: /_assets/images/logo/logo.png
   height: 100
   width: 100
+defaults:
+  - scope:
+      path: ""
+    values:
+      image: /_assets/images/logo/logo.png
 
 url: "https://jfreboud.github.io"
 permalink: /:categories/:title/
