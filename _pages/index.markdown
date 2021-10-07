@@ -3,6 +3,10 @@ layout: default
 title: Deep Learning Machinery
 subtitle: In Computer Vision
 permalink: /
+image:
+  path: /_assets/images/logo/logo.png
+  height: 100
+  width: 100
 ---
 
 # Deep Learning Machinery in Computer Vision

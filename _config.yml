@@ -5,19 +5,9 @@ description: >-
   Grasp what is hidden in frameworks such as PyTorch and TensorFlow.
 show_excerpts: true
 
-logo: /_assets/images/logo/logo.png
-image:
-  path: /_assets/images/logo/logo.png
-  height: 100
-  width: 100
-defaults:
-  - scope:
-      path: ""
-    values:
-      image: /_assets/images/logo/logo.png
-
 url: "https://jfreboud.github.io"
 permalink: /:categories/:title/
+logo: /_assets/images/logo/logo.png
 
 mpaginate: 7
 header_pages:
