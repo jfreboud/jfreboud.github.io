@@ -70,10 +70,14 @@ decided that $ L^{k} $ produces 20 945 output **neurons** but it would have been
 The final question is: what is the form of the $ L^{k} $ function ? 
 We just know it transforms the outputs of $ L^{k-1} $ into the very own outputs of $ L^{k} $.
 
-The answer is: we do not know :smiling_imp: 
+The answer is: we do not "exactly" know :smiling_imp: 
 
 This is the reason why we do some crazy move: connecting each $ L^{k-1} $ **neuron** 
-to each $ L^{k} $ **neuron**. The connexions being assured by the **weights** of $ L^{k} $: $ W^{k} $.
+to each $ L^{k} $ **neuron**. The connexions being assured by the **weights** of $ L^{k} $: $ W^{k} $. That way, 
+the values of the **weights** will be adjusted during the **learning phase** 
+(see the [weights article]({% post_url 2021-08-19-weights %})), modifying the function $ L^{k} $ 
+itself so that it actually performs the "right" transformation on the $ L^{k-1} $ outputs in order to minimize the 
+$ Loss $ function. 
 
 But there is one subtlety here: $ L^{k} $ has two **neurons**. So each $ L^{k} $ **neuron** will be connected 
 to every **neurons** of $ L^{k-1} $. This is the main characteristic of the $ Linear $ $ layer $: connecting 
