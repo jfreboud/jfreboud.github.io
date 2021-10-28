@@ -69,7 +69,7 @@ $$
 
 <hr style="width: 65%; margin: auto;">
 
-<h3 style="text-align:center; margin-top: 2%;"> $ o^3 < y^{truth} $ </h3>
+<h3 id="update_weights" style="text-align:center; margin-top: 2%;"> $ o^3 < y^{truth} $ </h3>
 
 The $ model $ produces a lower than expected output. The result is:
 
@@ -122,7 +122,7 @@ Let us cover the 3 cases coming from the [previous paragraph](#loss-interpretati
 
 <h3 style="text-align:center; margin-top: 2%;"> $ \delta^4 = 0 $ </h3>
 
-As we saw in this [previous paragraph](#nothing_to_learn), we have nothing to learn in this situation.
+As we saw in this [paragraph](#nothing_to_learn), we have nothing to learn in this situation.
 Without any surprise we find:
 
 $$
@@ -200,8 +200,10 @@ $$
 
 while preserving the non linearity.
 
-Rather than changer our $ activation $ function, we will make the assumption that we do not fall into this
-bad situation.
+<p style="color: red;">
+Rather than changing our $ activation $ function, we will make the assumption we do not fall into this
+bad situation. Thus we will not discuss the case where $ o^2 < 0 $ and assume we always have $ o^2 \geq 0 $.
+</p>
 
 <hr style="width: 65%; margin: auto;">
 
@@ -221,6 +223,11 @@ $$
 
 Same bad situation as in [this paragraph](#bad_situation).
 
+<p style="color: red;">
+We will make the assumption we do not fall into this
+bad situation: we will not discuss the case where $ o^2 < 0 $ and assume we always have $ o^2 \geq 0 $.
+</p>
+
 ## L2 interpretation
 
 $ L2 $ is a $ Linear $ $ layer $ with 1 output **neuron**.
@@ -236,10 +243,59 @@ $$
 \delta w^{2} = \delta^{3} . o^1
 $$
 
+We must recall our final goal is to be able to **update** the **weights**.
+In our current situation we only have $ w^{2} $ **weights** and we can already update them thanks to the formula
+we recalled from [this paragraph](#update_weights):
+
+$$
+\hat{w^2} = w^2 - \alpha . \delta w^2
+$$
+
+This means we do not care about $ \delta^{2} $ anymore: we just have to compute $ \delta w^{2} $ now.
+
 Let us cover the 3 cases coming from the [previous paragraph](#l3-interpretation):
 
 - when $ model $ produces $ o^3 = y^{truth} $ => $ \delta^3 = 0 $
 - when $ model $ produces $ o^3 < y^{truth} $ => $ \delta^3 < 0 $
 - when $ model $ produces $ o^3 > y^{truth} $ => $ \delta^3 > 0 $
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 = 0 $ </h3>
+
+As we saw in this [paragraph](#nothing_to_learn), we have nothing to learn in this situation.
+Without any surprise we find:
+
+$$
+\boxed{\delta w^{2} = 0}
+$$
+
+Thanks to the **update** formula, we know the **weights** will be:
+
+$$
+\boxed{\hat{w^2} = w^2}
+$$
+
+This is on par with the fact there is nothing to learn in this situation.
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 < 0 $ </h3>
+
+In this situation, we must beware of the sign of $ o^1 $.
+
+<h4> $ o^1 \geq 0 $ </h4>
+
+$$
+\boxed{\hat{w^2} > w^2}
+$$
+
+
+
+<h4> $ o^1 < 0 $ </h4>
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 > 0 $ </h3>
 
 ## L1 interpretation
