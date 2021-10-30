@@ -64,7 +64,11 @@ We have 3 cases to see:
 The perfect situation: the $ model $ already produces the expected output, nothing to learn! The result is:
 
 $$
-\boxed{\delta^4 = o^3 - y^{truth} = 0}
+\delta^4 = o^3 - y^{truth}
+$$
+
+$$
+\boxed{\delta^4 = 0}
 $$
 
 <hr style="width: 65%; margin: auto;">
@@ -74,7 +78,11 @@ $$
 The $ model $ produces a lower than expected output. The result is:
 
 $$
-\boxed{\delta^4 = o^3 - y^{truth} < 0}
+\delta^4 = o^3 - y^{truth}
+$$
+
+$$
+\boxed{\delta^4 < 0}
 $$
 
 Thanks to the [weights article]({% post_url 2021-08-19-weights %}),
@@ -99,7 +107,11 @@ We will see in a later paragraph how this opposite impact translates into the **
 The result is:
 
 $$
-\boxed{\delta^4 = o^3 - y^{truth} > 0}
+\delta^4 = o^3 - y^{truth}
+$$
+
+$$
+\boxed{\delta^4 > 0}
 $$
 
 ## L3 interpretation
@@ -126,7 +138,11 @@ As we saw in this [paragraph](#nothing_to_learn), we have nothing to learn in th
 Without any surprise we find:
 
 $$
-\boxed{\delta^{3} = 0}
+\delta^{3} = \delta^{4} \text{ if } o^2 \geq 0 \text{ else 0 }
+$$
+
+$$
+\boxed{\delta^3 = 0}
 $$
 
 <hr style="width: 65%; margin: auto;">
@@ -138,13 +154,21 @@ In this situation, we must beware of the "$ \text{ if } o^2 \geq 0 \text{ else 0
 <h4> $ o^2 \geq 0$ </h4>
 
 $$
-\boxed{\delta^{3} < 0}
+\delta^{3} = \delta^{4} \text{ if } o^2 \geq 0 \text{ else 0 }
+$$
+
+$$
+\boxed{\delta^3 < 0}
 $$
 
 <h4 id="bad_situation"> $ o^2 < 0$ </h4>
 
 $$
-\boxed{\delta^{3} = 0}
+\delta^{3} = \delta^{4} \text{ if } o^2 \geq 0 \text{ else 0 }
+$$
+
+$$
+\boxed{\delta^3 = 0}
 $$
 
 We are in a bad situation here: we are blocking the **learning flow** while there is something to learn ($ \delta^4 < 0 $)!
@@ -212,13 +236,21 @@ bad situation. Thus we will not discuss the case where $ o^2 < 0 $ and assume we
 <h4> $ o^2 \geq 0$ </h4>
 
 $$
-\boxed{\delta^{3} > 0}
+\delta^{3} = \delta^{4} \text{ if } o^2 \geq 0 \text{ else 0 }
+$$
+
+$$
+\boxed{\delta^3 > 0}
 $$
 
 <h4> $ o^2 < 0$ </h4>
 
 $$
-\boxed{\delta^{3} = 0}
+\delta^{3} = \delta^{4} \text{ if } o^2 \geq 0 \text{ else 0 }
+$$
+
+$$
+\boxed{\delta^3 = 0}
 $$
 
 Same bad situation as in [this paragraph](#bad_situation).
@@ -267,10 +299,20 @@ As we saw in this [paragraph](#nothing_to_learn), we have nothing to learn in th
 Without any surprise we find:
 
 $$
-\boxed{\delta w^{2} = 0}
+\begin{align}
+\delta w^{2} &= \delta^{3} . o^1 \\
+             &= 0
+\end{align}
 $$
 
 Thanks to the **update** formula, we know the **weights** will be:
+
+$$
+\begin{align}
+\hat{w^2} &= w^2 - \alpha . \delta w^2 \\
+          &= w^2 - \alpha . \delta^{3} . o^1
+\end{align}
+$$
 
 $$
 \boxed{\hat{w^2} = w^2}
@@ -287,12 +329,28 @@ In this situation, we must beware of the sign of $ o^1 $.
 <h4> $ o^1 \geq 0 $ </h4>
 
 $$
+\begin{align}
+\hat{w^2} &= w^2 - \alpha . \delta w^2 \\
+          &= w^2 - \alpha . \delta^{3} . o^1
+\end{align}
+$$
+
+$$
 \boxed{\hat{w^2} > w^2}
 $$
 
-
-
 <h4> $ o^1 < 0 $ </h4>
+
+$$
+\begin{align}
+\hat{w^2} &= w^2 - \alpha . \delta w^2 \\
+          &= w^2 - \alpha . \delta^{3} . o^1
+\end{align}
+$$
+
+$$
+\boxed{\hat{w^2} < w^2}
+$$
 
 <hr style="width: 65%; margin: auto;">
 
