@@ -155,7 +155,7 @@ $ model $ when the $ Loss $ function is evaluated on $ x $ and $ y^{truth} $ and
 ## The Backward Pass for Weights
  
 We are coming closer to justify the computations we made in the 
-[previous article]({% post_url 2021-08-13-backward-pass %}). The whole thing is naturally linked with what we have just 
+[previous article]({% post_url 2021-08-13-backward-pass %}). The whole thing is naturally linked to what we have just 
 seen:
 
 $$ 
@@ -217,7 +217,7 @@ In this [paragraph](#the-derivative-of-loss-according-to-w), we have already spo
 we must follow for our **weights**' **update**: 
 
 $$ 
--\frac{\partial Loss}{\partial W}(x, y^{truth})
+-\delta w = -\frac{\partial Loss}{\partial W}(x, y^{truth})
 $$
 
 The missing piece is "how long can we go into that direction" ?
@@ -496,7 +496,7 @@ according to the **weights** is in fact the opposit direction to follow in order
 we minimize the final $ loss $ value. 
 
 We understood that this direction $ \delta w $ is computed during the **backward pass** and 
-that it directly depends on the **learning flow** !
+that it directly depends on the **learning flow**!
 
 In the [next article]({% post_url 2021-08-23-gradient-descent %}), 
 we will see the whole **learning process** in action.

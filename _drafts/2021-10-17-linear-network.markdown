@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Linear Network"
-date:   2021-10-06
+date:   2021-10-31
 excerpt: >-
   We are finally able to build a solid understanding of the learning flow on the simple linear network.
 ---
@@ -9,8 +9,10 @@ excerpt: >-
 ## Introduction
 
 Here we are, having seen every $ layer $ that composes the $ model $ introduced in the "Example" of the previous
-articles. We are now ready to use the different formula we found for the **learning flow** in order to observe how
-they work in practice.
+articles. We are now ready to use the different formula we found for the **learning flow** and see what
+they mean for the final **weights** **update** formula.
+
+To better illustrate their impact, we will conduct a **sign flow** analysis.
 
 ## Example
 
@@ -21,41 +23,83 @@ Here is the **neural structure** synthesis with the **forward pass** for the who
 
 And below is the **neural structure** with the **backward pass**:
 
-![Activation](/_assets/images/network/Linear2.png) 
+![Activation](/_assets/images/network/Linear2.png)
 
-We are now going to follow the order of the **backward pass** in order to clarify the **learning flow** once more.
-The order of this **backward pass** being $ Loss $ -> $ L3 $ -> $ L2 $ -> $ L1 $, let us begin with the $ Loss $.
+## Sign Flow Analysis
 
-## Loss interpretation
+Let us recap the main steps of the **learning phase** we introduced in the
+[first article]({% post_url 2021-08-05-general-concepts %}). These steps have been called the
+**gradient descent** algorithm in [this article]({% post_url 2021-08-23-gradient-descent %}):
 
-Let us recap the formula of the $ Loss $ function we have used in the 
+1. pick one **data input** in the **dataset**
+2. run the **forward pass** for the $ model $ on this **data input**
+3. use the $ Loss $ function to compute the error between the result produced by the $ model $ and
+the expectation given by the **data output**
+4. run the **backward pass** to compute:
+    - the **learning flow**
+    - the $ derivative $ of the $ Loss $ function according to $ W $
+
+5. update the **weights** of $ model $
+
+We saw in the [weights article]({% post_url 2021-08-19-weights %}) that the **learning flow** sole purpose is
+to be able to compute $ \delta w $ in the **weights** **update** formula:
+
+$$
+\hat{w} = w - \alpha . \delta w
+$$
+
+In the [same article]({% post_url 2021-08-19-weights %}), we also saw how this $ -\delta w $ is the direction of
+**update** and $ \alpha $ the length of the **update**.
+
+Still, $ \alpha $ is not that important, we know it
+must be very little so that the many **epochs** we run during the **gradient descent** algorithm will progressively
+minimize the $ Loss $ function.
+
+The really important part of the **update** formula is the direction of **update**: $ -\delta w $, and especially
+its **sign**.
+This is the reason why we will now analyze the effect of the final $ loss $ on $ \delta w $: this will help us
+illustrate this "impact" notion we have been dealing with from the
+[loss function article]({% post_url 2021-08-09-loss-function %}).
+
+But before that, we have to follow the order of the **backward pass** because we know the importance of the
+**learning flow** in order to compute $ \delta w $.
+
+Let us first analyze the **sign** propagation during the **backward pass** so that we will finally be able
+to analyze the **sign** of the direction of the **update**.
+
+In our [previous example](#example), the order of the **backward pass** was:
+$ Loss $ -> $ L3 $ -> $ L2 $ -> $ L1 $, so let us begin with the $ Loss $ **sign flow**.
+
+## Loss Sign Flow
+
+Let us recap the formula of the $ Loss $ function we have used in the
 [loss function article]({% post_url 2021-08-09-loss-function %}):
 
-$$ 
+$$
 Loss(X^4, Y^{truth}) = \frac{1}{2} (X^4 - Y^{truth})^2
 $$
 
 In the same article we saw how this $ Loss $ serves a "systematic way of telling the $ model $ what is right or wrong".
-And from the [backward pass article]({% post_url 2021-08-13-backward-pass %}) we introduced the **learning flow** and 
+And from the [backward pass article]({% post_url 2021-08-13-backward-pass %}) we introduced the **learning flow** and
 we computed it for this $ Loss $ function:
- 
-$$ 
+
+$$
 \delta^4 = o^3 - y^{truth}
 $$
 
-What it is interesting to note is how "pure" this formula is. The **learning flow** for the $ Loss $ 
-function just compares the actual output of $ model $ with the expected output $ y^{truth} $. 
-But if we look closer at the formula for the $ Loss $ function, we may see how "artificial" it is: it has 
-been chosen so that its $ derivative $ gives a good looking $ \delta^4 $. 
+What it is interesting to note is how "pure" this formula is. The **learning flow** for the $ Loss $
+function just compares the actual output of $ model $ with the expected output $ y^{truth} $.
+But if we look closer at the formula for the $ Loss $ function, we may see how "artificial" it is: it has
+been chosen so that its $ derivative $ gives a good looking $ \delta^4 $.
 
-It appears that the whole $ Loss $ function is "just a global indicator". 
-What really is propagated during the **learning phase** is the **learning flow**. 
-Thanks to the simple formula for $ \delta^4 $ it is really easy to understand what happens during the **learning phase**. 
-We have 3 cases to see: 
+It appears that the whole $ Loss $ function is "just a global indicator".
+What really is propagated during the **learning phase** is the **learning flow**.
+Thanks to the simple formula for $ \delta^4 $ it is really easy to understand what happens during the **learning phase**.
+We have 3 cases to see:
 
 - when $ model $ produces $ o^3 = y^{truth} $
 - when $ model $ produces $ o^3 < y^{truth} $
-- when $ model $ produces $ o^3 > y^{truth} $ 
+- when $ model $ produces $ o^3 > y^{truth} $
 
 <hr style="width: 65%; margin: auto;">
 
@@ -114,7 +158,7 @@ $$
 \boxed{\delta^4 > 0}
 $$
 
-## L3 interpretation
+## L3 Sign Flow
 
 $ L3 $ is a $ ReLU $ $ activation $ $ layer $ with 1 output **neuron**.
 In the [previous article]({% post_url 2021-10-06-activation %}),
@@ -260,7 +304,69 @@ We will make the assumption we do not fall into this
 bad situation: we will not discuss the case where $ o^2 < 0 $ and assume we always have $ o^2 \geq 0 $.
 </p>
 
-## L2 interpretation
+## L2 Sign Flow
+
+$ L2 $ is a $ Linear $ $ layer $ with 1 output **neuron**.
+In the [linear layer article]({% post_url 2021-09-19-linear %}), we found:
+
+$$
+\delta^{2} = \delta^{3} . w^2
+$$
+
+Let us cover the 3 cases coming from the [previous paragraph](#l3-interpretation):
+
+- when $ model $ produces $ o^3 = y^{truth} $ => $ \delta^3 = 0 $
+- when $ model $ produces $ o^3 < y^{truth} $ => $ \delta^3 < 0 $
+- when $ model $ produces $ o^3 > y^{truth} $ => $ \delta^3 > 0 $
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 = 0 $ </h3>
+
+As we saw in this [paragraph](#nothing_to_learn), we have nothing to learn in this situation.
+Without any surprise we find:
+
+$$
+\delta^{2} = \delta^{3} . w^2
+$$
+
+$$
+\boxed{\delta^{2} = 0}
+$$
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 < 0 $ </h3>
+
+In this situation, we must beware of the sign of $ w^2 $.
+
+$$
+sign(\delta^{2}) = sign(\delta^{3}) . sign(w^2)
+$$
+
+$$
+\boxed{sign(\delta^{2}) = -sign(w^2)}
+$$
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 > 0 $ </h3>
+
+In this situation, we must beware of the sign of $ w^2 $.
+
+$$
+sign(\delta^{2}) = sign(\delta^{3}) . sign(w^2)
+$$
+
+$$
+\boxed{sign(\delta^{2}) = sign(w^2)}
+$$
+
+## L1 Sign Flow
+
+## Sign Update Analysis
+
+## L2 Sign Update
 
 $ L2 $ is a $ Linear $ $ layer $ with 1 output **neuron**.
 In the [linear layer article]({% post_url 2021-09-19-linear %}), we found:
@@ -355,5 +461,3 @@ $$
 <hr style="width: 65%; margin: auto;">
 
 <h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 > 0 $ </h3>
-
-## L1 interpretation
