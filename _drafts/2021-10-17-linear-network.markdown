@@ -65,7 +65,9 @@ But before that, we have to follow the order of the **backward pass** because we
 **learning flow** in order to compute $ \delta w $.
 
 Let us first analyze the **sign** propagation during the **backward pass** so that we will finally be able
-to analyze the **sign** of the direction of the **update**.
+to analyze the **sign** of the direction of the **update**:
+1. [Sign Flow Analysis](#loss-sign-flow)
+2. [Sign Update Analysis](#sign-update-analysis)
 
 In our [previous example](#example), the order of the **backward pass** was:
 $ Loss $ -> $ L3 $ -> $ L2 $ -> $ L1 $, so let us begin with the $ Loss $ **sign flow**.
@@ -105,7 +107,7 @@ We have 3 cases to see:
 
 <h3 id="nothing_to_learn" style="text-align:center; margin-top: 2%;"> $ o^3 = y^{truth} $ </h3>
 
-The perfect situation: the $ model $ already produces the expected output, nothing to learn! The result is:
+The perfect situation: the $ model $ already produces the expected output, nothing to learn!
 
 $$
 \delta^4 = o^3 - y^{truth}
@@ -119,26 +121,15 @@ $$
 
 <h3 id="update_weights" style="text-align:center; margin-top: 2%;"> $ o^3 < y^{truth} $ </h3>
 
-The $ model $ produces a lower than expected output. The result is:
+The $ model $ produces a lower than expected output.
 
 $$
-\delta^4 = o^3 - y^{truth}
+sign(\delta^4) = sign(o^3 - y^{truth})
 $$
 
 $$
 \boxed{\delta^4 < 0}
 $$
-
-Thanks to the [weights article]({% post_url 2021-08-19-weights %}),
-we know what elements of the $ model $ we should modify in order to fix the error: the $ model $'s **weights**.
-In our current $ model $ we only have **weights** in our $ L2 $ $ layer $. Thus we have to update them with
-the formula we already saw:
-
-$$
-\hat{w^2} = w^2 - \alpha . \delta w^2
-$$
-
-In order to compute $ \delta w^2 $, we first have to back propagate the **learning flow**.
 
 <hr style="width: 65%; margin: auto;">
 
@@ -146,9 +137,6 @@ In order to compute $ \delta w^2 $, we first have to back propagate the **learni
 
 The $ model $ produces a greater than expected output. It is the same case as in the previous paragraph but with
 the opposite impact!
-We will see in a later paragraph how this opposite impact translates into the **weights** update.
-
-The result is:
 
 $$
 \delta^4 = o^3 - y^{truth}
@@ -313,7 +301,7 @@ $$
 \delta^{2} = \delta^{3} . w^2
 $$
 
-Let us cover the 3 cases coming from the [previous paragraph](#l3-interpretation):
+Let us cover the 3 cases coming from the [previous paragraph](#l3-sign-flow):
 
 - when $ model $ produces $ o^3 = y^{truth} $ => $ \delta^3 = 0 $
 - when $ model $ produces $ o^3 < y^{truth} $ => $ \delta^3 < 0 $
@@ -324,7 +312,6 @@ Let us cover the 3 cases coming from the [previous paragraph](#l3-interpretation
 <h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 = 0 $ </h3>
 
 As we saw in this [paragraph](#nothing_to_learn), we have nothing to learn in this situation.
-Without any surprise we find:
 
 $$
 \delta^{2} = \delta^{3} . w^2
@@ -364,7 +351,59 @@ $$
 
 ## L1 Sign Flow
 
+$ L1 $ is an $ Input \text{ } 1D $ $ layer $ with 3 output **neurons**.
+In the [activation layer article]({% post_url 2021-10-06-activation %}), we found:
+
+$$
+\delta^{1} = \delta^{2}
+$$
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^2 = 0 $ </h3>
+
+$$
+\delta^{1} = \delta^{2}
+$$
+
+$$
+\boxed{\delta^{1} = 0}
+$$
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^2 < 0 $ </h3>
+
+$$
+\delta^{1} = \delta^{2}
+$$
+
+$$
+\boxed{\delta^{1} < 0}
+$$
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^2 > 0 $ </h3>
+
+$$
+\delta^{1} = \delta^{2}
+$$
+
+$$
+\boxed{\delta^{1} > 0}
+$$
+
 ## Sign Update Analysis
+
+Thanks to the [weights article]({% post_url 2021-08-19-weights %}),
+we know what elements of the $ model $ we should modify in order to fix the error: the $ model $'s **weights**.
+In our current $ model $ we only have **weights** in the $ L2 $ $ layer $. Thus we have to update them with
+the formula we already saw:
+
+$$
+\hat{w^2} = w^2 - \alpha . \delta w^2
+$$
 
 ## L2 Sign Update
 
@@ -372,26 +411,16 @@ $ L2 $ is a $ Linear $ $ layer $ with 1 output **neuron**.
 In the [linear layer article]({% post_url 2021-09-19-linear %}), we found:
 
 $$
-\delta^{2} = \delta^{3} . w^2
-$$
-
-and
-
-$$
 \delta w^{2} = \delta^{3} . o^1
 $$
 
-We must recall our final goal is to be able to **update** the **weights**.
-In our current situation we only have $ w^{2} $ **weights** and we can already update them thanks to the formula
-we recalled from [this paragraph](#update_weights):
+We are now able to replace $ \delta w^2 $ in the below formula:
 
 $$
 \hat{w^2} = w^2 - \alpha . \delta w^2
 $$
 
-This means we do not care about $ \delta^{2} $ anymore: we just have to compute $ \delta w^{2} $ now.
-
-Let us cover the 3 cases coming from the [previous paragraph](#l3-interpretation):
+Let us cover the 3 cases coming from this [paragraph](#l3-sign-flow):
 
 - when $ model $ produces $ o^3 = y^{truth} $ => $ \delta^3 = 0 $
 - when $ model $ produces $ o^3 < y^{truth} $ => $ \delta^3 < 0 $
@@ -402,7 +431,6 @@ Let us cover the 3 cases coming from the [previous paragraph](#l3-interpretation
 <h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 = 0 $ </h3>
 
 As we saw in this [paragraph](#nothing_to_learn), we have nothing to learn in this situation.
-Without any surprise we find:
 
 $$
 \begin{align}
@@ -424,7 +452,7 @@ $$
 \boxed{\hat{w^2} = w^2}
 $$
 
-This is on par with the fact there is nothing to learn in this situation.
+This is on par with the fact that there is nothing to learn in this situation.
 
 <hr style="width: 65%; margin: auto;">
 
@@ -442,7 +470,7 @@ $$
 $$
 
 $$
-\boxed{\hat{w^2} > w^2}
+\boxed{\hat{w^2} \geq w^2}
 $$
 
 <h4> $ o^1 < 0 $ </h4>
@@ -461,3 +489,73 @@ $$
 <hr style="width: 65%; margin: auto;">
 
 <h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 > 0 $ </h3>
+
+In this situation, we must beware of the sign of $ o^1 $.
+
+<h4> $ o^1 \geq 0 $ </h4>
+
+$$
+\begin{align}
+\hat{w^2} &= w^2 - \alpha . \delta w^2 \\
+          &= w^2 - \alpha . \delta^{3} . o^1
+\end{align}
+$$
+
+$$
+\boxed{\hat{w^2} \leq w^2}
+$$
+
+<h4> $ o^1 < 0 $ </h4>
+
+$$
+\begin{align}
+\hat{w^2} &= w^2 - \alpha . \delta w^2 \\
+          &= w^2 - \alpha . \delta^{3} . o^1
+\end{align}
+$$
+
+$$
+\boxed{\hat{w^2} > w^2}
+$$
+
+## Interpretation
+
+First of all let us recap the different situations we have for our $ \hat{w^2} $ **update**:
+
+| situation                          | model result          | $ \hat{w^2} $     |
+| :--------------------------------: | :-------------------: | :---------------: |
+| $ delta^3 = 0 $                    | as expected           | keep same $ w^2 $ |
+| $ delta^3 < 0 $ and $ o^1 \geq 0 $ | lower than expected   | increase $ w^2 $  |
+| $ delta^3 < 0 $ and $ o^1 < 0 $    | lower than expected   | decrease $ w^2 $  |
+| $ delta^3 > 0 $ and $ o^1 \geq 0 $ | greater than expected | decrease $ w^2 $  |
+| $ delta^3 > 0 $ and $ o^1 < 0 $    | greater than expected | increase $ w^2 $  |
+
+The $ model $ produces a lower than expected output.
+The **learning flow** together with the **update** formula tell us we must increase $ w^2 $.
+In order to understand why, we may go back to the $ L2 $ $ layer $ definition:
+
+$$
+\begin{align}
+    L2(X^2, W^2) &= W^2 . X^2          & \text{ with } X^2 = (X^2_1, X^2_2, X^2_3) \\
+                 &                     & \text{ and } W^2 = (W^2_1, W^2_2, W^2_3) \\
+                 &= W^2_1 . X^2_1 + W^2_2 . X^2_2 + W^2_3 . X^2_3 \\
+\end{align}
+$$
+
+Said differently:
+
+$$
+o^2 = w^2_1 . o^1_1 + w^2_2 . o^1_2 + w^2_3 . o^1_3
+$$
+
+What we are seeing now is that if we want to find the correct new value $ \hat{w^2_1} $,
+knowing that $ \delta^3 < 0 $ and that $ o^1_1 \geq 0 $ we must take a small greater value than $ w^2_1 $.
+
+This is indeed logical, let us put it another way:
+
+- $ \delta^3 < 0 $ literally means: $ o^2 $ is not big enough
+- $ o^1_1 \geq 0 $
+- if the only part that we can modify is $ w^2_1 $: should we increase or decrease its value so that
+$ w^2_1 . o^1_1 + w^2_2 . o^1_2 + w^2_3 . o^1_3 $ is bigger ?
+
+The answer is clear, we must increase $ w^2_1 $.
