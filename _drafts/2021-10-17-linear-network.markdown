@@ -530,9 +530,7 @@ First of all let us recap the different situations we have for our $ \hat{w^2} $
 | $ delta^3 > 0 $ and $ o^1 \geq 0 $ | greater than expected | decrease $ w^2 $  |
 | $ delta^3 > 0 $ and $ o^1 < 0 $    | greater than expected | increase $ w^2 $  |
 
-The $ model $ produces a lower than expected output.
-The **learning flow** together with the **update** formula tell us we must increase $ w^2 $.
-In order to understand why, we may go back to the $ L2 $ $ layer $ definition:
+Let us go back to the $ L2 $ $ layer $ definition:
 
 $$
 \begin{align}
@@ -548,14 +546,27 @@ $$
 o^2 = w^2_1 . o^1_1 + w^2_2 . o^1_2 + w^2_3 . o^1_3
 $$
 
-What we are seeing now is that if we want to find the correct new value $ \hat{w^2_1} $,
-knowing that $ \delta^3 < 0 $ and that $ o^1_1 \geq 0 $ we must take a small greater value than $ w^2_1 $.
+In the array above, we spoke about $ w^2 $ but in fact there are several **weights**:
+$ w^2_1 $, $ w^2_2 $, $ w^2_3 $.
+In order to fix the ideas, we will concentrate on one of them: $ w^2_1 $. The exact same logic applies for the others.
 
-This is indeed logical, let us put it another way:
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 = 0 $ </h3>
+
+This is the ideal situation, it is no surprise that we must keep the same value for $ w^2_1 $.
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 < 0 $ and $ o^1 \geq 0 $ </h3>
+
+The $ model $ produces a lower than expected output.
+The **learning flow** together with the **update** formula tell us we must increase $ w^2_1 $.
+
+This is logical considering that:
 
 - $ \delta^3 < 0 $ literally means: $ o^2 $ is not big enough
 - $ o^1_1 \geq 0 $
-- if the only part that we can modify is $ w^2_1 $: should we increase or decrease its value so that
-$ w^2_1 . o^1_1 + w^2_2 . o^1_2 + w^2_3 . o^1_3 $ is bigger ?
+- the only part that we can modify is $ w^2_1 $
 
-The answer is clear, we must increase $ w^2_1 $.
+=> $ w^2_1 $ must be increased so that $ o^2 = w^2_1 . o^1_1 + w^2_2 . o^1_2 + w^2_3 . o^1_3 $ increases.
