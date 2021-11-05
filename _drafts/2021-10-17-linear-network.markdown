@@ -520,6 +520,9 @@ $$
 
 ## Interpretation
 
+In this paragraph we try to show that the new **weight** computed in the [previous paragraph](#l2-sign-update)
+come along with the intuition.
+
 First of all let us recap the different situations we have for our $ \hat{w^2} $ **update**:
 
 | situation                          | model result          | $ \hat{w^2} $     |
@@ -570,3 +573,69 @@ This is logical considering that:
 - the only part that we can modify is $ w^2_1 $
 
 => $ w^2_1 $ must be increased so that $ o^2 = w^2_1 . o^1_1 + w^2_2 . o^1_2 + w^2_3 . o^1_3 $ increases.
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 < 0 $ and $ o^1 < 0 $ </h3>
+
+The $ model $ produces a lower than expected output.
+The **learning flow** together with the **update** formula tell us we must decrease $ w^2_1 $.
+
+This is logical considering that:
+
+- $ \delta^3 < 0 $ literally means: $ o^2 $ is not big enough
+- $ o^1_1 < 0 $
+- the only part that we can modify is $ w^2_1 $
+
+=> $ w^2_1 $ must be decreased so that $ o^2 = w^2_1 . o^1_1 + w^2_2 . o^1_2 + w^2_3 . o^1_3 $ increases.
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 > 0 $ and $ o^1 \geq 0 $ </h3>
+
+The $ model $ produces a greater than expected output.
+The **learning flow** together with the **update** formula tell us we must decrease $ w^2_1 $.
+
+This is logical considering that:
+
+- $ \delta^3 > 0 $ literally means: $ o^2 $ is too big
+- $ o^1_1 \geq 0 $
+- the only part that we can modify is $ w^2_1 $
+
+=> $ w^2_1 $ must be decreased so that $ o^2 = w^2_1 . o^1_1 + w^2_2 . o^1_2 + w^2_3 . o^1_3 $ decreases.
+
+<hr style="width: 65%; margin: auto;">
+
+<h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 > 0 $ and $ o^1 < 0 $ </h3>
+
+The $ model $ produces a greater than expected output.
+The **learning flow** together with the **update** formula tell us we must increase $ w^2_1 $.
+
+This is logical considering that:
+
+- $ \delta^3 > 0 $ literally means: $ o^2 $ is too big
+- $ o^1_1 < 0 $
+- the only part that we can modify is $ w^2_1 $
+
+=> $ w^2_1 $ must be increased so that $ o^2 = w^2_1 . o^1_1 + w^2_2 . o^1_2 + w^2_3 . o^1_3 $ decreases.
+
+## Back to the Learning Flow
+
+There are 2 paragraphs that were not used during our [sign update analysis](#l2-sign-update):
+the [L2 Sign Flow](#l2-sign-flow) and the [L1 Sign Flow](#l1-sign-flow) paragraphs.
+
+In fact we have already seen this aspect but the **learning flow** only purpose is to be able to compute $ \delta w $.
+In our current example, the $ L2 $ $ layer $ is the only one to have **weights**. Hence, the **learning flow**
+back propagation is necessary until we get $ \delta^3 $.
+
+If we look back at the [first paragraph](#example) last diagram,
+it is clear we just have to compute the **learning flow**
+for $ Loss $ and for the $ L3 $ $ layer $.
+This means we could have skipped the computation of the **learning flow** for $ L2 $ and for $ L1 $ in the
+[backward pass article]({% post_url 2021-08-13-backward-pass %}) :smiling_imp:
+
+## Conclusion
+
+In this article, we illustrated that the different **learning flow** and **weights** **update** formula we computed
+so far are finally just useful to automatize the decision making: should we increase or decrease the **weights** value ?
+The final goal being that their modification will help minimizing the $ Loss $ function.
