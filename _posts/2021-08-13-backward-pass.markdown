@@ -27,9 +27,9 @@ Before diving into some more computation, let us talk about the **forward pass**
 (first referenced [here]({% post_url 2021-08-06-inside-the-model %})). It has a nemesis in the **backward pass** that 
 plays the exact opposite role.
 
-The **forward pass** lets the **information flow** go through the different layers from 
+The **forward pass** propagates the **information flow** through the different layers from 
 the **input layer** to the **output layer**. The **backward pass** is about a reversed signal that we could call 
-the **learning flow**. It goes from the **output layer** to the **input layer**.
+the **learning flow**. This signal is back propagated from the **output layer** to the **input layer**.
 
 From now on, we will keep in mind that the **learning flow** is in fact 
 the $ derivative $ of $ Loss $ according to the $ X $ variable: 

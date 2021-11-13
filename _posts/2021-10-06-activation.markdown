@@ -14,7 +14,7 @@ In the [previous article]({% post_url 2021-09-19-linear %}), we worked on a new 
 that helps us computing the different elements of the $ Linear $ $ layer $ **backward pass**.
 
 In this article we will talk about the $ Activation $ and the $ Input \text{ } 1D $ $ layers $: the last 2 $ layers $ 
-we used in the "Example" of the previous articles. 
+we used in the "Example" introduced in the [second article]({% post_url 2021-08-06-inside-the-model %}). 
 
 ## The Activation Neural Structure
 
@@ -385,5 +385,5 @@ which is what we already computed in the
 We have seen the **neural structure** for each and every $ layer $ that appeared in the "Example" we 
 introduced in the [second article]({% post_url 2021-08-06-inside-the-model %}).
 
-We are now ready to go back to the very simple $ model $ of our "Example" and talk about the **representations** 
-we introduced in the **forward pass** paragraph of the [second article]({% post_url 2021-08-06-inside-the-model %}).
+We are now ready to go back to the very simple $ model $ of our "Example" and think of it as a whole function  
+operating on the **data input**. 

@@ -3,25 +3,28 @@ layout: post
 title:  "Linear Network"
 date:   2021-10-31
 excerpt: >-
-  We are finally able to build a solid understanding of the learning flow on the simple linear network.
+  Looking back at the simple "Example" model to illustrate the impact of the weights.
 ---
 
 ## Introduction
 
-Here we are, having seen every $ layer $ that composes the $ model $ introduced in the "Example" of the previous
-articles. We are now ready to use the different formula we found for the **learning flow** and see what
-they mean for the final **weights** **update** formula.
+In the [linear layer]({% post_url 2021-09-19-linear %}) and
+[activation layer]({% post_url 2021-10-06-activation %}) articles,
+we saw how to compute the **forward pass** and the **backward pass**
+of the different $ layers $ that compose the $ model $ introduced in the "Example" of
+the [second article]({% post_url 2021-08-06-inside-the-model %}).
 
-To better illustrate their impact, we will conduct a **sign flow** analysis.
+In this article we will consider this simple $ model $ in order to better illustrate the impact of
+the **weights** on the final $ loss $ value
+(read the [loss function article]({% post_url 2021-08-09-loss-function %})).
 
 ## Example
 
-Here is the **neural structure** synthesis with the **forward pass** for the whole $ model $ we saw in the
-[weights article]({% post_url 2021-08-19-weights %}).
+Here is the **neural structure** synthesis during the **forward pass** of our simple $ model $:
 
 ![Activation](/_assets/images/network/Linear1.png)
 
-And below is the **neural structure** with the **backward pass**:
+And below is the **neural structure** during its **backward pass**:
 
 ![Activation](/_assets/images/network/Linear2.png)
 
@@ -57,8 +60,10 @@ minimize the $ Loss $ function.
 
 The really important part of the **update** formula is the direction of **update**: $ -\delta w $, and especially
 its **sign**.
-This is the reason why we will now analyze the effect of the final $ loss $ on $ \delta w $: this will help us
-illustrate this "impact" notion we have been dealing with from the
+
+This is the reason why we will now analyze the effect of the
+**sign** of the final $ loss $ on the **sign** of $ \delta w $. This analyze will illustrate the "impact" notion
+we have been dealing with since the
 [loss function article]({% post_url 2021-08-09-loss-function %}).
 
 But before that, we have to follow the order of the **backward pass** because we know the importance of the
@@ -69,7 +74,7 @@ to analyze the **sign** of the direction of the **update**:
 1. [Sign Flow Analysis](#loss-sign-flow)
 2. [Sign Update Analysis](#sign-update-analysis)
 
-In our [previous example](#example), the order of the **backward pass** was:
+In our [Example](#example), the order of the **backward pass** is:
 $ Loss $ -> $ L3 $ -> $ L2 $ -> $ L1 $, so let us begin with the $ Loss $ **sign flow**.
 
 ## Loss Sign Flow
@@ -97,7 +102,7 @@ been chosen so that its $ derivative $ gives a good looking $ \delta^4 $.
 It appears that the whole $ Loss $ function is "just a global indicator".
 What really is propagated during the **learning phase** is the **learning flow**.
 Thanks to the simple formula for $ \delta^4 $ it is really easy to understand what happens during the **learning phase**.
-We have 3 cases to see:
+We have 3 cases to consider for our **sign analysis**:
 
 - when $ model $ produces $ o^3 = y^{truth} $
 - when $ model $ produces $ o^3 < y^{truth} $
@@ -124,7 +129,7 @@ $$
 The $ model $ produces a lower than expected output.
 
 $$
-sign(\delta^4) = sign(o^3 - y^{truth})
+\delta^4 = o^3 - y^{truth}
 $$
 
 $$

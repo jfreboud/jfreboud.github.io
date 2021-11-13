@@ -10,22 +10,29 @@ excerpt: >-
 
 ## Introduction
 
-It is time to explore the real form of the different possible layers of our deep learning $ model $.
-As we already know, the $ model $ is a graph of ordered $ layers $ 
-(see [this article]({% post_url 2021-08-06-inside-the-model %})). Each of the different $ layers $ will 
-progressively build a richer and more complex understanding of the **data input** of our **dataset**. 
+In the previous chapter, we explored the [general concepts]({% post_url 2021-08-05-general-concepts %}) of the 
+deep learning machinery. We saw that the deep learning $ model $ is at the core of everything.
+[Inside the model]({% post_url 2021-08-06-inside-the-model %}), we found a graph of ordered $ layers $ which may 
+contain some [weights]({% post_url 2021-08-19-weights %}). These **weights** are the most prominent part and their 
+**update** is directly responsible for the **learning process** itself. We saw this **learning process** in action 
+during the [gradient descent algorithm]({% post_url 2021-08-23-gradient-descent %}) and we finally saw an 
+upgraded version of it thanks to [batch learning]({% post_url 2021-08-24-batch-learning %}). 
 
-Each $ layer $ will in fact add its own characteristics to the previous understanding built by its previous 
-$ layers $ in the **forward pass** order. Said differently we can see this graph of $ layers $ as a building site. 
-The first $ layers $ will build the foundations. The last $ layers $ will add the finishes. 
+In this chapter, we will explore the different $ layers $ deeper. This will help us knowing how to choose 
+the best $ layers $ in order to design our future deep learning $ models $. The main characteristic of these $ layers $ 
+is whether they have **weights** or not. As the **weights** are directly implied in the **learning process**, 
+the $ layers $ with **weights** will be involved in the process of building **representations** (first 
+referenced [here]({% post_url 2021-08-06-inside-the-model %})) while the $ layers $ with no **weights** will 
+be passive. 
 
-In the coming articles, we will speak about the characteristics of the different types of $ layer $. 
-We will explore $ layers $ that actually **learn** something: $ layers $ declaring **weights** 
-(recall the **weights** in [this article]({% post_url 2021-08-19-weights %})). 
-But we will also explore some more basic $ layers $: $ layers $ with no **weights**. 
+In both cases, the $ layers $ two main operations during the **learning process** are the 
+**forward pass** and the **backward pass**. 
+As we saw in the [backward pass article]({% post_url 2021-08-13-backward-pass %}), each $ layer $ propagates the 
+**information flow** during the **forward pass** and the **learning flow** during the **backward pass**. 
+This **backward pass** implies some computations that proved to be painful. This chapter will enable us to explain 
+this back propagation with a new perspective: the $ layer $'s **neural structure**.
 
-Let us begin with the $ Linear $ $ layer $. In order to dig deeper into this $ layer $, we will talk about 
-its **neural structure**.
+Let us begin with the $ Linear $ $ layer $...
 
 ## The Linear Neural Structure
 
@@ -703,9 +710,10 @@ Once more, we recognize the formula we found in the [weights article]({% post_ur
 ## Conclusion
 
 We have explored the $ Linear $ $ layer $ and found out we already used this $ layer $ in the 
-"Example" of the previous chapters.
+"Example" introduced in the [second article]({% post_url 2021-08-06-inside-the-model %}).
 
 We saw how the **neural structure** helps finding the impacts of the different **neurons** on the $ Loss $ function.
 This is the core of the **backward pass** and more generally the core of the **learning process**.
 
-In the [next article]({% post_url 2021-10-06-activation %}) we will continue exploring the other $ layers $ of our "Example".
+In the [next article]({% post_url 2021-10-06-activation %}) 
+we will continue exploring the other $ layers $ of our "Example".
