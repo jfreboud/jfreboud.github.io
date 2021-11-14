@@ -140,7 +140,7 @@ $$
 
 <h3 style="text-align:center; margin-top: 2%;"> $ o^3 > y^{truth} $ </h3>
 
-The $ model $ produces a greater than expected output. It is the same case as in the previous paragraph but with
+The $ model $ produces a higher than expected output. It is the same case as in the previous paragraph but with
 the opposite impact!
 
 $$
@@ -401,8 +401,13 @@ $$
 
 ## Sign Update Analysis
 
-Thanks to the [weights article]({% post_url 2021-08-19-weights %}),
-we know what elements of the $ model $ we should modify in order to fix the error: the $ model $'s **weights**.
+We have been able to back propagate the **sign** impact of having lower results than expected or
+higher results than expected on the different $ layers $ in the order of the **backward pass**.
+
+We are now ready to analyze the impact of these lower/higher results on the
+**sign** of the direction of the **update**: $ -\delta w $. This direction will enable us decreasing
+the final $ loss $ value.
+
 In our current $ model $ we only have **weights** in the $ L2 $ $ layer $. Thus we have to update them with
 the formula we already saw:
 
@@ -425,7 +430,7 @@ $$
 \hat{w^2} = w^2 - \alpha . \delta w^2
 $$
 
-Let us cover the 3 cases coming from this [paragraph](#l3-sign-flow):
+Let us cover the 3 cases coming from the [sign flow analysis](#l3-sign-flow):
 
 - when $ model $ produces $ o^3 = y^{truth} $ => $ \delta^3 = 0 $
 - when $ model $ produces $ o^3 < y^{truth} $ => $ \delta^3 < 0 $
@@ -535,8 +540,8 @@ First of all let us recap the different situations we have for our $ \hat{w^2} $
 | $ delta^3 = 0 $                    | as expected           | keep same $ w^2 $ |
 | $ delta^3 < 0 $ and $ o^1 \geq 0 $ | lower than expected   | increase $ w^2 $  |
 | $ delta^3 < 0 $ and $ o^1 < 0 $    | lower than expected   | decrease $ w^2 $  |
-| $ delta^3 > 0 $ and $ o^1 \geq 0 $ | greater than expected | decrease $ w^2 $  |
-| $ delta^3 > 0 $ and $ o^1 < 0 $    | greater than expected | increase $ w^2 $  |
+| $ delta^3 > 0 $ and $ o^1 \geq 0 $ | higher than expected | decrease $ w^2 $  |
+| $ delta^3 > 0 $ and $ o^1 < 0 $    | higher than expected | increase $ w^2 $  |
 
 Let us go back to the $ L2 $ $ layer $ definition:
 
@@ -598,7 +603,7 @@ This is logical considering that:
 
 <h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 > 0 $ and $ o^1 \geq 0 $ </h3>
 
-The $ model $ produces a greater than expected output.
+The $ model $ produces a higher than expected output.
 The **learning flow** together with the **update** formula tell us we must decrease $ w^2_1 $.
 
 This is logical considering that:
@@ -613,7 +618,7 @@ This is logical considering that:
 
 <h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 > 0 $ and $ o^1 < 0 $ </h3>
 
-The $ model $ produces a greater than expected output.
+The $ model $ produces a higher than expected output.
 The **learning flow** together with the **update** formula tell us we must increase $ w^2_1 $.
 
 This is logical considering that:

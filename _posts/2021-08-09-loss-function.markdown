@@ -218,7 +218,7 @@ First of all let us run the **forward pass**:
 | (0) | (1) | (<span style="color:red">0.5</span>) | ![right](/_assets/images/general/wrong.png) |
 
 We observe that the value of $ loss(o3, y^{truth}) $ <span style="color:green"> is 0 </span> when there is <span style="color:green"> no error </span> comparing $ o3 $ 
-with $ y^{truth} $ and <span style="color:red"> is greater than 0 </span> when there is <span style="color:red"> an error </span>.
+with $ y^{truth} $ and <span style="color:red"> is higher than 0 </span> when there is <span style="color:red"> an error </span>.
 The $ loss $ is indeed an indicator of the error of the results produced by the $ model $ function.
 
 ### <span style="text-decoration:underline"> Going Further </span>
