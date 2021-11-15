@@ -69,7 +69,7 @@ we have been dealing with since the
 But before that, we have to follow the order of the **backward pass** because we know the importance of the
 **learning flow** in order to compute $ \delta w $.
 
-Let us first analyze the **sign** propagation during the **backward pass** so that we will finally be able
+Let us first analyze the **sign** back propagation during the **backward pass** so that we will finally be able
 to analyze the **sign** of the direction of the **update**:
 1. [Sign Flow Analysis](#loss-sign-flow)
 2. [Sign Update Analysis](#sign-update-analysis)
@@ -401,14 +401,14 @@ $$
 
 ## Sign Update Analysis
 
-We have been able to back propagate the **sign** impact of having lower results than expected or
+We have been able to back propagate the **sign** of having lower results than expected or
 higher results than expected on the different $ layers $ in the order of the **backward pass**.
 
 We are now ready to analyze the impact of these lower/higher results on the
 **sign** of the direction of the **update**: $ -\delta w $. This direction will enable us decreasing
 the final $ loss $ value.
 
-In our current $ model $ we only have **weights** in the $ L2 $ $ layer $. Thus we have to update them with
+In our current $ model $ we only have **weights** in the $ L2 $ $ layer $. Thus we have to **update** them with
 the formula we already saw:
 
 $$
@@ -530,8 +530,8 @@ $$
 
 ## Interpretation
 
-In this paragraph we try to show that the new **weight** computed in the [previous paragraph](#l2-sign-update)
-come along with the intuition.
+In this paragraph we illustrate the intuition behind the **weights** **updates**
+computed in the [previous paragraph](#l2-sign-update).
 
 First of all let us recap the different situations we have for our $ \hat{w^2} $ **update**:
 
@@ -567,7 +567,7 @@ In order to fix the ideas, we will concentrate on one of them: $ w^2_1 $. The ex
 
 <h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 = 0 $ </h3>
 
-This is the ideal situation, it is no surprise that we must keep the same value for $ w^2_1 $.
+This is the ideal situation, it is no wonder we must keep the same value for $ w^2_1 $.
 
 <hr style="width: 65%; margin: auto;">
 
@@ -578,7 +578,7 @@ The **learning flow** together with the **update** formula tell us we must incre
 
 This is logical considering that:
 
-- $ \delta^3 < 0 $ literally means: $ o^2 $ is not big enough
+- $ \delta^3 < 0 $ literally means: $ o^2 $ is not big enough => $ o^2 $ must be increased
 - $ o^1_1 \geq 0 $
 - the only part that we can modify is $ w^2_1 $
 
@@ -593,7 +593,7 @@ The **learning flow** together with the **update** formula tell us we must decre
 
 This is logical considering that:
 
-- $ \delta^3 < 0 $ literally means: $ o^2 $ is not big enough
+- $ \delta^3 < 0 $ literally means: $ o^2 $ is not big enough => $ o^2 $ must be increased
 - $ o^1_1 < 0 $
 - the only part that we can modify is $ w^2_1 $
 
@@ -608,7 +608,7 @@ The **learning flow** together with the **update** formula tell us we must decre
 
 This is logical considering that:
 
-- $ \delta^3 > 0 $ literally means: $ o^2 $ is too big
+- $ \delta^3 > 0 $ literally means: $ o^2 $ is too big => $ o^2 $ must be decreased
 - $ o^1_1 \geq 0 $
 - the only part that we can modify is $ w^2_1 $
 
@@ -623,22 +623,57 @@ The **learning flow** together with the **update** formula tell us we must incre
 
 This is logical considering that:
 
-- $ \delta^3 > 0 $ literally means: $ o^2 $ is too big
+- $ \delta^3 > 0 $ literally means: $ o^2 $ is too big => $ o^2 $ must be decreased
 - $ o^1_1 < 0 $
 - the only part that we can modify is $ w^2_1 $
 
 => $ w^2_1 $ must be increased so that $ o^2 = w^2_1 . o^1_1 + w^2_2 . o^1_2 + w^2_3 . o^1_3 $ decreases.
+
+## Example
+
+We can go further in our simple $ model $.
+Indeed, we have remarked that $ \delta^3 $ has the same **sign** as the **learning flow** of $ Loss $: $ \delta^4 $.
+This means that whatever the final result, the intermediate result $ o^2 $ has the same tendency. The other
+way round is also true: if $ o^2 $ appears to be too high,
+then the final result will be too high aswell (compared to the expected result).
+
+We may also consider that $ L1 $ is an $ Input \text{ } 1D $ $ layer $. This means that $ o^1 = data $.
+
+Let us recap the $ L2 $ formula with the **weights** values of the [weights article]({% post_url 2021-08-19-weights %}):
+
+$$
+\begin{align}
+o^2 &= L2(o^1) \\
+    &= w^2 * o^1 \\
+    &= \frac{1}{200} * o^1_1 - \frac{3 000}{11 600 000} * o^1_2 + \frac{1}{5 800} * o^1_3 \\
+    &= \frac{1}{200} * data_1 - \frac{3 000}{11 600 000} * data_2 + \frac{1}{5 800} * data_3
+\end{align}
+$$
+
+This brings us to the conclusion that $ data_1 $ and $ data_3 $ have a positive impact on the final result because:
+$ w^2_1 = \frac{1}{200} > 0 $ and $ w^2_3 = \frac{1}{5 800} > 0 $ while $ data_2 $ has a negative impact on the
+final result because $ w^2_2 = - \frac{3 000}{11 600 000} < 0 $.
+
+We can "verify" this by considering what the **data** was
+in the [first article]({% post_url 2021-08-05-general-concepts %}):
+
+$$
+data = (\text{broccoli}, \text{Tagada strawberries}, \text{workout hours})
+$$
+
+It seems coherent that "broccoli" and "workout hours" tend to increase the result (1 => good shape),
+while "Tagada strawberries" tend to decrease the final result (0 => bad shape).
 
 ## Back to the Learning Flow
 
 There are 2 paragraphs that were not used during our [sign update analysis](#l2-sign-update):
 the [L2 Sign Flow](#l2-sign-flow) and the [L1 Sign Flow](#l1-sign-flow) paragraphs.
 
-In fact we have already seen this aspect but the **learning flow** only purpose is to be able to compute $ \delta w $.
+In fact we have already seen this aspect but the **learning flow**'s only purpose is to be able to compute $ \delta w $.
 In our current example, the $ L2 $ $ layer $ is the only one to have **weights**. Hence, the **learning flow**
 back propagation is necessary until we get $ \delta^3 $.
 
-If we look back at the [first paragraph](#example) last diagram,
+If we look back at the last diagram of the [first paragraph](#example),
 it is clear we just have to compute the **learning flow**
 for $ Loss $ and for the $ L3 $ $ layer $.
 This means we could have skipped the computation of the **learning flow** for $ L2 $ and for $ L1 $ in the
@@ -646,6 +681,8 @@ This means we could have skipped the computation of the **learning flow** for $ 
 
 ## Conclusion
 
-In this article, we illustrated that the different **learning flow** and **weights** **update** formula we computed
-so far are finally just useful to automatize the decision making: should we increase or decrease the **weights** value ?
-The final goal being that their modification will help minimizing the $ Loss $ function.
+In the [interpretation paragraph](#interpretation), we illustrated that the **weights** **update** comes
+from the fact that the final result is too high or too low compared to the expected result
+and that the **weights** are the only "moving part"
+(see the [weights article]({% post_url 2021-08-19-weights %})) to compensate.
+From there, the **learning flow** just helps cascading the impact on the different intermediate levels.
