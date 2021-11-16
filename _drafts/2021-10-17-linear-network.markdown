@@ -14,8 +14,9 @@ we saw how to compute the **forward pass** and the **backward pass**
 of the different $ layers $ that compose the $ model $ introduced in the "Example" of
 the [second article]({% post_url 2021-08-06-inside-the-model %}).
 
-In this article we will consider this simple $ model $ in order to better illustrate the impact of
-the **weights** on the final $ loss $ value
+In this article we will consider this simple $ model $ in order to illustrate the balance that occurs
+during the **weights** **update**. This balance enables to compensate the difference between the $ model $'s
+produced result and the expected one. The final goal being to minimize this difference
 (read the [loss function article]({% post_url 2021-08-09-loss-function %})).
 
 ## Example
@@ -528,9 +529,9 @@ $$
 \boxed{\hat{w^2} > w^2}
 $$
 
-## Interpretation
+## Balancing the Weights
 
-In this paragraph we illustrate the intuition behind the **weights** **updates**
+In this paragraph we illustrate the balance behind the **weights** **updates**
 computed in the [previous paragraph](#l2-sign-update).
 
 First of all let us recap the different situations we have for our $ \hat{w^2} $ **update**:
@@ -631,11 +632,14 @@ This is logical considering that:
 
 ## Example
 
-We can go further in our simple $ model $.
-Indeed, we have remarked that $ \delta^3 $ has the same **sign** as the **learning flow** of $ Loss $: $ \delta^4 $.
-This means that whatever the final result, the intermediate result $ o^2 $ has the same tendency. The other
+We can go further in our analysis of the simple $ model $.
+Indeed, we have remarked that $ \delta^3 $ has the same **sign** as the **learning flow** of $ Loss $: $ \delta^4 $
+(see [this paragraph](#l3-sign-flow)).
+This means that whatever the final result, the intermediate result $ o^2 $ has the same tendency: if the final
+result is too high compared to the expected result ($ \delta^4 > 0 $),
+then $ o^2 $ will be too high aswell ($ \delta^3 > 0 $). The other
 way round is also true: if $ o^2 $ appears to be too high,
-then the final result will be too high aswell (compared to the expected result).
+then the final result will be too high aswell.
 
 We may also consider that $ L1 $ is an $ Input \text{ } 1D $ $ layer $. This means that $ o^1 = data $.
 
