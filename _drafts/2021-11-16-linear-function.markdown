@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Linear Representations"
+category: layer
 date:   2021-10-31
 excerpt: >-
   Looking back at the simple "Example" model to illustrate the weights' balancing over time.

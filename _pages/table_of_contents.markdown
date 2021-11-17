@@ -58,10 +58,22 @@ We also speak about the neural structure and a better way to compute the backwar
 <p>Let us reveal the neural structure for the other layers of our “Example”: the Activation and the Input 1D layers.</p>
 </div>
 
+<div class="post-content myTitles">
+<h2 id="from-a-layer-perspective">From a Network Perspective</h2>
+
+<h3 id="the-linear-layer">The Linear Network</h3>
+
+<h4 id="1-the-linear-layer">1. <a href="/network/weights-balancing">Weights' Balancing</a></h4>
+
+<p>Looking back at the simple "Example" model to illustrate the weights update process over time.</p>
+
+</div>
+
 <div class="pager">
 <ul class="pagination">
   <li><div class="dot"><div class="current-page">1</div><a class="next-page" onclick="currentTitle(1)">1</a></div></li>
   <li><div class="dot"><div class="current-page">2</div><a class="next-page" onclick="currentTitle(2)">2</a></div></li>
+  <li><div class="dot"><div class="current-page">3</div><a class="next-page" onclick="currentTitle(3)">3</a></div></li>
 </ul>
 </div>
 

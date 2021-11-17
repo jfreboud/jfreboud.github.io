@@ -385,5 +385,5 @@ which is what we already computed in the
 We have seen the **neural structure** for each and every $ layer $ that appeared in the "Example" we 
 introduced in the [second article]({% post_url 2021-08-06-inside-the-model %}).
 
-We are now ready to go back to the very simple $ model $ of our "Example" and think of it as a whole function  
-operating on the **data input**. 
+We are now ready to go back to the very simple $ model $ and illustrate the **weights** **update** process 
+in the [next article]({% post_url 2021-11-17-weights-balancing %}). 
