@@ -1,13 +1,29 @@
 ---
 layout: post
-title:  "Linear Representations"
-category: layer
-date:   2021-10-31
+title:  "Linear Function"
+category: network
+date:   2021-11-23
 excerpt: >-
-  Looking back at the simple "Example" model to illustrate the weights' balancing over time.
+  Investigating the global function of the linear network.
 ---
 
 ## Introduction
+
+In the [previous article]({% post_url 2021-11-17-weights-balancing %}), we illustrated the balance that occurs 
+after each **weights** **update** of the [gradient descent algorithm]({% post_url 2021-08-23-gradient-descent %}). 
+
+In this article we will investigate the purpose of the $ Linear $ **network**. 
+
+Note that a **network** and a $ model $ are 
+very similar. We use the word **network** to refer to the general structure of the $ model $. 
+
+Also note that the simple 
+$ model $ used so far (see the [second article]({% post_url 2021-08-06-inside-the-model %})) 
+is not linear in the mathematical sense because of the use of 
+$ activation $ $ layers $ (which imply a non linearity, 
+see the [activation layer article]({% post_url 2021-10-06-activation %})). 
+We call linear in the sense that the main **learning** $ layer $ is a $ Linear $ one 
+(see the [linear layer article]({% post_url 2021-09-19-linear %})).
 
 ## Example
 

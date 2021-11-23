@@ -633,7 +633,7 @@ and that the **weights** are the only "moving part"
 (see the [weights article]({% post_url 2021-08-19-weights %})) to compensate. 
 From there, the **learning flow** just helps cascading the impact on the different intermediate levels. 
 
-In the next article we will go further in our analysis and consider our simple $ model $ as a whole function  
+In the next article we will go further in our analysis and consider the global function of our simple $ model $   
 operating on the **data input**. 
 
 <br>
