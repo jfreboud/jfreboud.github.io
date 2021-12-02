@@ -25,6 +25,41 @@ see the [activation layer article]({% post_url 2021-10-06-activation %})).
 We call linear in the sense that the main **learning** $ layer $ is a $ Linear $ one 
 (see the [linear layer article]({% post_url 2021-09-19-linear %})).
 
+## From a Neuron Perspective
+
+Let us go back to one situation we saw in the [linear layer article]({% post_url 2021-09-19-linear %}). 
+Let us consider one $ L^k $ $ Linear $ $ layer $ and suppose it has 2 **neurons**: $ o^{k}_1 $ and $ o^{k}_2 $. 
+Let us suppose $ L^{k-1} $ produces 3 output **neurons**: $ o^{k-1}_1 $, $ o^{k-1}_2 $ and $ o^{k-1}_3 $. 
+
+During the **forward pass** of $ L^k $ we expect to have the formula: 
+$$ 
+\begin{align}
+o^{k}_1 &= w^{k, 1}_1 . o^{k-1}_1 + w^{k, 1}_2 . o^{k-1}_2 + w^{k, 1}_3 . o^{k-1}_3 + b^{k}_1 \\
+o^{k}_2 &= w^{k, 2}_1 . o^{k-1}_1 + w^{k, 2}_2 . o^{k-1}_2 + w^{k, 2}_3 . o^{k-1}_3 + b^{k}_2
+\end{align}
+$$ 
+
+In this paragraph we want to illustrate the role of one **neuron** as an individual. 
+The question is thus: what makes $ o^{k}_1 $ and $ o^{k}_2 $ different ?
+
+They both share the same **data input**: $ o^{k-1}_1 $, $ o^{k-1}_2 $ and $ o^{k-1}_3 $. 
+But they create different "meaning" of these **data input**: this "meaning" is what we called 
+**representation** in the [second article]({% post_url 2021-08-06-inside-the-model %}).
+
+We immediately understand that what actually build the different **representation** are the **weights**.
+According to them the different output **neurons** will be differently correlated to the immediate 
+**data input** of the previous $ layer $ in the **forward pass** order.
+
+## Link with the Activation Potential in Biology
+
+Adding the non linearity of the $ activation $ function produces a sort of decision making linked to a threshold 
+(set to 0 in the $ ReLU $ case).
+In our example, the "final" output $ neuron $ would not activate until we have enough quantities of the **data input**.
+
+## Backward Balancing
+
+![Linear](/_assets/images/layers/Linear6.png)
+
 ## Example
 
 We can go further in our analysis of the simple $ model $. 
