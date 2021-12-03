@@ -521,8 +521,8 @@ First of all let us recap the different situations we have for our $ \hat{w^2} $
 | $ \delta^3 = 0 $                    | as expected           | keep same $ w^2 $ |
 | $ \delta^3 < 0 $ and $ o^1 \geq 0 $ | lower than expected   | increase $ w^2 $  |
 | $ \delta^3 < 0 $ and $ o^1 < 0 $    | lower than expected   | decrease $ w^2 $  |
-| $ \delta^3 > 0 $ and $ o^1 \geq 0 $ | higher than expected | decrease $ w^2 $  |
-| $ \delta^3 > 0 $ and $ o^1 < 0 $    | higher than expected | increase $ w^2 $  |
+| $ \delta^3 > 0 $ and $ o^1 \geq 0 $ | higher than expected  | decrease $ w^2 $  |
+| $ \delta^3 > 0 $ and $ o^1 < 0 $    | higher than expected  | increase $ w^2 $  |
 
 Let us go back to the $ L2 $ $ layer $ definition: 
 
@@ -555,26 +555,42 @@ This is the ideal situation, it is no wonder we must keep the same value for $ w
 <h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 < 0 $ and $ o^1 \geq 0 $ </h3>
 
 The $ model $ produces a lower than expected output. 
-The **learning flow** together with the **update** formula tell us we must increase $ w^2_1 $. 
+The **update** formula tells us we must increase $ w^2_1 $. 
 
-This is logical considering that:
+The crucial part to understand why is to go back to the meaning of $ \delta^3 < 0 $. First of all, let us recall 
+the [backward pass article]({% post_url 2021-08-13-backward-pass %}): 
 
-- $ \delta^3 < 0 $ literally means: $ o^2 $ is not big enough => $ o^2 $ must be increased
-- $ o^1_1 \geq 0 $ 
-- the only part that we can modify is $ w^2_1 $
+$$ \delta^3 = \frac{\partial Loss}{\partial X^3}(o^2) $$
 
-=> $ w^2_1 $ must be increased so that $ o^2 = w^2_1 . o^1_1 + w^2_2 . o^1_2 + w^2_3 . o^1_3 $ increases. 
+Now, thanks to "The Derivative of the Loss Function" of the 
+[loss function article]({% post_url 2021-08-09-loss-function %}) 
+we can paraphrase $ \delta^3 $ as: "the impact of $ X^3 $ on the $ Loss $ function when evaluated on $ o^2 $". 
+
+We conclude that the fact that $ \delta^3 < 0 $ implies that a small increase in $ o^2 $ would decrease the value of 
+$ loss $, which is actually our goal !
+
+We are now able to better understand our current situation:
+
+- As $ \delta^3 < 0 $, we would like $ o^2 $ to increase in order for $ loss $ to decrease
+- But $ o^2 $ depends on $ o^1_1 \geq 0 $ 
+- And in order to know the best new value for $ w^2_1 $ we consider every other terms to be fixed
+
+That way, it is clear that $ w^2_1 $ must be increased so that 
+$ o^2 = w^2_1 . o^1_1 + w^2_2 . o^1_2 + w^2_3 . o^1_3 $ increases which is exactly what was computed in the 
+[previous paragraph](#l2-update) !
 
 <hr style="width: 65%; margin: auto;">
 
 <h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 < 0 $ and $ o^1 < 0 $ </h3>
 
-The $ model $ produces a lower than expected output. 
-The **learning flow** together with the **update** formula tell us we must decrease $ w^2_1 $. 
+Let us go faster now !
+
+The $ model $ now produces a lower than expected output. 
+The **update** formula tells us we must decrease $ w^2_1 $. 
 
 This is logical considering that:
 
-- $ \delta^3 < 0 $ literally means: $ o^2 $ is not big enough => $ o^2 $ must be increased
+- $ \delta^3 < 0 $ => $ o^2 $ must be increased
 - $ o^1_1 < 0 $ 
 - the only part that we can modify is $ w^2_1 $
 
@@ -585,11 +601,11 @@ This is logical considering that:
 <h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 > 0 $ and $ o^1 \geq 0 $ </h3>
 
 The $ model $ produces a higher than expected output. 
-The **learning flow** together with the **update** formula tell us we must decrease $ w^2_1 $. 
+The **update** formula tells us we must decrease $ w^2_1 $. 
 
 This is logical considering that:
 
-- $ \delta^3 > 0 $ literally means: $ o^2 $ is too big => $ o^2 $ must be decreased
+- $ \delta^3 > 0 $ => $ o^2 $ must be decreased
 - $ o^1_1 \geq 0 $ 
 - the only part that we can modify is $ w^2_1 $
 
@@ -600,11 +616,11 @@ This is logical considering that:
 <h3 style="text-align:center; margin-top: 2%;"> $ \delta^3 > 0 $ and $ o^1 < 0 $ </h3>
 
 The $ model $ produces a higher than expected output. 
-The **learning flow** together with the **update** formula tell us we must increase $ w^2_1 $. 
+The **update** formula tells us we must increase $ w^2_1 $. 
 
 This is logical considering that:
 
-- $ \delta^3 > 0 $ literally means: $ o^2 $ is too big => $ o^2 $ must be decreased
+- $ \delta^3 > 0 $ => $ o^2 $ must be decreased
 - $ o^1_1 < 0 $ 
 - the only part that we can modify is $ w^2_1 $
 
