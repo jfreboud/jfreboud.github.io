@@ -199,9 +199,10 @@ $ o^{k+1}_1 $. But the $ o^{k+1}_1 $ **neuron** looks like a biological **neuron
 on a concrete physical impulse. This is the third reason of the use of $ activation $ $ layers $ we saw in the 
 [activation layer article]({% post_url 2021-10-06-activation %}).
 
-While it seems interesting to mimic this "biological" **neuron** we have already seen it may not be such 
+While it seems interesting to mimic this "biological" **neuron**, we have already seen it may not be such 
 a good idea in the [previous article]({% post_url 2021-11-17-weights-balancing %}). 
-The main problem being the **backward pass**. The good news is that our brain does not rely on the **backward pass**... 
+The main problem being the **backward pass**. 
+The good news is: our brain does not seem to rely on the **backward pass**... 
 
 ## Backward Pass
 
