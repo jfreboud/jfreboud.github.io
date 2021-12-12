@@ -67,7 +67,7 @@ input values in the range of $ [-\infty; \infty] $ to output values in the range
               \right.
     $$
     
-    We will talk about it in a later article :smiling_imp:
+    We will talk about it in the [linear function article]({% post_url 2021-12-12-linear-function %}) :smiling_imp:
     
 ## Forward Pass
 

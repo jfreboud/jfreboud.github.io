@@ -67,6 +67,10 @@ We also speak about the neural structure and a better way to compute the backwar
 
 <p>Looking back at the simple "Example" model to illustrate the weights update process over time.</p>
 
+<h4 id="2-the-linear-function">2. <a href="/network/linear-function">The Linear Function</a></h4>
+
+<p>Investigating the global function of the linear network.</p>
+
 </div>
 
 <div class="pager">

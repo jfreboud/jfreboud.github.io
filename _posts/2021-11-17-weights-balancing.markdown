@@ -25,11 +25,11 @@ produced result and the expected one. The final goal being to minimize this diff
 
 Here is the **neural structure** synthesis during the **forward pass** of our simple $ model $:
 
-![Activation](/_assets/images/network/Linear1.png)
+![Linear](/_assets/images/network/Linear1.png)
 
 And below is the **neural structure** during its **backward pass**:
 
-![Activation](/_assets/images/network/Linear2.png) 
+![Linear](/_assets/images/network/Linear2.png) 
 
 ## Sign Flow Analysis
 
@@ -230,7 +230,8 @@ There were 3 reasons to use an $ activation $ function:
 3. mimic the activation potential in biology
 
 The $ ReLU $ activation main interests are the 2 and 3. But it is really the 3 that causes our bad situation.
-This point has not been discussed very much yet, we will adress it in the next article.
+This point has not been discussed very much yet, we will adress it in the 
+[next article]({% post_url 2021-12-12-linear-function %}).
 Still, we could preserve the 2 using another $ activation $ function like the $ leaky $ $ ReLU $:
 
 $$
@@ -649,8 +650,8 @@ and that the **weights** are the only "moving part"
 (see the [weights article]({% post_url 2021-08-19-weights %})) to compensate. 
 From there, the **learning flow** just helps cascading the impact on the different intermediate levels. 
 
-In the next article we will go further in our analysis and consider the global function of our simple $ model $ 
-operating on the **data input**. 
+In the [next article]({% post_url 2021-12-12-linear-function %}) we will consider the global function 
+of our simple $ model $ operating on the **data input**. 
 
 <br>
 

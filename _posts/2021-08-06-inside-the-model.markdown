@@ -51,8 +51,8 @@ more abstract of the **input data**.
 This is the goal of deep learning: considering the **representations** of the last $ layer $, we want it to have 
 the best understanding of the **input data** possible.
 
-While they seem abstract for the moment, these **representations** will be more precise when we will talk about the 
-different forms of $ layers $. But we have some articles to read before that...
+While they seem abstract for the moment, these **representations** will be more precise in the 
+[linear function article]({% post_url 2021-12-12-linear-function %}). But we have some articles to read before that...
 
 ## Example
 
