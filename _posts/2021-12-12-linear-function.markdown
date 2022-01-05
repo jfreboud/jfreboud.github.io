@@ -31,7 +31,7 @@ Let us go back to one situation we saw in the [linear layer article]({% post_url
 Let us consider one $ L^k $ $ Linear $ $ layer $ and suppose it has 2 output **neurons**: $ o^{k}_1 $ and $ o^{k}_2 $. 
 Let us suppose $ L^{k-1} $ produces 3 output **neurons**: $ o^{k-1}_1 $, $ o^{k-1}_2 $ and $ o^{k-1}_3 $. 
 
-During the **forward pass** of $ L^k $ we expect to have the formula: 
+During the **forward pass** of $ L^k $ we expect to have the formulas: 
 
 $$ 
 \begin{align}
@@ -40,8 +40,8 @@ o^{k}_2 &= w^{k, 2}_1 . o^{k-1}_1 + w^{k, 2}_2 . o^{k-1}_2 + w^{k, 2}_3 . o^{k-1
 \end{align}
 $$ 
 
-In this paragraph we want to illustrate the role of one **neuron** as an individual. For the moment we will suppose 
-that $ b^{k}_1 = 0 $ and $ b^{k}_2 = 0 $, our formula become: 
+In this paragraph we want to illustrate the role of one **neuron** as an individual. For the moment we suppose 
+that $ b^{k}_1 = 0 $ and $ b^{k}_2 = 0 $, our formulas become: 
 
 $$ 
 \begin{align}
@@ -62,7 +62,7 @@ Thanks to the **weights**, the different output **neurons** will be differently 
 
 For example, the **weights** for $ o^{k}_1 $ could be: $ w^{k, 1}_1 > 0 $, $ w^{k, 1}_2 < 0 $ and $ w^{k, 1}_3 > 0 $.
 Thanks to the $ o^{k}_1 $ formula above, this means that $ o^{k}_1 $ increases when the immediate 
-"**data input**" $ o^{k-1}_1 $ is $ (o^{k-1}_1 > 0, o^{k-1}_2 < 0, o^{k-1}_3 > 0) $. 
+"**data input**" $ o^{k-1} $ is $ (o^{k-1}_1 > 0, o^{k-1}_2 < 0, o^{k-1}_3 > 0) $. 
 
 To be more specific in the previous case: 
 - locking $ o^{k-1}_2 $ and $ o^{k-1}_3 $ we have: $ o^{k-1}_1 $ <span style="color:green">↑</span> => $ o^{k}_1 $ <span style="color:green">↑</span> and $ o^{k-1}_1 $ <span style="color:red">↓</span> => $ o^{k}_1 $ <span style="color:red">↓</span>
@@ -83,7 +83,7 @@ In that way the "meaning" for the $ o^k_2 $ output **neuron** could be:
 $ o^{k-1}_3 $ (workout regularly) and not linked at all to $ o^{k-1}_2 $ (had a rare operation as a child).
 
 What we must keep in mind here is that the **weights** give some sort of uniqueness to every **neuron**. 
-We could even give some "meaning" to them but that is the hardest part. 
+It is then possible to give some "meaning" to the different **neurons** though that is the hardest part... 
 
 ## Link with the Activation Potential in Biology
 
@@ -159,7 +159,7 @@ ReLU(x) = \left\{\begin{align}
           \right.
 $$
 
-What is interesting is the "filter" aspect of the $ ReLU $ $ activation $ function: 
+What particularly interests us is the "filter" aspect of the $ ReLU $ $ activation $ function: 
 everything under 0 is simply replaced by 0. 
 
 We are now able to modify the variations for $ o^{k}_1 $ and chain them to $ o^{k+1}_1 $:
@@ -177,7 +177,7 @@ We are now able to modify the variations for $ o^{k}_1 $ and chain them to $ o^{
 And to see what the special condition is, we just have to wonder when we move from one "side" to the other. 
 This special moment in the $ ReLU $ function happens at $ x = 0 $.
 
-Looking back at $ o^{k}_1 $: 
+Let us look back at $ o^{k}_1 $: 
 
 $$ 
 o^{k}_1 = w^{k, 1}_1 . o^{k-1}_1 + w^{k, 1}_2 . o^{k-1}_2 + w^{k, 1}_3 . o^{k-1}_3 + b^{k}_1
@@ -202,7 +202,7 @@ on a concrete physical impulse. This is the third reason of the use of $ activat
 While it seems interesting to mimic this "biological" **neuron**, we have already seen it may not be such 
 a good idea in the [previous article]({% post_url 2021-11-17-weights-balancing %}). 
 The main problem being the **backward pass**. 
-The good news is: our brain does not seem to rely on the **backward pass**... 
+The good news is: our brain does not strictly rely on the **backward pass**... 
 
 ## Backward Pass
 
@@ -246,8 +246,7 @@ $$
 $$
 
 that will help decide whether $ o^{k-1}_1 $ should be "more" used ($ \delta^{k}_1 < 0 $) or 
-"less" used ($ \delta^{k}_1 > 0 $) in the current situation (with some particular 
-(**data input**, **data output**)).
+"less" used ($ \delta^{k}_1 > 0 $) in the current situation defined by the **data**: (**data input**, **data output**).
 
 Focusing on $ o^{k-1}_1 $ it is interesting to note that:
 
