@@ -67,25 +67,27 @@ In the below image, I have hidden the center of the image to show some pixels va
 
 ![Image](/_assets/images/network/Image2.png)
 
-Note that if the entire image was only numbers, you would have no way understanding the image as a house. 
-This is what from scratch means: we have to build a system that allows the computer to "understand" those numerics.
+Note that if the entire image was only numbers, you would have no way of understanding the image as a house. 
+This is why we have to build a system that allows the computer to "understand" those numerics.
 
-We are now going to make the first operation to build our numeric **representations**: instead of considering 
-the grid of the previous numeric pixels, we are going to consider the three **channels** $ red $, $ green $ and $ blue $. 
-In fact, it merely consists in splitting our grid into 3 grids in which each grid only contains the numbers of 
-the **channel** considered. 
+## Toward Visual Representations
 
-Instead of having a grid of $ height * width $ pixels, we now have 3 grids of $ height * width $ numbers.
+Here is the first operation to build our numeric **representations**: instead of considering 
+the grid of the previous numeric pixels, we will consider the three **channels** $ red $, $ green $ and $ blue $. 
+The operation merely consists in splitting our grid into 3 channel grids in which each channel grid contains 
+the numbers of the **channel** considered instead of pixels. 
 
-Here is the $ red $ (first) **channel**: 
+We go from a grid of $ height * width $ pixels to 3 channel grids of $ height * width $ numbers.
+
+Here is the the first **channel** grid ($ red $): 
 
 ![Image](/_assets/images/network/Image3.png)
 
-Here is the $ green $ (second) **channel**: 
+Here is the second **channel** grid ($ green $): 
 
 ![Image](/_assets/images/network/Image4.png)
 
-And here is the $ blue $ (third) **channel**:
+And here is the third **channel** grid ($ blue $):
 
 ![Image](/_assets/images/network/Image5.png)
 
