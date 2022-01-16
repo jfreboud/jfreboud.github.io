@@ -52,3 +52,44 @@ the next articles.
 Before building Deep-Learning **models**, let us start by converting our **images** into numerics!
 
 ## An Image
+
+An image is a grid of a certain size. An image of size $ (height, width) $ will contain $ height * width $ pixels. 
+Each pixel is a mix of the three primary colors $ (red, green, blue) $. 
+
+Let us imagine a very small image of size $ (9, 9) $ and zoom in so that we observe a house ! 
+
+![Image](/_assets/images/network/Image1.png)
+
+You may have guessed that each circle in this image actually represents a pixel of the image. 
+As we mentioned in the [previous paragraph](#the-visual-information-flow), our brain is triggered by the light 
+on different colors. But the same image can also be seen as the different numbers of the pixels. 
+In the below image, I have hidden the center of the image to show some pixels values $ (red, green, blue) $.
+
+![Image](/_assets/images/network/Image2.png)
+
+Note that if the entire image was only numbers, you would have no way understanding the image as a house. 
+This is what from scratch means: we have to build a system that allows the computer to "understand" those numerics.
+
+We are now going to make the first operation to build our numeric **representations**: instead of considering 
+the grid of the previous numeric pixels, we are going to consider the three **channels** $ red $, $ green $ and $ blue $. 
+In fact, it merely consists in splitting our grid into 3 grids in which each grid only contains the numbers of 
+the **channel** considered. 
+
+Instead of having a grid of $ height * width $ pixels, we now have 3 grids of $ height * width $ numbers.
+
+Here is the $ red $ (first) **channel**: 
+
+![Image](/_assets/images/network/Image3.png)
+
+Here is the $ green $ (second) **channel**: 
+
+![Image](/_assets/images/network/Image4.png)
+
+And here is the $ blue $ (third) **channel**:
+
+![Image](/_assets/images/network/Image5.png)
+
+Tada, we are now in the presence of 3 numeric **representations** ! 
+We even know the cheat in order to go back to a real image our of these 3 different **channels**.
+
+![Image](/_assets/images/network/Image6.png)
