@@ -41,17 +41,17 @@ The first difference we should highlight between **Human Vision** and **Computer
 In the human case the visual **information flow** is physical. It starts with light on our retina before being 
 translated into **neurons** activations / non activations in our brain. 
 
-In the machine case, we will only work with numerics. In a way it is easy: we just have to do 
-some computations on those numerics to understand what happens. 
+In the machine case, we will only work with numbers. The good news is that we just have to do 
+some computations on those numbers to describe what happens. 
 The bad news is that there will be so many computations that it will be difficult to fully grasp 
-what **representations** are built. 
+how **representations** are built. 
 Hence, it is important to try and understand the different 
-transformation of our **information flow** across the different **layers** of our **model**: this is our goal for 
+transformations of our **information flow** across the different $ layers $ of our $ model $: this is our goal for 
 the next articles.
 
-Before building Deep-Learning **models**, let us start by converting our **images** into numerics!
+Before building Deep-Learning $ models $, let us start by converting our **images** into numbers!
 
-## An Image
+## Images, what are they ?
 
 An image is a grid of a certain size. An image of size $ (height, width) $ will contain $ height * width $ pixels. 
 Each pixel is a mix of the three primary colors $ (red, green, blue) $. 
@@ -72,14 +72,13 @@ In the below image, I have hidden the center of the image to show some pixels' v
 <br>
 
 Note that if the entire image was only numbers, you would have no way of understanding the image as a house. 
-This is why we have to build a system that allows the computer to "understand" those numerics.
+This is why we have to build a system that allows the computer to "understand" those numbers.
 
 ## Toward Visual Representations
 
-Here is the first operation to build our numeric **representations**: instead of considering 
+Here is the first operation to build our visual **representations**: instead of considering 
 the grid of the previous numeric pixels, we will consider the three **channels** $ red $, $ green $ and $ blue $. 
-The operation merely consists in splitting our grid into 3 **channel** grids in which each channel grid contains 
-the numbers of the **channel** considered instead of pixels. 
+The operation merely consists in splitting our grid of pixels into 3 **channel** grids of numbers. 
 
 We go from a grid of $ height * width $ pixels to 3 **channel** grids of $ height * width $ numbers.
 
@@ -103,7 +102,7 @@ And here is the third **channel** grid ($ blue $):
 
 <br>
 
-Tada, we are now in the presence of 3 numeric **representations** ! 
+We are now in the presence of 3 **representations** ! 
 We even know the cheat in order to go back to a real image out of these 3 different **channels**.
 
 ![Image](/_assets/images/network/Image6.png)
@@ -134,7 +133,7 @@ $$
 
 In the following I will speak about the "pixels" of the **channels** we introduced in the 
 [previous paragraph](#toward-visual-representations). Bare in mind that these "pixels" are just one number 
-at a precise localisation in a **channel** grid and not the pixels we talked about in the [image paragraph](#an-image). 
+at a precise localisation in a **channel** grid and not the pixels we talked about in the [images paragraph](#images-what-are-they-). 
 
 We want to capture spatial localisation information on every "pixel" of the different **channels** of the 
 [previous paragraph](#toward-visual-representations). 
@@ -572,7 +571,7 @@ Indeed if we take a look at the final **representation**, we have:
 We could add one **bias** and a final $ ReLU $ $ layer $ to obtain a cleaner **representation** 
 with just the center "pixel" triggered (same idea as $ L3 $) 
 but we have already understood that it is the maximal activation 
-that particularly interests us. 
+that particularly interests us.  
 
 <br>
 
