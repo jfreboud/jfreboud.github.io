@@ -57,10 +57,6 @@ We can say we have three **inputs**:
 quantity of broccoli, quantity of Tagada strawberries and quantity of cardio latin dance workout.
 We have one **output**: good shape or not. 
 
-So if we try to use one $ model $ on that we could say that: 
-- $ X $ is a vector with 3 dimensions (broccoli, Tagada, workout)
-- $ model(X) $ is a vector with 1 dimension (good shape or not)
-
 Let us look at some patients' **data**: 
 
 | data input | data output (expectation) |
@@ -71,8 +67,15 @@ Let us look at some patients' **data**:
 
 ### <span style="text-decoration:underline"> Model </span> 
 
-- As our **data input** has 3 dimensions, our $ model $ function $ X $ variable must also be 3 dimensional
-- As our **data output** has 1 dimension, our $ model $ function result must also be 1 dimensional 
+- As our **data input** has 3 numbers, our $ model $ function $ X $ variable must also be a vector with 3 numbers: 
+(quantity of broccoli, quantity of Tagada, hours of workout).
+- Per se, our **data output** is not yet a number, let us do a minimal transformation for the **data output** to be
+comparable with our $ model $ function result. We will decide that "bad shape" corresponds to 0 and "good shape" 
+corresponds to 1.
+- Our transformed **data output** is now a number. It is comparable to $ model(X) $. 
+Thus, we expect $ model(X) $ to be a number going from 0 to 1, indicating how much in good shape 
+a patient is. A number of 0 would mean "bad shape", a number of 1 would mean "good shape", anything between them would 
+indicate a ratio (0.5 would mean "not bad, not good shape").  
 
 Let us take a "random" function example to see how it works: 
 
@@ -110,9 +113,12 @@ $$
 $$
 
 We can verify that:
-- $ X $ is 3 dimensional: $ X_1 $ is the variable for broccoli, $ X_2 $ is the variable for Tagada strawberries, 
+- $ X $ is a vector with 3 numbers: $ X_1 $ is the variable for broccoli, $ X_2 $ is the variable for Tagada strawberries, 
 $ X_3 $ is the variable for workout hours
-- $ model(X) $ is indeed a simple 1 dimensional number
+- $ model(X) $ is indeed a simple number. 
+The first time we evaluated it on $ (100, 2000, 100) $, the result was 0 meaning "bad shape". 
+The second time it was 1 meaning "good shape" and the last time 0. It is only "by chance" if we did not find any ratio, 
+just plain 0 or 1.
 
 ### <span style="text-decoration:underline"> Run the Model </span>
 

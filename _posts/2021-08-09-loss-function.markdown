@@ -181,9 +181,9 @@ $$
 $$
 
 We verify that:
-- $ X $ is 3 dimensional: $ X_1 $ is the variable for broccoli, $ X_2 $ is the variable for Tagada strawberries, 
+- $ X $ is a vector with 3 numbers: $ X_1 $ is the variable for broccoli, $ X_2 $ is the variable for Tagada strawberries, 
 $ X_3 $ is the variable for workout hours
-- $ model(X) $ is 1 dimensional
+- $ model(X) $ is a simple number
 - $ Loss $ is a loss function that depends on $ X^4 $ and $ Y^{truth} $, 
 $ X^4 $ receiving the value of the **output layer** of $ model $.
 
