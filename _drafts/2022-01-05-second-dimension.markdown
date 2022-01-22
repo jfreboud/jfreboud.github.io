@@ -105,7 +105,14 @@ And here is the third **channel** grid ($ blue $):
 We are now in the presence of 3 **representations** ! 
 We even know the cheat in order to go back to a real image out of these 3 different **channels**.
 
+<a id="rep_to_pixels" class="anchor">
 ![Image](/_assets/images/network/Image6.png)
+</a>
+
+In the following I will speak about the "pixels" of the **channels** we introduced here. 
+Keep in mind that these "pixels" are just one number 
+at a precise position in a **channel** grid and not the pixels we talked about 
+in the [images paragraph](#images-what-are-they-).
 
 ## Convolution Kernel
 
@@ -129,11 +136,7 @@ $$
 -1 & 1 & 0 \\
 1 & 0 & 0
 \end{bmatrix}
-$$
-
-In the following I will speak about the "pixels" of the **channels** we introduced in the 
-[previous paragraph](#toward-visual-representations). Bare in mind that these "pixels" are just one number 
-at a precise localisation in a **channel** grid and not the pixels we talked about in the [images paragraph](#images-what-are-they-). 
+$$ 
 
 We want to capture spatial localisation information on every "pixel" of the different **channels** of the 
 [previous paragraph](#toward-visual-representations). 
@@ -208,16 +211,126 @@ The solution is to attribute one **convolution kernel** for each and every one o
 Then, thanks to the [previous paragraph](#convolution-kernel), we know how to apply the particular **kernel** on 
 the chosen **channel** in order to build a temporary (noted tmp below) new **channel**. We now have 3 temporary 
 new **channels** that we can sum together (adding together the "pixels" of the 3 temporary **channels** that 
-are located at the same place in their grid) in order to build the final new **representation** noted $ rep^2_1 $ below.
+are located at the same place in their grid) in order to build the final new **representation** noted $ rep $ below.
 
 ![Image](/_assets/images/network/Image10.png)
 
-$ rep^2_1 $ is a new **representation** that produces a new "meaning" thanks to the "meaning" of every input **channels** 
-($ r^1 $, $ b^1 $, $ b^1 $). 
+$ rep $ is a new **representation** that produces a new "meaning" thanks to the "meaning" of every input **channels** 
+($ r $, $ g $, $ b $). 
 
 Each time we want to build a new **representation** we have to use one specific **convolution kernel** for each 
 input **channels**. In a way, this is the exactly what happened to the **weights** 
 in the [linear function article]({% post_url 2021-12-12-linear-function %}). 
+
+## Interpretation
+
+In this paragraph, we mimic the example where $ L^k $ $ Linear $ $ layer $ has 3 input **neurons** and 
+produces 2 output **neurons** but this time with $ L^k $ $ Convolutional $ $ layer $.
+
+$ L^k $ takes 3 **channels** as input and must produce 2 output **channels**.
+As we mentioned in the [previous paragraph](#convolution), for each output **channel**, we must choose 
+one **convolutional kernel** for each input **channel**.
+ 
+![Image](/_assets/images/network/Image29.png)
+
+Now, we will add some meaning to these different **channels**.
+Let us suppose that $ rep^{1,1} $ **represents** "one eye", $ rep^{1,2} $ **represents** "one nose" and 
+$ rep^{1,3} $ represents "one mouth". As for the 
+[linear function article]({% post_url 2021-12-12-linear-function %}), we can build a "meaning" for 
+$ rep^{2,1} $ and $ rep^{2,2} $. This "meaning" will directly depends on the previous **representations**' meanings 
+and the associated processing **kernel**.
+
+Let us suppose that $ k^1_1 $, $ k^1_2 $ and $ k^1_3 $ are respectively: 
+
+$$
+\begin{bmatrix}
+1 & 0 & 1 \\
+0 & 0 & 0 \\
+0 & 0 & 0
+\end{bmatrix}
+
+\begin{bmatrix}
+0 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 0
+\end{bmatrix}
+
+\begin{bmatrix}
+0 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 0 & 0
+\end{bmatrix}
+$$
+
+As we apply $ k^1_1 $ on every "pixel" of the $ rep^{1,1} $ **channel** "one eye", we see that the maximum output "pixels" will 
+be localised at input "pixels" that have the following context: 
+- top left hand corner is "one eye"
+- top right hand corner is "one eye".
+
+For $ k^1_2 $ and $ rep^{1,2} $ "one nose", the maximum output "pixels" will be localised at input "pixels" that have 
+the following context: 
+- "one nose" in the center
+
+For $ k^1_3 $ and $ rep^{1,3} $ "one mouth", there will be no maximum "pixels", only 0.
+
+If we add these 3 pieces together, we understand that $ rep^{2,1} $ actually **represents** "top part of a face".
+
+<br>
+
+Let us suppose that $ k^2_1 $, $ k^2_2 $ and $ k^2_3 $ are respectively: 
+
+$$
+\begin{bmatrix}
+0 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 0 & 0
+\end{bmatrix}
+
+\begin{bmatrix}
+0 & 0 & 0 \\
+0 & 1 & 0 \\
+0 & 0 & 0
+\end{bmatrix}
+
+\begin{bmatrix}
+0 & 0 & 0 \\
+0 & 0 & 0 \\
+0 & 1 & 0
+\end{bmatrix}
+$$
+
+For $ k^2_1 $ and $ rep^{1,1} $ "one eye", there will be no maximum "pixels", only 0.
+
+For $ k^2_2 $ and $ rep^{1,2} $ "one nose", the maximum output "pixels" will be localised at input "pixels" that have 
+the following context: 
+- "one nose" in the center
+
+For $ k^2_3 $ and $ rep^{1,3} $ "one mouth", the maximum output "pixels" will be localised at input "pixels" that have 
+the following context: 
+- "one mouth" at the bottom
+
+If we add these 3 pieces together, we understand that $ rep^{2,2} $ actually **represents** "bottom part of a face".
+
+<br> 
+
+The two principal elements that allow the build of new **representations** in the 2D case are:
+
+- the combination of previous **representations** (this is a legacy of the 1D case)
+- the spatial context which is captured by the **convolution kernels** (this is specific to the 2D case)
+
+We must keep in mind that one **channel** grid is just "pixels" where the **convolution kernel** asks 
+the question: 
+"Does my context look like what I am looking for ?" but it is the particular "meaning" of the previous **channels** 
+that actually give sense to the new **channel**. Per se, the **convolution kernel** may find multiple "pixels" 
+where the context is realized. Hence, the **representations** are not really the grid themselves, but 
+rather the vector of the different concatenated numbers for a chosen position in the grid. 
+
+![Image](/_assets/images/network/Image30.png)
+
+$$ (rep^{2,1}_{0,0}, rep^{2,2}_{0,0}) $$ is an example of such a vector. We see how close it looks to the "cheat" 
+we presented in this [diagram](#rep_to_pixels) in order to go from the **representations** to the real pixels.
+And finally, such a vector is also very similar to the **representations** in the 1D case 
+(see the [linear function article]({% post_url 2021-12-12-linear-function %})).
 
 ## Example 
 
