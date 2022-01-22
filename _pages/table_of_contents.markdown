@@ -43,6 +43,7 @@ First things first, we explore some general concepts of deep learning, introduci
 <p>A new idea to build a more robust learning: learn on multiple data input at once.</p>
 </div>
 
+
 <div class="post-content myTitles">
 <h2 id="from-a-layer-perspective">From a Layer Perspective</h2>
 
@@ -50,7 +51,7 @@ First things first, we explore some general concepts of deep learning, introduci
 
 <h4 id="1-the-linear-layer">1. <a href="/layer/linear">The Linear Layer</a></h4>
 
-<p>We explore the linear layer. It is the first step to be able to design deep learning models. 
+<p>We explore the Linear layer. It is the first step to be able to design deep learning models. 
 We also speak about the neural structure and a better way to compute the backward pass.</p>
 
 <h4 id="2-the-activation-layer">2. <a href="/layer/activation">The Activation Layer</a></h4>
@@ -58,20 +59,28 @@ We also speak about the neural structure and a better way to compute the backwar
 <p>Let us reveal the neural structure for the other layers of our “Example”: the Activation and the Input 1D layers.</p>
 </div>
 
+
 <div class="post-content myTitles">
 <h2 id="from-a-layer-perspective">From a Network Perspective</h2>
 
-<h3 id="the-linear-layer">The Linear Network</h3>
+<h3 id="linear-network">The Linear Network</h3>
 
-<h4 id="1-the-linear-layer">1. <a href="/network/weights-balancing">Weights' Balancing</a></h4>
+<h4 id="1-linear-network">1. <a href="/network/weights-balancing">Weights' Balancing</a></h4>
 
 <p>Looking back at the simple "Example" model to illustrate the weights update process over time.</p>
 
-<h4 id="2-the-linear-function">2. <a href="/network/linear-function">The Linear Function</a></h4>
+<h4 id="2-linear-function">2. <a href="/network/linear-function">The Linear Function</a></h4>
 
-<p>Investigating the global function of the linear network.</p>
+<p>Investigating the global function of the Linear network.</p>
+
+<h3 id="convolutional-network">The Convolutional Network</h3>
+
+<h4 id="second-dimension">1. <a href="/network/second-dimension">The Second Dimension</a></h4>
+
+<p>In this article, we open the second dimension of our trip to Computer Vision.</p>
 
 </div>
+
 
 <div class="pager">
 <ul class="pagination">

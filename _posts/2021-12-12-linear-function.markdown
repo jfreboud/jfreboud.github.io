@@ -4,7 +4,7 @@ title:  "Linear Function"
 category: network
 date:   2021-12-12
 excerpt: >-
-  Investigating the global function of the linear network.
+  Investigating the global function of the Linear network.
 ---
 
 ## Introduction
@@ -285,4 +285,5 @@ Is has been a long time since we have introduced our simple $ Linear $ $ model $
 ready to build very deep $ models $ and for the moment it does not seem that necessary as finding correlations is 
 already the goal of the $ Linear $ $ layer $. 
 
-In the next article, we will discover a field where deep learning $ models $ are necessary :smiling_imp:
+In the [next article]({% post_url 2022-01-22-second-dimension %}), 
+we will discover a field where deep learning $ models $ are necessary :smiling_imp:
