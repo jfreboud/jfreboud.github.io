@@ -64,14 +64,14 @@ Let us imagine a very small image of size $ (7, 7) $ and zoom in so that we obse
 
 You may have guessed that each circle in this image actually represents a pixel of the image. 
 As we mentioned in the [previous paragraph](#the-visual-information-flow), our brain is triggered by the light 
-on different colors. But the same image can also be seen as the different numbers of the pixels. 
+on different materials. But the same image can also be seen as the different numbers of the pixels. 
 In the below image, I have hidden the center of the image to show some pixels' values $ (red, green, blue) $.
 
 ![Image](/_assets/images/network/Image2.png)
 
 <br>
 
-Note that if the entire image was only numbers, you would have no way of understanding the image as a house. 
+Note that if the entire image was only numbers, you would have had no way of understanding the image as a house. 
 This is why we have to build a system that allows the computer to "understand" those numbers.
 
 ## Toward Visual Representations
@@ -189,7 +189,7 @@ $$
 
 ## Convolution
 
-We are able to transform one input **channel** into one output **channel** thanks to some operation 
+We are now able to transform one input **channel** into one output **channel** thanks to some operation 
 with a **convolution kernel**. 
 But we must not lose our goal identified in the [second article]({% post_url 2021-08-06-inside-the-model %}): 
 elaborate $ layers $ that build abstract **representations**.
@@ -207,11 +207,11 @@ power of our output **neurons**.
 Let us suppose that we want to build only 1 new **representation** out of the 3 **channels** of the 
 [visual representations paragraph](#toward-visual-representations).
 
-The solution is to attribute one **convolution kernel** for each and every one of the 3 input **channels** that we have. 
+The solution is to attribute one **convolution kernel** for each and every one of the 3 input **channels** we have. 
 Then, thanks to the [previous paragraph](#convolution-kernel), we know how to apply the particular **kernel** on 
-the chosen **channel** in order to build a temporary (noted tmp below) new **channel**. We now have 3 temporary 
-new **channels** that we can sum together (adding together the "pixels" of the 3 temporary **channels** that 
-are located at the same place in their grid) in order to build the final new **representation** noted $ rep $ below.
+the chosen **channel** in order to build a temporary (noted $ tmp $ below) new **channel**. We now have 3 temporary 
+new **channels** that we can sum together (adding the "pixels" of the 3 temporary **channels** that 
+are localized at the same place in the grid) in order to build the final new **representation** noted $ rep $ below.
 
 ![Image](/_assets/images/network/Image10.png)
 
@@ -233,11 +233,11 @@ one **convolutional kernel** for each input **channel**.
  
 ![Image](/_assets/images/network/Image29.png)
 
-Now, we will add some meaning to these different **channels**.
-Let us suppose that $ rep^{1,1} $ **represents** "one eye", $ rep^{1,2} $ **represents** "one nose" and 
-$ rep^{1,3} $ represents "one mouth". As for the 
+Now, let us add some meaning to these different **channels**.
+Let us suppose that $ rep^1_1 $ **represents** "one eye", $ rep^1_2 $ **represents** "one nose" and 
+$ rep^1_3 $ **represents** "one mouth". As for the 
 [linear function article]({% post_url 2021-12-12-linear-function %}), we can build a "meaning" for 
-$ rep^{2,1} $ and $ rep^{2,2} $. This "meaning" will directly depends on the previous **representations**' meanings 
+$ rep^2_1 $ and $ rep^2_2 $. This "meaning" will directly depends on the previous **representations**' meanings 
 and the associated processing **kernel**.
 
 Let us suppose that $ k^1_1 $, $ k^1_2 $ and $ k^1_3 $ are respectively: 
@@ -262,18 +262,18 @@ $$
 \end{bmatrix}
 $$
 
-As we apply $ k^1_1 $ on every "pixel" of the $ rep^{1,1} $ **channel** "one eye", we see that the maximum output "pixels" will 
+As we apply $ k^1_1 $ on every "pixel" of the $ rep^1_1 $ **channel** "one eye", we see that the maximum output "pixels" will 
 be localised at input "pixels" that have the following context: 
 - top left hand corner is "one eye"
 - top right hand corner is "one eye".
 
-For $ k^1_2 $ and $ rep^{1,2} $ "one nose", the maximum output "pixels" will be localised at input "pixels" that have 
+For $ k^1_2 $ and $ rep^1_2 $ "one nose", the maximum output "pixels" will be localised at input "pixels" that have 
 the following context: 
 - "one nose" in the center
 
-For $ k^1_3 $ and $ rep^{1,3} $ "one mouth", there will be no maximum "pixels", only 0.
+For $ k^1_3 $ and $ rep^1_3 $ "one mouth", there will be no maximum "pixels", only 0.
 
-If we add these 3 pieces together, we understand that $ rep^{2,1} $ actually **represents** "top part of a face".
+If we add these 3 pieces together, we understand that $ rep^2_1 $ actually **represents** "top part of a face".
 
 <br>
 
@@ -299,17 +299,17 @@ $$
 \end{bmatrix}
 $$
 
-For $ k^2_1 $ and $ rep^{1,1} $ "one eye", there will be no maximum "pixels", only 0.
+For $ k^2_1 $ and $ rep^1_1 $ "one eye", there will be no maximum "pixels", only 0.
 
-For $ k^2_2 $ and $ rep^{1,2} $ "one nose", the maximum output "pixels" will be localised at input "pixels" that have 
+For $ k^2_2 $ and $ rep^1_2 $ "one nose", the maximum output "pixels" will be localised at input "pixels" that have 
 the following context: 
 - "one nose" in the center
 
-For $ k^2_3 $ and $ rep^{1,3} $ "one mouth", the maximum output "pixels" will be localised at input "pixels" that have 
+For $ k^2_3 $ and $ rep^1_3 $ "one mouth", the maximum output "pixels" will be localised at input "pixels" that have 
 the following context: 
 - "one mouth" at the bottom
 
-If we add these 3 pieces together, we understand that $ rep^{2,2} $ actually **represents** "bottom part of a face".
+If we add these 3 pieces together, we understand that $ rep^2_2 $ actually **represents** "bottom part of a face".
 
 <br> 
 
@@ -327,7 +327,7 @@ rather the vector of the different concatenated numbers for a chosen position in
 
 ![Image](/_assets/images/network/Image30.png)
 
-$$ (rep^{2,1}_{0,0}, rep^{2,2}_{0,0}) $$ is an example of such a vector. We see how close it looks to the "cheat" 
+$$ (rep^{2,1}_{0,0}, rep^{2,2}_{0,0}) $$ is an example of such a vector. We see how close it looks like the "cheat" 
 we presented in this [diagram](#rep_to_pixels) in order to go from the **representations** to the real pixels.
 And finally, such a vector is also very similar to the **representations** in the 1D case 
 (see the [linear function article]({% post_url 2021-12-12-linear-function %})).
@@ -350,8 +350,8 @@ receives the 3 different **channels** of our [house example](#toward-visual-repr
 
 Much fun is happening now :smiling_imp:
 
-This layer will be a $ Convolutional $ $ layer $. 
-As we saw in the [Convolution](#convolution) paragraph, we must choose 3 different **convolution kernels** for each 
+This $ layer $ will be a $ Convolutional $ $ layer $. 
+As we saw in the [convolution](#convolution) paragraph, we must choose 3 different **convolution kernels** for each 
 **representation** built (because $ L1 $ $ layer $ has 3 output **channels**).
 
 We want to build 6 new **representations**, this means that we need 18 different **convolution kernels**! 
@@ -418,7 +418,7 @@ Now let us apply the [convolution](#convolution) with the first **convolution ke
 
 ![Image](/_assets/images/network/Image11.png)
 
-The maximal values are in bright red. Observe as the two maximal numbers are precisely located on the left 
+The maximal values are in bright red. Observe as the two maximal numbers are precisely localized on the left 
 part of the roof.
 
 <br>
@@ -427,7 +427,7 @@ Here is the second **representation** (with the second **convolution kernel** us
 
 ![Image](/_assets/images/network/Image12.png)
 
-Note as here, the maximal numbers are precisely located on the right part of the roof.
+Note as here, the maximal numbers are precisely localized on the right part of the roof.
 
 <br>
 
@@ -658,19 +658,19 @@ $$
 $$
 
 Let us recall the different **representations** coming from $ L4 $: 
-- the first two keep track of the localisation of the top left roof and the top right roof 
-- the third keeps track of the localisation of the window
-- the fourth and fifth deep track of the localisation of the left and right walls
-- the sixth keep track of the localisation of the inside of the house
+- the first **represent** the top left roof and the top right roof 
+- the third **represents** the window
+- the fourth and fifth **represent** the left and right walls
+- the sixth **represents** the inside of the house
 
 We can now "translate" what the meaning of the final **representation** will be: 
-- The first **kernel** is associated to the first **representation**, it means that we are looking for a left roof in the 
+- The first **kernel** is associated to the first **representation**, it means we are looking for a left roof in the 
 top left hand corner
-- The second **kernel** is associated to the second **representation**, it means that we are looking for a right roof 
-in the fop right hand corner
-- The third **kernel** and representation** mean we are looking for window to the right
-- The forth couple means we are looking for a wall in the bottom left hand corner
-- The firth couple means we are looking for a wall in the bottom right hand corner
+- The second **kernel** is associated to the second **representation**, it means we are looking for a right roof 
+in the top right hand corner
+- The third **kernel** and **representation** mean we are looking for a window to the right
+- The fourth couple means we are looking for a wall in the bottom left hand corner
+- The fifth couple means we are looking for a wall in the bottom right hand corner
 - The sixth couple means we are looking for the inside of the house in the bottom
 
 In fact, there is a precise localisation where these 6 statements are all true: the exact center. 
@@ -708,5 +708,5 @@ understand such low level information, one has to build "abstract" **representat
 The $ Convolution $ is an operation that combines **representations**, capturing spatial particularities. It links 
  the semantic together with space.
  
- Yet, in this article, the different **kernels** we used were given "out of nowhere". In the next article, we 
+Nonetheless, in this article, the different **kernels** we used were given "out of nowhere". In the next article, we 
  will see what is missing in order for these **kernels** to be learned by the $ model $ itself.
