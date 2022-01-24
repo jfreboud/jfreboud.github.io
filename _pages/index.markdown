@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Deep Learning Machinery
-subtitle: In Computer Vision
+subtitle: Computer Vision
 permalink: /
 image:
   path: /_assets/images/logo/logo.png
