@@ -12,8 +12,8 @@ excerpt: >-
 In the [previous article]({% post_url 2021-12-12-linear-function %}), we saw that $ Linear $ **network** are 
 already good at finding correlations among structured **data**. 
 
-In this article we will explore a field where the **data** is not structured: what solution could we find in such 
-a case ? 
+In this article we will explore a field where the **data** is not structured. 
+What solution could we find in such a case ? 
 
 ## Computer Vision
 
@@ -103,7 +103,7 @@ And here is the third **channel** grid ($ blue $):
 <br>
 
 We are now in the presence of 3 **representations** ! 
-We even know the cheat in order to go back to a real image out of these 3 different **channels**.
+Here is how to go back to a real image: just stack the grid together to assemble the different numbers into pixels.
 
 <a id="rep_to_pixels" class="anchor">
 ![Image](/_assets/images/network/Image6.png)
@@ -128,7 +128,7 @@ Let us introduce the **convolution kernel**: a new grid that will help us elabor
 2D arrays of numbers. The interesting part of this new grid is that it enables to capture spatial localisation 
 particularities in the input **channel** (more on this in the [example](#example)). 
 
-For now, let us take an example of a small **convolution kernel**: 
+For now, let us take a small **convolution kernel** to fix the ideas: 
 
 $$
 \begin{bmatrix}
@@ -219,7 +219,7 @@ $ rep $ is a new **representation** that produces a new "meaning" thanks to the 
 ($ r $, $ g $, $ b $). 
 
 Each time we want to build a new **representation** we have to use one specific **convolution kernel** for each 
-input **channels**. In a way, this is the exactly what happened to the **weights** 
+input **channel**. This is very similar to what happened to the **weights** 
 in the [linear function article]({% post_url 2021-12-12-linear-function %}). 
 
 ## Interpretation
@@ -236,7 +236,7 @@ one **convolutional kernel** for each input **channel**.
 Now, let us add some meaning to these different **channels**.
 Let us suppose that $ rep^1_1 $ **represents** "one eye", $ rep^1_2 $ **represents** "one nose" and 
 $ rep^1_3 $ **represents** "one mouth". As for the 
-[linear function article]({% post_url 2021-12-12-linear-function %}), we can build a "meaning" for 
+[linear function article]({% post_url 2021-12-12-linear-function %}), we may build a "meaning" for 
 $ rep^2_1 $ and $ rep^2_2 $. This "meaning" will directly depends on the previous **representations**' meanings 
 and the associated processing **kernel**.
 
@@ -273,7 +273,9 @@ the following context:
 
 For $ k^1_3 $ and $ rep^1_3 $ "one mouth", there will be no maximum "pixels", only 0.
 
-If we add these 3 pieces together, we understand that $ rep^2_1 $ actually **represents** "top part of a face".
+Adding these 3 pieces together, the maximum output "pixels" will be localised at input "pixels" where the 
+3 **convolution kernel** are triggered at the same time by their associated **representation**. 
+Here, $ rep^2_1 $ **represents** the "top part of a face".
 
 <br>
 
@@ -309,7 +311,7 @@ For $ k^2_3 $ and $ rep^1_3 $ "one mouth", the maximum output "pixels" will be l
 the following context: 
 - "one mouth" at the bottom
 
-If we add these 3 pieces together, we understand that $ rep^2_2 $ actually **represents** "bottom part of a face".
+If we add these 3 pieces together, we understand that $ rep^2_2 $ actually **represents** the "bottom part of a face".
 
 <br> 
 
@@ -318,19 +320,22 @@ The two principal elements that allow the build of new **representations** in th
 - the combination of previous **representations** (this is a legacy of the 1D case)
 - the spatial context which is captured by the **convolution kernels** (this is specific to the 2D case)
 
-We must keep in mind that one **channel** grid is just "pixels" where the **convolution kernel** asks 
-the question: 
-"Does my context look like what I am looking for ?" but it is the particular "meaning" of the previous **channels** 
-that actually give sense to the new **channel**. Per se, the **convolution kernel** may find multiple "pixels" 
-where the context is realized. Hence, the **representations** are not really the grid themselves, but 
-rather the vector of the different concatenated numbers for a chosen position in the grid. 
+We must keep in mind that one **channel** grid is just an array of "pixels". Each of these "pixels" is in fact 
+a number that has the "meaning" associated to this **channel**. In the previous example, we had a **channel** 
+**representing** the "top part of a face". This information may be present at several different "pixels". 
+Same for the **channel** **representing** the "bottom part of a face". We understand that a "pixel" 
+where we have both a "top part of a face" at the top and a "bottom part of a face" at the bottom indicates the 
+presence of a "face". This gives the hint that the **representations** are not really the grid themselves, but 
+rather the vectors obtained when we stack the grids together: 
 
 ![Image](/_assets/images/network/Image30.png)
 
-$$ (rep^{2,1}_{0,0}, rep^{2,2}_{0,0}) $$ is an example of such a vector. We see how close it looks like the "cheat" 
-we presented in this [diagram](#rep_to_pixels) in order to go from the **representations** to the real pixels.
-And finally, such a vector is also very similar to the **representations** in the 1D case 
-(see the [linear function article]({% post_url 2021-12-12-linear-function %})).
+$$ (rep^{2,1}_{0,0}, rep^{2,2}_{0,0}) $$ is an example of such a vector. Note how similar it is to the method 
+that allowed going from the **representations** to the real pixels in this [diagram](#rep_to_pixels).
+Finally, when we consider the grid of such vectors, we directly compare to the 1D case where our **representations** 
+were also vectors (see the [linear function article]({% post_url 2021-12-12-linear-function %})). 
+The sole difference being that in the 2D case our **representations** are placed in a grid because they have 
+a 2D context...
 
 ## Example 
 
