@@ -222,7 +222,7 @@ Each time we want to build a new **representation** we have to use one specific 
 input **channel**. This is very similar to what happened to the **weights** 
 in the [linear function article]({% post_url 2021-12-12-linear-function %}). 
 
-## Interpretation
+## Small Experiment
 
 In this paragraph, we mimic the example where $ L^k $ $ Linear $ $ layer $ has 3 input **neurons** and 
 produces 2 output **neurons** but this time with $ L^k $ $ Convolutional $ $ layer $.
@@ -234,11 +234,15 @@ one **convolutional kernel** for each input **channel**.
 ![Image](/_assets/images/network/Image29.png)
 
 Now, let us add some meaning to these different **channels**.
-Let us suppose that $ rep^1_1 $ **represents** "one eye", $ rep^1_2 $ **represents** "one nose" and 
-$ rep^1_3 $ **represents** "one mouth". As for the 
-[linear function article]({% post_url 2021-12-12-linear-function %}), we may build a "meaning" for 
-$ rep^2_1 $ and $ rep^2_2 $. This "meaning" will directly depends on the previous **representations**' meanings 
-and the associated processing **kernel**.
+Let us suppose that: 
+
+- $ rep^1_1 $ **represents** "one eye"
+- $ rep^1_2 $ **represents** "one nose"  
+- $ rep^1_3 $ **represents** "one mouth". 
+
+As for the [linear function article]({% post_url 2021-12-12-linear-function %}), we may build a "meaning" for 
+$ rep^2_1 $ and $ rep^2_2 $. This "meaning" will directly depends on the previous **channels**' meanings 
+and their associated processing **kernel**.
 
 Let us suppose that $ k^1_1 $, $ k^1_2 $ and $ k^1_3 $ are respectively: 
 
@@ -263,19 +267,18 @@ $$
 $$
 
 As we apply $ k^1_1 $ on every "pixel" of the $ rep^1_1 $ **channel** "one eye", we see that the maximum output "pixels" will 
-be localised at input "pixels" that have the following context: 
-- top left hand corner is "one eye"
-- top right hand corner is "one eye".
+be localised at input "pixels" that have the following neighbours: 
+- top left hand corner neighbour is "one eye"
+- top right hand corner neighbour is "one eye".
 
-For $ k^1_2 $ and $ rep^1_2 $ "one nose", the maximum output "pixels" will be localised at input "pixels" that have 
-the following context: 
-- "one nose" in the center
+For $ k^1_2 $ and $ rep^1_2 $ "one nose", the maximum output "pixels" will be localised at input "pixels" that are 
+"one nose".
 
 For $ k^1_3 $ and $ rep^1_3 $ "one mouth", there will be no maximum "pixels", only 0.
 
 Adding these 3 pieces together, the maximum output "pixels" will be localised at input "pixels" where the 
-3 **convolution kernel** are triggered at the same time by their associated **representation**. 
-Here, $ rep^2_1 $ **represents** the "top part of a face".
+3 **convolution kernel** are triggered at the same time by their associated **channel**. 
+Here, this means that $ rep^2_1 $ **represents** the "top part of a face".
 
 <br>
 
@@ -303,37 +306,45 @@ $$
 
 For $ k^2_1 $ and $ rep^1_1 $ "one eye", there will be no maximum "pixels", only 0.
 
-For $ k^2_2 $ and $ rep^1_2 $ "one nose", the maximum output "pixels" will be localised at input "pixels" that have 
-the following context: 
-- "one nose" in the center
+For $ k^2_2 $ and $ rep^1_2 $ "one nose", the maximum output "pixels" will be localised at input "pixels" that are  
+"one nose".
 
 For $ k^2_3 $ and $ rep^1_3 $ "one mouth", the maximum output "pixels" will be localised at input "pixels" that have 
-the following context: 
-- "one mouth" at the bottom
+the following neighbours: 
+- bottom neighbour is "one mouth"
 
 If we add these 3 pieces together, we understand that $ rep^2_2 $ actually **represents** the "bottom part of a face".
 
-<br> 
+## 2D Representations
 
 The two principal elements that allow the build of new **representations** in the 2D case are:
 
 - the combination of previous **representations** (this is a legacy of the 1D case)
 - the spatial context which is captured by the **convolution kernels** (this is specific to the 2D case)
 
-We must keep in mind that one **channel** grid is just an array of "pixels". Each of these "pixels" is in fact 
-a number that has the "meaning" associated to this **channel**. In the previous example, we had a **channel** 
-**representing** the "top part of a face". This information may be present at several different "pixels". 
-Same for the **channel** **representing** the "bottom part of a face". We understand that a "pixel" 
-where we have both a "top part of a face" at the top and a "bottom part of a face" at the bottom indicates the 
-presence of a "face". This gives the hint that the **representations** are not really the grid themselves, but 
+We must keep in mind that one **channel** grid is an array of "pixels". Each of these "pixels" being 
+a number that has a particular "arbitrary meaning". As we saw in the paragraph "The Biological Neuron" of 
+the [previous article]({% post_url 2021-12-12-linear-function %}), the number may indicate the presence of this 
+"arbitrary meaning" according to some threshold: for example we may consider that above the threshold the 
+"meaning" is right, below it is wrong.
+
+In the [previous paragraph](#small-experiment), we had a **channel** 
+**representing** the "top part of a face". There may be several different "pixels" where this information is right.  
+Same for the **channel** **representing** the "bottom part of a face". Let us take a "pixel" and its neighbours. 
+In the case where the top neighbour of the "pixel" is a "top part of a face" (number is above a threshold) and 
+the bottom neighbour of the "pixel" is a "bottom part of a face" (number is also above a threshold, maybe not the same), 
+we understand that the "pixel" itself is a "whole face". 
+
+This gives the hint that the **representations** are not really the grid themselves, but 
 rather the vectors obtained when we stack the grids together: 
 
 ![Image](/_assets/images/network/Image30.png)
 
 $$ (rep^{2,1}_{0,0}, rep^{2,2}_{0,0}) $$ is an example of such a vector. Note how similar it is to the method 
 that allowed going from the **representations** to the real pixels in this [diagram](#rep_to_pixels).
-Finally, when we consider the grid of such vectors, we directly compare to the 1D case where our **representations** 
-were also vectors (see the [linear function article]({% post_url 2021-12-12-linear-function %})). 
+
+When we consider the grid of such vectors, we directly compare to the 1D case where our **representations** 
+were vectors (see the [linear function article]({% post_url 2021-12-12-linear-function %})). 
 The sole difference being that in the 2D case our **representations** are placed in a grid because they have 
 a 2D context...
 
@@ -357,12 +368,12 @@ Much fun is happening now :smiling_imp:
 
 This $ layer $ will be a $ Convolutional $ $ layer $. 
 As we saw in the [convolution](#convolution) paragraph, we must choose 3 different **convolution kernels** for each 
-**representation** built (because $ L1 $ $ layer $ has 3 output **channels**).
+new **channel** built (because $ L1 $ $ layer $ has 3 output **channels**).
 
-We want to build 6 new **representations**, this means that we need 18 different **convolution kernels**! 
-For simplicity, we will suppose that the 3 different **convolution kernels** are identical by group of 3 
-(the 3 **convolution kernels** used to produce first **representation** are identical, 
-the 3 **convolution kernels** used to produce the second **represetation** are identical...).
+We want to build 6 new channels, this means that we need $ 3 * 6 = 18 $ different **convolution kernels**! 
+For simplicity, we will suppose that the different **convolution kernels** are identical by group of 3 
+(the 3 **convolution kernels** used to produce first **channel** are identical, 
+the 3 **convolution kernels** used to produce the second **channel** are identical...).
 
 Here are the different **convolution kernels** that we will apply:
 
@@ -413,13 +424,13 @@ $$
 Spoiler alert: 
 - the first two **kernels** will be triggered by the house's roof (note their structure in diagonal)
 - the third **kernel** will detect the house's window 
-- the following two **kernels** will detect the houses's walls (note their structure in vertical line)
+- the following two **kernels** will detect the house's walls (note their structure in vertical line)
 - the last **kernel** will detect the inside of the house
 
 <br>
 
 Now let us apply the [convolution](#convolution) with the first **convolution kernel** 
-(use the same kernel for the 3 input **channels**) to obtain our first **representation**:
+(use the same kernel for the 3 input **channels**) to obtain our first new **channel**:
 
 ![Image](/_assets/images/network/Image11.png)
 
@@ -428,7 +439,7 @@ part of the roof.
 
 <br>
 
-Here is the second **representation** (with the second **convolution kernel** used for the 3 input **channels**):
+Here is the second new **channel** (with the second **convolution kernel** used for the 3 input **channels**):
 
 ![Image](/_assets/images/network/Image12.png)
 
@@ -459,15 +470,15 @@ And finally the inside of the house:
 In this $ layer $ we will use the trick of the "Biological Neuron" we saw 
 in [this article]({% post_url 2021-12-12-linear-function %}). 
 
-First, we add **biases** to the previous **representations**.
+First, we add **biases** to the previous **channels**.
 We can make the assumption that this step is in fact included in the **convolution** 
 (once again, this was already the case for the $ Linear $ case). Concretely, the **biases** are just numbers that 
 are added to every "pixel" of one chosen **channel**.
 
-As we have 6 **representations** coming from the $ L2 $ $ layer $, we must choose 6 **biases**, each 
-of them being added to every "pixel" of the corresponding **representation** (the first **bias** will be 
-added to every "pixel" of the first previous **representation**, the second **bias** will be 
-added to every "pixel" of the second previous **representation**...).
+As we have 6 **channels** coming from the $ L2 $ $ layer $, we must choose 6 **biases**, each 
+of them being added to every "pixel" of the corresponding **channel** (the first **bias** will be 
+added to every "pixel" of the first previous **channel**, the second **bias** will be 
+added to every "pixel" of the second previous **channel**...).
 
 Here are the 6 **biases**:
 
@@ -477,9 +488,9 @@ $$
 
 Then we use a $ ReLU $ $ activation $ $ layer $. We already saw how it works in the 1D case 
 [here]({% post_url 2021-10-06-activation %}): applying the $ activation $ $ function $ to every **neuron**. 
-In the 2D case, we do the same on every "pixel" of every **representations**. 
+In the 2D case, we do the same on every "pixel" of every **channels**. 
 
-This $ L3 $ $ layer $ ($ ReLU $ $ activation $) will produce 6 new **representations**. 
+This $ L3 $ $ layer $ ($ ReLU $ $ activation $) will produce 6 new **channels**. 
 
 <br>
 
@@ -513,16 +524,16 @@ The inside of the house:
 
 $ L4 $ will be a new $ Convolutional $ $ layer $. 
 
-We want to build 6 new **representations**, but there are 6 **representations** coming from the $ L3 $ $ layer $. 
+We want to build 6 new **channels**, but there are 6 **channels** coming from the $ L3 $ $ layer $. 
 This means that we should choose $ 6 * 6 = 36 $ different **convolution kernels**! 
 We will use another trick to choose the 36 different **kernels**. 
 
 For each group of 6 **kernels**, we will suppose that only one does not contain only 0 in it. 
-To build the first new **representation**, we will suppose that the first **kernel** does not contain only 0 
+To build the first new **channel**, we will suppose that the first **kernel** does not contain only 0 
 (the other 5 **kernels** containing only 0).
-To build the second new **representation**, we will suppose that the second **kernel** does not contain only 0 
+To build the second new **channel**, we will suppose that the second **kernel** does not contain only 0 
 (the other 5 **kernels** containing only 0).
-Same logic for the other new **representations**.
+Same logic for the other new **channels**.
 
 Now for the list of the different **convolution kernels** that do not contain 0:
 
@@ -570,15 +581,7 @@ $$
 \end{bmatrix}
 $$
 
-Spoiler alert: 
-- the first **kernel** will move "pixels" to the right 
-- the second **kernel** will move "pixels" to the left  
-- the third **kernel** will copy the **channel** as is 
-- the fourth **kernel** will move "pixels" to the top right hand corner
-- the fifth **kernel** will move "pixels" to the top left hand corner
-- the sixth **kernel** will move "pixels" to the top
-
-This $ L4 $ $ layer $ will produce 6 new **representations**.
+This $ L4 $ $ layer $ will produce 6 new **channels**.
 
 <br>
 
@@ -612,8 +615,8 @@ The inside of the house:
 
 $ L5 $ will be a new $ Convolutional $ $ layer $. 
 
-We want to build the final most abstract **representation**. 
-As there are 6 **representations** coming from the $ L4 $ $ layer $, we must choose 
+We want to build the final most abstract **channel**. 
+As there are 6 **channels** coming from the $ L4 $ $ layer $, we must choose 
 $ 1 * 6 = 6 $ different **convolution kernels**.
 
 Here are they:
@@ -662,31 +665,31 @@ $$
 \end{bmatrix}
 $$
 
-Let us recall the different **representations** coming from $ L4 $: 
-- the first **represent** the top left roof and the top right roof 
-- the third **represents** the window
-- the fourth and fifth **represent** the left and right walls
-- the sixth **represents** the inside of the house
+Let us recall the different **channels** coming from $ L4 $: 
+- the first two **channels** **represent** the "left roof" and the "right roof"
+- the third **represents** the "window"
+- the fourth and fifth **represent** the "left" and "right walls"
+- the sixth **represents** the "inside of the house"
 
-We can now "translate" what the meaning of the final **representation** will be: 
-- The first **kernel** is associated to the first **representation**, it means we are looking for a left roof in the 
-top left hand corner
-- The second **kernel** is associated to the second **representation**, it means we are looking for a right roof 
-in the top right hand corner
-- The third **kernel** and **representation** mean we are looking for a window to the right
-- The fourth couple means we are looking for a wall in the bottom left hand corner
-- The fifth couple means we are looking for a wall in the bottom right hand corner
-- The sixth couple means we are looking for the inside of the house in the bottom
+We can now "translate" what the meaning of the final **channel** will be: 
+- The first **kernel** is associated to the first input **channel**, it triggers on "pixels" where the 
+top left hand corner neighbour is a "left roof"
+- The second **kernel** is associated to the second input **channel**, it triggers on "pixels" where the 
+top right hand corner neighbour is a "right roof"
+- The third **kernel** triggers on "pixels" where the right neighbour is a "window"
+- The fourth **kernel** triggers on "pixels" where the bottom left hand corner neighbour is a " left wall"
+- The fifth **kernel** triggers on "pixels" where the bottom right hand corner neighbour is a "right wall"
+- The sixth **kernel** triggers on "pixels" where the bottom neighbour is the "inside of the house"
 
-In fact, there is a precise localisation where these 6 statements are all true: the exact center. 
+In fact, there is a precise localisation where these 6 statements are all true at once: the exact center. 
 Applying the **convolution** to the center "pixel", we find : $ 1 + 1 + 1 + 1 + 1 + 1 = 6 $ coming from the 
-different **kernels** application on their corresponding **representations**. 
+different **kernels** application on their corresponding **channels**. 
 
-Indeed if we take a look at the final **representation**, we have: 
+Indeed if we take a look at the final **channel**, we have: 
 
 ![Image](/_assets/images/network/Image28.png)
 
-We could add one **bias** and a final $ ReLU $ $ layer $ to obtain a cleaner **representation** 
+We could add one **bias** and a final $ ReLU $ $ layer $ to obtain a cleaner **channel** 
 with just the center "pixel" triggered (same idea as $ L3 $) 
 but we have already understood that it is the maximal activation 
 that particularly interests us.  
@@ -695,15 +698,17 @@ that particularly interests us.
 
 We have built a $ model $ composed of 5 $ layers $, our biggest so far!
 
-It is time to summarize what a house is for our $ model $. According to the final **representation**, a house is 
-something that:
+It is time to summarize what a house is for our $ model $. According to the final **channel** **representing** the 
+"house", there are multiple "pixels" that may be a "house" (potentially each "pixel" in the grid). 
+But the center "pixel" is the most triggering "pixel": every **kernel** is triggered by their associated 
+**channel** at this localization. Said differently a "house" "pixel" has: 
 
-- contains a top left roof (first previous **channel**) positioned at the top left hand corner (first **kernel**)
-- contains a top right roof (second previous **channel**) at the top right hand corner (second **kernel**)
-- contains a window (third previous **channel**) to the right (third **kernel**)
-- contains a wall (fourth previous **channel**) at the bottom left hand corner (fourth **kernel**)
-- contains another wall (fifth previous **channel**) at the bottom right hand corner (fifth **kernel**)
-- contains the inside of a house (sixth previous **channel**) at the bottom (sixth **kernel**) 
+- a "left roof" (first previous **channel**) as top left hand corner neighbour (first **kernel**)
+- a "right roof" (second previous **channel**) as top right hand corner neighbour (second **kernel**)
+- a "window" (third previous **channel**) as right neighbour (third **kernel**)
+- a "left wall" (fourth previous **channel**) as bottom left hand corner neighbour (fourth **kernel**)
+- a "right wall" (fifth previous **channel**) as bottom right hand corner neighbour (fifth **kernel**)
+- the "inside of a house" (sixth previous **channel**) as bottom neighbour (sixth **kernel**) 
 
 ## Conclusion
 
@@ -713,5 +718,5 @@ understand such low level information, one has to build "abstract" **representat
 The $ Convolution $ is an operation that combines **representations**, capturing spatial particularities. It links 
  the semantic together with space.
  
-Nonetheless, in this article, the different **kernels** we used were given "out of nowhere". In the next article, we 
+Nonetheless, the different **kernels** we used were given "out of nowhere". In the next article, we 
  will see what is missing in order for these **kernels** to be learned by the $ model $ itself.
