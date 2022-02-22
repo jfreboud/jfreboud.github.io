@@ -149,13 +149,13 @@ Let us see how it works with the small **kernel** defined above:
 
 ![Image](/_assets/images/network/Image7.png)
 
-In the diagram above, only four new "pixels" are mentioned: $$ r^2_{0,0} $$, $$ r^2_{7,0} $$, $$ r^2_{0,7} $$ and 
-$$ r^2_{7,7} $$. Please note that the **kernel** must be applied on **EVERY** "pixel" 
+In the diagram above, only four new "pixels" are mentioned: $$ r^2_{0,0} $$, $$ r^2_{6,0} $$, $$ r^2_{0,6} $$ and 
+$$ r^2_{6,6} $$. Please note that the **kernel** must be applied on **EVERY** "pixel" 
 of the input **channel** in order to produce **EVERY** "pixel" of the output **channel**.
 
 <br>
 
-In order to be more specific, let us compute $ r^2_{7,0} $ for the red **channel**. 
+In order to be more specific, let us compute $ r^2_{6,0} $ for the red **channel**. 
 An issue occurs: a part of the **kernel** does not cover the red grid, it covers an empty space. 
 This is no big deal, we just replace the missing "pixels" by 0: 
 
@@ -165,10 +165,10 @@ Then we add together the different multiplied couples:
 
 $$ 
 \begin{align}
-r^2_{7,0} &= & (0 * 0) + (-1 * 0) + (1 * 152) \\
+r^2_{6,0} &= & (0 * 0) + (-1 * 0) + (1 * 152) \\
           &  & + (-1 * 0) + (1 * 0) + (0 * 152) \\
           &  & + (1 * 0) + (0 * 0) + (0 * 0) \\
-r^2_{7,0} &= 152 &
+r^2_{6,0} &= 152 &
 \end{align}
 $$
 
