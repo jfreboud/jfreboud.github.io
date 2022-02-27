@@ -83,11 +83,108 @@ ch^{2,2} = tmp^{2,1} + tmp^{2,2} + tmp^{2,3}
 \end{align}
 $$
 
-## The Choice Paradigm
+## The Machine Learning Paradigm
 
-In fact, we will not choose them at all :smiling_imp:
-We will rely on the **data** driven approach for the $ model $ to learn these **kernels** by itself. 
-We have one last problem with the 
+The different **neurons** in the grid correspond to the output of the $ convolution $ $ layer $. 
+Looking back at the [linear layer article]({% post_url 2021-09-19-linear %}), the **neurons** were structured 
+as vector of numbers. It seems legitimate that are output are now grids.
 
+Still, we are looking for a "moving part", such as the **weights** we introduced in the 
+[weights article]({% post_url 2021-08-19-weights %}). We have a perfect place to consider **weights** variables 
+in our $ Convolution $ operation, right in the **convolution kernels**. 
+
+This enables us not to choose these **kernels** at all and rely on the **learning process** operating during 
+the **gradient descent** algorithm (see [this article]({% post_url 2021-08-23-gradient-descent %})). 
+In a way, it is the **data** that will configure those **kernels** "automatically". 
+
+This is the beautiful paradigm of the **machine learning**. We try to give the $ models $ the power to 
+configure the required operations in order to correctly "understand" **data**. 
+
+Yet, for now, we must also 
+keep in mind that we do not give that much power to these $ models $. We actually are just talking about some 
+"moving part" parameters, the **weights**, that allow to configure some specific operations. For now these 
+specific operations are: [the linear layer]({% post_url 2021-09-19-linear %}) and the $ Convolution $ $ layer $. 
+We see that in fact, the global structure of the $ models $ is still up to the **developer** :smiling_imp:
+
+## Forward Pass
+
+We have already seen how the $ Convolution $ $ layer $ computes its **forward pass**, it merely consists 
+in applying the operation described in the [previous paragraph](#the-convolution-neural-structure). 
+
+In order to get faster to the point, we will not add the variables in an explicit manner as we did in the 
+[the linear layer article]({% post_url 2021-09-19-linear %}). We will have to stay focus during the **backward pass**.
+
+## Backward Pass
+
+As we saw in the [weights article]({% post_url 2021-08-19-weights %}), the goal of the **backward pass** is to compute 
+
+$$ 
+\boxed{\delta w = \frac{\partial Loss}{\partial W}(x, y^{truth})}
+$$
+
+for each **weight** of every $ layer $ so that we can later **update** these **weights**. As the 
+$ Convolution $ $ layer $ itself "has" **weights**, we must work on the formula for the $ Convolution $ $ layer $ case. 
+Let us also recall that this formula may be paragraphed as: the impact of the **weights** on the $ Loss $ function. 
+
+Also, let us keep in mind that the formula has one big dependency. 
+Before being able to use it on some $ L^k $ $ layer $, 
+we must compute the impact of the **neurons** input of $ L^{k+1} $ on the $ Loss $ function   
+(the **learning flow** we introduced in the [backward pass article]({% post_url 2021-08-13-backward-pass %})). 
+
+For now, let us make the assumption that the **learning flow** is already available for our current 
+$ Convolution $ $ layer $.
+
+## Backward Pass for the Weights
+
+In this paragraph we continue focusing on the $ L^{k} $ $ layer $. This time we want to compute 
+the opposite direction of its **weights**' **update**: 
+
+$$ 
+\delta w^{k} = \frac{\partial Loss}{\partial W}(o^{k-1})
+$$
+
+We will use the exact same strategy as in the [last paragraph](#backward-pass-for-the-learning-flow). 
+The principal idea is to go back to the very structure of $ L^{k} $ in order to find the impacts of $ W^{k} $ 
+on the $ Loss $ function, knowing that the "future" 
+**learning flow** has already been computed (by definition of the **backward pass**). 
+
+<a id="linear-structure3" class="anchor">
+![Linear](/_assets/images/layers/Linear9.png)
+</a>
+
+<a id="linear-structure4" class="anchor">
+![Linear](/_assets/images/layers/Linear10.png)
+</a>
+
+There are two more **weights** we have to **update** during the **learning phase**: 
+$ B^{k}_1 $ and $ B^{k}_2 $, the **biases**. 
+Thus, we will have to compute $ \delta b^{k}_1 $ and $ \delta b^{k}_2 $.
+
+## Backward Pass for the Learning Flow 
+
+We are currently focusing on the $ L^{k} $ $ layer $, trying to compute:
+
+$$ 
+\delta^{k} = \frac{\partial Loss}{\partial X^{k}}(o^{k-1})
+$$
+
+In the [backward pass article]({% post_url 2021-08-13-backward-pass %}), we would use the **chain rule** in order 
+to compute the explicit formula for $ \frac{\partial Loss}{\partial X^{k}} $.
+
+We will see how to obtain this $ \delta^{k} $ with a more straight forward approach. 
+
+The principal idea is to go back to the very structure of $ L^{k} $ in order to find the impacts of $ X^{k} $ 
+on the $ Loss $ function, knowing that the "future" 
+**learning flow** has already been computed (by definition of the **backward pass**). 
+
+The structure for the $ L^{k} $ $ layer $ is: 
+- 2 output **neurons** 
+- 3 input **neurons**. 
+
+$ \delta^{k+1}_1 $ and $ \delta^{k+1}_2 $ are the "future" **learning flow**: we admit they have already been 
+computed.
+We must back propagate the **learning flow** to $ \delta^{k}_1 $, $ \delta^{k}_2 $ and $ \delta^{k}_3 $.
+
+![Linear](/_assets/images/layers/Linear5.png)
 
 ## Conclusion
