@@ -65,7 +65,7 @@ The really important part of the **update** formula is the direction of **update
 its **sign**. 
 
 This is the reason why we will now analyze the effect of the 
-**sign** of the final $ loss $ on the **sign** of $ \delta w $. This analyze will illustrate the "impact" notion 
+**sign** of the final $ loss $ on the **sign** of $ \delta w $. This analyze will illustrate the **impact** notion 
 we have been dealing with since the 
 [loss function article]({% post_url 2021-08-09-loss-function %}).
 
@@ -150,7 +150,7 @@ $$
 $$
 
 The $ model $ produces a higher than expected output. It is the same case as in the previous paragraph but with
-the opposite impact!
+the opposite **impact**!
 
 $$
 \boxed{\delta^4 > 0}
@@ -391,7 +391,7 @@ $$
 We have been able to back propagate the **sign** of the **learning flow** when having lower results than expected or 
 higher results than expected in the order of the **backward pass**. 
 
-We are now ready to analyze the impact of these lower/higher results on the **weights** **update**.
+We are now ready to analyze the **impact** of these lower/higher results on the **weights** **update**.
 
 In our current $ model $ we only have **weights** in the $ L2 $ $ layer $. Thus we have to **update** them with
 the formula we already saw:
@@ -565,7 +565,7 @@ $$ \delta^3 = \frac{\partial Loss}{\partial X^3}(o^2) $$
 
 Now, thanks to "The Derivative of the Loss Function" of the 
 [loss function article]({% post_url 2021-08-09-loss-function %}) 
-we can paraphrase $ \delta^3 $ as: "the impact of $ X^3 $ on the $ Loss $ function when evaluated on $ o^2 $". 
+we can paraphrase $ \delta^3 $ as: "the **impact** of $ X^3 $ on the $ Loss $ function when evaluated on $ o^2 $". 
 
 We conclude that the fact that $ \delta^3 < 0 $ implies that a small increase in $ o^2 $ would decrease the value of 
 $ loss $, which is actually our goal !
@@ -648,7 +648,7 @@ In the [balancing the weights paragraph](#balancing-the-weights), we illustrated
 from the fact that the final result is too high or too low compared to the expected result 
 and that the **weights** are the only "moving part" 
 (see the [weights article]({% post_url 2021-08-19-weights %})) to compensate. 
-From there, the **learning flow** just helps cascading the impact on the different intermediate levels. 
+From there, the **learning flow** just helps cascading the **impact** on the different intermediate levels. 
 
 In the [next article]({% post_url 2021-12-12-linear-function %}) we will consider the global function 
 of our simple $ model $ operating on the **data input**. 

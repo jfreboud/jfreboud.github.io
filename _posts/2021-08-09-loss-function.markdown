@@ -79,13 +79,13 @@ finite number of them. If we consider a well known point ($ x $, $ f(x) $),
 the $ derivative $ operator links a "theoretical" small move from $ x $ in the $ X $ variable direction, 
 let say $ \hat{x} = x + h $, to 
 the prediction of the new value $ f(\hat{x}) $. This new point ($ \hat{x} $, $ f(\hat{x}) $) did not exist in the 
-**dataset**. Said differently, we know the impact of $ X $ on $ f $.
+**dataset**. Said differently, we know the **impact** of $ X $ on $ f $.
 
 2. The $ layer $ structure of our $ model $ will help us compute explicit formulas for the different $ derivatives $ 
 we are looking for thanks to some formulas we learnt at school. 
 What you might have guessed is actually happening now: we are going to apply the 
 $ derivative $ operator to the $ Loss $ function. 
-That way, we will be able to compute the impact of any variable in the $ model $ on 
+That way, we will be able to compute the **impact** of any variable in the $ model $ on 
 the $ Loss $ function. Said differently, we will be able to predict how a slight modification of any variable in 
 the $ model $ will affect the $ loss $ final value. We will see why this is interesting in a 
 [later article]({% post_url 2021-08-19-weights %}).
@@ -148,6 +148,8 @@ $$
 We could paraphrase the formula as: we want to know to what extent the variable $ X $ causes an error 
 when the $ Loss(model(X), Y^{truth}) $ function is evaluated on $ x $ and $ y^{truth} $ 
 and we slightly disturb $ x $.
+
+Another way to put it: we want to know the **impact** of $ X $ on the $ Loss $ function.
 
 ## Example
 

@@ -114,7 +114,7 @@ $$
 
 We use the same approach as in the [previous article]({% post_url 2021-09-19-linear %}). 
 
-The principal idea is to go back to the very structure of $ L^{k} $ in order to find the impacts of $ X^{k} $ 
+The principal idea is to go back to the very structure of $ L^{k} $ in order to find the **impacts** of $ X^{k} $ 
 on the $ Loss $ function, knowing that the "future" 
 **learning flow** has already been computed (by definition of the **backward pass**). 
 
@@ -137,13 +137,13 @@ $$
 The interesting variable is $ X^{k}_1 $. There is just one output of $ L^{k} $ that uses $ X^{k}_1 $: 
 $ L^{k}_1 $.
 
-We are now able to build the **paths** of impacts from $ X^{k}_1 $ to the $ Loss $ function. 
+We are now able to build the **paths** of **impacts** from $ X^{k}_1 $ to the $ Loss $ function. 
 
 ![Linear](/_assets/images/layers/Activation4.png)
 
-- $ X^{k}_1 $ impacts $ L^{k}_1 $ which impacts the $ Loss $ function 
+- $ X^{k}_1 $ **impacts** $ L^{k}_1 $ which **impacts** the $ Loss $ function 
 
-We have only 1 impact, using the **chain rule**, we obtain the "impact" formula: 
+We have only 1 **impact**, using the **chain rule**, we obtain the "**impact** formula": 
 
 $$ 
 \delta^{k}_1 = \delta^{k+1}_1 . \frac{\partial L^{k}_1}{X^{k}_1}(o^{k-1}_1)
@@ -165,7 +165,7 @@ $$
 \frac{\partial L^{k}_1}{X^{k}_1}(o^{k-1}_1) = 1 \text{ if } o^{k-1}_1 \geq 0 \text{ else 0 }
 $$
 
-We finally use this result in the "impact" formula:
+We finally use this result in the "**impact** formula":
 
 $$ 
 \boxed{\delta^{k}_1 = \delta^{k+1}_1 \text{ if } o^{k-1}_1 \geq 0 \text{ else 0 }}
@@ -249,7 +249,7 @@ In fact, it just consists in storing the data given by the developer inside the 
 ## Backward Pass
 
 So as the $ Activation $ $ layer $, the $ Input \text{ } 1D $ $ layer $ has no **weights**. 
-This means the **backward pass** will only have to back propagate \delta:
+This means the **backward pass** will only have to back propagate $ \delta $:
 
 $$
 \boxed{\delta = \frac{\partial Loss}{\partial X}(x, y^{truth})}
@@ -264,7 +264,7 @@ $$
 \delta^{1} = \frac{\partial Loss}{\partial X^{1}}(data)
 $$
 
-Let us find the impacts of $ X^{1} $ 
+Let us find the **impacts** of $ X^{1} $ 
 on the $ Loss $ function, knowing that the "future" 
 **learning flow** has already been computed (by definition of the **backward pass**). 
 
@@ -287,13 +287,13 @@ $$
 The interesting variable is $ X^{1}_1 $. There is just one output of $ L^{1} $ that uses $ X^{1}_1 $: 
 $ L^{1}_1 $.
 
-We are now able to build the **paths** of impacts from $ X^{1}_1 $ to the $ Loss $ function. 
+We are now able to build the **paths** of **impacts** from $ X^{1}_1 $ to the $ Loss $ function. 
 
 ![Input1D](/_assets/images/layers/Input1D4.png)
 
-- $ X^{1}_1 $ impacts $ L^{1}_1 $ which impacts the $ Loss $ function 
+- $ X^{1}_1 $ **impacts** $ L^{1}_1 $ which **impacts** the $ Loss $ function 
 
-We have only 1 impact, using the **chain rule**, we obtain the "impact" formula: 
+We have only 1 **impact**, using the **chain rule**, we obtain the "**impact** formula": 
 
 $$ 
 \delta^{1}_1 = \delta^{2}_1 . \frac{\partial L^{1}_1}{X^{1}_1}(data_1)
@@ -315,7 +315,7 @@ $$
 \frac{\partial L^{1}_1}{X^{1}_1}(data_1) = 1
 $$
 
-We finally use this result in the "impact" formula:
+We finally use this result in the "**impact** formula":
 
 $$ 
 \boxed{\delta^{1}_1 = \delta^{2}_1}

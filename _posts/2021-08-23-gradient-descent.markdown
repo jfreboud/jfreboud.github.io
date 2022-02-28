@@ -15,6 +15,44 @@ saw how to **update** them: this is the core of the **learning process**.
 In this article we are going to use the different parts we have explored so far in order to see this 
 **learning process** in action.
 
+## Learning phase vs Inferring phase
+
+First of all let us recap the difference between the **learning phase** and the **inferring phase** we introduced 
+in the [first article]({% post_url 2021-08-05-general-concepts %}).
+
+- During the **learning phase**, we want our deep learning $ model $ to better "understand" the **data** 
+(**data input**, **data output**). 
+This occurs during the **learning process** which we will detail in this article.
+
+- During the **inferring phase**, we just want our $ model $ to produce new **data output** out of some new 
+**data input** we did not explore yet. 
+
+In fact we already know how to operate the **inferring phase**: we just have to run the **forward pass** on the 
+new **data input**. By definition, it will produce the **outputs** for every $ layer $ of our $ model $, 
+one $ layer $ at a time until we get the **outputs** of the **output layer** (see the 
+[second article]({% post_url 2021-08-06-inside-the-model %})). 
+
+During the **learning phase**, we have to do more: **update** the **weights** of every $ layer $ that have one...
+ 
+This is where thinks get complicated because we have to compute the **impacts** of the **weights** on the 
+$ Loss $ function. Yet, computing these **impacts** is not straightforward: they directly depend on the 
+**learning flow** of "future" $ layers $. This is the principal role of the 
+[backward pass]({% post_url 2021-08-13-backward-pass %}): use the reverse order of the $ layers $ in order to 
+compute the different **learning flow**. 
+
+In the [previous article]({% post_url 2021-08-19-weights %}), we saw one last detail. Focusing on the 
+**backward pass** of some $ L^{k} $ $ layer $ with some **weights** in it, we can compute the **impacts** of 
+its **weights** right inside its **backward pass**: 
+
+- having access to the "future" **learning flow** of $ L^{k+1} $ ($ \delta^{k+1}) $ allows to compute $ \delta^{k} $: 
+this is the **impacts** of the **inputs** of $ L^{k} $ on the $ Loss $ function. This is the primary goal 
+of the **backward pass**.
+- having access to $ \delta^{k+1} $ allows to compute $ \delta w^k $: 
+this is the **impacts** of the **weights** of $ L^{k} $ on the $ Loss $ function. This is the secondary goal 
+of the **backward pass** but the primary goal of the **learning process** itself !
+
+Now, let us get back to our **learning process**.
+
 ## What we have...
 
 - a **dataset** containing (**data input**, **data output**): 
@@ -27,7 +65,7 @@ In this article we are going to use the different parts we have explored so far 
 
 ## What we do...
 
-In the [first article]({% post_url 2021-08-05-general-concepts %}), we saw that the **learning process** 
+In the [first paragraph](#learning-phase-vs-inferring-phase), we saw that the **learning process** 
 of a deep learning $ model $ happens during the **learning phase**. 
 
 Through the different articles: [Loss function]({% post_url 2021-08-09-loss-function %}), 
@@ -185,8 +223,7 @@ $$
 
 ## Example: what we do...
 
-Let us run the **learning phase** (see the [first article]({% post_url 2021-08-05-general-concepts %})) 
-with a very small **learning rate** $ \alpha = 10^{-7} $.
+Let us run the **learning phase** with a very small **learning rate** $ \alpha = 10^{-7} $.
 The $ model $ has to learn on each **data input** of our **dataset**. 
 Thus we will run the **learning phase** on our 3 **data input**: this will be one **epoch** of the 
 **gradient descent** algorithm. 
@@ -220,36 +257,16 @@ Thus we will run the **learning phase** on our 3 **data input**: this will be on
     \begin{align}
     \delta 4 &= o3 - y^{truth} \\
              &= (0) - (0) \\
-             &= (0)
-    \end{align}
-    $$
-    
-    $$ 
-    \begin{align}
+             &= (0) \\
     \delta 3 &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 \\ 
              &= (0) \text{ if } (0) \geq 0 \text{ else } 0 \\
-             &= (0)
-    \end{align}
-    $$
-    
-    $$ 
-    \begin{align}
+             &= (0) \\
     \delta 2 &= \delta 3 * w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
              &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
-             &= (0, 0, 0)
-    \end{align}
-    $$
-    
-    $$ 
-    \begin{align}
+             &= (0, 0, 0) \\
     \delta w^2 &= \delta 3 * o1 \\
                &= (0) * (100, 2000, 100) \\
-               &= (0, 0, 0)
-    \end{align}
-    $$
-    
-    $$
-    \begin{align}
+               &= (0, 0, 0) \\
     \delta 1 &= \delta 2 \\
              &= (0, 0, 0)
     \end{align}
@@ -298,36 +315,16 @@ This $ loss $ value is typical for a $ model $ that has already produced the rig
     \begin{align}
     \delta 4 &= o3 - y^{truth} \\
              &= (1) - (1) \\
-             &= (0)
-    \end{align}
-    $$
-    
-    $$ 
-    \begin{align}
+             &= (0) \\
     \delta 3 &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 \\ 
              &= (0) \text{ if } (1) \geq 0 \text{ else } 0 \\
-             &= (0)
-    \end{align}
-    $$
-    
-    $$ 
-    \begin{align}
+             &= (0) \\
     \delta 2 &= \delta 3 * w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
              &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
-             &= (0, 0, 0)
-    \end{align}
-    $$
-    
-    $$ 
-    \begin{align}
+             &= (0, 0, 0) \\
     \delta w^2 &= \delta 3 * o1 \\
                &= (0) * (200, 0, 0) \\
-               &= (0, 0, 0)
-    \end{align}
-    $$
-    
-    $$
-    \begin{align}
+               &= (0, 0, 0) \\
     \delta 1 &= \delta 2 \\
              &= (0, 0, 0)
     \end{align}
@@ -376,36 +373,16 @@ second **data input** and has nothing to learn.
     \begin{align}
     \delta 4 &= o3 - y^{truth} \\
              &= (0) - (1) \\
-             &= (-1)
-    \end{align}
-    $$
-
-    $$ 
-    \begin{align}
+             &= (-1) \\
     \delta 3 &= \delta 4 \text{ if } o2 \geq 0 \text{ else } 0 \\ 
              &= (-1) \text{ if } (0) \geq 0 \text{ else } 0 \\
-             &= (-1)
-    \end{align}
-    $$
-    
-    $$ 
-    \begin{align}
+             &= (-1) \\
     \delta 2 &= \delta 3 * w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
              &= (-1) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
-             &= -(\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
-    \end{align}
-    $$
-    
-    $$ 
-    \begin{align}
+             &= -(\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
     \delta w^2 &= \delta 3 * o1 \\
                &= (-1) * (0, 2000, 3 000) \\
-               &= -(0, 2000, 3 000)
-    \end{align}
-    $$
-    
-    $$
-    \begin{align}
+               &= -(0, 2000, 3 000) \\
     \delta 1 &= \delta 2 \\
              &= -(\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800})
     \end{align}

@@ -86,7 +86,7 @@ the developer has to **update** them to make the $ model $ stronger. But we do n
 The idea is to use the $ derivative $ operator.
 
 In [this article]({% post_url 2021-08-09-loss-function %}), we saw how "The derivative operator" enables us to 
-compute the impact of any variable in $ model $ on the $ Loss $ function. 
+compute the **impact** of any variable in $ model $ on the $ Loss $ function. 
 
 More specifically we start running the **forward pass** of our $ model $ on some $ x $ **data** in the **dataset**. 
 Then we observe the results 
@@ -152,6 +152,8 @@ $$
 We could paraphrase the formula as: we want to know to what extent the variable $ W $ causes an error in the 
 $ model $ when the $ Loss $ function is evaluated on $ x $ and $ y^{truth} $ and we slightly disturb $ w $.
 
+Another way to put it: we want to know the **impact** of $ W $ on the $ Loss $ function.
+
 ## The Backward Pass for Weights
  
 We are coming closer to justify the computations we made in the 
@@ -201,13 +203,13 @@ propagates the knowledge of who did contribute to the final error and to what ex
 There is another remark: as soon as we have computed the **learning flow** for one particular $ L^{k+1} $ $ layer $, 
 we can compute the **learning flow** for $ L^{k} $ (we already saw that in the **backward pass**). 
 Now we see we may as well 
-compute the impact of its weights on the $ Loss $ : $ \delta w^{k} $. 
+compute the **impact** of its **weights** on the $ Loss $ : $ \delta w^{k} $. 
 
 This means we may include the last operation in the **backward pass**. 
 
 For each $ L^{k} $ $ layer $ in the $ model $ in the reverse order of the **forward pass** do:
 - compute the **learning flow**: $ \delta^k $ 
-- compute the impact of its weights (if they exist) on the $ Loss $: $ \delta w^{k} $.
+- compute the **impact** of its **weights** (if they exist) on the $ Loss $: $ \delta w^{k} $.
 
 ![Layers](/_assets/images/backward/Layer-4.png)
 
@@ -480,7 +482,7 @@ $$
 
 ### <span style="text-decoration:underline"> Update the Weights </span>
 
-We are finally able to update the weights in our $ model $ and it is by far the easiest part !
+We are finally able to update the **weights** in our $ model $ and it is by far the easiest part !
 
 In order to proceed, we will use the formula given in [this paragraph](#update-the-weights).
 The new value $ \hat{w^2} $ for our $ w^2 $ **weights** will be:

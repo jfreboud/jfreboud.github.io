@@ -171,7 +171,7 @@ to compute the explicit formula for $ \frac{\partial Loss}{\partial X^{k}} $.
 
 We will see how to obtain this $ \delta^{k} $ with a more straight forward approach. 
 
-The principal idea is to go back to the very structure of $ L^{k} $ in order to find the impacts of $ X^{k} $ 
+The principal idea is to go back to the very structure of $ L^{k} $ in order to find the **impacts** of $ X^{k} $ 
 on the $ Loss $ function, knowing that the "future" 
 **learning flow** has already been computed (by definition of the **backward pass**). 
 
@@ -191,23 +191,23 @@ $$
 \delta^{k}_1 = \frac{\partial Loss}{\partial X^{k}_1}(o^{k-1}_1)
 $$
 
-The interesting variable is $ X^{k}_1 $. Let us find its impacts on the $ Loss $ function.
+The interesting variable is $ X^{k}_1 $. Let us find its **impacts** on the $ Loss $ function.
 In fact, every output of $ L^{k} $ uses $ X^{k}_1 $.
 Indeed we can take a look at the two diagrams [here](#linear-structure1) to see that 
 $ X^{k+1}_1 $ is linked to $ X^{k}_1 $ and that $ X^{k+1}_2 $ is also linked to $ X^{k}_1 $.
 
 We have already seen examples ([backward pass]({% post_url 2021-08-13-backward-pass %}) and 
-[batch learning](% post_url 2021-08-24-batch-learning %)) with multiple impacts: in the end we just added them 
+[batch learning](% post_url 2021-08-24-batch-learning %)) with multiple **impacts**: in the end we just added them 
 all together.
 
-We are now able to build the **paths** of impacts from $ X^{k}_1 $ to the $ Loss $ function. 
+We are now able to build the **paths** of **impacts** from $ X^{k}_1 $ to the $ Loss $ function. 
 
 ![Linear](/_assets/images/layers/Linear6.png)
 
-- $ X^{k}_1 $ impacts $ L^{k}_1 $ (definition of $ L^{k} $) which impacts the $ Loss $ function ("future" **learning flow**)
-- $ X^{k}_1 $ impacts $ L^{k}_2 $ (definition of $ L^{k} $) which impacts the $ Loss $ function ("future" **learning flow**)
+- $ X^{k}_1 $ **impacts** $ L^{k}_1 $ (definition of $ L^{k} $) which **impacts** the $ Loss $ function ("future" **learning flow**)
+- $ X^{k}_1 $ **impacts** $ L^{k}_2 $ (definition of $ L^{k} $) which **impacts** the $ Loss $ function ("future" **learning flow**)
 
-We add these 2 impacts, using the **chain rule**, to obtain the "impact" formula: 
+We add these 2 **impacts**, using the **chain rule**, to obtain the "**impact** formula": 
 
 $$ 
 \delta^{k}_1 = \delta^{k+1}_1 . \frac{\partial L^{k}_1}{X^{k}_1}(o^{k-1}_1)  + 
@@ -236,7 +236,7 @@ $$
 \frac{\partial L^{k}_2}{X^{k}_1}(o^{k-1}_1) = w^{k, 2}_1
 $$
 
-We finally assemble these two results in the "impact" formula:
+We finally assemble these two results in the "**impact** formula":
 
 $$ 
 \boxed{\delta^{k}_1 = \delta^{k+1}_1 . w^{k, 1}_1 + \delta^{k+1}_2 . w^{k, 2}_1}
@@ -253,14 +253,14 @@ every output of $ L^{k} $ uses $ X^{k}_2 $.
 Indeed we can take a look at the last two diagrams [here](#linear-structure1) to see that 
 $ X^{k+1}_1 $ is linked to $ X^{k}_2 $ and that $ X^{k+1}_2 $ is also linked to $ X^{k}_2 $.
 
-We are now able to build the **paths** of impacts from $ X^{k}_2 $ to the $ Loss $ function. 
+We are now able to build the **paths** of **impacts** from $ X^{k}_2 $ to the $ Loss $ function. 
 
 ![Linear](/_assets/images/layers/Linear7.png)
 
-- $ X^{k}_2 $ impacts $ L^{k}_1 $ which impacts the $ Loss $ function 
-- $ X^{k}_2 $ impacts $ L^{k}_2 $ which impacts the $ Loss $ function 
+- $ X^{k}_2 $ **impacts** $ L^{k}_1 $ which **impacts** the $ Loss $ function 
+- $ X^{k}_2 $ **impacts** $ L^{k}_2 $ which **impacts** the $ Loss $ function 
 
-We add these 2 impacts, using the **chain rule**, to obtain the "impact" formula: 
+We add these 2 **impacts**, using the **chain rule**, to obtain the "**impact** formula": 
 
 $$ 
 \delta^{k}_2 = \delta^{k+1}_1 . \frac{\partial L^{k}_1}{X^{k}_2}(o^{k-1}_2)  + 
@@ -289,7 +289,7 @@ $$
 \frac{\partial L^{k}_2}{X^{k}_2}(o^{k-1}_2) = w^{k, 2}_2
 $$
 
-We finally assemble these two results in the "impact" formula:
+We finally assemble these two results in the "**impact** formula":
 
 $$ 
 \boxed{\delta^{k}_2 = \delta^{k+1}_1 . w^{k, 1}_2 + \delta^{k+1}_2 . w^{k, 2}_2}
@@ -306,14 +306,14 @@ every output of $ L^{k+1} $ uses $ X^{k}_3 $.
 Indeed we can take a look at the last two diagrams [here](#linear-structure1) to see that 
 $ X^{k+1}_1 $ is linked to $ X^{k}_3 $ and that $ X^{k+1}_2 $ is also linked to $ X^{k}_3 $.
 
-We are now able to build the **paths** of impacts from $ X^{k}_3 $ to the $ Loss $ function. 
+We are now able to build the **paths** of **impacts** from $ X^{k}_3 $ to the $ Loss $ function. 
 
 ![Linear](/_assets/images/layers/Linear8.png)
 
-- $ X^{k}_3 $ impacts $ L^{k}_1 $ which impacts the $ Loss $ function 
-- $ X^{k}_3 $ impacts $ L^{k}_2 $ which impacts the $ Loss $ function 
+- $ X^{k}_3 $ **impacts** $ L^{k}_1 $ which **impacts** the $ Loss $ function 
+- $ X^{k}_3 $ **impacts** $ L^{k}_2 $ which **impacts** the $ Loss $ function 
 
-We add these 2 impacts, using the **chain rule**, to obtain the "impact" formula: 
+We add these 2 **impacts**, using the **chain rule**, to obtain the "**impact** formula": 
 
 $$ 
 \delta^{k}_3 = \delta^{k+1}_1 . \frac{\partial L^{k}_1}{X^{k}_3}(o^{k-1}_3)  + 
@@ -342,7 +342,7 @@ $$
 \frac{\partial L^{k}_2}{X^{k}_3}(o^{k-1}_3) = w^{k, 2}_3
 $$
 
-We finally assemble these two results in the "impact" formula:
+We finally assemble these two results in the "**impact** formula":
 
 $$ 
 \boxed{\delta^{k}_3 = \delta^{k+1}_1 . w^{k, 1}_3 + \delta^{k+1}_2 . w^{k, 2}_3}
@@ -358,7 +358,7 @@ $$
 $$
 
 We will use the exact same strategy as in the [last paragraph](#backward-pass-for-the-learning-flow). 
-The principal idea is to go back to the very structure of $ L^{k} $ in order to find the impacts of $ W^{k} $ 
+The principal idea is to go back to the very structure of $ L^{k} $ in order to find the **impacts** of $ W^{k} $ 
 on the $ Loss $ function, knowing that the "future" 
 **learning flow** has already been computed (by definition of the **backward pass**). 
 
@@ -386,12 +386,12 @@ $ L^{k}_1 $.
 Indeed we can take a look at the diagram [here](#linear-structure1) to see that 
 $ o^{k}_1 $ is linked to $ w^{k, 1}_1 $.
 
-We are now able to build the **paths** of impacts from $ W^{k, 1}_1 $ to the $ Loss $ function. 
+We are now able to build the **paths** of **impacts** from $ W^{k, 1}_1 $ to the $ Loss $ function. 
 This is in fact what we already saw in [this diagram](#linear-structure3).
 
-- $ W^{k, 1}_1 $ impacts $ L^{k}_1 $ which impacts the $ Loss $ function  
+- $ W^{k, 1}_1 $ **impacts** $ L^{k}_1 $ which **impacts** the $ Loss $ function  
 
-We have only 1 impact, using the **chain rule**, we obtain the "impact" formula: 
+We have only 1 **impact**, using the **chain rule**, we obtain the "**impact** formula": 
 
 $$ 
 \delta w^{k, 1}_1 = \delta^{k+1}_1 . \frac{\partial L^{k}_1}{W^{k, 1}_1}(o^{k-1}_1)
@@ -413,7 +413,7 @@ $$
 \frac{\partial L^{k}_1}{W^{k, 1}_1}(o^{k-1}_1) = o^{k-1}_1
 $$
 
-We finally use this result in the "impact" formula:
+We finally use this result in the "**impact** formula":
 
 $$ 
 \boxed{\delta w^{k, 1}_1 = \delta^{k+1}_1 . o^{k-1}_1}
@@ -444,12 +444,12 @@ $ L^{k}_2 $.
 Indeed we can take a look at the diagram [here](#linear-structure2) to see that 
 $ o^{k}_2 $ is linked to $ w^{k, 2}_1 $.
 
-We are now able to build the **paths** of impacts from $ W^{k, 2}_1 $ to the $ Loss $ function. 
+We are now able to build the **paths** of **impacts** from $ W^{k, 2}_1 $ to the $ Loss $ function. 
 This is in fact what we already saw in [this diagram](#linear-structure4).
 
-- $ W^{k, 2}_1 $ impacts $ L^{k}_2 $ which impacts the $ Loss $ function  
+- $ W^{k, 2}_1 $ **impacts** $ L^{k}_2 $ which **impacts** the $ Loss $ function  
 
-We have only 1 impact, using the **chain rule**, we obtain the "impact" formula: 
+We have only 1 **impact**, using the **chain rule**, we obtain the "**impact** formula": 
 
 $$ 
 \delta w^{k, 2}_1 = \delta^{k+1}_2 . \frac{\partial L^{k}_2}{W^{k, 2}_1}(o^{k-1}_1)
@@ -471,7 +471,7 @@ $$
 \frac{\partial L^{k}_2}{W^{k, 2}_1}(o^{k-1}_1) = o^{k-1}_1
 $$
 
-We finally use this result in the "impact" formula:
+We finally use this result in the "**impact** formula":
 
 $$ 
 \boxed{\delta w^{k, 2}_1 = \delta^{k+1}_2 . o^{k-1}_1}
@@ -500,11 +500,11 @@ The interesting variable is $ B^{k}_1 $. There is just one output of $ L^{k} $ t
 $ L^{k}_1 $.
 This is clear when we take a take a look at the first equation of the [forward pass](#forward-pass) paragraph. 
 
-We are now able to build the **paths** of impacts from $ B^{k}_1 $ to the $ Loss $ function. 
+We are now able to build the **paths** of **impacts** from $ B^{k}_1 $ to the $ Loss $ function. 
 
-- $ B^{k}_1 $ impacts $ L^{k}_1 $ which impacts the $ Loss $ function   
+- $ B^{k}_1 $ **impacts** $ L^{k}_1 $ which **impacts** the $ Loss $ function   
 
-We have only 1 impact, using the **chain rule**, we obtain the "impact" formula: 
+We have only 1 **impact**, using the **chain rule**, we obtain the "**impact** formula": 
 
 $$ 
 \delta b^{k}_1 = \delta^{k+1}_1 . \frac{\partial L^{k}_1}{\partial B^{k}_1}(o^{k-1})
@@ -526,7 +526,7 @@ $$
 \frac{\partial L^{k}_1}{\partial B^{k}_1}(o^{k-1}) = 1
 $$
 
-We finally use this result in the "impact" formula:
+We finally use this result in the "**impact** formula":
 
 $$ 
 \boxed{\delta b^{k}_1 = \delta^{k+1}_1}
@@ -542,11 +542,11 @@ The interesting variable is $ B^{k}_2 $. There is just one output of $ L^{k} $ t
 $ L^{k}_2 $.
 This is clear when we take a take a look at the second equation of the [forward pass](#forward-pass) paragraph. 
 
-We are now able to build the **paths** of impacts from $ B^{k}_2 $ to the $ Loss $ function. 
+We are now able to build the **paths** of **impacts** from $ B^{k}_2 $ to the $ Loss $ function. 
 
-- $ B^{k}_2 $ impacts $ L^{k}_2 $ which impacts the $ Loss $ function   
+- $ B^{k}_2 $ **impacts** $ L^{k}_2 $ which **impacts** the $ Loss $ function   
 
-We have only 1 impact, using the **chain rule**, we obtain the "impact" formula: 
+We have only 1 **impact**, using the **chain rule**, we obtain the "**impact** formula": 
 
 $$ 
 \delta b^{k}_2 = \delta^{k+1}_2 . \frac{\partial L^{k}_2}{\partial B^{k}_2}(o^{k-1})
@@ -568,7 +568,7 @@ $$
 \frac{\partial L^{k}_2}{\partial B^{k}_2}(o^{k-1}) = 1
 $$
 
-We finally use this result in the "impact" formula:
+We finally use this result in the "**impact** formula":
 
 $$ 
 \boxed{\delta b^{k}_2 = \delta^{k+1}_2}
@@ -621,7 +621,7 @@ $$
 
 The **neural structure** we have seen in the [previous paragraph](#example) is another way to formalize the 
 transformation of the $ L2 $ input values: $ o^1_1 $, $ o^1_2 $ and $ o^1_3 $ into the $ L2 $ output values: 
-$ o^2 $. Still, it is more useful as a tool to find the impacts of the input **neurons** in order to compute 
+$ o^2 $. Still, it is more useful as a tool to find the **impacts** of the input **neurons** in order to compute 
 the different elements of the  **backward pass**.
 
 ### <span style="text-decoration:underline"> Backward Pass for L2 </span>
@@ -712,7 +712,7 @@ Once more, we recognize the formula we found in the [weights article]({% post_ur
 We have explored the $ Linear $ $ layer $ and found out we already used this $ layer $ in the 
 "Example" introduced in the [second article]({% post_url 2021-08-06-inside-the-model %}).
 
-We saw how the **neural structure** helps finding the impacts of the different **neurons** on the $ Loss $ function.
+We saw how the **neural structure** helps finding the **impacts** of the different **neurons** on the $ Loss $ function.
 This is the core of the **backward pass** and more generally the core of the **learning process**.
 
 In the [next article]({% post_url 2021-10-06-activation %}) 

@@ -14,11 +14,11 @@ $ derivative $ functions of $ Loss $ but we were stuck early in the process: we 
 $ \delta 4 = \frac{\partial Loss}{\partial X^4}(o3, y^{truth}) $. Indeed, we had the explicit formula linking 
 $ X^4 $ to $ Loss $ and we were able to compute an explicit formula for $ \frac{\partial Loss}{\partial X^4} $.
 
-But our $ model $ is composed of other variables and we must compute the impact of each and every of them on 
+But our $ model $ is composed of other variables and we must compute the **impact** of each and every of them on 
 $ Loss $. 
 The reason for that will be explained in the [next article]({% post_url 2021-08-19-weights %}).
 
-In this article we will see how the structure in $ layers $ of our $ model $ helps us computing the impacts of the 
+In this article we will see how the structure in $ layers $ of our $ model $ helps us computing the **impacts** of the 
 **inner variables** of the $ model $ on the $ Loss $ function.
 
 ## The Backward Pass
@@ -208,7 +208,7 @@ $ L2(X^2) = \frac{1}{200} X^2_1 - \frac{3 000}{11 600 000}  X^2_2 +
         \frac{1}{5 800} X^2_3 \text{, with } X^2 = (X^2_1, X^2_2, X^2_3) $. 
 
 We have one problem though, it is that: $ X^2 = (X^2_1, X^2_2, X^2_3) $. 
-And we told in the [introduction](#introduction) that we want to compute the impact of 
+And we told in the [introduction](#introduction) that we want to compute the **impact** of 
 each and every variable of $ model $ on the $ Loss $ function. 
 This means we have to compute the $ derivative $ functions of $ Loss $ according to each of them: 
 
@@ -304,7 +304,7 @@ $ \delta 2 = \frac{\partial Loss}{\partial X^2}(o1) $ and what directly uses $ X
 $ L1(X^1) = X^1 \text{, with } X^1 = (X^1_1, X^1_2, X^1_3) $. 
 
 We have the same problem as in the previous paragraph: $ X^1 = (X^1_1, X^1_2, X^1_3) $. 
-We told in the [introduction](#introduction) that we want to compute the impact of 
+We told in the [introduction](#introduction) that we want to compute the **impact** of 
 each and every variable of $ model $ on the $ Loss $ function. 
 This means we have to compute the $ derivative $ functions of $ Loss $ according to each of them: 
 
@@ -319,14 +319,14 @@ Indeed, we are in a case where $ L1 $ depends on multiple variables ($ X^1_1 $, 
 produces multiple variables ($ L1(X^1_1) $, $ L1(X^1_2) $, $ L1(X^1_3) $). 
 So what is the problem ?
 
-Let us concentrate on the impact of $ X^1_1 $ on the $ Loss $ function. Because $ L1 $ is producing 3 variables, 
-this $ X^1_1 $ could impact each of these 3 output variables ! 
+Let us concentrate on the **impact** of $ X^1_1 $ on the $ Loss $ function. Because $ L1 $ is producing 3 variables, 
+this $ X^1_1 $ could **impact** each of these 3 output variables ! 
 
 Thus we cannot use the **chain rule**
 <a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[[1]](#remark)</sup>
 Are we going to use another formula ? 
-No because we can think in terms of impacts.
-If we go back to our problem, we have $ X^1_1 $ that could impact three output variables: 
+No because we can think in terms of **impacts**.
+If we go back to our problem, we have $ X^1_1 $ that could **impact** three output variables: 
 $ L1(X^1_1) $, $ L1(X^1_2) $, $ L1(X^1_3) $. 
 
 
@@ -336,7 +336,7 @@ $$
 \frac{\partial Loss}{\partial X^1_1} = \frac{\partial Loss}{\partial L1} . \frac{\partial L1}{\partial X^1_1}
 $$
 
-But because of the potential impacts of $ X^1_1 $ we have to compute:
+But because of the potential **impacts** of $ X^1_1 $ we have to compute:
 
 $$
 \boxed{\frac{\partial Loss}{\partial X^1_1} = 
@@ -474,5 +474,5 @@ In fact the [chain rule](#the-chain-rule) formula is meant for functions of 1 va
 $ \frac{dz}{dx} $ where we used a partial derivative $ \frac{\partial z}{\partial x} $ in the 
 previous paragraphs.
 It used to work until now because the $ layers $ considered produced only 1 variable. Hence, 
-the variable we were considering the impact on $ Loss $ was targeting this unique output variable.
+the variable we were considering the **impact** on $ Loss $ was targeting this unique output variable.
 [↑](#remark-back)

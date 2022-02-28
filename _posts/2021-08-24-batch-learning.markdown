@@ -108,7 +108,7 @@ $$
 
 And we recall that $ \frac{\partial Loss}{\partial X^i} $ is used to compute the **learning flow**.
 
-This means that the new $ Loss^{avg} $ has exactly the same impact on **learning** as 
+This means that the new $ Loss^{avg} $ has exactly the same **impact** on **learning** as 
 $ Loss^{learning} $, with: 
  
 $$ 
@@ -206,7 +206,7 @@ In order to use the **update** formula we must compute the explicit formula for
 $ \frac{\partial Loss^{avg}}{\partial W} $ beforehand.
 
 We need to think about the [backward pass](% post_url 2021-08-13-backward-pass %) once more, 
-to understand how $ W $ impacts the final $ Loss $: $ Loss^{avg} $.
+to understand how $ W $ **impacts** the final $ Loss $: $ Loss^{avg} $.
 
 Let us consider the $ L^k $ $ layer $ example we introduced in the [precedent paragraph](#the-state-so-far).
 We try to compute an explicit formula for: 
@@ -220,16 +220,16 @@ This means that every results obtained through the **forward pass** were not tha
 with $ w^k $ as a value for the $ W^k $. But $ o^{k, 2} $ was computed with the same $ w^k $ value for 
 $ W^k $ ... and $ o^{k, n} $ was computed with the same $ w^k $ value for $ W^k $ as well.
 
-Thus $ w^k $ has impacted all **batch outputs** depending on $ W^k $: $ o^{k, 1}, o^{k, 2} ... o^{k, n} $. 
-Said differently, $ W^k $ impacts $ L^k(X^{k, 1}, W^k) $, $ L^k(X^{k, 2}, W^k) $ ... and $ L^k(X^{k, n}, W^k) $.
+Thus $ w^k $ has **impacted** all **batch outputs** depending on $ W^k $: $ o^{k, 1}, o^{k, 2} ... o^{k, n} $. 
+Said differently, $ W^k $ **impacts** $ L^k(X^{k, 1}, W^k) $, $ L^k(X^{k, 2}, W^k) $ ... and $ L^k(X^{k, n}, W^k) $.
  
-And by definition: $ L^k(X^{k, 1}, W^k) $ impacts $ Loss^{avg} $, 
-$ L^k(X^{k, 2}, W^k) $ impacts $ Loss^{avg} $ ... and 
-$ L^k(X^{k, n}, W^k) $ impacts $ Loss^{avg} $. 
+And by definition: $ L^k(X^{k, 1}, W^k) $ **impacts** $ Loss^{avg} $, 
+$ L^k(X^{k, 2}, W^k) $ **impacts** $ Loss^{avg} $ ... and 
+$ L^k(X^{k, n}, W^k) $ **impacts** $ Loss^{avg} $. 
 
 This comes down to the realization that the same $ w^k $ value is responsible for the final $ loss^{avg} $ 
 through the different **batch outputs** computed during the **forward pass**. So in order to have the 
-impact of $ W^k $ on $ Loss^{avg} $ we must simply add the impacts of the different **batch outputs**:
+**impact** of $ W^k $ on $ Loss^{avg} $ we must simply add the **impacts** of the different **batch outputs**:
 
 $$ 
 \frac{\partial Loss^{avg}}{\partial W^k} = \frac{\partial Loss^{avg}}{\partial W^{k, 1}} + 
@@ -412,12 +412,8 @@ $$
                &= \frac{\partial Loss^{learning}}{\partial X^{4, 3}}(o3^3, y^{truth, 3}) \\ 
                &= \frac{1}{3} * (o3^3 - y^{truth, 3}) \\
                &= \frac{1}{3} * ((0) - (1)) \\
-               &= -(\frac{1}{3})
-    \end{align}
-    $$
-    
-    $$ 
-    \begin{align}
+               &= -(\frac{1}{3}) \\
+    \\
     \delta 3^1 &= \delta 4^1 \text{ if } o2^1 \geq 0 \text{ else } 0 \\ 
                &= (0) \text{ if } (0) \geq 0 \text{ else } 0 \\
                &= (0) \\
@@ -426,12 +422,8 @@ $$
                &= (0) \\
     \delta 3^3 &= \delta 4^3 \text{ if } o2^3 \geq 0 \text{ else } 0 \\ 
                &= -(\frac{1}{3}) \text{ if } (0) \geq 0 \text{ else } 0 \\
-               &= -(\frac{1}{3}) 
-    \end{align}
-    $$
-    
-    $$ 
-    \begin{align}
+               &= -(\frac{1}{3}) \\
+    \\
     \delta 2^1 &= \delta 3^1 . w2 \text{ with } w^2 = (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
                &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
                &= (0, 0, 0) \\
@@ -439,12 +431,8 @@ $$
                &= (0) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
                &= (0, 0, 0) \\
     \delta 2^3 &= \delta 3^3 . w2 \\
-               &= -(\frac{1}{3}) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) 
-    \end{align}
-    $$
-    
-    $$ 
-    \begin{align}
+               &= -(\frac{1}{3}) * (\frac{1}{200}, -\frac{3 000}{11 600 000}, \frac{1}{5 800}) \\
+    \\
     \delta w^{2, 1} &= \delta 3^1 * o1^1 \\
                     &= (0) * (100, 2000, 100) \\
                     &= (0, 0, 0) \\
@@ -453,12 +441,8 @@ $$
                     &= (0, 0, 0) \\
     \delta w^{2, 3} &= \delta 3^3 * o1^3 \\
                     &= -(\frac{1}{3}) * (0, 2000, 3 000) \\
-                    &= -(0, \frac{2000}{3}, 1 000)
-    \end{align}
-    $$
-    
-    $$
-    \begin{align}
+                    &= -(0, \frac{2000}{3}, 1 000) \\
+    \\
     \delta 1^1 &= \delta 2^1 \\
                &= (0, 0, 0) \\
     \delta 1^2 &= \delta 2^2 \\
