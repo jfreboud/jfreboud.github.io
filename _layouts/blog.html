@@ -24,7 +24,7 @@ layout: default
     {% assign sum = 0 %}
     {% for i in (next_page..pages_count) %}
       {% assign articles_count_tmp = site.mpaginate %}
-      {% if i == pages_count %}
+      {% if i == pages_count and mod_page != 0 %}
         {% assign articles_count_tmp = mod_page %}
       {% endif %}
       {% assign sum = sum | plus:articles_count_tmp %}
@@ -36,7 +36,9 @@ layout: default
     {% assign prev_page = 'none' %}
   {% endif %}
   {% if page.index == pages_count %}
-    {% assign articles_count = mod_page %}
+    {% if mod_page != 0 %}
+      {% assign articles_count = mod_page %}
+    {% endif %}
     {% assign next_page = 'none' %}
   {% endif %}
 

@@ -140,23 +140,11 @@ Note that we have two more **weights**: $ B^{k}_1 $ and $ B^{k}_2 $.
 
 ## Backward Pass
 
-As we saw in the [weights article]({% post_url 2021-08-19-weights %}), the goal of the **backward pass** is to compute 
+As we saw in the [weights article]({% post_url 2021-08-19-weights %}), we have to compute two 
+things during the **backward pass**: 
 
-$$ 
-\boxed{\delta w = \frac{\partial Loss}{\partial W}(x, y^{truth})}
-$$
-
-for each **weight** of every $ layer $. This is the opposite direction to follow in the **weights**' **update** in order 
-to minimize the $ Loss $ function.
-
-We also have to use the **backward pass** in order to back propagate
-
-$$
-\boxed{\delta = \frac{\partial Loss}{\partial X}(x, y^{truth})}
-$$
-
-which is the **learning flow**: the essential part to compute the direction in the first formula. Let us begin with 
-this **learning flow**. 
+- the **backward pass** for the **learning flow**
+- the **backward pass** for the **weights**
 
 ## Backward Pass for the Learning Flow 
 
@@ -179,9 +167,8 @@ The structure for the $ L^{k} $ $ layer $ is:
 - 2 output **neurons** 
 - 3 input **neurons**. 
 
-$ \delta^{k+1}_1 $ and $ \delta^{k+1}_2 $ are the "future" **learning flow**: we admit they have already been 
-computed.
-We must back propagate the **learning flow** to $ \delta^{k}_1 $, $ \delta^{k}_2 $ and $ \delta^{k}_3 $.
+$ \delta^{k+1}_1 $ and $ \delta^{k+1}_2 $ are the "future" **learning flow**, 
+we must back propagate the **learning flow** to $ \delta^{k}_1 $, $ \delta^{k}_2 $ and $ \delta^{k}_3 $.
 
 ![Linear](/_assets/images/layers/Linear5.png)
 

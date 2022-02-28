@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Convolution Weights"
+title:  "The Convolution Layer"
 category: layer
 date:   2022-02-19
 excerpt: >-
@@ -25,9 +25,9 @@ Before that, let us recall the diagram of the $ Convolution $ operation we saw a
 
 ![Convolution](/_assets/images/layers/Convolution1.png)
 
-In order to fix the ideas the diagram above shows an example $ Convolution $ 
-where $ ch^{1,1} $, $ ch^{1,2} $, $ ch^{1,3} $ 
-are the 3 input **channels** and we create two output **channels**: $ ch^{2,1} $ and $ ch^{2,2} $.
+In order to fix the ideas the diagram above shows an example $ L^k $ $ Convolution $ $ layer $
+where $ ch^{k-1,1} $, $ ch^{k-1,2} $, $ ch^{k-1,3} $ 
+are the 3 input **channels** and $ ch^{k,1} $ and $ ch^{k,2} $ are the two output **channels**.
 Note that we use 6 different **convolution kernels** that correspond to the combination: 
 $ 2 \textbf{ output channels } * 3 \textbf{ input channels } = 6 $. 
 
@@ -37,7 +37,7 @@ In the following we will zoom in this part of the previous diagram:
 
 The elements we called "pixels" in the [previous article]({% post_url 2022-01-22-second-dimension %}) are in fact the 
 **neurons** of our $ Convolution $ $ layer $. 
-Applying the **convolution kernel** $ k^{1,1} $ to the grid of **neurons** of our input **channel** $ ch^{1,1} $ 
+Applying the **convolution kernel** $ k^{1,1} $ to the grid of **neurons** of our input **channel** $ ch^{k-1,1} $ 
 allows us to compute a grid of temporary **neurons** $ tmp^{1,1} $. 
 
 Now let us zoom on the computation of one temporary **neuron** $$ tmp^{1,1}_{4,4} $$. In order to simplify 
@@ -45,8 +45,8 @@ the diagram, we get rid of some indices, keeping only the indices relating to th
 We want to compute $ tmp_{4,4} $. 
 
 From what we saw in the [previous article]({% post_url 2022-01-22-second-dimension %}), 
-we know how to proceed: we take the center of our $ k $ **kernel** ($ k_{1,1} $ as $ k $ is a **kernel** of size (3,3) 
-in our example), 
+we know how to proceed: we take the center of our $ ker $ **kernel** 
+($ ker_{1,1} $ as $ ker $ is a **kernel** of size (3,3) in our example), 
 we align it with the **neuron** in the input **channel** ($ ch_{3, 3} $ as $ ch $ is a grid of size 
 (7,7) in our example) and we add the different multiplied couples together. 
 
@@ -58,9 +58,9 @@ And here we add them together to obtain:
 
 $$ 
 \begin{align}
-tmp_{4,4} &= & (ch_{2,2} * k_{0,0}) + (ch_{2,3} * k_{0,1}) + (ch_{2,4} * k_{0,2}) \\
-          &  & + (ch_{3,2} * k_{1,0}) + (ch_{3,3} * k_{1,1}) + (ch_{3,4} * k_{1,2}) \\
-          &  & + (ch_{4,2} * k_{2,0}) + (ch_{4,3} * k_{2,1}) + (ch_{4,4} * k_{2,2}) 
+tmp_{4,4} &= & (ch_{2,2} * ker_{0,0}) + (ch_{2,3} * ker_{0,1}) + (ch_{2,4} * ker_{0,2}) \\
+          &  & + (ch_{3,2} * ker_{1,0}) + (ch_{3,3} * ker_{1,1}) + (ch_{3,4} * ker_{1,2}) \\
+          &  & + (ch_{4,2} * ker_{2,0}) + (ch_{4,3} * ker_{2,1}) + (ch_{4,4} * ker_{2,2}) 
 \end{align}
 $$
 
@@ -69,96 +69,77 @@ to compute every temporary **neuron** of $ tmp^{1,1} $.
 
 Let us zoom out again: we have computed one temporary grid $ tmp^{1,1} $, we have to do the same to compute the 
 other temporary grids with the other 
-combinations: $ ch^{1,1} $ and $ k^{2,1} $ to compute $ tmp^{2,1} $, 
-$ ch^{1,2} $ and $ k^{2,2} $ to obtain $ tmp^{2,2} $, 
-$ ch^{1,3} $ and $ k^{1,3} $ to obtain $ tmp^{1,3} $, 
-$ ch^{1,3} $ and $ k^{2,3} $ to obtain $ tmp^{2,3} $. 
+combinations: $ ch^{k-1,1} $ and $ ker^{2,1} $ to obtain $ tmp^{2,1} $, 
+$ ch^{k-1,2} $ and $ ker^{2,2} $ to obtain $ tmp^{2,2} $, 
+$ ch^{k-1,3} $ and $ ker^{1,3} $ to obtain $ tmp^{1,3} $, 
+$ ch^{k-1,3} $ and $ ker^{2,3} $ to obtain $ tmp^{2,3} $. 
 
 Finally it is simple to obtain the output **channels**, each being a grid of output **neurons**:
 
 $$
+\boxed{
 \begin{align}
-ch^{2,1} = tmp^{1,1} + tmp^{1,2} + tmp^{1,3} \\
-ch^{2,2} = tmp^{2,1} + tmp^{2,2} + tmp^{2,3}
+ch^{k,1} = tmp^{1,1} + tmp^{1,2} + tmp^{1,3} + b^{k,1}\\
+ch^{k,2} = tmp^{2,1} + tmp^{2,2} + tmp^{2,3} + b^{k,2}
+\end{align}
+}
+$$
+
+where $ b^{k,1} $ and $ b^{k,1} $ are **biases**.
+
+Looking at one particular **neuron** of the grid, for example $ ch^{k,1}_{4,4} $ we have:
+
+$$ 
+\begin{align}
+ch^{k,1}_{4,4} &= & (ch^{k-1,1}_{2,2} * ker^{1,1}_{0,0}) + (ch^{k-1,1}_{2,3} * ker^{1,1}_{0,1}) + (ch^{k-1,1}_{2,4} * ker^{1,1}_{0,2}) \\
+               &  & + (ch^{k-1,1}_{3,2} * ker^{1,1}_{1,0}) + (ch^{k-1,1}_{3,3} * ker^{1,1}_{1,1}) + (ch^{k-1,1}_{3,4} * ker^{1,1}_{1,2}) \\
+               &  & + (ch^{k-1,1}_{4,2} * ker^{1,1}_{2,0}) + (ch^{k-1,1}_{4,3} * ker^{1,1}_{2,1}) + (ch^{k-1,1}_{4,4} * ker^{1,1}_{2,2}) \\ \\
+               &  & + (ch^{k-1,2}_{2,2} * ker^{1,2}_{0,0}) + (ch^{k-1,2}_{2,3} * ker^{1,2}_{0,1}) + (ch^{k-1,2}_{2,4} * ker^{1,2}_{0,2}) \\
+               &  & + (ch^{k-1,2}_{3,2} * ker^{1,2}_{1,0}) + (ch^{k-1,2}_{3,3} * ker^{1,2}_{1,1}) + (ch^{k-1,2}_{3,4} * ker^{1,2}_{1,2}) \\
+               &  & + (ch^{k-1,2}_{4,2} * ker^{1,2}_{2,0}) + (ch^{k-1,2}_{4,3} * ker^{1,2}_{2,1}) + (ch^{k-1,2}_{4,4} * ker^{1,2}_{2,2}) \\ \\
+               &  & + (ch^{k-1,3}_{2,2} * ker^{1,3}_{0,0}) + (ch^{k-1,3}_{2,3} * ker^{1,3}_{0,1}) + (ch^{k-1,3}_{2,4} * ker^{1,3}_{0,2}) \\
+               &  & + (ch^{k-1,3}_{3,2} * ker^{1,3}_{1,0}) + (ch^{k-1,3}_{3,3} * ker^{1,3}_{1,1}) + (ch^{k-1,3}_{3,4} * ker^{1,3}_{1,2}) \\
+               &  & + (ch^{k-1,3}_{4,2} * ker^{1,3}_{2,0}) + (ch^{k-1,3}_{4,3} * ker^{1,3}_{2,1}) + (ch^{k-1,3}_{4,4} * ker^{1,3}_{2,2}) \\ \\
+               &  & + b^{k,1}
 \end{align}
 $$
 
 ## The Machine Learning Paradigm
 
-The different **neurons** in the grid correspond to the output of the $ convolution $ $ layer $. 
+The different **neurons** in the grid correspond to the output of the $ Convolution $ $ layer $. 
 Looking back at the [linear layer article]({% post_url 2021-09-19-linear %}), the **neurons** were structured 
 as vector of numbers. It seems legitimate that are output are now grids.
 
 Still, we are looking for a "moving part", such as the **weights** we introduced in the 
 [weights article]({% post_url 2021-08-19-weights %}). We have a perfect place to consider **weights** variables 
-in our $ Convolution $ operation, right in the **convolution kernels**. 
+in our $ Convolution $ $ layer $, right in the **convolution kernels**. 
 
 This enables us not to choose these **kernels** at all and rely on the **learning process** operating during 
 the **gradient descent** algorithm (see [this article]({% post_url 2021-08-23-gradient-descent %})). 
 In a way, it is the **data** that will configure those **kernels** "automatically". 
 
 This is the beautiful paradigm of the **machine learning**. We try to give the $ models $ the power to 
-configure the required operations in order to correctly "understand" **data**. 
+configure the required operations in order to correctly "understand" the **data**. 
 
 Yet, for now, we must also 
 keep in mind that we do not give that much power to these $ models $. We actually are just talking about some 
-"moving part" parameters, the **weights**, that allow to configure some specific operations. For now these 
-specific operations are: [the linear layer]({% post_url 2021-09-19-linear %}) and the $ Convolution $ $ layer $. 
-We see that in fact, the global structure of the $ models $ is still up to the **developer** :smiling_imp:
+"moving part" parameters, the **weights**, that allow to configure some specific $ layers $. For now these 
+specific $ layers $ are: [the linear layer]({% post_url 2021-09-19-linear %}) and the $ Convolution $ $ layer $. 
+We see that in fact, the global structure of the $ models $ 
+(the structure in $ layers $, the number of $ layers $, the nature of each $ layer $...) 
+is still up to the **developer** :smiling_imp:
 
 ## Forward Pass
 
 We have already seen how the $ Convolution $ $ layer $ computes its **forward pass**, it merely consists 
 in applying the operation described in the [previous paragraph](#the-convolution-neural-structure). 
 
-In order to get faster to the point, we will not add the variables in an explicit manner as we did in the 
-[the linear layer article]({% post_url 2021-09-19-linear %}). We will have to stay focus during the **backward pass**.
-
 ## Backward Pass
 
-As we saw in the [weights article]({% post_url 2021-08-19-weights %}), the goal of the **backward pass** is to compute 
+Because the $ Convolution $ $ layer $ has **weights**, the **backward pass** will be composed of:
 
-$$ 
-\boxed{\delta w = \frac{\partial Loss}{\partial W}(x, y^{truth})}
-$$
-
-for each **weight** of every $ layer $ so that we can later **update** these **weights**. As the 
-$ Convolution $ $ layer $ itself "has" **weights**, we must work on the formula for the $ Convolution $ $ layer $ case. 
-Let us also recall that this formula may be paragraphed as: the impact of the **weights** on the $ Loss $ function. 
-
-Also, let us keep in mind that the formula has one big dependency. 
-Before being able to use it on some $ L^k $ $ layer $, 
-we must compute the impact of the **neurons** input of $ L^{k+1} $ on the $ Loss $ function   
-(the **learning flow** we introduced in the [backward pass article]({% post_url 2021-08-13-backward-pass %})). 
-
-For now, let us make the assumption that the **learning flow** is already available for our current 
-$ Convolution $ $ layer $.
-
-## Backward Pass for the Weights
-
-In this paragraph we continue focusing on the $ L^{k} $ $ layer $. This time we want to compute 
-the opposite direction of its **weights**' **update**: 
-
-$$ 
-\delta w^{k} = \frac{\partial Loss}{\partial W}(o^{k-1})
-$$
-
-We will use the exact same strategy as in the [last paragraph](#backward-pass-for-the-learning-flow). 
-The principal idea is to go back to the very structure of $ L^{k} $ in order to find the impacts of $ W^{k} $ 
-on the $ Loss $ function, knowing that the "future" 
-**learning flow** has already been computed (by definition of the **backward pass**). 
-
-<a id="linear-structure3" class="anchor">
-![Linear](/_assets/images/layers/Linear9.png)
-</a>
-
-<a id="linear-structure4" class="anchor">
-![Linear](/_assets/images/layers/Linear10.png)
-</a>
-
-There are two more **weights** we have to **update** during the **learning phase**: 
-$ B^{k}_1 $ and $ B^{k}_2 $, the **biases**. 
-Thus, we will have to compute $ \delta b^{k}_1 $ and $ \delta b^{k}_2 $.
+- the **backward pass** for the **learning flow**
+- the **backward pass** for the **weights**
 
 ## Backward Pass for the Learning Flow 
 
@@ -186,5 +167,31 @@ computed.
 We must back propagate the **learning flow** to $ \delta^{k}_1 $, $ \delta^{k}_2 $ and $ \delta^{k}_3 $.
 
 ![Linear](/_assets/images/layers/Linear5.png)
+
+## Backward Pass for the Weights
+
+In this paragraph we continue focusing on the $ L^{k} $ $ layer $. This time we want to compute 
+the opposite direction of its **weights**' **update**: 
+
+$$ 
+\delta w^{k} = \frac{\partial Loss}{\partial W}(o^{k-1})
+$$
+
+We will use the exact same strategy as in the [last paragraph](#backward-pass-for-the-learning-flow). 
+The principal idea is to go back to the very structure of $ L^{k} $ in order to find the impacts of $ W^{k} $ 
+on the $ Loss $ function, knowing that the "future" 
+**learning flow** has already been computed (by definition of the **backward pass**). 
+
+<a id="linear-structure3" class="anchor">
+![Linear](/_assets/images/layers/Linear9.png)
+</a>
+
+<a id="linear-structure4" class="anchor">
+![Linear](/_assets/images/layers/Linear10.png)
+</a>
+
+There are two more **weights** we have to **update** during the **learning phase**: 
+$ B^{k}_1 $ and $ B^{k}_2 $, the **biases**. 
+Thus, we will have to compute $ \delta b^{k}_1 $ and $ \delta b^{k}_2 $.
 
 ## Conclusion
