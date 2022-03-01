@@ -30,11 +30,6 @@ In fact, it just consists in storing the data given by the developer inside the 
 
 ![Input1D](/_assets/images/layers/Input1D2.png)
 
-## Backward Pass
-
-The $ Input \text{ } 1D $ $ layer $ has no **weights**. 
-This means the **backward pass** will only have to back propagate the **learning flow**.
-
 ## Backward Pass for the Learning Flow 
 
 We assume $ L1 $ is an $ Input \text{ } 1D $ $ layer $ that produces 2 output **neurons**. 

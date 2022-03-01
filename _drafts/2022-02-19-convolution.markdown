@@ -23,7 +23,9 @@ $ Convolution $ **neural structure**.
 Before that, let us recall the diagram of the $ Convolution $ operation we saw at the 
 [previous article]({% post_url 2022-01-22-second-dimension %}).
 
+<a id="convolution-structure1" class="anchor">
 ![Convolution](/_assets/images/layers/Convolution1.png)
+</a>
 
 In order to fix the ideas the diagram above shows an example $ L^k $ $ Convolution $ $ layer $
 where $ ch^{k-1,1} $, $ ch^{k-1,2} $, $ ch^{k-1,3} $ 
@@ -33,7 +35,9 @@ $ 2 \textbf{ output channels } * 3 \textbf{ input channels } = 6 $.
 
 In the following we will zoom in this part of the previous diagram:
 
+<a id="convolution-structure2" class="anchor">
 ![Convolution](/_assets/images/layers/Convolution2.png)
+</a>
 
 The elements we called "pixels" in the [previous article]({% post_url 2022-01-22-second-dimension %}) are in fact the 
 **neurons** of our $ Convolution $ $ layer $. 
@@ -134,39 +138,113 @@ is still up to the **developer** :smiling_imp:
 We have already seen how the $ Convolution $ $ layer $ computes its **forward pass**, it merely consists 
 in applying the operation described in the [previous paragraph](#the-convolution-neural-structure). 
 
-## Backward Pass
-
-Because the $ Convolution $ $ layer $ has **weights**, the **backward pass** will be composed of:
-
-- the **backward pass** for the **learning flow**
-- the **backward pass** for the **weights**
-
 ## Backward Pass for the Learning Flow 
 
-We are currently focusing on the $ L^{k} $ $ layer $, trying to compute:
+Let us focus on the computation of the **learning flow** for the central input **neuron** of our 
+$ L^{k} $ $ Convolution $ $ layer $: 
 
 $$ 
-\delta^{k} = \frac{\partial Loss}{\partial X^{k}}(o^{k-1})
+\delta^{k,1}_{3,3} = \frac{\partial Loss}{\partial X^{k,1}_{3,3}}(ch^{k-1,1}_{3,3})
 $$
 
-In the [backward pass article]({% post_url 2021-08-13-backward-pass %}), we would use the **chain rule** in order 
-to compute the explicit formula for $ \frac{\partial Loss}{\partial X^{k}} $.
+The interesting variable is $ X^{k,1}_{3,3} $, visible in the input grid in [this diagram](#convolution-structure2). 
+Let us find its **impacts** on the $ Loss $ function.
 
-We will see how to obtain this $ \delta^{k} $ with a more straight forward approach. 
+What is difficult in the $ Convolution $ case is the dual operation we saw in the 
+[previous article]({% post_url 2022-01-22-second-dimension %}):
 
-The principal idea is to go back to the very structure of $ L^{k} $ in order to find the impacts of $ X^{k} $ 
-on the $ Loss $ function, knowing that the "future" 
-**learning flow** has already been computed (by definition of the **backward pass**). 
+1. the spatial context which is captured by the **convolution kernels** (this is specific to the 2D case)
+2. the combination of previous **representations** (this is a legacy of the 1D case)
 
-The structure for the $ L^{k} $ $ layer $ is: 
-- 2 output **neurons** 
-- 3 input **neurons**. 
+We are trying to resolve the **impacts** of $ X^{k,1}_{3,3} $ on the output grid of our $ L^{k} $ $ layer $. 
+Let us consider the diagram below coming from the **forward pass**.
 
-$ \delta^{k+1}_1 $ and $ \delta^{k+1}_2 $ are the "future" **learning flow**: we admit they have already been 
-computed.
-We must back propagate the **learning flow** to $ \delta^{k}_1 $, $ \delta^{k}_2 $ and $ \delta^{k}_3 $.
+![Convolution](/_assets/images/layers/Convolution4.png)
 
-![Linear](/_assets/images/layers/Linear5.png)
+What is important is to note that during the **forward pass**, there are multiple output **neurons** that have 
+captured the spatial context from the 
+**neuron** we are studying $ ch^{k-1,1}_{3,3} $ during their own computation. This is due to the 1st point.
+
+For example let us look at $$ ch^{k-1,1}_{2,2} $$. Looking at the [previous diagram](#convolution-structure1) 
+there are 2 output **neurons** that have used this input **neuron**: $$ ch^{k,1}_{2,2} $$ and $$ ch^{k,2}_{2,2} $$. 
+This is due to the 2nd point.
+
+For now, we have found 2 output **neurons** of $ L^{k} $ that have used the input **neuron** $$ ch^{k-1,1}_{3,3} $$.
+Said differently, $$ ch^{k-1,1}_{3,3} $$ **impacts** $$ ch^{k,1}_{2,2} $$ and $$ ch^{k,2}_{2,2} $$.
+
+In fact there are other **impacts** !
+Due to the 1st point here is the list of the **neurons** that capture context from $ ch^{k-1,1}_{3,3} $: 
+
+$$
+\begin{matrix}
+ch^{k-1,1}_{2,2} & ch^{k-1,1}_{2,3} & ch^{k-1,1}_{2,4} \\
+ch^{k-1,1}_{3,2} & ch^{k-1,1}_{3,3} & ch^{k-1,1}_{3,4} \\
+ch^{k-1,1}_{4,2} & ch^{k-1,1}_{4,3} & ch^{k-1,1}_{4,4}
+\end{matrix}
+$$ 
+
+Due to the 2nd point here is the list of the output **neurons** that have used these input **neurons**: 
+
+$$
+\begin{matrix}
+ch^{k,1}_{2,2} & ch^{k,1}_{2,3} & ch^{k,1}_{2,4} \\
+ch^{k,1}_{3,2} & ch^{k,1}_{3,3} & ch^{k,1}_{3,4} \\
+ch^{k,1}_{4,2} & ch^{k,1}_{4,3} & ch^{k,1}_{4,4}
+\end{matrix}
+$$ 
+
+$$
+\begin{matrix}
+ch^{k,2}_{2,2} & ch^{k,2}_{2,3} & ch^{k,2}_{2,4} \\
+ch^{k,2}_{3,2} & ch^{k,2}_{3,3} & ch^{k,2}_{3,4} \\
+ch^{k,2}_{4,2} & ch^{k,2}_{4,3} & ch^{k,2}_{4,4}
+\end{matrix}
+$$ 
+
+We have found $ 2 * 9 = 18 $ output **neurons** that are **impacted** by $ ch^{k-1,1}_{3,3} $ !
+
+We add these 18 **impacts**, using the **chain rule** and the "future" **learning flow** to obtain the 
+"**impact** formula": 
+
+$$ 
+\begin{align}
+\delta^{k,1}_{3,3} &= & \delta^{k+1,1}_{2,2} . \frac{\partial X^{k+1,1}_{2,2}}{X^{k,1}_{3,3}}(ch^{k-1,1}_{2,2}) 
+                        + \delta^{k+1,1}_{2,3} . \frac{\partial X^{k+1,1}_{2,3}}{X^{k,1}_{3,3}}(ch^{k-1,1}_{2,3}) \\
+                   &  & + ... + \delta^{k+1,1}_{4,4} . \frac{\partial X^{k+1,1}_{4,4}}{X^{k,1}_{3,3}}(ch^{k-1,1}_{4,4}) \\
+                   &  & + \delta^{k+1,2}_{2,2} . \frac{\partial X^{k+1,2}_{2,2}}{X^{k,1}_{3,3}}(ch^{k-1,2}_{2,2}) 
+                        + \delta^{k+1,2}_{2,3} . \frac{\partial X^{k+1,2}_{2,3}}{X^{k,1}_{3,3}}(ch^{k-1,2}_{2,3}) \\
+                   &  & + ... + \delta^{k+1,2}_{4,4} . \frac{\partial X^{k+1,2}_{4,4}}{X^{k,1}_{3,3}}(ch^{k-1,2}_{4,4}) 
+\end{align}
+$$
+
+Let us compute one of these: 
+
+$$ 
+\begin{align}
+\frac{\partial X^{k+1,1}_{2,2}}{X^{k,1}_{3,3}}(ch^{k-1,1}_{2,2}) &= 
+\frac{\partial (... + X^{k,1}_{3,3} * ker^{1,1}_{2,2} + ... + b^{k,1})}{\partial X^{k,1}_{3,3}} \\
+                                          &= ker^{1,1}_{2,2} 
+\end{align}
+$$
+
+We obtain our final "**impact** formula":
+
+$$ 
+\boxed{
+\begin{align}
+\delta^{k,1}_{3,3} &= & \delta^{k+1,1}_{2,2} . ker^{1,1}_{2,2} 
+                        + \delta^{k+1,1}_{2,3} . ker^{1,1}_{2,1} \\ 
+                   &  & + ... + \delta^{k+1,1}_{4,4} . ker^{1,1}_{0,0} \\
+                   &  & + \delta^{k+1,2}_{2,2} . ker^{2,1}_{2,2} 
+                        + \delta^{k+1,2}_{2,3} . ker^{2,1}_{2,1} \\  
+                   &  & + ... + \delta^{k+1,2}_{4,4} . ker^{2,1}_{0,0} 
+\end{align}
+}
+$$
+
+We have just computed the **information flow** for one of the input **neurons**: $ \delta^{k,1}_{3,3} $. 
+We have to do the same for every other input **neurons** of the first channel and then repeat for the other 
+channels: $ \delta^{k,2} $ and $ \delta^{k,3} $...
 
 ## Backward Pass for the Weights
 
