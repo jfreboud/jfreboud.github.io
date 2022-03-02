@@ -345,12 +345,12 @@ We add these 49 **impacts**, using the **chain rule** and the "future" **learnin
 
 $$ 
 \begin{align}
-\delta b^{k,1} &= & \delta^{k+1,1}_{0,0} . \frac{\partial X^{k+1,1}_{1,1}}{\partial B^{k,1}}(ch^{k-1,1}_{0,0}) 
-                    + \delta^{k+1,1}_{0,1} . \frac{\partial X^{k+1,1}_{1,2}}{\partial B^{k,1}}(ch^{k-1,1}_{0,1}) \\
-               &  & + ... + \delta^{k+1,1}_{0,6} . \frac{\partial X^{k+1,1}_{1,6}}{\partial B^{k,1}}(ch^{k-1,1}_{0,6}) \\
+\delta b^{k,1} &= & \delta^{k+1,1}_{0,0} . \frac{\partial X^{k+1,1}_{0,0}}{\partial B^{k,1}}(ch^{k-1,1}_{0,0}) 
+                    + \delta^{k+1,1}_{0,1} . \frac{\partial X^{k+1,1}_{0,1}}{\partial B^{k,1}}(ch^{k-1,1}_{0,1}) \\
+               &  & + ... + \delta^{k+1,1}_{0,6} . \frac{\partial X^{k+1,1}_{0,6}}{\partial B^{k,1}}(ch^{k-1,1}_{0,6}) \\
                &  & + ... \\
-               &  & + \delta^{k+1,1}_{6,0} . \frac{\partial X^{k+1,1}_{6,1}}{\partial B^{k,1}}(ch^{k-1,1}_{6,0}) 
-                    + \delta^{k+1,1}_{6,1} . \frac{\partial X^{k+1,1}_{6,2}}{\partial B^{k,1}}(ch^{k-1,1}_{6,1}) \\
+               &  & + \delta^{k+1,1}_{6,0} . \frac{\partial X^{k+1,1}_{6,0}}{\partial B^{k,1}}(ch^{k-1,1}_{6,0}) 
+                    + \delta^{k+1,1}_{6,1} . \frac{\partial X^{k+1,1}_{6,1}}{\partial B^{k,1}}(ch^{k-1,1}_{6,1}) \\
                &  & + ... + \delta^{k+1,1}_{6,6} . \frac{\partial X^{k+1,1}_{6,6}}{\partial B^{k,1}}(ch^{k-1,1}_{6,6}) 
 \end{align}
 $$
