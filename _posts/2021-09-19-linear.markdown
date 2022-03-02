@@ -338,7 +338,7 @@ $$
 ## Backward Pass for the Weights
 
 In this paragraph we continue focusing on the $ L^{k} $ $ layer $. This time we want to compute 
-the opposite direction of its **weights**' **update**: 
+the opposite direction to follow for its **weights**' **update**: 
 
 $$ 
 \delta w^{k} = \frac{\partial Loss}{\partial W}(o^{k-1})

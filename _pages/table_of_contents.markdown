@@ -51,6 +51,11 @@ We also speak about the neural structure and a better way to compute the backwar
 
 <h4 id="3-the-input-layer">3. <a href="/layer/input">The Input 1D Layer</a></h4>
 <p>Let us see the neural structure for the Input 1D layer.</p>
+
+<h3 id="the-convolution-layer">The Convolution Layer</h3>
+
+<h4 id="1-the-convolution-layer">1. <a href="/layer/convolution">The Convolution Layer</a></h4>
+<p>Let us add the missing piece for the Convolution layer to learn.</p>
 </div>
 
 

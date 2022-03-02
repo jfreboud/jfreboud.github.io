@@ -718,5 +718,6 @@ understand such low level information, one has to build "abstract" **representat
 The $ Convolution $ is an operation that combines **representations**, capturing spatial particularities. It links 
  the semantic together with space.
  
-Nonetheless, the different **kernels** we used were given "out of nowhere". In the next article, we 
- will see what is missing in order for these **kernels** to be learned by the $ model $ itself.
+Nonetheless, the different **kernels** we used were given "out of nowhere". 
+In the [next article]({% post_url 2022-03-02-convolution %}), 
+we will see what is missing in order for these **kernels** to be learned by the $ model $ itself.
