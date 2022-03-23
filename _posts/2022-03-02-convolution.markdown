@@ -154,8 +154,12 @@ Let us find its **impacts** on the $ Loss $ function.
 What is difficult in the $ Convolution $ case is the dual operation we saw in the 
 [previous article]({% post_url 2022-01-22-second-dimension %}):
 
-1. the spatial context which is captured by the **convolution kernels** (this is specific to the 2D case)
-2. the combination of previous **representations** (this is a legacy of the 1D case)
+1. <a id="first-point" class="anchor" style="text-decoration: none; color: inherit;"> 
+    the spatial context which is captured by the **convolution kernels** (this is specific to the 2D case)
+   </a>
+2. <a id="second-point" class="anchor" style="text-decoration: none; color: inherit;"> 
+    the combination of previous **representations** (this is a legacy of the 1D case)
+   </a>
 
 We are trying to resolve the **impacts** of $ X^{k,1}_{3,3} $ on the output grids of our $ L^{k} $ $ layer $. 
 Let us consider the diagram below coming from the **forward pass**.
@@ -164,14 +168,14 @@ Let us consider the diagram below coming from the **forward pass**.
 
 What is important is to note that during the **forward pass**, there are multiple output **neurons** that have 
 captured the spatial context from the 
-**neuron** we are studying $ ch^{k-1,1}_{3,3} $ during their own computation. This is due to the 1st point.
+**neuron** we are studying $ ch^{k-1,1}_{3,3} $ during their own computation. This is due to the [1st point](#first-point).
 
 For example, let us apply our $ ker^{k,1,1} $ **convolution kernel** on $$ ch^{k-1,1}_{2,2} $$ 
 in order to obtain $$ ch^{k,1}_{2,2} $$. 
 We see that one of the "multiplied couple" is $$ ch^{k-1,1}_{3,3} * ker^{k,1,1}_{2,2} $$. 
 This means that $$ ch^{k-1,1}_{3,3} $$ **impacts** $$ ch^{k,1}_{2,2} $$.
 
-But due to the 2nd point, we should also try to apply our $$ ker^{k,2,1} $$ **convolution kernel** 
+But due to the [2nd point](#second-point), we should also try to apply our $$ ker^{k,2,1} $$ **convolution kernel** 
 on $$ ch^{k-1,1}_{2,2} $$ in order to obtain $$ ch^{k,2}_{2,2} $$.
 We see that one of the "multiplied couple" is $$ ch^{k-1,1}_{3,3} * ker^{k,2,1}_{2,2} $$. 
 This means that $$ ch^{k-1,1}_{3,3} $$ also **impacts** $$ ch^{k,2}_{2,2} $$.
@@ -180,7 +184,7 @@ For now, we have found 2 output **neurons** of $ L^{k} $ that are **impacted** b
 $$ ch^{k,1}_{2,2} $$ and $$ ch^{k,2}_{2,2} $$.
 
 In fact there are other **impacts** !
-Due to the 1st point here is the list of the **neurons** that capture context from $ ch^{k-1,1}_{3,3} $: 
+Due to the [1st point](#first-point) here is the list of the **neurons** that capture context from $ ch^{k-1,1}_{3,3} $: 
 
 $$
 \begin{matrix}
@@ -190,7 +194,7 @@ ch^{k-1,1}_{4,2} & ch^{k-1,1}_{4,3} & ch^{k-1,1}_{4,4}
 \end{matrix}
 $$ 
 
-Due to the 2nd point here is the list of the output **neurons** that have used these input **neurons**: 
+Due to the [2nd point](#second-point) here is the list of the output **neurons** that have used these input **neurons**: 
 
 $$
 \begin{matrix}
