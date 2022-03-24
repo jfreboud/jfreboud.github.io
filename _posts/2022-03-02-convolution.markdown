@@ -387,4 +387,5 @@ We do the same for $ b^{k,2} $.
 ## Conclusion
 
 We have seen the **neural structure** for the $ Convolution $ $ layer $. 
-In the next article we will see a simple $ layer $ that will help us create our first real deep learning $ model $ !
+In the [next article]({% post_url 2022-03-24-max-pooling %}) 
+we will see a simple $ layer $ that will help us create our first real deep learning $ model $ !

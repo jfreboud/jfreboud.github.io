@@ -56,6 +56,9 @@ We also speak about the neural structure and a better way to compute the backwar
 
 <h4 id="1-the-convolution-layer">1. <a href="/layer/convolution">The Convolution Layer</a></h4>
 <p>Let us add the missing piece for the Convolution layer to learn.</p>
+
+<h4 id="2-the-max-pooling-layer">2. <a href="/layer/max-pooling">The Max Pooling Layer</a></h4>
+<p>The Max Pooling layer will help us build effective deep learning models.</p>
 </div>
 
 

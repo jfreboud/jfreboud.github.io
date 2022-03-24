@@ -2,9 +2,9 @@
 layout: post
 title:  "The Max Pooling Layer"
 category: layer
-date:   2022-03-22
+date:   2022-03-24
 excerpt: >-
-  The Max Pooling layer will help us build effective deep-learning models. 
+  The Max Pooling layer will help us build effective deep learning models. 
 ---
 
 ## Introduction
@@ -26,7 +26,7 @@ Except for this dimensional reduction, it preserves the same structure as its pr
 
 ![MaxPooling](/_assets/images/layers/MaxPooling1.png)
 
-Let us now see how the $ Max $ Pooling $ $ layer $ works when its goal is to divide the size by 2. 
+Let us now see how the $ Max $ $ Pooling $ $ layer $ works when its goal is to divide the size by 2. 
 
 <a id="max-pooling1" class="anchor">
 ![MaxPooling](/_assets/images/layers/MaxPooling2.png)
@@ -82,6 +82,14 @@ $$
 }
 $$ 
 
+What appears is that for every "cell" in the previous [diagram](#max-pooling1), there is only one **learning flow** that 
+will not be null during the **backward pass**.
+
+In fact this is logic when we recall that during the **forward pass** each output **neuron** has used only one 
+input **neuron**: the maximal **neurone** in the considered "cell".
+
 ## Conclusion
 
 We have seen the **neural structure** for the $ Max $ $ Pooling $ $ layer $. 
+In the next article we will use our 2D $ layers $ in order to build a simple deep learning $ model $ and 
+investigate our first deep learning **task**: **classification** !
