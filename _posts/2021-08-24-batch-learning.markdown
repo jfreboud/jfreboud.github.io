@@ -277,7 +277,7 @@ $$
 
 In this example we will start a new **learning phase** from scratch (compared to the "Example: what we do..." in the 
 [previous article]({% post_url 2021-08-23-gradient-descent %})) but this time with 
-a **batch** of size 3. If the choice in this example is simple because we have only 3 **data input**, it may 
+a **batch** size of 3. If the choice in this example is simple because we have only 3 **data input**, it may 
 be more touchy in the general case. Yet, there is no magical formula and it will be up to the developer to 
 decide on this parameter. We use the same very small **learning rate** as before: $ \alpha = 10^{-7} $.
 
@@ -477,7 +477,7 @@ $$
     \boxed{w^2 = (\frac{1}{200}, \frac{0.0002}{3} - \frac{3 000}{11 600 000}, 0.0001 + \frac{1}{5 800})}
     $$
 
-We have just run one **epoch** of the **gradient descent** algorithm on our whole **dataset** with a **batch** of 3.
+We have just run one **epoch** of the **gradient descent** algorithm on our whole **dataset** with a **batch** size of 3.
 Let us stop our algorithm now and check the new results when we run a new **forward pass** on every **data input** 
 of our **dataset**.
 

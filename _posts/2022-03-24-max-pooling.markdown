@@ -86,7 +86,7 @@ What appears is that for every "cell" in the previous [diagram](#max-pooling1), 
 will not be null during the **backward pass**.
 
 In fact this is logic when we recall that during the **forward pass** each output **neuron** has used only one 
-input **neuron**: the maximal **neurone** in the considered "cell".
+input **neuron**: the maximal **neurone** in the considered "cell" :smiling_imp:
 
 ## Conclusion
 
