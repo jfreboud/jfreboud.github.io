@@ -136,7 +136,7 @@ $$
 $$
 
 The question is now: how do we use these "norm" elements in order to build the "normalized" output **neurons** of our 
-$ L^{k} $ **normalization** $ layer $.
+$ L^{k} $ $ Normalization $ layer $.
 
 We are going to transform each of these output **neurons** so that the new average output and standard deviation for 
 these elements are "compensated" by the "norm" elements computed before: 
@@ -215,3 +215,7 @@ o^3_{k}   &= &  \beta + \gamma . o^3_{k'}
 $$
 
 Without doing any computation, the new "norm" elements of these final output **neurons** are ($$ \beta $$, $$ \gamma $$).
+
+Let us recap our $ L^k $ $ Normalization $ $ layer $.
+
+![BN](/_assets/images/layers/BN6.png)
