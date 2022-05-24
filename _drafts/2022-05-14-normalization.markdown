@@ -197,8 +197,8 @@ average and standard deviation that serve our $ model $ better ?
 
 This is what we will fix with 2 **weights**: 
 
-- $ \beta $ the new average
-- $ \gamma $ the new standard deviation
+- $ \beta_k $ the new average
+- $ \gamma_k $ the new standard deviation
 
 We have already spoken about **weights** in the [weights article]({% post_url 2021-08-19-weights %}), 
 these 2 **weights** will be modified during the **learning phase** so that their modification better suits the 
@@ -208,9 +208,9 @@ The final transform is:
 
 $$ 
 \begin{align}
-o^1_{k}   &= &  \beta + \gamma . o^1_{k'} \\ 
-o^2_{k}   &= &  \beta + \gamma . o^2_{k'} \\ 
-o^3_{k}   &= &  \beta + \gamma . o^3_{k'}
+o^1_{k}   &= &  \beta_k + \gamma_k . o^1_{k'} \\ 
+o^2_{k}   &= &  \beta_k + \gamma_k . o^2_{k'} \\ 
+o^3_{k}   &= &  \beta_k + \gamma_k . o^3_{k'}
 \end{align}
 $$
 
@@ -218,4 +218,60 @@ Without doing any computation, the new "norm" elements of these final output **n
 
 Let us recap our $ L^k $ $ Normalization $ $ layer $.
 
+<a id="BN-structure" class="anchor">
 ![BN](/_assets/images/layers/BN6.png)
+</a>
+
+## Backward Pass for the Learning Flow 
+
+We will have to be very careful to compute the **backward pass** for the $ Normalization $ $ layer $ because 
+as we saw in [this diagram](#BN-structure), we have several intermediate elements that are $ function $ of other 
+elements. In order to compute the different **impacts** correctly, we have to follow the order of the 
+[backward pass]({% post_url 2021-08-13-backward-pass %}) once more.
+
+First of all, let us see the different $ function $ that appear in the [previous diagram](#BN-structure): 
+
+- $$ X^1_k $$, $$ X^2_k $$, $$ X^3_k $$: these functions only depend on elements that come in a previous $ layer $. 
+Computing their own **back propagation** would be the task of the $$ L^{k-1} $$ $$ layer $$, not the current 
+$$ L^k $$ one.
+- $$ M_{k+1} $$ clearly depends on $$ X^1_k $$, $$ X^2_k $$, $$ X^3_k $$.
+- $$ \Sigma_{k+1} $$ depends on $$ X^1_k $$, $$ X^2_k $$, $$ X^3_k $$ and on $$ M_{k+1} $$.
+- $$ X^1_{k+1} $$, $$ X^2_{k+1} $$, $$ X^3_{k+1} $$ depend on: 
+$$ X^1_k $$, $$ X^2_k $$, $$ X^3_k $$, $$ M_{k+1} $$, $$ \Sigma_{k+1} $$, $$ \beta_{k+1} $$ and $$ \gamma_{k+1} $$.
+- $$ \gamma_{k} $$, $$ \beta_{k} $$ hopefully do not depend on anything, they will be **updated** in a later 
+paragraph.
+
+We are now able to understand that to take into account the different **impacts**, we have to compute our 
+**learning flow** in the following order: 
+
+1. $$ \delta X^1_{k+1} $$, $$ \delta X^2_{k+1} $$, $$ \delta X^3_{k+1} $$ are given by construction of 
+the **backward pass** (considering we are looking to back propagate the layer $ L^k $).
+2. $ \delta \Sigma_{k+1} $
+3. $ \delta M_{k+1} $
+4. $$ \delta X^1_k $$, $$ \delta X^2_k $$, $$ \delta X^3_k $$
+
+### $$ \delta \Sigma_{k+1} $$ 
+
+As we already know, the only functions that depend on $ \Sigma_{k+1} $ are: 
+$$ X^1_{k+1} $$, $$ X^2_{k+1} $$, $$ X^3_{k+1} $$. Said differently, $ \Sigma_{k+1} $ **impacts**: 
+$$ X^1_{k+1} $$, $$ X^2_{k+1} $$ and $$ X^3_{k+1} $$.
+
+We have computed several "**impact** formula" since the 
+[linear layer article]({% post_url 2021-09-19-linear %}), let us get straight to the point: 
+
+$$ 
+\delta \sigma_{k} = \delta^{k+1}_1 . \frac{\partial X^1_{k+1}}{\partial \Sigma_{k}}(o^{k-1}_1) + 
+\delta^{k+1}_2 . \frac{\partial X^2_{k+1}}{\partial \Sigma_{k}}(o^{k-1}_2) + 
+\delta^{k+1}_3 . \frac{\partial X^2_{k+1}}{\partial \Sigma_{k}}(o^{k-1}_3)
+$$
+
+Let us compute $$ \frac{\partial X^1_{k+1}}{\partial \Sigma_{k}}(o^{k-1}_1) $$:
+
+$$ 
+\begin{align}
+\frac{\partial X^1_{k+1}}{\partial \Sigma_{k}}(o^{k-1}_1) &= 
+\frac{\partial (\beta_k + \gamma_k . X^1_{k+1})}{\partial \Sigma_{k}}(o^{k-1}_1) \\
+&= \frac{\partial (\beta_k + \gamma_k . \frac{X^1_{k-1} - M_{k+1}}{\Sigma_k + \epsilon})}{\partial \Sigma_{k}}(o^{k-1}_1) \\
+&= \frac{\partial (\gamma_k . \frac{X^1_{k-1} - M_{k+1}}{\Sigma_k + \epsilon})}{\partial \Sigma_{k}}(o^{k-1}_1) \\
+\end{align}
+$$
