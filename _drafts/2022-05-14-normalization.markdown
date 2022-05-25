@@ -34,8 +34,10 @@ We also want to know about the typical difference we might observe between one o
 considered $ layer $ and the $ mean $ above. This is called the **standard deviation**, noted $ \sigma $: 
 
 $$ 
-\sigma = \frac{1}{\textbf{nb elements}} . \sqrt{\sum_{elem=0}^{\textbf{nb elements} - 1} (o_{elem} - \mu)^2}
+\sigma = \frac{1}{\textbf{nb elements}} . \sqrt{\sum_{elem=0}^{\textbf{nb elements} - 1} (o_{elem} - \mu)^2 + \epsilon}
 $$
+
+with $$ \epsilon \approx 0 $$.
 
 ## The Shapes of Normalization
 
@@ -82,7 +84,7 @@ In the diagram above, the proposition was to compute the "norm" elements on each
 $$ 
 \begin{align}
 \mu_{k,0,0}    &= & \frac{1}{3} . (ch_{k-1,1,0,0} + ch_{k-1,2,0,0} + ch_{k-1,3,0,0}) \\ 
-\sigma_{k,0,0} &= & \frac{1}{3} . \sqrt{(ch_{k-1,1,0,0} - \mu_{k,0,0})^2 + (ch_{k-1,2,0,0} - \mu_{k,0,0})^2 + (ch_{k-1,3,0,0} - \mu_{k,0,0})^2}
+\sigma_{k,0,0} &= & \frac{1}{3} . \sqrt{(ch_{k-1,1,0,0} - \mu_{k,0,0})^2 + (ch_{k-1,2,0,0} - \mu_{k,0,0})^2 + (ch_{k-1,3,0,0} - \mu_{k,0,0})^2 + \epsilon}
 \end{align}
 $$
 
@@ -108,7 +110,7 @@ $$
 \sigma_{k,1,tmp}^2 &= & (ch_{k-1,1,0,0} - \mu_{k,1})^2 + ... + (ch_{k-1,1,0,width-1} - \mu_{k,1})^2 \\
                    &  & + ... \\
                    &  & + (ch_{k-1,1,height-1,0} - \mu_{k,1})^2 + ... + (ch_{k-1,1,height-1,width-1} - \mu_{k,1})^2 \\
-\sigma_{k,1} &= & \frac{1}{width . height} . \sqrt{\sigma_{k,1,tmp}^2}
+\sigma_{k,1} &= & \frac{1}{width . height} . \sqrt{\sigma_{k,1,tmp}^2 + \epsilon}
 \end{align}
 $$
 
@@ -131,7 +133,7 @@ and $ o^3_{k-1} $:
 $$ 
 \begin{align}
 \mu_k    &= & \frac{1}{3} . (o^1_{k-1} + o^2_{k-1} + o^3_{k-1}) \\ 
-\sigma_k &= & \frac{1}{3} . \sqrt{(o^1_{k-1} - \mu_k)^2 + (o^2_{k-1} - \mu_k)^2 + (o^3_{k-1} - \mu_k)^2}
+\sigma_k &= & \frac{1}{3} . \sqrt{(o^1_{k-1} - \mu_k)^2 + (o^2_{k-1} - \mu_k)^2 + (o^3_{k-1} - \mu_k)^2 + \epsilon}
 \end{align}
 $$
 
@@ -143,9 +145,9 @@ these elements are "compensated" by the "norm" elements computed before:
 
 $$ 
 \begin{align}
-o^1_{k'}   &= &  \frac{o^1_{k-1} - \mu_k}{\sigma_k + \epsilon} \\ 
-o^2_{k'}   &= &  \frac{o^2_{k-1} - \mu_k}{\sigma_k + \epsilon} \\ 
-o^3_{k'}   &= &  \frac{o^3_{k-1} - \mu_k}{\sigma_k + \epsilon} 
+o^1_{k'}   &= &  \frac{o^1_{k-1} - \mu_k}{\sigma_k} \\ 
+o^2_{k'}   &= &  \frac{o^2_{k-1} - \mu_k}{\sigma_k} \\ 
+o^3_{k'}   &= &  \frac{o^3_{k-1} - \mu_k}{\sigma_k} 
 \end{align}
 $$
 
@@ -170,16 +172,16 @@ $$
 
 $$ 
 \begin{align}
-\sigma_{k'} &= & \frac{1}{3} . \sqrt{(o^1_{k'} - \mu_{k'})^2 + (o^2_{k'} - \mu_{k'})^2 + (o^3_{k'} - \mu_{k'})^2} \\
-            &= & \frac{1}{3} . \sqrt{(o^1_{k'})^2 + (o^2_{k'})^2 + (o^3_{k'})^2} \\
-            &= & \frac{1}{3} . \sqrt{(\frac{o^1_{k-1} - \mu_k}{\sigma_k + \epsilon})^2 + 
-                                     (\frac{o^2_{k-1} - \mu_k}{\sigma_k + \epsilon})^2 + 
-                                     (\frac{o^3_{k-1} - \mu_k}{\sigma_k + \epsilon})^2} \\ 
-            &= & \frac{1}{\sigma_k + \epsilon} . \frac{1}{3} . \sqrt{(o^1_{k-1} - \mu_k)^2 + 
-                                                                     (o^2_{k-1} - \mu_k)^2 + 
-                                                                     (o^3_{k-1} - \mu_k)^2} \\ 
-            &= & \frac{1}{\sigma_k + \epsilon} . \sigma_k \\ 
-            &\approx & 1 
+\sigma_{k'} &= & \frac{1}{3} . \sqrt{(o^1_{k'} - \mu_{k'})^2 + (o^2_{k'} - \mu_{k'})^2 + (o^3_{k'} - \mu_{k'})^2 + \epsilon} \\
+            &= & \frac{1}{3} . \sqrt{(o^1_{k'})^2 + (o^2_{k'})^2 + (o^3_{k'})^2 + \epsilon} \\
+            &= & \frac{1}{3} . \sqrt{(\frac{o^1_{k-1} - \mu_k}{\sigma_k})^2 + 
+                                     (\frac{o^2_{k-1} - \mu_k}{\sigma_k})^2 + 
+                                     (\frac{o^3_{k-1} - \mu_k}{\sigma_k})^2 + \epsilon} \\ 
+            &= & \frac{1}{\sigma_k} . \frac{1}{3} . \sqrt{(o^1_{k-1} - \mu_k)^2 + 
+                                                          (o^2_{k-1} - \mu_k)^2 + 
+                                                          (o^3_{k-1} - \mu_k)^2 + \epsilon} \\ 
+            &= & \frac{1}{\sigma_k} . \sigma_k \\ 
+            &= & 1 
 \end{align}
 $$
 
@@ -195,10 +197,10 @@ We could stop the transformation here, but it would be forgetting that we can in
 What if the new "norm" elements do not represent what is best for our $ L^k $ ? What if we could find some new 
 average and standard deviation that serve our $ model $ better ?
 
-This is what we will fix with 2 **weights**: 
+This is what we will fix with 2 **weights** $$ \Gamma_{k+1} $$ and $$ B_{k+1} $$: 
 
-- $ \beta_k $ the new average
-- $ \gamma_k $ the new standard deviation
+- $$ B_{k+1} $$ variable of value $$ \beta_k $$, the new average
+- $$ \Gamma_{k+1} $$ variable of value $$ \gamma_k $$, the new standard deviation
 
 We have already spoken about **weights** in the [weights article]({% post_url 2021-08-19-weights %}), 
 these 2 **weights** will be modified during the **learning phase** so that their modification better suits the 
@@ -238,10 +240,10 @@ $$ L^k $$ one.
 - $$ \Sigma_{k+1} $$ depends on $$ X^1_k $$, $$ X^2_k $$, $$ X^3_k $$ and on $$ M_{k+1} $$.
 - $$ X^1_{k+1} $$, $$ X^2_{k+1} $$, $$ X^3_{k+1} $$ depend on: 
 $$ X^1_k $$, $$ X^2_k $$, $$ X^3_k $$, $$ M_{k+1} $$, $$ \Sigma_{k+1} $$, $$ \beta_{k+1} $$ and $$ \gamma_{k+1} $$.
-- $$ \gamma_{k} $$, $$ \beta_{k} $$ hopefully do not depend on anything, they will be **updated** in a later 
+- $$ \Gamma_{k+1} $$, $$ B_{k+1} $$ hopefully do not depend on anything, they will be **updated** in a later 
 paragraph.
 
-We are now able to understand that to take into account the different **impacts**, we have to compute our 
+Thus, in order to take into account the different **impacts**, we have to compute our 
 **learning flow** in the following order: 
 
 1. $$ \delta X^1_{k+1} $$, $$ \delta X^2_{k+1} $$, $$ \delta X^3_{k+1} $$ are given by construction of 
@@ -260,18 +262,86 @@ We have computed several "**impact** formula" since the
 [linear layer article]({% post_url 2021-09-19-linear %}), let us get straight to the point: 
 
 $$ 
-\delta \sigma_{k} = \delta^{k+1}_1 . \frac{\partial X^1_{k+1}}{\partial \Sigma_{k}}(o^{k-1}_1) + 
-\delta^{k+1}_2 . \frac{\partial X^2_{k+1}}{\partial \Sigma_{k}}(o^{k-1}_2) + 
-\delta^{k+1}_3 . \frac{\partial X^2_{k+1}}{\partial \Sigma_{k}}(o^{k-1}_3)
+\delta \sigma_{k} = \delta^{k+1}_1 . \frac{\partial X^1_{k+1}}{\partial \Sigma_{k+1}}(.) + 
+\delta^{k+1}_2 . \frac{\partial X^2_{k+1}}{\partial \Sigma_{k+1}}(.) + 
+\delta^{k+1}_3 . \frac{\partial X^2_{k+1}}{\partial \Sigma_{k+1}}(.)
 $$
 
-Let us compute $$ \frac{\partial X^1_{k+1}}{\partial \Sigma_{k}}(o^{k-1}_1) $$:
+We have put $$ (.) $$ to remind we must evaluate the $ derivative $ $ function $. 
+Yet, we hide the value where the $ function $ must be evaluated, 
+see the [linear layer article]({% post_url 2021-09-19-linear %}).
+
+Let us compute $$ \frac{\partial X^1_{k+1}}{\partial \Sigma_{k+1}} $$:
 
 $$ 
 \begin{align}
-\frac{\partial X^1_{k+1}}{\partial \Sigma_{k}}(o^{k-1}_1) &= 
-\frac{\partial (\beta_k + \gamma_k . X^1_{k+1})}{\partial \Sigma_{k}}(o^{k-1}_1) \\
-&= \frac{\partial (\beta_k + \gamma_k . \frac{X^1_{k-1} - M_{k+1}}{\Sigma_k + \epsilon})}{\partial \Sigma_{k}}(o^{k-1}_1) \\
-&= \frac{\partial (\gamma_k . \frac{X^1_{k-1} - M_{k+1}}{\Sigma_k + \epsilon})}{\partial \Sigma_{k}}(o^{k-1}_1) \\
+\frac{\partial X^1_{k+1}}{\partial \Sigma_{k+1}} &= 
+\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{k+1})}{\partial \Sigma_{k+1}} \\
+&= \frac{\partial (B_{k+1} + \Gamma_{k+1} . \frac{X^1_{k} - M_{k+1}}{\Sigma_{k+1}})}{\partial \Sigma_{k+1}} \\
+&= \Gamma_{k+1} . (X^1_{k} - M_{k+1}) . \frac{\partial (\frac{1}{\Sigma_{k+1}})}{\partial \Sigma_{k+1}} \\
+&= \Gamma_{k+1} . (X^1_{k} - M_{k+1}) . \frac{-1}{(\Sigma_{k+1})^2} \\
+\frac{\partial X^1_{k+1}}{\partial \Sigma_{k+1}} &= 
+- \frac{\Gamma_{k+1}}{(\Sigma_{k+1})^2} . (X^1_{k} - M_{k+1})
 \end{align}
+$$
+
+After having evaluated the previous $ derivative $ $ function $, we obtain the "**impact** formula" updated:
+
+$$ 
+\boxed{\delta \sigma_{k} = - \frac{\gamma_k}{(\sigma_k)^2} . 
+(\delta^{k+1}_1 . (o^1_{k-1} - \mu_{k}) + 
+ \delta^{k+1}_2 . (o^2_{k-1} - \mu_{k}) + 
+ \delta^{k+1}_3 . (o^3_{k-1} - \mu_{k}))}
+$$
+
+### $$ \delta M_{k+1} $$
+
+$ M_{k+1} $ **impacts** $$ X^1_{k+1} $$, $$ X^2_{k+1} $$, $$ X^3_{k+1} $$ and $$ \Sigma_{k+1} $$.
+
+We have the "**impact** formula":
+
+$$ 
+\delta \mu_{k} = \delta^{k+1}_1 . \frac{\partial X^1_{k+1}}{\partial M_{k+1}}(.) + 
+\delta^{k+1}_2 . \frac{\partial X^2_{k+1}}{\partial M_{k+1}}(.) + 
+\delta^{k+1}_3 . \frac{\partial X^2_{k+1}}{\partial M_{k+1}}(.) +
+\delta \sigma_{k} . \frac{\partial \Sigma_{k+1}}{\partial M_{k+1}}(.)
+$$
+
+Let us compute $$ \frac{\partial X^1_{k+1}}{\partial M_{k+1}} $$: 
+
+$$ 
+\begin{align}
+\frac{\partial X^1_{k+1}}{\partial M_{k+1}} &= 
+\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{k+1})}{\partial M_{k+1}} \\
+&= \frac{\partial (B_{k+1} + \Gamma_{k+1} . \frac{X^1_{k} - M_{k+1}}{\Sigma_{k+1}})}{\partial M_{k+1}} \\
+&= \Gamma_{k+1} . \frac{\partial (\frac{-M_{k+1}}{\Sigma_{k+1}})}{\partial M_{k+1}} \\
+&= \Gamma_{k+1} . \frac{-1}{\Sigma_{k+1}} \\
+\frac{\partial X^1_{k+1}}{\partial M_{k+1}} &= - \frac{\Gamma_{k+1}}{\Sigma_{k+1}}
+\end{align}
+$$
+
+Let us also compute $$ \frac{\partial \Sigma_{k+1}}{\partial M_{k+1}} $$: 
+
+$$ 
+\begin{align}
+\frac{\partial \Sigma_{k+1}}{\partial M_{k+1}} &= 
+\frac{\partial (\frac{1}{3} . \sqrt{(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2 + \epsilon})}{\partial M_{k+1}} \\
+&= \frac{1}{3} . \frac{\frac{\partial ((X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2 + \epsilon)}{\partial M_{k+1}}}{2 . \sqrt{(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2 + \epsilon}} \\
+&= \frac{1}{6 . \sqrt(...)} . \frac{\partial ((X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2 + \epsilon)}{\partial M_{k+1}} \\
+&= \frac{1}{6 . \sqrt(...)} . (2 . (X^1_{k} - M_{k+1}) + 2 . (X^2_{k} - M_{k+1}) + 2 . (X^3_{k} - M_{k+1}))  \\
+&= \frac{1}{6 . \sqrt(...)} . (2 * 3 * \frac{1}{3} . (X^1_{k} + X^2_{k} + X^3_{k}) - 2 * 3 . M_{k+1}) \\
+&= \frac{1}{6 . \sqrt(...)} . (6 . M_{k+1} - 6 . M_{k+1}) \\
+\frac{\partial \Sigma_{k+1}}{\partial M_{k+1}} &= 0
+\end{align}
+$$
+
+We obtain the "**impact** formula" updated:
+
+$$ 
+\delta \mu_{k} = - \frac{\gamma_{k}}{\sigma_{k}} . (\delta^{k+1}_1 + \delta^{k+1}_2 + \delta^{k+1}_3) -
+\delta \sigma_{k} * 0
+$$
+
+$$ 
+\boxed{\delta \mu_{k} = - \frac{\gamma_{k}}{\sigma_{k}} . (\delta^{k+1}_1 + \delta^{k+1}_2 + \delta^{k+1}_3)}
 $$
