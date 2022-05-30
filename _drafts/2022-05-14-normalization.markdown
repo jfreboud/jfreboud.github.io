@@ -151,6 +151,9 @@ o^3_{k'}   &= &  \frac{o^3_{k-1} - \mu_k}{\sigma_k}
 \end{align}
 $$
 
+Let us note $$ X^1_{(k+1)'} $$, $$ X^2_{(k+1)'} $$ and $$ X^3_{(k+1)'} $$ the variables associated to the values 
+$$ o^1_{k'} $$, $$ o^2_{k'} $$ and $$ o^3_{k'} $$.
+
 ### The New "Norm" Elements
 
 We have transformed our **neurons** $$ o^1_{k-1} $$, $$ o^2_{k-1} $$ and $$ o^3_{k-1} $$ of "norm" elements 
@@ -237,8 +240,8 @@ First of all, let us see the different $ function $ that appear in the [previous
 Computing their own **back propagation** would be the task of the $$ L^{k-1} $$ $$ layer $$, not the current 
 $$ L^k $$ one.
 - $$ M_{k+1} $$ clearly depends on $$ X^1_k $$, $$ X^2_k $$, $$ X^3_k $$.
-- $$ \Sigma_{k+1} $$ depends on $$ X^1_k $$, $$ X^2_k $$, $$ X^3_k $$ and on $$ M_{k+1} $$.
-- $$ X^1_{k+1} $$, $$ X^2_{k+1} $$, $$ X^3_{k+1} $$ depend on: 
+- $$ \Sigma_{k+1} $$ depends on $$ X^1_k $$, $$ X^2_k $$, $$ X^3_k $$ and $$ M_{k+1} $$.
+- $$ X^1_{k+1} $$, $$ X^2_{k+1} $$, $$ X^3_{k+1} $$ depend on 
 $$ X^1_k $$, $$ X^2_k $$, $$ X^3_k $$, $$ M_{k+1} $$, $$ \Sigma_{k+1} $$, $$ B_{k+1} $$ and $$ \Gamma_{k+1} $$.
 - $$ \Gamma_{k+1} $$, $$ B_{k+1} $$ hopefully do not depend on anything, they will be **updated** in a later 
 paragraph.
@@ -254,7 +257,7 @@ the **backward pass** (considering we are looking to back propagate the layer $ 
 
 ### $$ \delta \Sigma_{k+1} $$ 
 
-As we already know, the only functions that depend on $ \Sigma_{k+1} $ are: 
+As we can see in [this diagram](#BN-structure), the functions that depend on $ \Sigma_{k+1} $ are: 
 $$ X^1_{k+1} $$, $$ X^2_{k+1} $$, $$ X^3_{k+1} $$. Said differently, $ \Sigma_{k+1} $ **impacts**: 
 $$ X^1_{k+1} $$, $$ X^2_{k+1} $$ and $$ X^3_{k+1} $$.
 
@@ -296,7 +299,7 @@ $$
 \end{align}
 $$
 
-After having evaluated the previous $ derivative $ $ function $, we obtain the "**impact** formula" updated:
+After having evaluated the previous $ derivative $ $ function $, we update the "**impact** formula":
 
 $$ 
 \boxed{\delta \sigma_{k} = - \frac{\gamma_k}{\sigma_k} . 
@@ -307,6 +310,7 @@ $$
 
 ### $$ \delta M_{k+1} $$
 
+As we can see in [this diagram](#BN-structure),
 $ M_{k+1} $ **impacts** $$ X^1_{k+1} $$, $$ X^2_{k+1} $$, $$ X^3_{k+1} $$ and $$ \Sigma_{k+1} $$.
 
 We have the "**impact** formula":
@@ -350,7 +354,7 @@ $$
 \end{align}
 $$
 
-We obtain the "**impact** formula" updated:
+We update the "**impact** formula":
 
 $$ 
 \delta \mu_{k} = - \frac{\gamma_{k}}{\sigma_{k}} . (\delta^{k+1}_1 + \delta^{k+1}_2 + \delta^{k+1}_3) -
@@ -363,18 +367,19 @@ $$
 
 ### $$ \delta X^1_k $$
 
-$$ \delta^1_k $$ **impacts** $$ X^1_{k+1} $$, $$ M_{k+1} $$ and $$ \Sigma_{k+1} $$.
+As we can see in [this diagram](#BN-structure),
+$$ X^1_k $$ **impacts** $$ X^1_{k+1} $$, $$ M_{k+1} $$ and $$ \Sigma_{k+1} $$.
 
 We have the "**impact** formula":
 
 $$ 
-\delta X^1_{k} = \delta^{k+1}_1 . \frac{\partial X^1_{k+1}}{\partial X^1_{k}}(.) + 
+\delta^1_{k} = \delta^{k+1}_1 . \frac{\partial X^1_{k+1}}{\partial X^1_{k}}(.) + 
 \delta \mu_{k} . \frac{\partial M_{k+1}}{\partial X^1_{k}}(.) + 
 \delta \sigma_{k} . \frac{\partial \Sigma_{k+1}}{\partial X^1_{k}}(.)
 $$
 
 By construction of the **backward pass** we already know: $$ \delta^{k+1}_1 $$. 
-In the 2 previous paragraphs we already computed: $$ \delta \mu_{k} $$ and $$ \delta \sigma_{k} $$.
+In the previous 2 paragraphs we already computed: $$ \delta \mu_{k} $$ and $$ \delta \sigma_{k} $$.
 
 Let us compute $$ \frac{\partial X^1_{k+1}}{\partial X^1_{k}} $$: 
 
@@ -411,7 +416,7 @@ $$
 \end{align}
 $$
 
-We obtain the "**impact** formula" updated:
+We update the "**impact** formula":
 
 $$ 
 \begin{align}
