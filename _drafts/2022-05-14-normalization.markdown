@@ -162,31 +162,48 @@ We have transformed our **neurons** $$ o^1_{k-1} $$, $$ o^2_{k-1} $$ and $$ o^3_
 
 $$ 
 \begin{align}
-\mu_{k'}    &= & \frac{1}{3} . (o^1_{k'} + o^2_{k'} + o^3_{k'}) \\ 
+\mu_{k'}    &= & \frac{1}{3} . (o^1_{k'} + o^2_{k'} + o^3_{k'}) \tag{1}\label{eq:mu_1} \\ 
             &= & \frac{1}{3} . (\frac{o^1_{k-1} - \mu_k}{\sigma_k} + 
                  \frac{o^2_{k-1} - \mu_k}{\sigma_k} + 
-                 \frac{o^3_{k-1} - \mu_k}{\sigma_k}) \\
+                 \frac{o^3_{k-1} - \mu_k}{\sigma_k}) \tag{2}\label{eq:mu_2} \\
             &= & \frac{1}{\sigma_k} . \left[\frac{1}{3} . (o^1_{k-1} + o^2_{k-1} + o^3_{k-1}) - 
                                             \frac{1}{3} . 3\mu_k\right] \\
-            &= & \frac{1}{\sigma_k} . (\mu_k - \mu_k) \\
+            &= & \frac{1}{\sigma_k} . (\mu_k - \mu_k) \tag{3}\label{eq:mu_3} \\
             &= & 0
 \end{align}
 $$
 
+\eqref{eq:mu_1}: definition of the average of $$ o^1_{k'} $$, $$ o^2_{k'} $$ and $$ o^3_{k'} $$. 
+
+\eqref{eq:mu_2}: definition of $$ o^1_{k'} $$, $$ o^2_{k'} $$ and $$ o^3_{k'} $$, see [previous paragraph](#forward-pass). 
+
+\eqref{eq:mu_3}: definition of the average of $$ o^1_{k-1} $$, $$ o^2_{k-1} $$ and $$ o^3_{k-1} $$. 
+
 $$ 
 \begin{align}
-\sigma_{k'} &= & \sqrt{\frac{1}{3} . \left[(o^1_{k'} - \mu_{k'})^2 + (o^2_{k'} - \mu_{k'})^2 + (o^3_{k'} - \mu_{k'})^2\right] + \epsilon} \\
-            &= & \sqrt{\frac{1}{3} . \left[(o^1_{k'})^2 + (o^2_{k'})^2 + (o^3_{k'})^2\right] + \epsilon} \\
+\sigma_{k'} &= & \sqrt{\frac{1}{3} . \left[(o^1_{k'} - \mu_{k'})^2 + (o^2_{k'} - \mu_{k'})^2 + (o^3_{k'} - \mu_{k'})^2\right] + \epsilon} \tag{4}\label{eq:sigma_1} \\
+            &= & \sqrt{\frac{1}{3} . \left[(o^1_{k'})^2 + (o^2_{k'})^2 + (o^3_{k'})^2\right] + \epsilon} \tag{5}\label{eq:sigma_2} \\
             &= & \sqrt{\frac{1}{3} . \left[(\frac{o^1_{k-1} - \mu_k}{\sigma_k})^2 + 
                                            (\frac{o^2_{k-1} - \mu_k}{\sigma_k})^2 + 
-                                           (\frac{o^3_{k-1} - \mu_k}{\sigma_k})^2\right] + \epsilon} \\ 
+                                           (\frac{o^3_{k-1} - \mu_k}{\sigma_k})^2\right] + \epsilon} \tag{6}\label{eq:sigma_3} \\ 
             &= & \frac{1}{\sigma_k} . \sqrt{\frac{1}{3} . \left[(o^1_{k-1} - \mu_k)^2 + 
                                                                 (o^2_{k-1} - \mu_k)^2 + 
                                                                 (o^3_{k-1} - \mu_k)^2\right] + \epsilon . (\sigma_k)^2} \\ 
-            &\approx & \frac{1}{\sigma_k} . \sigma_k \\ 
+            &\approx & \frac{1}{\sigma_k} . \sigma_k \tag{7}\label{eq:sigma_4} \\ 
             &\approx & 1 
 \end{align}
 $$
+
+\eqref{eq:sigma_1}: definition of the standard deviation of $$ o^1_{k'} $$, $$ o^2_{k'} $$ and $$ o^3_{k'} $$. 
+
+\eqref{eq:sigma_2}: we already computed that $$ \mu_{k'} = 0 $$. 
+
+\eqref{eq:sigma_3}: definition of $$ o^1_{k'} $$, $$ o^2_{k'} $$ and $$ o^3_{k'} $$, see [previous paragraph](#forward-pass). 
+
+\eqref{eq:sigma_4}: definition of the standard deviation of $$ o^1_{k-1} $$, $$ o^2_{k-1} $$ and $$ o^3_{k-1} $$ 
+with the assumption that $$ \epsilon . (\sigma_k)^2 $$ is small.  
+
+<br>
 
 The average and standard deviation of our new output **neurons** are respectively 0 and 1. 
 
@@ -243,8 +260,8 @@ $$ L^k $$ one.
 - $$ \Sigma_{k+1} $$ depends on $$ X^1_k $$, $$ X^2_k $$, $$ X^3_k $$ and $$ M_{k+1} $$.
 - $$ X^1_{k+1} $$, $$ X^2_{k+1} $$, $$ X^3_{k+1} $$ depend on 
 $$ X^1_k $$, $$ X^2_k $$, $$ X^3_k $$, $$ M_{k+1} $$, $$ \Sigma_{k+1} $$, $$ B_{k+1} $$ and $$ \Gamma_{k+1} $$.
-- $$ \Gamma_{k+1} $$, $$ B_{k+1} $$ hopefully do not depend on anything, they will be **updated** in a later 
-paragraph.
+- $$ \Gamma_{k+1} $$, $$ B_{k+1} $$ hopefully do not depend on anything, they will be **updated** in a 
+[later paragraph](#backward-pass-for-the-weights).
 
 Thus, in order to take into account the different **impacts**, we have to compute our 
 **learning flow** in the following order: 
@@ -450,8 +467,6 @@ $$
 }
 $$
 
-and 
-
 $$ 
 \boxed{
 \delta^3_{k} =  \frac{\gamma_k}{\sigma_k} . \frac{1}{3} . \left[3 . \delta^{k+1}_3 
@@ -459,5 +474,60 @@ $$
                                                                 - (\delta^{k+1}_1 . o^1_{k'} + 
                                                                    \delta^{k+1}_2 . o^2_{k'} + 
                                                                    \delta^{k+1}_3 . o^3_{k'}) . o^3_{k'}\right]
+}
+$$
+
+## Backward Pass for the Weights
+
+We have no more diagram here but the **impacts** of $$ \Gamma_{k+1} $$ and $$ B_{k+1} $$ are straight: 
+$$ X^1_{k+1} $$, $$ M_{k+1} $$ and $$ \Sigma_{k+1} $$.
+
+We have the "**impact** formulas":
+
+$$ 
+\delta \gamma_{k} = \delta^{k+1}_1 . \frac{\partial X^1_{k+1}}{\partial \Gamma_{k+1}}(.) + 
+\delta^{k+1}_2 . \frac{\partial X^2_{k+1}}{\partial \Gamma_{k+1}}(.) + 
+\delta^{k+1}_3 . \frac{\partial X^3_{k+1}}{\partial \Gamma_{k+1}}(.)
+$$
+
+$$ 
+\delta \beta_{k} = \delta^{k+1}_1 . \frac{\partial X^1_{k+1}}{\partial B_{k+1}}(.) + 
+\delta^{k+1}_2 . \frac{\partial X^2_{k+1}}{\partial B_{k+1}}(.) + 
+\delta^{k+1}_3 . \frac{\partial X^3_{k+1}}{\partial B_{k+1}}(.)
+$$
+
+Let us compute $$ \frac{\partial X^1_{k+1}}{\partial \Gamma_{k+1}} $$: 
+
+$$ 
+\begin{align}
+\frac{\partial X^1_{k+1}}{\partial \Gamma_{k+1}} &= 
+\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{k'})}{\partial \Gamma_{k+1}} \\
+&=  X^1_{k'} \\
+\end{align}
+$$
+
+Let us compute $$ \frac{\partial X^1_{k+1}}{\partial B_{k+1}} $$: 
+
+$$ 
+\begin{align}
+\frac{\partial X^1_{k+1}}{\partial B_{k+1}} &= 
+\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{k'})}{\partial B_{k+1}} \\
+&=  1 \\
+\end{align}
+$$
+ 
+We update the "**impact** formulas":
+
+$$ 
+\boxed{
+\delta \gamma_{k} = \delta^{k+1}_1 . o^1_{k'} + 
+\delta^{k+1}_2 . o^2_{k'} + 
+\delta^{k+1}_3 . o^3_{k'}
+}
+$$
+
+$$ 
+\boxed{
+\delta \beta_{k} = \delta^{k+1}_1 + \delta^{k+1}_2 + \delta^{k+1}_3
 }
 $$
