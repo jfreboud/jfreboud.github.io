@@ -4,7 +4,7 @@ title:  "The Max Pooling Layer"
 category: layer
 date:   2022-03-24
 excerpt: >-
-  The Max Pooling layer will help us build effective deep learning models. 
+  The Max Pooling layer helps us build effective deep learning models. 
 ---
 
 ## Introduction
@@ -91,5 +91,5 @@ input **neuron**: the maximal **neurone** in the considered "cell" :smiling_imp:
 ## Conclusion
 
 We have seen the **neural structure** for the $ Max $ $ Pooling $ $ layer $. 
-In the next article we will use our 2D $ layers $ in order to build a simple deep learning $ model $ and 
-investigate our first deep learning **task**: **classification** !
+In the [next article]({% post_url 2022-06-08-normalization %}), we will work on a new $ layer $: the 
+$ Normalization $ $ layer $.

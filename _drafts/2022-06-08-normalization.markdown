@@ -2,9 +2,9 @@
 layout: post
 title:  "Normalization Layer"
 category: layer
-date:   2022-05-14
+date:   2022-06-08
 excerpt: >-
-  Normalization layer allows us to stabilize learning. 
+  The Normalization layer helps stabilizing learning. 
 ---
 
 ## Introduction
@@ -156,6 +156,8 @@ $$ o^1_{k'} $$, $$ o^2_{k'} $$ and $$ o^3_{k'} $$.
 
 ### The New "Norm" Elements
 
+![Warning](/_assets/images/maths/warning.png)
+
 We have transformed our **neurons** $$ o^1_{k-1} $$, $$ o^2_{k-1} $$ and $$ o^3_{k-1} $$ of "norm" elements 
 ($$ \mu_k $$, $$ \sigma_k $$ ) into $$ o^1_{k'} $$, $$ o^2_{k'} $$ and $$ o^3_{k'} $$ of "norm" elements 
 ($$ \mu_{k'} $$, $$ \sigma_{k'} $$ ). Let us compute these new "norm" elements.
@@ -203,7 +205,7 @@ $$
 \eqref{eq:sigma_4}: definition of the standard deviation of $$ o^1_{k-1} $$, $$ o^2_{k-1} $$ and $$ o^3_{k-1} $$ 
 with the assumption that $$ \epsilon . (\sigma_k)^2 $$ is small.  
 
-<br>
+![Safe](/_assets/images/maths/safe.png) 
 
 The average and standard deviation of our new output **neurons** are respectively 0 and 1. 
 
@@ -272,6 +274,8 @@ the **backward pass** (considering we are looking to back propagate the layer $ 
 3. $ \delta M_{k+1} $
 4. $$ \delta X^1_k $$, $$ \delta X^2_k $$, $$ \delta X^3_k $$
 
+![Warning](/_assets/images/maths/warning.png) mathematically shy people should jump to the [conlusion](#conclusion)
+
 ### $$ \delta \Sigma_{k+1} $$ 
 
 As we can see in [this diagram](#BN-structure), the functions that depend on $ \Sigma_{k+1} $ are: 
@@ -306,15 +310,19 @@ Let us compute $$ \frac{\partial X^1_{k+1}}{\partial \Sigma_{k+1}} $$:
 $$ 
 \begin{align}
 \frac{\partial X^1_{k+1}}{\partial \Sigma_{k+1}} &= 
-\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{k'})}{\partial \Sigma_{k+1}} \\
-&= \frac{\partial (B_{k+1} + \Gamma_{k+1} . \frac{X^1_{k} - M_{k+1}}{\Sigma_{k+1}})}{\partial \Sigma_{k+1}} \\
+\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{(k+1)'})}{\partial \Sigma_{k+1}} \\
+&= \frac{\partial (B_{k+1} + \Gamma_{k+1} . \frac{X^1_{k} - M_{k+1}}{\Sigma_{k+1}})}{\partial \Sigma_{k+1}} \tag{1}\label{eq:delta_sigma_1} \\
 &= \Gamma_{k+1} . (X^1_{k} - M_{k+1}) . \frac{\partial (\frac{1}{\Sigma_{k+1}})}{\partial \Sigma_{k+1}} \\
 &= \Gamma_{k+1} . (X^1_{k} - M_{k+1}) . \frac{-1}{(\Sigma_{k+1})^2} \\
 &= -\frac{\Gamma_{k+1}}{\Sigma_{k+1}} . \frac{X^1_{k} - M_{k+1}}{\Sigma_{k+1}} \\
 \frac{\partial X^1_{k+1}}{\partial \Sigma_{k+1}} &= 
-- \frac{\Gamma_{k+1}}{\Sigma_{k+1}} . X^1_{(k+1)'}
+- \frac{\Gamma_{k+1}}{\Sigma_{k+1}} . X^1_{(k+1)'} \tag{2}\label{eq:delta_sigma_2}
 \end{align}
 $$
+
+\eqref{eq:delta_sigma_1}: definition of $$ X^1_{(k+1)'} $$, see the [previous paragraph](#forward-pass). 
+
+\eqref{eq:delta_sigma_2}: thanks again to the definition of $$ X^1_{(k+1)'} $$. 
 
 After having evaluated the previous $ derivative $ $ function $, we update the "**impact** formula":
 
@@ -348,28 +356,34 @@ Let us compute $$ \frac{\partial X^1_{k+1}}{\partial M_{k+1}} $$:
 $$ 
 \begin{align}
 \frac{\partial X^1_{k+1}}{\partial M_{k+1}} &= 
-\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{k'})}{\partial M_{k+1}} \\
-&= \frac{\partial (B_{k+1} + \Gamma_{k+1} . \frac{X^1_{k} - M_{k+1}}{\Sigma_{k+1}})}{\partial M_{k+1}} \\
+\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{(k+1)'})}{\partial M_{k+1}} \\
+&= \frac{\partial (B_{k+1} + \Gamma_{k+1} . \frac{X^1_{k} - M_{k+1}}{\Sigma_{k+1}})}{\partial M_{k+1}} \tag{1}\label{eq:delta_mu_1} \\
 &= \Gamma_{k+1} . \frac{\partial (\frac{-M_{k+1}}{\Sigma_{k+1}})}{\partial M_{k+1}} \\
 &= \Gamma_{k+1} . \frac{-1}{\Sigma_{k+1}} \\
 \frac{\partial X^1_{k+1}}{\partial M_{k+1}} &= - \frac{\Gamma_{k+1}}{\Sigma_{k+1}}
 \end{align}
 $$
 
+\eqref{eq:delta_mu_1}: definition of $$ X^1_{(k+1)'} $$, see the [previous paragraph](#forward-pass). 
+
 Let us also compute $$ \frac{\partial \Sigma_{k+1}}{\partial M_{k+1}} $$: 
 
 $$ 
 \begin{align}
 \frac{\partial \Sigma_{k+1}}{\partial M_{k+1}} &= 
-\frac{\partial (\sqrt{\frac{1}{3} . \left[(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2\right] + \epsilon})}{\partial M_{k+1}} \\
+\frac{\partial (\sqrt{\frac{1}{3} . \left[(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2\right] + \epsilon})}{\partial M_{k+1}} \tag{2}\label{eq:delta_mu_2} \\
 &= \frac{\frac{\partial (\frac{1}{3} . \left[(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2\right] + \epsilon)}{\partial M_{k+1}}}{2 . \sqrt{\frac{1}{3} . \left[(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2\right] + \epsilon}} \\
-&= \frac{1}{2 . \Sigma_{k+1}} . \frac{\partial (\frac{1}{3} . \left[(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2\right] + \epsilon)}{\partial M_{k+1}} \\
+&= \frac{1}{2 . \Sigma_{k+1}} . \frac{\partial (\frac{1}{3} . \left[(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2\right] + \epsilon)}{\partial M_{k+1}} \tag{3}\label{eq:delta_mu_3} \\
 &= \frac{1}{2 . \Sigma_{k+1}} . \frac{1}{3} . \left[-2 . (X^1_{k} - M_{k+1}) - 2 . (X^2_{k} - M_{k+1}) - 2 . (X^3_{k} - M_{k+1})\right]  \\
 &= \frac{1}{2 . \Sigma_{k+1}} . \frac{1}{3} . (-2 * 3 * \frac{1}{3} . (X^1_{k} + X^2_{k} + X^3_{k}) + 2 * 3 . M_{k+1}) \\
 &= \frac{1}{2 . \Sigma_{k+1}} . \frac{1}{3} . (-6 . M_{k+1} + 6 . M_{k+1}) \\
 \frac{\partial \Sigma_{k+1}}{\partial M_{k+1}} &= 0
 \end{align}
 $$
+
+\eqref{eq:delta_mu_2}: definition of the standard deviation of $$ X^1_k $$, $$ X^2_k $$ and $$ X^3_k $$. 
+
+\eqref{eq:delta_mu_3}: thanks again to the definition of the standard deviation of $$ X^1_k $$, $$ X^2_k $$ and $$ X^3_k $$. 
 
 We update the "**impact** formula":
 
@@ -403,35 +417,45 @@ Let us compute $$ \frac{\partial X^1_{k+1}}{\partial X^1_{k}} $$:
 $$ 
 \begin{align}
 \frac{\partial X^1_{k+1}}{\partial X^1_{k}} &= 
-\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{k'})}{\partial X^1_{k}} \\
-&= \frac{\partial (B_{k+1} + \Gamma_{k+1} . \frac{X^1_{k} - M_{k+1}}{\Sigma_{k+1}})}{\partial X^1_{k}} \\
+\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{(k+1)'})}{\partial X^1_{k}} \\
+&= \frac{\partial (B_{k+1} + \Gamma_{k+1} . \frac{X^1_{k} - M_{k+1}}{\Sigma_{k+1}})}{\partial X^1_{k}} \tag{1}\label{eq:delta_x_1} \\
 \frac{\partial X^1_{k+1}}{\partial X^1_{k}} &= \frac{\Gamma_{k+1}}{\Sigma_{k+1}}
 \end{align}
 $$
+
+\eqref{eq:delta_x_1}: definition of $$ X^1_{(k+1)'} $$, see the [previous paragraph](#forward-pass). 
 
 Let us compute $$ \frac{\partial M_{k+1}}{\partial X^1_{k}} $$:
 
 $$ 
 \begin{align}
 \frac{\partial M_{k+1}}{\partial X^1_{k}} &= 
-\frac{\partial (\frac{1}{3} . (X^1_{k} + X^2_{k} + X^3_{k}))}{\partial X^1_{k}} \\
+\frac{\partial (\frac{1}{3} . (X^1_{k} + X^2_{k} + X^3_{k}))}{\partial X^1_{k}} \tag{2}\label{eq:delta_x_2} \\
 \frac{\partial M_{k+1}}{\partial X^1_{k}} &= \frac{1}{3} 
 \end{align}
 $$
+
+\eqref{eq:delta_x_2}: definition of the average of $$ X^1_{k} $$, $$ X^2_{k} $$ and $$ X^3_{k} $$. 
 
 Let us compute $$ \frac{\partial \Sigma_{k+1}}{\partial X^1_{k}} $$:
 
 $$ 
 \begin{align}
 \frac{\partial \Sigma_{k+1}}{\partial X^1_{k}} &= 
-\frac{\partial (\sqrt{\frac{1}{3} . \left[(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2\right] + \epsilon})}{\partial X^1_{k}} \\
+\frac{\partial (\sqrt{\frac{1}{3} . \left[(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2\right] + \epsilon})}{\partial X^1_{k}} \tag{3}\label{eq:delta_x_3} \\
 &= \frac{\frac{\partial (\frac{1}{3} . \left[(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2\right] + \epsilon)}{\partial X^1_{k}}}{2 . \sqrt{\frac{1}{3} . \left[(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2\right] + \epsilon}} \\
-&= \frac{1}{2 . \Sigma_{k+1}} . \frac{\partial (\frac{1}{3} . \left[(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2\right] + \epsilon)}{\partial X^1_{k}} \\
+&= \frac{1}{2 . \Sigma_{k+1}} . \frac{\partial (\frac{1}{3} . \left[(X^1_{k} - M_{k+1})^2 + (X^2_{k} - M_{k+1})^2 + (X^3_{k} - M_{k+1})^2\right] + \epsilon)}{\partial X^1_{k}} \tag{4}\label{eq:delta_x_4} \\
 &= \frac{1}{2 . \Sigma_{k+1}} . \frac{1}{3} . \left[2 . (X^1_{k} - M_{k+1})\right]  \\
 &= \frac{1}{3} . \frac{X^1_{k} - M_{k+1}}{\Sigma_{k+1}} \\
-\frac{\partial \Sigma_{k+1}}{\partial X^1_{k}} &= \frac{1}{3} . X^1_{(k+1)'}
+\frac{\partial \Sigma_{k+1}}{\partial X^1_{k}} &= \frac{1}{3} . X^1_{(k+1)'} \tag{5}\label{eq:delta_x_5}
 \end{align}
 $$
+
+\eqref{eq:delta_x_3}: definition of the standard deviation of $$ X^1_k $$, $$ X^2_k $$ and $$ X^3_k $$. 
+
+\eqref{eq:delta_x_4}: thanks again to the definition of the standard deviation of $$ X^1_k $$, $$ X^2_k $$ and $$ X^3_k $$. 
+
+\eqref{eq:delta_x_5}: definition of $$ X^1_{(k+1)'} $$, see the [previous paragraph](#forward-pass). 
 
 We update the "**impact** formula":
 
@@ -501,8 +525,8 @@ Let us compute $$ \frac{\partial X^1_{k+1}}{\partial \Gamma_{k+1}} $$:
 $$ 
 \begin{align}
 \frac{\partial X^1_{k+1}}{\partial \Gamma_{k+1}} &= 
-\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{k'})}{\partial \Gamma_{k+1}} \\
-&=  X^1_{k'} \\
+\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{(k+1)'})}{\partial \Gamma_{k+1}} \\
+&=  X^1_{(k+1)'} \\
 \end{align}
 $$
 
@@ -511,7 +535,7 @@ Let us compute $$ \frac{\partial X^1_{k+1}}{\partial B_{k+1}} $$:
 $$ 
 \begin{align}
 \frac{\partial X^1_{k+1}}{\partial B_{k+1}} &= 
-\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{k'})}{\partial B_{k+1}} \\
+\frac{\partial (B_{k+1} + \Gamma_{k+1} . X^1_{(k+1)'})}{\partial B_{k+1}} \\
 &=  1 \\
 \end{align}
 $$
@@ -531,3 +555,14 @@ $$
 \delta \beta_{k} = \delta^{k+1}_1 + \delta^{k+1}_2 + \delta^{k+1}_3
 }
 $$
+
+![Safe](/_assets/images/maths/safe.png) 
+
+## Conclusion
+
+We have seen the **normalization** process can be run during the **learning phase** at a precise place in the 
+$ model $ thanks to the $ Normalization $ $ layer $. We saw that this $ layer $ implies some difficult computations 
+during the **backward pass**. 
+
+In the next article we will use our $ layers $ in order to build a simple deep learning $ model $ and 
+investigate our first deep learning **task**: **classification** !
