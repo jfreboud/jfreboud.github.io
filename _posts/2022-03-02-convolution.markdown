@@ -112,7 +112,7 @@ $$
 
 The different **neurons** in the grid correspond to the output of the $ Convolution $ $ layer $. 
 Looking back at the [linear layer article]({% post_url 2021-09-19-linear %}), the **neurons** were structured 
-as vector of numbers. It seems legitimate that are output are now grids.
+as vector of numbers. It seems legitimate that our output are now grids.
 
 Still, we are looking for a "moving part", such as the **weights** we introduced in the 
 [weights article]({% post_url 2021-08-19-weights %}). We have a perfect place to consider **weights** variables 
