@@ -50,4 +50,9 @@ this second set the **validation** set.
 Once more, the **CIFAR-10** is already built in that way: out of the 60 000 images, 50 000 images are reserved for 
 the **training set** and 10 000 are reserved for the **validation set**.
 
+Now, let us define the problem we want to solve: predicting whether an image represents a ship or a dog:  
+
+**ship** ![Classification](/_assets/images/network/Classification1.png) 
+**dog** ![Classification](/_assets/images/network/Classification2.png) 
+
 ## Conclusion
