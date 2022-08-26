@@ -76,4 +76,13 @@ Here is a simple operation to do so:
 More precisely the channels $$ ch^{0, 0} $$, $$ ch^{0, 1} $$ and $$ ch^{0, 2} $$ now contain numbers in the 
 interval $$ [-0.5, 0.5] $$.
 
+We are now ready to build a deep learning $ model $ with the **data input** transformed.
+
+## Convolutional Model
+
+We are in the case where our **data input** is not structured. We have grid of pixels we would like to turn into 
+abstract **representations**. This is the exact scenario described in this
+[previous article]({% post_url 2022-01-22-second-dimension %}). It makes no surprise we are going to use the 
+different **2D layers** we have seen so far and especially the $ Convolution $.
+
 ## Conclusion
