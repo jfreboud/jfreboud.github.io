@@ -81,7 +81,7 @@ The answer is: we do not "exactly" know :smiling_imp:
 
 This is the reason why we do some crazy move: connecting each $ L^{k-1} $ **neuron** 
 to each $ L^{k} $ **neuron**. The connexions being assured by the **weights** of $ L^{k} $: $ W^{k} $. That way, 
-the values of the **weights** will be adjusted during the **learning phase** 
+the values of the **weights** will be adjusted during the **training phase** 
 (see the [weights article]({% post_url 2021-08-19-weights %})), modifying the function $ L^{k} $ 
 itself so that it actually performs the "right" transformation on the $ L^{k-1} $ outputs in order to minimize the 
 $ Loss $ function. 
@@ -118,11 +118,11 @@ $$
 - $ X^{k} $ is the natural dependency of $ L^{k} $. It receives the outputs of the previous $ L^{k-1} $ $ layer $. 
 
 - $ W^{k} $ are the **weights** declared by the $ L^{k} $ $ layer $. These **weights** will receive their values 
-from the developer, beginning with a start value. They are **updated** during the **learning phase** 
+from the developer, beginning with a start value. They are **updated** during the **training phase** 
 (see the [weights article]({% post_url 2021-08-19-weights %})).
 
 - $ B^{k} $ are another **weight** variables, called the **biases**. 
-Their initial value is typically 0. They are **updated** during the **learning phase** too.
+Their initial value is typically 0. They are **updated** during the **training phase** too.
 
 Let us check the structure of the $ L^{k} $ $ layer $. We have used the same structure as in the 
 [previous paragraph](#the-linear-neural-structure): we should be able to identify 2 outputs. Each of these 2 outputs 
@@ -357,7 +357,7 @@ on the $ Loss $ function, knowing that the "future"
 ![Linear](/_assets/images/layers/Linear10.png)
 </a>
 
-There are two more **weights** we have to **update** during the **learning phase**: 
+There are two more **weights** we have to **update** during the **training phase**: 
 $ B^{k}_1 $ and $ B^{k}_2 $, the **biases**. 
 Thus, we will have to compute $ \delta b^{k}_1 $ and $ \delta b^{k}_2 $.
 

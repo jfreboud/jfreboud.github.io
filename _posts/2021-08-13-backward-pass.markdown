@@ -52,9 +52,9 @@ it is clear from the early computations we made ($ \delta 4 $)
 in the [previous article]({% post_url 2021-08-09-loss-function %}) that the $ Loss $ function is the place where 
 the **backward pass** is initialised. 
 
-There is a final difference between the two: the **forward pass** is run in the **learning phase** and in the 
-**inferring phase** (see "Learning, inferring" in the [first article]({% post_url 2021-08-05-general-concepts %})) 
-while the **backward pass** is only run during the **learning phase**, 
+There is a final difference between the two: the **forward pass** is run during the **training phase** and the 
+**inferring phase** (see "Training, Inferring" in the [first article]({% post_url 2021-08-05-general-concepts %})) 
+while the **backward pass** is only run during the **training phase**, 
 which comforts its signal naming of **learning flow**.
 
 ## A Closer Look at one Layer

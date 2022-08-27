@@ -10,7 +10,7 @@ excerpt: >-
 ## Introduction
 
 In the [batch learning article]({% post_url 2021-08-24-batch-learning %}), we saw a method that helps stabilizing 
-the **learning  process**. 
+the **learning process**. 
 It is a global method that modifies the behavior of the **gradient descent** algorithm itself.
 
 In this article we will discuss a much more localised method: applying **normalization** on the $ layer $ scope.
@@ -18,7 +18,7 @@ In this article we will discuss a much more localised method: applying **normali
 ## The Formula
 
 The idea is that instead of considering one global methodology that "stabilizes" **gradients**, we will include 
-a specific operation in some $ layers $ of our Deep learning $ model $ in order to "stabilize" the output **neurons** 
+a specific operation in some $ layers $ of our deep learning $ model $ in order to "stabilize" the output **neurons** 
 ot these specific chosen $ layers $.
 
 First of all, how should we "stabilize" the output **neurons** ?
@@ -225,7 +225,7 @@ This is what we will fix with 2 **weights** $$ \Gamma_{k+1} $$ and $$ B_{k+1} $$
 - $$ \Gamma_{k+1} $$ variable of value $$ \gamma_k $$, the new standard deviation
 
 We have already spoken about **weights** in the [weights article]({% post_url 2021-08-19-weights %}), 
-these 2 **weights** will be modified during the **learning phase** so that their modification better suits the 
+these 2 **weights** will be modified during the **training phase** so that their modification better suits the 
 $ model $'s needs.
 
 The final transform is:
@@ -560,7 +560,7 @@ $$
 
 ## Conclusion
 
-We have seen the **normalization** process can be run during the **learning phase** at a precise place in the 
+We have seen the **normalization** process can be run during the **training phase** at a precise place in the 
 $ model $ thanks to the $ Normalization $ $ layer $. We saw that this $ layer $ implies some difficult computations 
 during the **backward pass**. 
 

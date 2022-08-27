@@ -174,7 +174,7 @@ We are now able to modify the variations for $ o^{k}_1 $ and chain them to $ o^{
     - $ o^{k-1}_3 $ <span style="color:green">↑</span> => $ o^{k}_1 $ <span style="color:green">↑</span> => <span style="color:green"> $ o^{k+1}_1 > 0 $ </span> on condition
     - $ o^{k-1}_3 $ <span style="color:red">↓</span> => $ o^{k}_1 $ <span style="color:red">↓</span> => <span style="color:red"> $ o^{k+1}_1 = 0 $ </span> on condition
 
-And to see what the special condition is, we just have to wonder when we move from one "side" to the other. 
+To see what the special condition is, we just have to wonder when we move from one "side" to the other. 
 This special moment in the $ ReLU $ function happens at $ x = 0 $.
 
 Let us look back at $ o^{k}_1 $: 
@@ -262,7 +262,7 @@ Each output **neuron** being linked with every input **neurons** via specific **
 **neurons** may be seen as different new **representations**/"meaning" of the input **neurons**.
 
 In order to build more abstract **representations**, one idea is to simply add multiple $ Linear $ $ layers $ one 
-after another, building a Deep Learning $ model $. 
+after another, building a deep learning $ model $. 
 
 There are two problems in doing so: 
 

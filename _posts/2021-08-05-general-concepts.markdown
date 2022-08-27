@@ -13,7 +13,7 @@ excerpt: >-
 Deep learning is one of those words that is buzzing today. One might believe that the artificial intelligence 
 is about building a Frankenstein that takes over its creator to free itself.
 
-The reality is far away from that vision. The global structure of the learning process happens in the 
+The reality is far away from that vision. The global structure of the **learning process** happens in the 
 deep learning $ model $. This $ model $ has been inspired by neural networks but its structure is not really changing 
 as our brain is. This $ model $ is purely and simply set once and for all by the developer. 
 The only area where the learning takes place is the **model's weights**.
@@ -135,10 +135,10 @@ In the column: "correct ?", we see the $ model $ has produced a wrong result in 
 How is it possible ? 
 
 That is exactly what we want to rectify as the $ model $ learns on the **data**. But as mentioned in 
-the [introduction](#introduction), the **learning** process takes place in the **model's weights** 
+the [introduction](#introduction), the **learning process** takes place in the **model's weights** 
 and for now our $ model $ has none of them :smiling_imp:
 
-## Learning, Inferring
+## Training, Inferring
 
 Let us assume we have built a $ model $, we want to run it. 
 
@@ -159,7 +159,7 @@ In order to teach the $ model $, we will in fact tell for each of its results
 whether it is right ![right](/_assets/images/general/right.png) or wrong ![wrong](/_assets/images/general/wrong.png). 
 The $ model $ will then **learn** via its **weights**. 
 
-=> We call it the **learning phase**.
+=> We call it the **training phase**.
 
 Once we are satisfied that our $ model $ has learnt on the **dataset**, we can use the $ model$ on new **data** 
 in order to produce new results. This is the final goal: the student has become the master.

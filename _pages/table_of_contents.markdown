@@ -30,7 +30,7 @@ First things first, we explore some general concepts of deep learning, introduci
 <h3 id="the-deep-learning-algorithm">The Deep-Learning Algorithm</h3>
 
 <h4 id="1-the-gradient-descent-algorithm">1. <a href="/walkthrough/gradient-descent">The Gradient Descent Algorithm</a></h4>
-<p>We use the different parts we have seen so far to run the learning phase from scratch.</p>
+<p>We use the different parts we have seen so far to run the training phase from scratch.</p>
 
 <h4 id="2-batch-learning">2. <a href="/walkthrough/batch-learning">Batch Learning</a></h4>
 <p>A new idea to build a more robust learning: learn on multiple data input at once.</p>

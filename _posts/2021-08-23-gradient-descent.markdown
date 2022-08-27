@@ -4,7 +4,7 @@ title: "The Gradient Descent Algorithm"
 category: walkthrough
 date: 2021-08-23
 excerpt: >-
-  We use the different parts we have seen so far to run the learning phase from scratch.
+  We use the different parts we have seen so far to run the training phase from scratch.
 ---
 
 ## Introduction
@@ -15,12 +15,12 @@ saw how to **update** them: this is the core of the **learning process**.
 In this article we are going to use the different parts we have explored so far in order to see this 
 **learning process** in action.
 
-## Learning phase vs Inferring phase
+## Training phase vs Inferring phase
 
-First of all let us recap the difference between the **learning phase** and the **inferring phase** we introduced 
+First of all let us recap the difference between the **training phase** and the **inferring phase** we introduced 
 in the [first article]({% post_url 2021-08-05-general-concepts %}).
 
-- During the **learning phase**, we want our deep learning $ model $ to better "understand" the **data** 
+- During the **training phase**, we want our deep learning $ model $ to better "understand" the **data** 
 (**data input**, **data output**). 
 This occurs during the **learning process** which we will detail in this article.
 
@@ -32,7 +32,7 @@ new **data input**. By definition, it will produce the **outputs** for every $ l
 one $ layer $ at a time until we get the **outputs** of the **output layer** (see the 
 [second article]({% post_url 2021-08-06-inside-the-model %})). 
 
-During the **learning phase**, we have to do more: **update** the **weights** of every $ layer $ that have one...
+During the **training phase**, we have to do more: **update** the **weights** of every $ layer $ that have one...
  
 This is where thinks get complicated because we have to compute the **impacts** of the **weights** on the 
 $ Loss $ function. Yet, computing these **impacts** is not straightforward: they directly depend on the 
@@ -66,13 +66,13 @@ Now, let us get back to our **learning process**.
 ## What we do...
 
 In the [first paragraph](#learning-phase-vs-inferring-phase), we saw that the **learning process** 
-of a deep learning $ model $ happens during the **learning phase**. 
+of a deep learning $ model $ happens during the **training phase**. 
 
 Through the different articles: [Loss function]({% post_url 2021-08-09-loss-function %}), 
 [backward pass]({% post_url 2021-08-13-backward-pass %}) and [weights]({% post_url 2021-08-19-weights %}), 
-we explored the different parts that were specific to this **learning phase**.
+we explored the different parts that were specific to this **training phase**.
 
-We are now able to give the different steps of the **learning phase** in the right order: 
+We are now able to give the different steps of the **training phase** in the right order: 
 
 1. pick one **data input** in the **dataset** 
 2. run the **forward pass** for the $ model $ on this **data input**
@@ -223,12 +223,12 @@ $$
 
 ## Example: what we do...
 
-Let us run the **learning phase** with a very small **learning rate** $ \alpha = 10^{-7} $.
+Let us run the **training phase** with a very small **learning rate** $ \alpha = 10^{-7} $.
 The $ model $ has to learn on each **data input** of our **dataset**. 
-Thus we will run the **learning phase** on our 3 **data input**: this will be one **epoch** of the 
+Thus we will run the **training phase** on our 3 **data input**: this will be one **epoch** of the 
 **gradient descent** algorithm. 
 
-### <span style="text-decoration:underline"> Run the Learning Phase on the 1st Data Input </span>
+### <span style="text-decoration:underline"> Run the Training Phase on the 1st Data Input </span>
 
 1. pick **data input**: $ x = (100, 2000, 100) $
 
@@ -286,7 +286,7 @@ It appears the new value for $ w^2 $ is still the same !
 This is no wonder as for this first **data input**: $ loss = 0 $.
 This $ loss $ value is typical for a $ model $ that has already produced the right result and has nothing to learn.
 
-### <span style="text-decoration:underline"> Run the Learning Phase on the 2nd Data Input </span>
+### <span style="text-decoration:underline"> Run the Training Phase on the 2nd Data Input </span>
 
 1. pick **data input**: $ x = (200, 0, 0) $
 
@@ -344,7 +344,7 @@ Once more, the new value for $ w^2 $ has not changed.
 The same remark as before applies: $ loss = 0 $ means the $ model $ already produced the right result for this 
 second **data input** and has nothing to learn.
 
-### <span style="text-decoration:underline"> Run the Learning Phase on the 3rd Data Input </span>
+### <span style="text-decoration:underline"> Run the Training Phase on the 3rd Data Input </span>
 
 1. pick **data input**: $ x = (0, 2000, 3 000) $
 

@@ -10,15 +10,15 @@ excerpt: >-
 ## Introduction
 
 In the [previous article]({% post_url 2021-08-06-inside-the-model %}), we explored the 
- generic structure of the deep learning $ model $: an ordered graph of $ layers $.
+generic structure of the deep learning $ model $: an ordered graph of $ layers $.
 
 In this article we will talk about the $ Loss $ function which is the starting point of the **learning process**. 
 
 ## The Learning Process 
 
-In the paragraph "Learning, inferring" of the [first article]({% post_url 2021-08-05-general-concepts %}), 
-we talked about the **learning** phase and the **inferring** phase. 
-It is no surprise that the **learning** process in deep learning happens during the **learning** phase. 
+In the paragraph "Training, Inferring" of the [first article]({% post_url 2021-08-05-general-concepts %}), 
+we talked about the **training phase** and the **inferring phase**. 
+It is no surprise that the **learning process** in deep learning happens during the **training phase**. 
 We will concentrate on it.
 
 During this phase we run the **forward** pass (see the [previous article]({% post_url 2021-08-06-inside-the-model %})).
@@ -50,12 +50,12 @@ This also implies the $ Loss $ function will be called after the **output layer*
 
 We will note $ loss $ when we evaluate the $ Loss $ function on some values. A standard property we want for the 
 $ Loss $ function is that $ loss \geq 0 $. 
-The final goal of **learning** is that $ loss = 0 $ on every **data** of the **dataset**. Said differently 
+The final goal of the **learning process** is that $ loss = 0 $ on every **data** of the **dataset**. Said differently 
 we want to minimize the $ Loss $ function.
 
 ## The Derivative Operator
 
-The $ derivative $ operator is what makes the **learning** possible. 
+The $ derivative $ operator is what makes the **learning process** possible. 
 For an $ f $ function depending on $ X $, we can apply the $ derivative $ operator on $ f $ according to $ X $. 
 That way, we build a new function, noted $ \frac{df}{dX} $. 
 This new function can be evaluated on some value, for example $ x $: 

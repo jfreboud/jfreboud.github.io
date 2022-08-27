@@ -33,7 +33,7 @@ And below is the **neural structure** during its **backward pass**:
 
 ## Sign Flow Analysis
 
-Let us recap the main steps of the **learning phase** we introduced in the 
+Let us recap the main steps of the **training phase** we introduced in the 
 [first article]({% post_url 2021-08-05-general-concepts %}). These steps have been called the 
 [gradient descent algorithm]({% post_url 2021-08-23-gradient-descent %}):
 
@@ -104,9 +104,9 @@ been chosen so that its $ derivative $ gives a good looking $ \delta^4 $
 <a id="remark-back" class="anchor" href="#header-title">.</a> <sup>[[1]](#remark)</sup> 
 
 It appears that the whole $ Loss $ function is "just a global indicator". 
-What really is propagated during the **learning phase** is the **learning flow**. 
+What really is propagated during the **training phase** is the **learning flow**. 
 Thanks to the simple formula for $ \delta^4 $ it is really easy to understand what happens 
-during the **learning phase**. 
+during the **training phase**. 
 We have 3 cases to consider for our **sign analysis**: 
 
 - when $ model $ produces $ o^3 = y^{truth} $

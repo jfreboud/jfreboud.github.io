@@ -49,7 +49,7 @@ Hence, it is important to try and understand the different
 transformations of our **information flow** across the different $ layers $ of our $ model $: this is our goal for 
 the next articles.
 
-Before building Deep-Learning $ models $, let us start by converting our **images** into numbers!
+Before building deep learning $ models $, let us start by converting our **images** into numbers!
 
 ## Images, what are they ?
 

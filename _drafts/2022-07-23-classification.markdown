@@ -43,19 +43,19 @@ Our goal is to train a $ model $ so that it can recognize what is represented in
 to recognize a ship or a dog.
 
 Before talking about the $ model $, let us get back to the 2 phases we introduced in the 
-[first article]({% post_url 2021-08-05-general-concepts %}): **learning** and **inferring**. 
+[first article]({% post_url 2021-08-05-general-concepts %}): **training** and **inferring**. 
 
 Let us assume we have trained 
 one $ model $ on some images of **CIFAR-10**. We would like to know how well the $ model $ has been trained. 
-In order to do so, we will use the **inferring** phase on some images of **CIFAR-10** to evaluate whether the $ model $ 
-makes the right predictions or not. But during this **inferring** phase, we do not want to show the same images 
-used during the **training** phase. We want to evaluate the performance of our $ model $ on "untouched" images, 
+In order to do so, we will use the **inferring phase** on some images of **CIFAR-10** to evaluate whether the $ model $ 
+makes the right predictions or not. But during this **inferring phase**, we do not want to show the same images 
+used during the **training phase**. We want to evaluate the performance of our $ model $ on "untouched" images, 
 so that it reflects "new predictions" the $ model $ would give us. But in order to be able to note the $ model $ 
 as a student at school, we have to know in advance what the correct answers are.
 
 So the idea is pretty simple: just split the **CIFAR-10** dataset into 2 sets. We are able to train the $ model $ 
 on the first set of images. Let us call it the **training set**. We keep the second set "untouched" during the 
-**training** phase in order to evaluate our $ model $ during the **inferring** phase. Let us call 
+**training phase** in order to evaluate our $ model $ during the **inferring phase**. Let us call 
 this second set the **validation** set.
 
 Once more, the **CIFAR-10** is already built in that way: out of the 60 000 images, 50 000 images are reserved for 

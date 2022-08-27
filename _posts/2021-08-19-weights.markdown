@@ -59,24 +59,24 @@ And for each $ layer $ $ L^i $ that does not declare **weights**, one dependency
 
 We have just introduced the **weights** and said the developer can change their values.
 In this paragraph we elaborate on the special moment when the developer **updates** them, 
-the core of the **learning** process.
+the core of the **learning process**.
 
 There is one property that makes $ W $ very special: sometimes it will be a variable and sometimes not.
-That is the main reason of the existence of the **learning phase** we introduced in the 
+That is the main reason of the existence of the **training phase** we introduced in the 
 [first article]({% post_url 2021-08-05-general-concepts %}). 
 
-During the **learning phase**, $ W $ will be a variable and the developer will modify it 
+During the **training phase**, $ W $ will be a variable and the developer will modify it 
 so that the modifications help the $ model $ producing better results. 
 
 During the **inferring phase**, $ W $ won't be a variable any more. 
-It will stay at the last value it had during the whole **learning phase**. 
+It will stay at the last value it had during the **training phase**. 
 
-We hope that during the **learning phase** the $ model $'s understanding of the **data** is getting better and better, 
- so that this last value is the best that was learnt during the **training phase**. 
+We hope that during the **training phase** the $ model $'s understanding of the **data** is getting better and better, 
+so that this last value is the best that was learnt during the **training phase**. 
  
 What is important to keep in mind is that the **weights** have a meta role. They are at the junction between the 
-developer and the $ model $. During the **learning phase** the developer actively **updates** the **weights** 
-for the $ model $ to perform better. During the **inferring phase** the developer passively waits for the 
+developer and the $ model $. During the **training phase**, the developer actively **updates** the **weights** 
+for the $ model $ to perform better. During the **inferring phase**, the developer passively waits for the 
 $ model $ to produce new results.
 
 ## The Derivative of Loss according to W

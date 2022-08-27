@@ -116,7 +116,7 @@ $$
 $$ 
 
 In fact $ Loss^{avg} $ is just a global indicator that shows the average error at the end of the **forward pass**. 
-But what is really propagated during the **learning phase** will be $ Loss^{learning} $.
+But what is really propagated during the **training phase** will be $ Loss^{learning} $.
 
 ## The New Backward Pass
 
@@ -163,7 +163,7 @@ $$
 
 Let us summarize the status so far.
 We are trying to **learn** on a **batch** of (**data input**, **data output**).
-We have to apply the **learning phase**, which is nearly the same as before.
+We have to apply the **training phase**, which is nearly the same as before.
 
 Let us concentrate on one $ L^k $ $ layer $ that declares $ W^k $ weights.
 Suppose that our **batch** has $ n $ elements: 
@@ -275,7 +275,7 @@ $$
 
 ## Example
 
-In this example we will start a new **learning phase** from scratch (compared to the "Example: what we do..." in the 
+In this example we will start a new **training phase** from scratch (compared to the "Example: what we do..." in the 
 [previous article]({% post_url 2021-08-23-gradient-descent %})) but this time with 
 a **batch** size of 3. If the choice in this example is simple because we have only 3 **data input**, it may 
 be more touchy in the general case. Yet, there is no magical formula and it will be up to the developer to 
@@ -351,7 +351,7 @@ $$
 \boxed{\delta 1 = \delta 2}
 $$
 
-### <span style="text-decoration:underline"> Run the Learning Phase on the Batch </span>
+### <span style="text-decoration:underline"> Run the Training Phase on the Batch </span>
 
 1. pick **data input**: 
 
